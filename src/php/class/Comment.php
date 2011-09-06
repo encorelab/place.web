@@ -2,7 +2,7 @@
 /**
  * Post main entity
  */
-class Post
+class Comment extends Elo
 {
 	public $parentType; // this may solve the issue. it is also interestig that POST can be conceptualized as a self-contained module/entity that is eventually attached to other entities such as other POST, an ELO, or other 
 	public $author;

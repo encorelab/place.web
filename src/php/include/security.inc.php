@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 if(!isset($_SESSION['access'])) {
 	$_SESSION['access']=false;
 	$_SESSION['username']="";
@@ -8,15 +9,24 @@ if(!isset($_SESSION['access'])) {
 	$_SESSION['loginsuccess']=true;
 }
 
-
-
 /*
- * if $_SESSION[''].. and so...
+ * rollcall here. and set the following vars
+ * $_SESSION['username']
+ * $_SESSION['profile']
+ * $_SESSION['runId']
+ * $_SESSION['curnitId'] // if implemented. 
  */
+if(isset($_REQUEST['profile']) && $_REQUEST['profile']!="")
+{
+	$_SESSION['profile']=$_REQUEST['profile'];
+}
 
 if(isset($_REQUEST['username']) && $_REQUEST['username']!="")
 {
 	$_SESSION['username']=$_REQUEST['username'];
+	$_SESSION['author_id'] = 2; // a teacher
+	//$_SESSION['author_id'] = 3; // a student
+	
 }
 
 // validate authentication with RollCall

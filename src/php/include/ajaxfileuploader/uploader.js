@@ -12,12 +12,20 @@ var contentUrl="_uploadedContent";
 //var includePath="";
 
 function changeImg(imgUrl) {
-	  var myImg = document.getElementById("eloimg");
-	  myImg.setAttribute("src", imgUrl);
+//	  var myImg = document.getElementById("eloimg");
+//	  myImg.setAttribute("src", imgUrl);
+	  
+	  var mycontent = document.getElementById("media_content");
+	  var myMediaHtml = ""; 
+	  
+	  myMediaHtml += '<img id="eloimg" src="'+imgUrl+'" width="320px">';
+	  mycontent.innerHTML = myMediaHtml;
+	  //mycontent.value += myMediaHtml;
+
 }
 function updateMediaPath(filename) {
-	  var myImg = document.getElementById("imagePath");
-	  var myThumb = document.getElementById("thumbPath");
+	  var myImg = document.getElementById("media_path");
+	  var myThumb = document.getElementById("thumb_path");
 	  myImg.value = filename;
 	  myThumb.value = "t_"+filename;
 }

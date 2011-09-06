@@ -18,8 +18,7 @@ class PlaceWeb
 	public static function arrayToHtmlSelect(array $dataAr, $selectedVal, $name)
 	{
 		$html = '
-		<select id="'.$name.'" name="'.$name.'">
-			<option value="">--</option>';
+		<select id="'.$name.'" name="'.$name.'">';
 
 		foreach($dataAr as $val => $name)
 		{

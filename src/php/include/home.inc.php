@@ -1,6 +1,11 @@
 <?php
 
 ?>
+<?php 
+if($_SESSION['profile']=="STUDENT")
+{
+?>
+
 <div id="home-columns">
 	<div id="home-col1" style="float:left;width:20%;">
 		<div id="comment-score" class="dashlet-box-simple">
@@ -13,6 +18,9 @@
 			<div>+17</div>
 		</div>
 	</div><!-- /home-col1 -->
+<?php 
+} // end if student
+?>
 	
 	<div id="home-col2" style="float:left;width:40%;">
 		<div id="my-updates" class="dashlet-box">
@@ -53,12 +61,20 @@
 			</div>
 		</div>	
 		<div id="course-actions">
-			<div class="dashlet-box"><a href="index.php?action=addElo">Create New Example</a></div>
+			<div class="dashlet-box"><a href="index.php?action=addExample">Create New Example</a></div>
+			<?php 
+			if($_SESSION['profile']=="TEACHER")
+			{
+			?>
+			<div class="dashlet-box"><a href="index.php?action=addQuestion">Create New Question</a></div>
+			<div class="dashlet-box"><a href="index.php?action=seeClassList">See Class List</a></div>
+			<?php } // end if teacher?>
+			
 			<div class="dashlet-box">
 				<a href="index.php?action=web">Launch Associative Web</a>
 			</div>
 			<div class="dashlet-box">
-				<a href="index.php?action=discussion">Elo Nav (Discussion)</a>
+				<a href="index.php?action=discussion">Launch Associative Web (text version)</a>
 			</div>
 		</div>	
 	</div><!-- /home-col3 -->

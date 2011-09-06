@@ -1,6 +1,17 @@
 /*
  /////////////////////// Start new styles added
 */
+
+.hide-container{
+display:none;
+}
+
+#debugMode {
+	background: #ccc;
+	
+
+}
+
 #newThread-container {
 
 }
@@ -119,6 +130,7 @@
     margin-bottom: 1em;
     overflow: auto;
     width: 320px;
+    display:block;
 }
 
 .dashlet-box {

@@ -3,13 +3,13 @@
 define('PLACEWEB_INCLUDE_PATH', 'include/');
 require(PLACEWEB_INCLUDE_PATH.'vitals.inc.php');
 
+
 // redirect to login if user if NOT logged in
 if(!$_SESSION['access']) 
 {
-	echo "<hr/>NO user is logged in";
-	//header('Location: logout.php');
-	//exit;
+	$PLACEWEB_CONFIG['errors'][] = "NO user is logged in"; 
 	$action= 'login';
+	
 } else {
 	
 	if(isset($_REQUEST['action']) && $_REQUEST['action']!='')
@@ -21,10 +21,6 @@ if(!$_SESSION['access'])
 		
 } // end if
 
-
-
-//echo "<hr/>Action: ".$action;
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang='en' xml:lang='en' xmlns="http://www.w3.org/1999/xhtml">
@@ -34,11 +30,12 @@ if(!$_SESSION['access'])
 //<META content="text/html; charset=UTF-8" http-equiv=Content-Type>
 ?>
 	<title><?php echo $PLACEWEB_LANG['en']['page_title']?></title>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	<?php 
 	require(PLACEWEB_INCLUDE_PATH.'js.inc.php');
 	require(PLACEWEB_INCLUDE_PATH.'css.inc.php');
 	
-	if($action=="addElo")
+	if($action=="addExample" || $action=="addQuestion")
 	{
 		require(PLACEWEB_INCLUDE_PATH.'tinymce.head.inc.php');
 	}
@@ -75,10 +72,13 @@ if(!$_SESSION['access'])
 	    case "preferences":
 	        require(PLACEWEB_INCLUDE_PATH.'preferences.inc.php');
 	        break;
-	    case "addElo":
-	        require(PLACEWEB_INCLUDE_PATH.'addElo.inc.php');
+	    case "addExample":
+	        require(PLACEWEB_INCLUDE_PATH.'addExample.inc.php');
 	        break;
-	    case "discussion":
+	    case "addQuestion":
+	        require(PLACEWEB_INCLUDE_PATH.'addQuestion.inc.php');
+	        break;
+	  	case "discussion":
 	        require(PLACEWEB_INCLUDE_PATH.'discussion.inc.php');
 	        break;
 	    case "web":
@@ -94,5 +94,22 @@ if(!$_SESSION['access'])
 		require(PLACEWEB_INCLUDE_PATH.'footer.inc.php');
 		?>
 </div><!-- /container -->
+
+<div id="debugMode">
+<?php if($PLACEWEB_CONFIG['debugMode'])
+{
+	$errorHtml = "";
+	
+	$PLACEWEB_CONFIG['errors'][] = 'Action: '.$action;
+	
+	foreach ($PLACEWEB_CONFIG['errors'] as $error)
+	{
+		$errorHtml .= "<p>".$error."</p>";
+	}
+	
+	echo $errorHtml;
+}
+?>
+</div>
 </body>
 </html>

@@ -31,7 +31,7 @@ if (!mysql_select_db($PLACEWEB_CONFIG['db']['DB_NAME'], $db)) {
 */
 
 // upload directory
-$PLACEWEB_CONFIG['uploadDir'] = "/var/www/mywebaps/PlaceWeb.GitHub/zend/public/content/";
+$PLACEWEB_CONFIG['uploadDir'] = "/var/www/mywebaps/PlaceWeb.GitHub/place.web/public/content/";
 $PLACEWEB_CONFIG['uploadWebDir'] = "/content/";
 
 

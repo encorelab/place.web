@@ -51,15 +51,17 @@ if($_SESSION['profile']=="STUDENT")
 			{
 			?>
 			<div class="dashlet-box"><a href="/question/addform">Create New Question</a></div>
-			<div class="dashlet-box"><a href="/showlist">See Class List</a></div>
+			<div class="dashlet-box"><a href="/myhome/classlist">See Class List</a></div>
 			<?php } // end if teacher?>
 			
 			<div class="dashlet-box">
 				<a href="/web">Launch Associative Web</a>
 			</div>
+
 			<div class="dashlet-box">
-				<a href="/discussion">Launch Associative Web (text version)</a>
+				<a href="/discussion">[test] examples list</a>
 			</div>
+
 		</div>	
 	</div><!-- /home-col3 -->
 	

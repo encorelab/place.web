@@ -27,5 +27,15 @@ class MyhomeController extends Zend_Controller_Action
     	//$this->_helper->layout()->disableLayout();
   	
     }
+    
+    public function classlistAction()
+    {
+        // action body
+
+
+    	// disableLayout
+    	//$this->_helper->layout()->disableLayout();
+  	
+    }
 }
 

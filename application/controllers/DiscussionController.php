@@ -13,7 +13,7 @@ class DiscussionController extends Zend_Controller_Action
     	// action body
     	global $PLACEWEB_CONFIG, $_SESSION;
     	
-    	print_r($_SESSION);
+    	//print_r($_SESSION);
 
     	// pass the config as a view.
     	$this->view->PLACEWEB_CONFIG=$PLACEWEB_CONFIG;
@@ -25,8 +25,8 @@ class DiscussionController extends Zend_Controller_Action
         	$this->view->activeId=$params['id'];
         	$this->view->type=$params['type'];
         	
-        	echo "<br/>activeId: ".$params['id'];
-        	echo "<br/>Type: ".$params['type'];
+        	//echo "<br/>activeId: ".$params['id'];
+        	//echo "<br/>Type: ".$params['type'];
         	
         
         	

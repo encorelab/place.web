@@ -22,10 +22,6 @@ class WebController extends Zend_Controller_Action
         echo "Params: <hr/>";
         print_r($params);
         echo "<hr/>";
-      
-
-        
-        $this->view->newExample = "";
     }
 
 

@@ -25,9 +25,9 @@ if(isset($_REQUEST['username']) && $_REQUEST['username']!="")
 {
 	$_SESSION['username']=$_REQUEST['username'];
 	$_SESSION['author_id'] = 1; // admin
-	$_SESSION['author_id'] = 2; // a teacher
-	$_SESSION['author_id'] = 3; // a student
-	$_SESSION['author_id'] = 4; // a student
+//	$_SESSION['author_id'] = 2; // a teacher
+//	$_SESSION['author_id'] = 3; // a student
+//	$_SESSION['author_id'] = 4; // a student
 	
 }
 

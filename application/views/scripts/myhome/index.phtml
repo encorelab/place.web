@@ -1,0 +1,36 @@
+<?php
+/*
+controller: /application/controllers/MyhomeController.php
+<br/>
+view: /application/views/scripts/myhome/index.phtml
+
+ */
+//if(!$this->myAccess)
+if(!$_SESSION['access'])
+{
+/*
+	<div id="login-form">
+		<form action="/" method="post">
+			<span class="label">Username: </span><input type="text" value="" id="username" name="username"/>
+			<br/><span class="label">Password: </span><input type="password" value="" id="password" name="password"/>
+			<br/><br/>
+			Log in as: 
+			<select name="profile" id="profile">
+				<option value="TEACHER">Teacher</option>
+				<option value="STUDENT">Student</option>
+			</select>
+			<br/><br/>
+			<input type="submit" value="Login"/>
+		</form>
+	</div>
+*/
+?>
+
+<?php 	
+} else {
+	//header('Location: /');
+	//require_once('')
+	//echo "Login Ok. go to home";
+	require(APPLICATION_PATH.'/layouts/include/'.'home.inc.php');
+}
+?>

@@ -1,0 +1,393 @@
+<?php
+//getQuestion(2);
+//print_r($this->PLACEWEB_CONFIG);
+
+//print_r($this->fConcepts);
+//include_once(APPLICATION_PATH.'/layouts/include/discussion.inc.php');
+
+$myExamplesArray = $this->data;
+$activeId = $this->activeId;
+$obj_type=$this->type;
+
+//echo "<hr>Type: ".$obj_type;
+//print_r($myMapArray);
+$myExamplesListHtml="
+<ul>";
+
+foreach ($myExamplesArray as $elo)
+{
+	$myExamplesListHtml.= "
+		<li><a href='/discussion?type=".$obj_type."&id=".$elo['id']."'>".$elo['name']."</a></li>";
+}
+$myExamplesListHtml.="
+</ul>";
+
+?>
+<div id="discussion-container">
+<form method="post" action="/discussion/addcomment">	
+	<!-- start elos-container -->
+	<div id="elos-container">
+	<?php 
+	echo $myExamplesListHtml;
+	?>
+	</div><!-- /elos-container -->
+	
+	<!-- start elo-discussion -->
+	<div id="elo-discussion">
+	<?php 
+		
+		if($activeId!="")
+		{
+			// get data from the active elo (example)
+			
+			if($obj_type==3)
+			{
+				$myContentArray = getExample($activeId);
+			} else if($obj_type==4) {
+				$myContentArray = getQuestion($activeId);
+			}
+
+		?>
+	<h3><?php echo $myContentArray[0]['name']?></h3>
+	<div id="elo-tags" class="dashlet-box" style="width:30%; float:right;">
+		<div class="dashlet-title">Tags</div>
+		<div id="tags-container">
+		<?php //print_r($myContentArray[0]['tags']);?>
+			<ul class="ul-for-data">
+			<?php
+			if($obj_type==3){
+			$Myconcepts=getConcepts($activeId, "Examples");
+			
+			//print_r($Myconcepts);
+			echo __analyzeTags($Myconcepts);
+			}
+
+			?>
+			</ul>
+		</div>
+	</div>			
+		
+	<div class="dashlet-box-image">
+		<div><?php echo $myContentArray[0]['media_content'];?></div>
+	</div>
+	<div><?php echo $myContentArray[0]['content'];?></div>
+	<?php 
+	// add here the posible answers when the elo is a multiple choice
+	///*
+	if($obj_type==4 && $myContentArray[0]['type'] == "MC" )
+	{
+		$anwersFormHtml = '
+		<div id="answers-container" style="width:30%; " class="dashlet-box-simple">
+		<div class="dashlet-title">Multiple Choice</div>
+		';
+		for($k=1;$k<=$myContentArray[0]['choices'];$k++)
+		{
+			$anwersFormHtml .= ' '.$this->PLACEWEB_CONFIG['questionChoices'][$k].'<input type="radio" name="answer" value="'.$this->PLACEWEB_CONFIG['questionChoices'][$k].'"/>&nbsp;&nbsp;';	
+		}
+		$anwersFormHtml .= '
+		
+		</div>
+		';
+		echo $anwersFormHtml;
+	}
+	//*/
+	?>
+	
+	<div id="posts-list">
+	<?php 
+	
+	$discussionHtml = "";
+	$myComments = getCommentsIds($activeId);
+	print_r($myComments);
+	///*
+	// for each top level comment find its children
+	foreach ($myComments as $posts)
+	{
+		$discussionHtml .= __getRepliesByRefId($posts['id']);
+		//echo "postID: ".$posts['$id'];
+	}
+	//*/
+
+	echo $discussionHtml;
+	
+?>
+		</div>	<!--  /posts-list -->
+		<div class="clear"></div>
+		<div id="reply-container">
+			<textarea rows="5" cols="25" name="replyText" name="replyText"></textarea>
+			<br/>
+			<input type="submit" value="Save"/>
+			<input type="text" name="eloId" id="eloId" value="<?php echo $activeId; ?>"/>
+			<input type="text" name="postId" id="postId" value=""/>
+			<input type="text" name="parentType" id="parentType" value=""/>
+			<input type="hidden" name="replyPosted" id="replyPosted" value="1"/>
+			
+		</div>
+		<div id="newThread-container">
+		<?php 
+		if($obj_type==3)
+		{
+			echo '<input type="button" value="New Thread" onClick="postNewThread('.$obj_type.')"/>';
+		} else if($obj_type==4) {
+			echo '<input type="button" value="Add a Rational" onClick="postNewThread('.$obj_type.')"/>';
+		}
+		?>
+		
+		</div>
+<?php  
+		} // end if $activeId!=""
+?>
+	</div>	<!--  /posts elo-discussion -->
+</form>	
+</div><!-- /discussion-container -->
+
+<?php
+//////////////////////////////////////////
+ function getCommentsIds($id)
+{
+	$q = Doctrine_Query::create()
+	->select('e.id')
+	->from('Comments e')
+	->where('e.obj_id = ? AND e.obj_type =? AND e.run_id = ?', array($id,'3',$_SESSION['run_id']));
+	 
+	$result = $q->fetchArray();
+
+	return $result;
+}
+ 
+function getConcepts($id,$table)
+{
+	$q = Doctrine_Query::create()
+	->select('e.example_id,  e.concept_id')
+	->from('ExampleConcept e')
+	->where('e.example_id = ? AND e.run_id = ?', array($id,$_SESSION['run_id']));
+	 
+	$result = $q->fetchArray();
+
+	return $result;
+}
+
+function getExample($example_id)
+{
+	$q = Doctrine_Query::create()
+	  ->from('Examples e')
+	  ->where('e.id = ?', $example_id);
+	 
+	$example = $q->fetchArray();
+	
+	//print_r($example);
+	return $example;
+}
+
+function getQuestion($id)
+{
+	$q = Doctrine_Query::create()
+	  ->from('Questions e')
+	  ->where('e.id = ?', $id);
+	 
+	$result = $q->fetchArray();
+	
+	//print_r($result);
+	return $result;
+}
+
+function getUserName($author_id)
+{
+	$q = Doctrine_Query::create()
+	  ->from('Users u')
+	  ->where('u.id = ?', $author_id);
+	 
+	$user = $q->fetchArray();
+	
+	//print_r($user);
+	return $user[0]['username'];
+	
+}
+
+function __getRepliesByRefId($id)
+{
+	$repliesHtml= "";
+	
+//	$myMongoObj = new MongoDAO();
+	
+//	$theQuery = array("_id" => new MongoId($ref));
+//	$theFields = array("parentType", "author","content","timestamp","votes","replies");
+	
+//	$post = $myMongoObj->__getByQuery("posts", $theQuery, $theFields);
+
+	// check if the post has replies, if so call this function again and keep drilling
+	//var_dump($post);
+	
+	//echo "<hr/>Author:".$post[0]['author'];
+	
+	$q = Doctrine_Query::create()
+	->select('e.author_id, e.date_created, e.obj_id,  e.content, e.parent_id, e.obj_type')
+	->from('Comments e')
+	->where('e.id = ? AND e.obj_type =? AND e.run_id = ?', array($id,'3',$_SESSION['run_id']));
+	 
+	$post = $q->fetchArray();
+	
+	$repliesHtml .= "
+	<ul>";
+	
+	// add this post data
+	$repliesHtml .='
+	<li>
+	<div class="post-item">
+
+		<div style="float:right;">
+			<div class"vote-icons">
+				<a href="javascript:postVote(1,\''.$id.'\')"><img src="/images/vote_like.png" width="20px"></a>
+				<a href="javascript:postVote(-1,\''.$id.'\')"><img src="/images/vote_dislike.png" width="20px"></a>
+			</div> 
+		
+			<div class="tag-votes">'.'0'.'</div>
+		</div>
+			
+		<div class="post-content">'
+			.$post[0]['content'].'
+		</div>
+
+		<div class="post-author">	
+			Posted by : <a href="#">'.getUserName($post[0]['author_id']).'</a>
+		</div>
+		
+		<div class="post-reply">	
+			<a href="javascript: postReply(\''.$id.'\')">Reply</a>
+		</div>
+	</div>
+	
+	
+	</li>';
+
+/////////////////////////
+/*
+	if(($post[0]['parent_id']) != null)
+	{ 
+		
+		
+		$repliesHtml .= "
+	<li>
+			<ul>";
+		
+		foreach ($post[0]['replies'] as $replies)
+		{
+			$repliesHtml .= '
+				<li>'.__getRepliesByRefId($replies['$id']).'</li>';
+		
+			//$repliesHtml .= '<li>'.$replies['$id'].'</li>';
+		}
+		$repliesHtml .= "
+			</ul>
+	</li>";
+	}
+*/
+
+			$repliesHtml .= "
+	</ul>";
+	
+	
+	return  $repliesHtml;
+	
+} // end fnc
+
+
+    /**
+	 * 
+	 * analyzes the tags, sum the votes each tag has, and returns an html <li> list
+	 * @param array $tags // this is the array "tags" from an elo
+	 */
+	function __analyzeTags($tags)
+	{
+
+		//get Concepts
+		$q = Doctrine_Query::create()
+			->select('e.id,  e.name')
+			->from('Concepts e')
+			->where('e.run_id = ?', $_SESSION['run_id']);
+		
+		$theConcepts = $q->fetchArray();
+		
+		//$theConcepts=Doctrine::getTable("Concepts")->findAll(Doctrine::HYDRATE_ARRAY);
+		
+		//print_r($theConcepts);
+		//print_r($tags);
+		
+		$currentTags = array();
+		//$diffTags = array();
+		$theConceptsF = array();
+		//$PLACEWEB_CONFIG['fConcepts']
+		
+		$tagsHtml = "";
+		$diffTagsHtml = "";
+		
+		$whoHasVoted = array();
+		$conn=0;
+		
+		foreach($theConcepts as $concept)
+		{
+			$theConceptsF[$concept['id']] = $concept['name'];
+		}
+		
+		//print_r($theConceptsF);
+		
+		foreach ($tags as $tag)
+		{
+			// sum votes for each tag
+			$votes=0;
+			/*
+			foreach ($tag['votes'] as $vote)
+			{
+				$votes+=$vote['vote'];
+				// collect how has voted  
+				$whoHasVoted[]=$vote['author'];
+			}
+			*/
+
+				// collect tags for comparison 
+				$currentTags[$tag['concept_id']] = $theConceptsF[$tag['concept_id']];
+				
+			
+			//var_dump($tag);
+			//echo "<br/>".$tag['conceptId'];
+			
+			$tagsHtml .='
+			<li>
+				<div class="tag-name">'.$theConceptsF[$tag['concept_id']].'</div>
+				<div class"vote-icons">
+					<a href="javascript:tagVote(1,'.$tag['concept_id'].')"><img src="images/vote_like.png" width="20px"></a>
+					<a href="javascript:tagVote(-1,'.$tag['concept_id'].')"><img src="images/vote_dislike.png" width="20px"></a>
+				</div> 
+				<div class="tag-votes">'.$votes.'</div>
+			</li>';
+				
+				$conn++;
+		}
+		
+		$diffTags = array_diff($theConceptsF, $currentTags);
+
+		//print_r($currentTags);
+		//print_r($diffTags);
+		
+		$diffTagsHtml = "
+		<li> &nbsp; 
+		</li>
+		";
+		
+		// not included tags
+		foreach ($diffTags as $diffTagId => $diffTagVal)
+		{
+			$diffTagsHtml .='
+			<li>
+				<div class="tag-name">'.$diffTagVal.'</div>
+				<div class="tag-add"><a href="javascript:addTag(\''.$diffTagId.'\');">[Add]</a></div>
+			</li>';
+			
+			//echo "<br/>".$diffTagId;
+		} 
+		
+		return $tagsHtml.$diffTagsHtml;
+
+	} // end fnc
+	
+?>

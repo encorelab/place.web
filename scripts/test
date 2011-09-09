@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+require_once realpath(dirname(__FILE__) . '/../application/loader.php');
+$application->bootstrap();
+
+// DQL Way
+$results = Doctrine_Query::create()
+			->select("*")
+			->from("Users u")
+			->execute(null, Doctrine::HYDRATE_ARRAY);
+print_r($results);
+
+
+// No SQL Way
+$results = Doctrine::getTable("Users")->findAll(Doctrine::HYDRATE_ARRAY);
+print_r($results);
+
+// Raw SQL Way
+// coming soon...

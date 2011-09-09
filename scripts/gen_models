@@ -1,0 +1,7 @@
+<?php
+//#!/usr/bin/env php
+require_once realpath(dirname(__FILE__) . '/../application/loader.php');
+$application->bootstrap();
+
+
+Doctrine_Core::generateModelsFromDb(MODELS_PATH, array('main'), array('generateTableClasses' => true));

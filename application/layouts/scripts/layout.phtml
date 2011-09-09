@@ -1,0 +1,88 @@
+<?php
+// add error if user is NOT logged in
+if(!$_SESSION['access']) 
+{
+	$PLACEWEB_CONFIG['errors'][] = "NO user is logged in"; 
+} 
+?>
+<?php 
+echo $this->doctype() ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+  <title>PLACE.web</title>
+  <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript" ></script>
+  <script src="/js/basic.js" type="text/javascript" ></script>
+  <link type="text/css" href="/css/styles.css" rel="stylesheet" >
+<?php 
+	//echo $this->headLink()->appendStylesheet('/css/global.css') 
+?>
+<?php 
+	require(APPLICATION_PATH.'/layouts/include/'.'tinymce.head.inc.php');
+?>
+</head>
+<body>
+<div id="container">
+
+	<?php 
+	require(APPLICATION_PATH.'/layouts/include/'.'header.inc.php');
+	?>
+	<div id="main_content">
+		<a name="content"></a>
+		<?php 
+		//var_dump($PLACEWEB_CONFIG);
+		
+		/*
+		switch ($action) 
+		{
+	    case "login":
+	        require(PLACEWEB_INCLUDE_PATH.'login.form.inc.php');
+	        break;
+	    case "home":
+	        require(PLACEWEB_INCLUDE_PATH.'home.inc.php');
+	        break;
+	    case "preferences":
+	        require(PLACEWEB_INCLUDE_PATH.'preferences.inc.php');
+	        break;
+	    case "addExample":
+	        require(PLACEWEB_INCLUDE_PATH.'addExample.inc.php');
+	        break;
+	    case "addQuestion":
+	        require(PLACEWEB_INCLUDE_PATH.'addQuestion.inc.php');
+	        break;
+	  	case "discussion":
+	        require(PLACEWEB_INCLUDE_PATH.'discussion.inc.php');
+	        break;
+	    case "web":
+	        require(PLACEWEB_INCLUDE_PATH.'web.inc.php');
+	        break;
+	    case "test":
+	        require(PLACEWEB_INCLUDE_PATH.'test.inc.php');
+	        break;
+		}
+		*/
+		?>
+		
+	    <?php echo $this->layout()->content ?>
+		    
+		    
+	</div><!-- /main_content --> 
+		<?php 
+	//require(PLACEWEB_INCLUDE_PATH.'footer.inc.php');
+	require(APPLICATION_PATH.'/layouts/include/'.'footer.inc.php');
+		?>
+</div><!-- /container -->
+
+<div id="debugMode">
+
+<?php
+//echo "APPLICATION_PATH: ".APPLICATION_PATH;
+//echo "<hr/>"; 
+//var_dump($this);
+//print_r($PLACEWEB_CONFIG);
+//print_r($_SERVER);
+?>
+</div>
+</body>
+</html>

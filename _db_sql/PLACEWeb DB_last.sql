@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 08, 2011 at 08:31 PM
+-- Generation Time: Sep 09, 2011 at 01:33 PM
 -- Server version: 5.1.49
 -- PHP Version: 5.3.3-1ubuntu9.5
 
@@ -48,29 +48,12 @@ CREATE TABLE IF NOT EXISTS `activities` (
   KEY `fk_template_runs` (`run_id`),
   KEY `fk_activity_activity_type1` (`activity_type_id`),
   KEY `fk_activities_users1` (`activity_on_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `activities`
 --
 
-INSERT INTO `activities` (`id`, `run_id`, `author_id`, `date_modified`, `date_created`, `activity_type_id`, `activity_on_user`, `i1`, `i2`, `i3`, `i4`, `i5`, `s1`, `s2`, `s3`, `t1`, `t2`) VALUES
-(1, 1, 4, '2011-09-08 15:45:37', '2011-09-08 15:45:37', 11, NULL, 48, 0, 0, 0, 0, '', '', '', 'Examples', ''),
-(2, 1, 4, '2011-09-08 15:45:57', '2011-09-08 15:45:57', 12, NULL, 1, 0, 0, 0, 0, '', '', '', 'Questions', ''),
-(3, 1, 4, '2011-09-08 17:17:16', '2011-09-08 17:17:16', 12, NULL, 2, 0, 0, 0, 0, '', '', '', 'Questions', ''),
-(4, 1, 4, '2011-09-08 17:34:47', '2011-09-08 17:34:47', 12, NULL, 3, 0, 0, 0, 0, '', '', '', 'Questions', ''),
-(5, 1, 4, '2011-09-08 18:20:12', '2011-09-08 18:20:12', 11, NULL, 49, 0, 0, 0, 0, '', '', '', 'Examples', ''),
-(6, 1, 4, '2011-09-08 19:12:37', '2011-09-08 19:12:37', 7, NULL, 3, 49, 0, 0, 0, '', '', '', 'Comments', 'Examples'),
-(7, 1, 4, '2011-09-08 19:12:42', '2011-09-08 19:12:42', 7, NULL, 4, 49, 0, 0, 0, '', '', '', 'Comments', 'Examples'),
-(8, 1, 4, '2011-09-08 19:14:00', '2011-09-08 19:14:00', 7, NULL, 5, 49, 0, 0, 0, '', '', '', 'Comments', 'Examples'),
-(9, 1, 4, '2011-09-08 19:26:09', '2011-09-08 19:26:09', 11, NULL, 50, 0, 0, 0, 0, '', '', '', 'Examples', ''),
-(10, 1, 4, '2011-09-08 19:30:39', '2011-09-08 19:30:39', 11, NULL, 51, 0, 0, 0, 0, '', '', '', 'Examples', ''),
-(11, 1, 4, '2011-09-08 19:40:02', '2011-09-08 19:40:02', 7, NULL, 6, 51, 0, 0, 0, '', '', '', 'Comments', 'Examples'),
-(12, 1, 4, '2011-09-08 19:41:28', '2011-09-08 19:41:28', 7, NULL, 7, 51, 0, 0, 0, '', '', '', 'Comments', 'Examples'),
-(13, 1, 4, '2011-09-08 19:43:18', '2011-09-08 19:43:18', 7, NULL, 8, 51, 0, 0, 0, '', '', '', 'Comments', 'Examples'),
-(14, 1, 4, '2011-09-08 19:43:28', '2011-09-08 19:43:28', 7, NULL, 9, 51, 0, 0, 0, '', '', '', 'Comments', 'Examples'),
-(15, 1, 4, '2011-09-08 19:59:19', '2011-09-08 19:59:19', 7, NULL, 10, 51, 0, 0, 0, '', '', '', 'Comments', 'Examples'),
-(16, 1, 4, '2011-09-08 19:59:39', '2011-09-08 19:59:39', 7, NULL, 11, 51, 0, 0, 0, '', '', '', 'Comments', 'Examples');
 
 -- --------------------------------------------------------
 
@@ -96,18 +79,18 @@ CREATE TABLE IF NOT EXISTS `activity_types` (
 --
 
 INSERT INTO `activity_types` (`id`, `run_id`, `author_id`, `date_modified`, `date_created`, `name`) VALUES
-(1, 1, 1, '2011-09-08 11:50:06', NULL, 'voted on comment'),
-(2, 1, 1, '2011-09-08 11:50:06', NULL, 'voted on answer'),
-(3, 1, 1, '2011-09-08 11:50:06', NULL, 'voted on answer concept'),
-(4, 1, 1, '2011-09-08 11:50:06', NULL, 'voted on example concept'),
-(5, 1, 1, '2011-09-08 11:50:06', NULL, 'commented on comment'),
-(6, 1, 1, '2011-09-08 11:50:06', NULL, 'commented on answer'),
-(7, 1, 1, '2011-09-08 11:50:06', NULL, 'commented on example'),
-(8, 1, 1, '2011-09-08 11:50:06', NULL, 'assessed comment'),
-(9, 1, 1, '2011-09-08 11:50:06', NULL, 'assessed example'),
-(10, 1, 1, '2011-09-08 11:50:06', NULL, 'assessed answer'),
-(11, 1, 1, '2011-09-08 14:37:30', '2011-09-08 14:37:30', 'example added'),
-(12, 1, 1, '2011-09-08 15:07:44', '2011-09-08 15:07:44', 'question created');
+(1, 1, 1, '2011-09-09 13:32:58', NULL, 'voted on comment'),
+(2, 1, 1, '2011-09-09 13:32:58', NULL, 'voted on answer'),
+(3, 1, 1, '2011-09-09 13:32:58', NULL, 'voted on answer concept'),
+(4, 1, 1, '2011-09-09 13:32:58', NULL, 'voted on example concept'),
+(5, 1, 1, '2011-09-09 13:32:58', NULL, 'commented on comment'),
+(6, 1, 1, '2011-09-09 13:32:58', NULL, 'commented on answer'),
+(7, 1, 1, '2011-09-09 13:32:58', NULL, 'commented on example'),
+(8, 1, 1, '2011-09-09 13:32:58', NULL, 'assessed comment'),
+(9, 1, 1, '2011-09-09 13:32:58', NULL, 'assessed example'),
+(10, 1, 1, '2011-09-09 13:32:58', NULL, 'assessed answer'),
+(11, 1, 1, '2011-09-09 13:32:58', NULL, 'example created'),
+(12, 1, 1, '2011-09-09 13:32:58', NULL, 'question created');
 
 -- --------------------------------------------------------
 
@@ -186,9 +169,9 @@ CREATE TABLE IF NOT EXISTS `assessable` (
 --
 
 INSERT INTO `assessable` (`id`, `run_id`, `author_id`, `date_modified`, `date_created`, `table_name`) VALUES
-(1, 1, 1, '2011-09-08 11:50:07', NULL, 'comments'),
-(2, 1, 1, '2011-09-08 11:50:07', NULL, 'answers'),
-(3, 1, 1, '2011-09-08 11:50:07', NULL, 'examples');
+(1, 1, 1, '2011-09-09 13:32:58', NULL, 'comments'),
+(2, 1, 1, '2011-09-09 13:32:58', NULL, 'answers'),
+(3, 1, 1, '2011-09-09 13:32:58', NULL, 'examples');
 
 -- --------------------------------------------------------
 
@@ -258,17 +241,16 @@ CREATE TABLE IF NOT EXISTS `commentable` (
   UNIQUE KEY `table_name_UNIQUE` (`table_name`),
   KEY `fk_template_users` (`author_id`),
   KEY `fk_template_runs` (`run_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `commentable`
 --
 
 INSERT INTO `commentable` (`id`, `run_id`, `author_id`, `date_modified`, `date_created`, `table_name`) VALUES
-(1, 1, 1, '2011-09-08 11:50:06', NULL, 'comments'),
-(2, 1, 1, '2011-09-08 11:50:06', NULL, 'answers'),
-(3, 1, 1, '2011-09-08 11:50:06', NULL, 'examples'),
-(4, 1, 1, '2011-09-08 16:30:47', '2011-09-08 16:30:47', 'questions');
+(1, 1, 1, '2011-09-09 13:32:58', NULL, 'comments'),
+(2, 1, 1, '2011-09-09 13:32:58', NULL, 'answers'),
+(3, 1, 1, '2011-09-09 13:32:58', NULL, 'examples');
 
 -- --------------------------------------------------------
 
@@ -291,24 +273,12 @@ CREATE TABLE IF NOT EXISTS `comments` (
   KEY `fk_template_runs` (`run_id`),
   KEY `fk_votes_votable1` (`obj_type`),
   KEY `fk_comments_comments1` (`parent_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `comments`
 --
 
-INSERT INTO `comments` (`id`, `run_id`, `author_id`, `date_modified`, `date_created`, `obj_id`, `obj_type`, `content`, `parent_id`) VALUES
-(1, 1, 1, '2011-09-08 16:56:27', '2011-09-08 16:56:27', 1, 3, 'some text', NULL),
-(2, 1, 4, '2011-09-08 19:11:58', '2011-09-08 19:11:58', 49, 3, NULL, NULL),
-(3, 1, 4, '2011-09-08 19:12:37', '2011-09-08 19:12:37', 49, 3, NULL, NULL),
-(4, 1, 4, '2011-09-08 19:12:42', '2011-09-08 19:12:42', 49, 3, NULL, NULL),
-(5, 1, 4, '2011-09-08 19:14:00', '2011-09-08 19:14:00', 49, 3, '<p>hola anto</p>', NULL),
-(6, 1, 4, '2011-09-08 19:40:02', '2011-09-08 19:40:02', 51, 3, '', NULL),
-(7, 1, 4, '2011-09-08 19:41:28', '2011-09-08 19:41:28', 51, 3, '', NULL),
-(8, 1, 4, '2011-09-08 19:43:18', '2011-09-08 19:43:18', 51, 3, '<p>asdf</p>', NULL),
-(9, 1, 4, '2011-09-08 19:43:28', '2011-09-08 19:43:28', 51, 3, '<p>one more</p>', NULL),
-(10, 1, 4, '2011-09-08 19:59:19', '2011-09-08 19:59:19', 51, 3, '<p>sdf</p>', NULL),
-(11, 1, 4, '2011-09-08 19:59:39', '2011-09-08 19:59:39', 51, 3, '<p><span style="background-color: #ffff99;">ccc ccc c ccc c cccc c ccc ccc c ccc c cccc c ccc ccc c ccc c cccc c ccc ccc c ccc c cccc c ccc ccc c ccc c cccc c ccc ccc c ccc c cccc c ccc ccc c ccc c cccc c ccc ccc c ccc c cccc c ccc ccc c ccc c cccc c</span></p>', NULL);
 
 -- --------------------------------------------------------
 
@@ -334,20 +304,20 @@ CREATE TABLE IF NOT EXISTS `concepts` (
 --
 
 INSERT INTO `concepts` (`id`, `run_id`, `author_id`, `date_modified`, `date_created`, `name`) VALUES
-(1, 1, 1, '2011-09-08 14:25:59', '2011-09-08 14:25:59', 'Vectors'),
-(2, 1, 1, '2011-09-08 14:25:59', '2011-09-08 14:25:59', 'Newton 1st Law'),
-(3, 1, 1, '2011-09-08 14:25:59', '2011-09-08 14:25:59', 'Newton 2nd Law'),
-(4, 1, 1, '2011-09-08 14:25:59', '2011-09-08 14:25:59', 'Newton 3rd Law'),
-(5, 1, 1, '2011-09-08 14:25:59', '2011-09-08 14:25:59', 'Acceleration'),
-(6, 1, 1, '2011-09-08 14:25:59', '2011-09-08 14:25:59', 'Uniform Motion'),
-(7, 1, 1, '2011-09-08 14:25:59', '2011-09-08 14:25:59', 'Kinetic Friction'),
-(8, 1, 1, '2011-09-08 14:25:59', '2011-09-08 14:25:59', 'Static Friction'),
-(9, 1, 1, '2011-09-08 14:25:59', '2011-09-08 14:25:59', 'Fnet = 0'),
-(10, 1, 1, '2011-09-08 14:25:59', '2011-09-08 14:25:59', 'Fnet = constant (non-zero)'),
-(11, 1, 1, '2011-09-08 14:25:59', '2011-09-08 14:25:59', 'Fnet = non-constant'),
-(12, 1, 1, '2011-09-08 14:25:59', '2011-09-08 14:25:59', 'Kinetic Energy'),
-(13, 1, 1, '2011-09-08 14:25:59', '2011-09-08 14:25:59', 'Potential Energy'),
-(14, 1, 1, '2011-09-08 14:25:59', '2011-09-08 14:25:59', 'Conservation of Energy');
+(1, 1, 1, '2011-09-09 13:32:58', NULL, 'Vectors'),
+(2, 1, 1, '2011-09-09 13:32:58', NULL, 'Newton 1st Law'),
+(3, 1, 1, '2011-09-09 13:32:58', NULL, 'Newton 2nd Law'),
+(4, 1, 1, '2011-09-09 13:32:58', NULL, 'Newton 3rd Law'),
+(5, 1, 1, '2011-09-09 13:32:58', NULL, 'Acceleration'),
+(6, 1, 1, '2011-09-09 13:32:58', NULL, 'Uniform Motion'),
+(7, 1, 1, '2011-09-09 13:32:58', NULL, 'Kinetic Friction'),
+(8, 1, 1, '2011-09-09 13:32:58', NULL, 'Static Friction'),
+(9, 1, 1, '2011-09-09 13:32:58', NULL, 'Fnet = 0'),
+(10, 1, 1, '2011-09-09 13:32:58', NULL, 'Fnet = constant (non-zero)'),
+(11, 1, 1, '2011-09-09 13:32:58', NULL, 'Fnet = non-constant'),
+(12, 1, 1, '2011-09-09 13:32:58', NULL, 'Kinetic Energy'),
+(13, 1, 1, '2011-09-09 13:32:58', NULL, 'Potential Energy'),
+(14, 1, 1, '2011-09-09 13:32:58', NULL, 'Conservation of Energy');
 
 -- --------------------------------------------------------
 
@@ -392,58 +362,12 @@ CREATE TABLE IF NOT EXISTS `examples` (
   PRIMARY KEY (`id`),
   KEY `fk_template_users` (`author_id`),
   KEY `fk_template_runs` (`run_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=52 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `examples`
 --
 
-INSERT INTO `examples` (`id`, `run_id`, `author_id`, `date_modified`, `date_created`, `name`, `content`, `media_content`, `media_path`, `media_type`, `type`) VALUES
-(1, 1, 3, '2011-09-08 13:37:19', NULL, NULL, 'My example content', NULL, NULL, NULL, NULL),
-(3, 1, 3, '2011-09-08 13:53:20', NULL, NULL, 'My example content', NULL, NULL, NULL, NULL),
-(4, 1, 3, '2011-09-08 13:53:33', NULL, 'My example', 'My example content', NULL, NULL, NULL, NULL),
-(5, 1, 3, '2011-09-08 13:54:00', NULL, 'My example', 'My example content', NULL, NULL, NULL, NULL),
-(7, 1, 1, '2011-09-08 13:55:30', NULL, 'My example', '<p>my example</p>', NULL, NULL, NULL, NULL),
-(8, 1, 1, '2011-09-08 13:56:05', NULL, 'My example', '<p>my example</p>', NULL, NULL, NULL, NULL),
-(12, 1, 1, '2011-09-08 13:57:37', NULL, 'My example', '<p>my example</p>', NULL, NULL, NULL, NULL),
-(13, 1, 1, '2011-09-08 13:58:51', NULL, 'My example', '<p>my example</p>', NULL, NULL, NULL, NULL),
-(14, 1, 1, '2011-09-08 13:58:54', NULL, 'My example', '<p>my example</p>', NULL, NULL, NULL, NULL),
-(16, 1, 1, '2011-09-08 14:05:06', '2011-09-08 14:05:06', 'Hola anto', '<p>Un text here</p>', NULL, NULL, NULL, NULL),
-(17, 1, 1, '2011-09-08 14:09:37', '2011-09-08 14:09:37', 'Hola anto', '<p>Un text here</p>', '<img src="/content/myGarden.png" width="320px">', NULL, NULL, NULL),
-(18, 1, 1, '2011-09-08 14:10:02', '2011-09-08 14:10:02', 'Hola anto', '<p>Un text here</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(19, 1, 4, '2011-09-08 14:10:12', '2011-09-08 14:10:12', 'Hola anto', '<p>Un text here</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(20, 1, 4, '2011-09-08 14:14:33', '2011-09-08 14:14:33', 'Hola anto', '<p>Un text here</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(21, 1, 4, '2011-09-08 14:15:37', '2011-09-08 14:15:37', 'Hola anto', '<p>Un text here</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(22, 1, 4, '2011-09-08 14:16:19', '2011-09-08 14:16:19', 'Hola anto', '<p>Un text here</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(23, 1, 4, '2011-09-08 14:16:25', '2011-09-08 14:16:25', 'Hola anto', '<p>Un text here</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(24, 1, 4, '2011-09-08 14:16:59', '2011-09-08 14:16:59', 'Hola anto', '<p>Un text here</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(25, 1, 4, '2011-09-08 14:28:27', '2011-09-08 14:28:27', 'Hola anto', '<p>Un text here</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(26, 1, 4, '2011-09-08 14:28:54', '2011-09-08 14:28:54', 'Hola anto', '<p>Un text here</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(27, 1, 4, '2011-09-08 14:29:17', '2011-09-08 14:29:17', 'Hola anto', '<p>Un text here</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(28, 1, 4, '2011-09-08 14:30:02', '2011-09-08 14:30:02', 'Hola anto', '<p>Un text here</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(29, 1, 4, '2011-09-08 14:30:32', '2011-09-08 14:30:32', 'Hola anto', '<p>Un text here</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(30, 1, 4, '2011-09-08 14:30:43', '2011-09-08 14:30:43', 'Hola anto', '<p>Un text here</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(31, 1, 4, '2011-09-08 14:31:22', '2011-09-08 14:31:22', 'Hola anto', '<p>Un text here</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(32, 1, 4, '2011-09-08 14:32:20', '2011-09-08 14:32:20', 'Hola anto', '<p>Un text here</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(33, 1, 4, '2011-09-08 14:34:49', '2011-09-08 14:34:49', 'Hola anto', '<p>Un text here</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(34, 1, 4, '2011-09-08 14:35:14', '2011-09-08 14:35:14', 'Hola anto', '<p>Un text here</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(35, 1, 4, '2011-09-08 14:35:44', '2011-09-08 14:35:44', 'Hola anto', '<p>Un text here</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(36, 1, 4, '2011-09-08 14:42:23', '2011-09-08 14:42:23', 'Hola anto', '<p>Un text here</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(37, 1, 4, '2011-09-08 14:42:26', '2011-09-08 14:42:26', 'Hola anto', '<p>Un text here</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(38, 1, 4, '2011-09-08 15:20:51', '2011-09-08 15:20:51', 'my Garden', '<p>This is my Garden</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(39, 1, 4, '2011-09-08 15:21:37', '2011-09-08 15:21:37', 'my Garden', '<p>This is my Garden</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(40, 1, 4, '2011-09-08 15:22:10', '2011-09-08 15:22:10', 'my Garden', '<p>This is my Garden</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(41, 1, 4, '2011-09-08 15:28:38', '2011-09-08 15:28:38', 'my Garden', '<p>This is my Garden</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(42, 1, 4, '2011-09-08 15:30:59', '2011-09-08 15:30:59', 'my Garden', '<p>This is my Garden</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(43, 1, 4, '2011-09-08 15:33:16', '2011-09-08 15:33:16', 'my Garden', '<p>This is my Garden</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(44, 1, 4, '2011-09-08 15:34:10', '2011-09-08 15:34:10', 'my Garden', '<p>This is my Garden</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(45, 1, 4, '2011-09-08 15:40:27', '2011-09-08 15:40:27', 'My question', '<p>my first question</p>', '<img src="/content/Screenshot555.png" width="320px">', 'Screenshot555.png', '', NULL),
-(46, 1, 4, '2011-09-08 15:40:56', '2011-09-08 15:40:56', 'My question', '<p>my first question</p>', '<img src="/content/Screenshot555.png" width="320px">', 'Screenshot555.png', '', NULL),
-(47, 1, 4, '2011-09-08 15:43:44', '2011-09-08 15:43:44', 'another question', '<p>my question</p>', '<img src="/content/Screenshot555.png" width="320px">', 'Screenshot555.png', '', 0),
-(48, 1, 4, '2011-09-08 15:45:37', '2011-09-08 15:45:37', 'My example', '<p>my example</p>', '<img src="/content/Screenshot555.png" width="320px">', 'Screenshot555.png', '', 3),
-(49, 1, 4, '2011-09-08 18:20:12', '2011-09-08 18:20:12', 'hola anto', '<p>This is my Example</p>', '<img src="/content/Screenshot555.png" width="320px">', 'Screenshot555.png', '', 5),
-(50, 1, 4, '2011-09-08 19:26:08', '2011-09-08 19:26:08', 'MY Gardern', '<p>text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc</p>\r\n<p>text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc text c ccc cc</p>', '<img src="/content/myGarden.png" width="320px">', 'myGarden.png', '', 3),
-(51, 1, 4, '2011-09-08 19:30:39', '2011-09-08 19:30:39', 'hhhhhh', '', '<img src="/content/Screenshot555.png" width="320px">', 'Screenshot555.png', '', 3);
 
 -- --------------------------------------------------------
 
@@ -464,14 +388,12 @@ CREATE TABLE IF NOT EXISTS `example_concept` (
   KEY `fk_template_runs` (`run_id`),
   KEY `fk_answer_concept_answers1` (`example_id`),
   KEY `fk_answer_concept_concepts1` (`concept_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `example_concept`
 --
 
-INSERT INTO `example_concept` (`id`, `run_id`, `author_id`, `date_modified`, `date_created`, `example_id`, `concept_id`) VALUES
-(1, 1, 4, '2011-09-08 19:30:39', '2011-09-08 19:30:39', 51, 9);
 
 -- --------------------------------------------------------
 
@@ -495,16 +417,12 @@ CREATE TABLE IF NOT EXISTS `questions` (
   PRIMARY KEY (`id`),
   KEY `fk_template_users` (`author_id`),
   KEY `fk_template_runs` (`run_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `questions`
 --
 
-INSERT INTO `questions` (`id`, `run_id`, `author_id`, `date_modified`, `date_created`, `name`, `type`, `content`, `media_content`, `media_path`, `media_type`, `choices`) VALUES
-(1, 1, 4, '2011-09-08 15:45:57', '2011-09-08 15:45:57', 'my question', 'MC', '<p>this is the question</p>', '', '', '', NULL),
-(2, 1, 4, '2011-09-08 17:17:16', '2011-09-08 17:17:16', 'question 2', 'MC', '<p>THis is the question</p>', '<img src="/content/Screenshot555.png" width="320px">', 'Screenshot555.png', '', NULL),
-(3, 1, 4, '2011-09-08 17:34:47', '2011-09-08 17:34:47', 'question 3', 'MC', '<p><span style="font-size: large;">the text of the question</span> </p>', '', '', '', 5);
 
 -- --------------------------------------------------------
 
@@ -567,15 +485,14 @@ CREATE TABLE IF NOT EXISTS `runs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=101 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `runs`
 --
 
 INSERT INTO `runs` (`id`, `name`) VALUES
-(1, 'first run'),
-(100, 'Anto Run Test');
+(1, 'first run');
 
 -- --------------------------------------------------------
 
@@ -601,10 +518,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `run_id`, `author_id`, `date_modified`, `date_created`, `username`, `password`, `user_type`) VALUES
-(1, 1, 1, '2011-09-08 14:24:31', NULL, 'admin', NULL, 'ADMIN'),
-(2, 1, NULL, '2011-09-08 11:50:06', NULL, 'teacher', NULL, 'TEACHER'),
-(3, 1, NULL, '2011-09-08 11:50:06', NULL, 'student1', NULL, 'STUDENT'),
-(4, 1, NULL, '2011-09-08 11:50:06', NULL, 'student2', NULL, 'STUDENT');
+(1, 1, NULL, '2011-09-09 13:32:58', NULL, 'admin', NULL, 'ADMIN'),
+(2, 1, NULL, '2011-09-09 13:32:58', NULL, 'teacher', NULL, 'TEACHER'),
+(3, 1, NULL, '2011-09-09 13:32:58', NULL, 'student1', NULL, 'STUDENT'),
+(4, 1, NULL, '2011-09-09 13:32:58', NULL, 'student2', NULL, 'STUDENT');
 
 -- --------------------------------------------------------
 
@@ -630,10 +547,10 @@ CREATE TABLE IF NOT EXISTS `votable` (
 --
 
 INSERT INTO `votable` (`id`, `run_id`, `author_id`, `date_modified`, `date_created`, `table_name`) VALUES
-(1, 1, 1, '2011-09-08 11:50:06', NULL, 'comments'),
-(2, 1, 1, '2011-09-08 11:50:06', NULL, 'answers'),
-(3, 1, 1, '2011-09-08 11:50:06', NULL, 'answer_concept'),
-(4, 1, 1, '2011-09-08 11:50:06', NULL, 'example_concept');
+(1, 1, 1, '2011-09-09 13:32:58', NULL, 'comments'),
+(2, 1, 1, '2011-09-09 13:32:58', NULL, 'answers'),
+(3, 1, 1, '2011-09-09 13:32:58', NULL, 'answer_concept'),
+(4, 1, 1, '2011-09-09 13:32:58', NULL, 'example_concept');
 
 -- --------------------------------------------------------
 

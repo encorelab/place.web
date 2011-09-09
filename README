@@ -16,4 +16,10 @@ mysql
 doctrine.dsn = "mysql://user:password@localhost/dbname"
 
 upload path
-/application/configs/
+/application/configs/config.php
+	set the following
+$PLACEWEB_CONFIG['uploadDir'] = "/var/www/place/public/content/";
+	be sure this folder has write permissions for web user
+
+Note all views are located in
+/application/views/scripts

@@ -38,14 +38,22 @@ class ExampleController extends Zend_Controller_Action
         //if($params['saved'])
         
         //print_r($params);
-              
+        
+        // set a defaut name
+        if(isset($params['name']) && $params['name']!="")
+        {
+        	$name = $params['name'];
+        } else {
+        	$name = "[ ... ]";
+        }
+        
         $example = new Examples();
                
 		$example->run_id = $_SESSION['run_id'];
 		$example->author_id = $_SESSION['author_id'];
 		//$example->date_modified = date( 'Y-m-d H:i:s');
 		$example->date_created = date( 'Y-m-d H:i:s');
-		$example->name = $params['name'];
+		$example->name = $name;
 		$example->content = $params['content'];
 		$example->media_content = $params['media_content'];
 		$example->media_path = $params['media_path'];

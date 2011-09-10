@@ -324,6 +324,11 @@ function __getRepliesByRefId($id)
 		$whoHasVoted = array();
 		$conn=0;
 		
+		$diffTagsHtmlSelect = '
+<select name="addTag" id="addTag">
+	<option value=""> ...</option>
+';
+		
 		foreach($theConcepts as $concept)
 		{
 			$theConceptsF[$concept['id']] = $concept['name'];
@@ -377,6 +382,13 @@ function __getRepliesByRefId($id)
 		// not included tags
 		foreach ($diffTags as $diffTagId => $diffTagVal)
 		{
+
+// <select>
+			$diffTagsHtmlSelect .= '
+	<option value="'.$diffTagId.'">'.$diffTagVal.'</option>
+
+';
+// <a>
 			$diffTagsHtml .='
 			<li>
 				<div class="tag-name">'.$diffTagVal.'</div>
@@ -384,9 +396,23 @@ function __getRepliesByRefId($id)
 			</li>';
 			
 			//echo "<br/>".$diffTagId;
-		} 
+		} // end for
+
+
+		$diffTagsHtmlSelect .= '
+</select>
+';
+		$diffTagsHtmlSelect .= '
+<a href="#">Add</a>
+<!-- or
+<input type="button" value="add" />
+-->
+';
 		
-		return $tagsHtml.$diffTagsHtml;
+		
+		//return $tagsHtml.$diffTagsHtml;
+		return $tagsHtml.$diffTagsHtmlSelect;
+		
 
 	} // end fnc
 	

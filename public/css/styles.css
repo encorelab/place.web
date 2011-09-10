@@ -1,13 +1,14 @@
+
 .alert-example{
-	background: orange;
+	background: #F5BE47;
 }
 
 .alert-question{
-	background: red;
+	background: #F05D65;
 }
 
-.alert-comment{
-	background: olive;
+.alert-comments{
+	background: #8FDBA3;
 }
 
 .alert-answer{
@@ -166,6 +167,34 @@ display:none;
     margin-bottom: 1em;
     overflow: auto;
     padding: 0.5em;
+}
+
+.activity-link {
+    background: none repeat scroll 0 0 #dbdbdb;
+    border: 1px solid #000000;
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 3px 3px 6px;
+    color: #333333;
+    font-family: Tahoma, Geneva, sans-serif;
+    margin-right: 1em;
+    margin-bottom: 1em;
+    overflow: auto;
+    padding: 0.5em;
+}
+
+.activity {
+    background: none repeat scroll 0 0 #DBDBDB;
+    border: 1px solid #000000;
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 3px 3px 6px;
+    color: #333333;
+    font-family: Tahoma,Geneva,sans-serif;
+    height: 250px;
+    margin-bottom: 1em;
+    margin-right: 1em;
+    min-height: 150px;
+    overflow: auto;
+    padding: 0.1em;
 }
 
 .dashlet-box ul li {

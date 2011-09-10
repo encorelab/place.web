@@ -61,14 +61,16 @@ class AjaxController extends Zend_Controller_Action
     	global $PLACEWEB_CONFIG, $_SESSION;
     	
     	// need some filters here
-    	$activities = Doctrine::getTable("Activities")->findAll(Doctrine::HYDRATE_ARRAY);
-    	/*
+    		//$activities = Doctrine::getTable("Activities")->findAll(Doctrine::HYDRATE_ARRAY);
+    	
+    	///*
 		$q = Doctrine_Query::create()
 		->select('e.*')
 		->from('Activities e')
-		->where('e.run_id = ?', $_SESSION['run_id']);
+//		->where('e.run_id = ?', $_SESSION['run_id'])
+		->orderBy('e.id DESC');
 		$activities = $q->fetchArray();
-		*/ 
+		//*/ 
 		
         
         $this->view->activities = $activities;

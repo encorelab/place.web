@@ -42,7 +42,15 @@ class QuestionController extends Zend_Controller_Action
         
         //if($params['saved'])
         
-        print_r($params);
+        //print_r($params);
+        
+        // set a defaut name
+        if(isset($params['name']) && $params['name']!="")
+        {
+        	$name = $params['name'];
+        } else {
+        	$name = "[ ... ]";
+        }
               
         $question = new Questions();
                
@@ -50,7 +58,7 @@ class QuestionController extends Zend_Controller_Action
 		$question->author_id = $_SESSION['author_id'];
 		//$question->date_modified = date( 'Y-m-d H:i:s');
 		$question->date_created = date( 'Y-m-d H:i:s');
-		$question->name = $params['name'];
+		$question->name = $name;
 		$question->content = $params['content'];
 		$question->media_content = $params['media_content'];
 		$question->media_path = $params['media_path'];

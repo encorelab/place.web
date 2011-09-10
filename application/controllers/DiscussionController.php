@@ -96,7 +96,15 @@ class DiscussionController extends Zend_Controller_Action
 		$comment->obj_id = $params['eloId'];
 
 		$comment->obj_type = $params['parentType'];
-		$comment->content = $params['replyText'];
+		
+        // set a defaut name
+        if(isset($params['replyText']) && $params['replyText']!="")
+        {
+        	$content = $params['replyText'];
+        } else {
+        	$content = "[ ... ]";
+        }
+		$comment->content = $content;
 		
 		if($params['parentType']==1){
 			$comment->parent_id = $params['postId'];

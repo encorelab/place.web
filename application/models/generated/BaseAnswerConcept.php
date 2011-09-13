@@ -14,10 +14,10 @@ Doctrine_Manager::getInstance()->bindComponent('AnswerConcept', 'main');
  * @property timestamp $date_created
  * @property integer $answer_id
  * @property integer $concept_id
- * @property Answers $Answers
- * @property Concepts $Concepts
- * @property Runs $Runs
- * @property Users $Users
+ * @property Answer $Answer
+ * @property Concept $Concept
+ * @property Run $Run
+ * @property User $User
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -94,19 +94,19 @@ abstract class BaseAnswerConcept extends Doctrine_Record
     public function setUp()
     {
         parent::setUp();
-        $this->hasOne('Answers', array(
+        $this->hasOne('Answer', array(
              'local' => 'answer_id',
              'foreign' => 'id'));
 
-        $this->hasOne('Concepts', array(
+        $this->hasOne('Concept', array(
              'local' => 'concept_id',
              'foreign' => 'id'));
 
-        $this->hasOne('Runs', array(
+        $this->hasOne('Run', array(
              'local' => 'run_id',
              'foreign' => 'id'));
 
-        $this->hasOne('Users', array(
+        $this->hasOne('User', array(
              'local' => 'author_id',
              'foreign' => 'id'));
     }

@@ -1,3 +1,8 @@
 001/
 002/
 placeweb_zend.tar.gz
+application/configs/application.ini.server
+application/configs/config.php.server
+test.php
+application/configs/config.php
+application/configs/application.ini

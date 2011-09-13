@@ -12,8 +12,8 @@ Doctrine_Manager::getInstance()->bindComponent('EloTemplate', 'main');
  * @property integer $author_id
  * @property timestamp $date_modified
  * @property timestamp $date_created
- * @property Runs $Runs
- * @property Users $Users
+ * @property Run $Run
+ * @property User $User
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -72,11 +72,11 @@ abstract class BaseEloTemplate extends Doctrine_Record
     public function setUp()
     {
         parent::setUp();
-        $this->hasOne('Runs', array(
+        $this->hasOne('Run', array(
              'local' => 'run_id',
              'foreign' => 'id'));
 
-        $this->hasOne('Users', array(
+        $this->hasOne('User', array(
              'local' => 'author_id',
              'foreign' => 'id'));
     }

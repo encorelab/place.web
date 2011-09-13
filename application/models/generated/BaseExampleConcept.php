@@ -14,10 +14,10 @@ Doctrine_Manager::getInstance()->bindComponent('ExampleConcept', 'main');
  * @property timestamp $date_created
  * @property integer $example_id
  * @property integer $concept_id
- * @property Examples $Examples
- * @property Concepts $Concepts
- * @property Runs $Runs
- * @property Users $Users
+ * @property Example $Example
+ * @property Concept $Concept
+ * @property Run $Run
+ * @property User $User
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -94,19 +94,19 @@ abstract class BaseExampleConcept extends Doctrine_Record
     public function setUp()
     {
         parent::setUp();
-        $this->hasOne('Examples', array(
+        $this->hasOne('Example', array(
              'local' => 'example_id',
              'foreign' => 'id'));
 
-        $this->hasOne('Concepts', array(
+        $this->hasOne('Concept', array(
              'local' => 'concept_id',
              'foreign' => 'id'));
 
-        $this->hasOne('Runs', array(
+        $this->hasOne('Run', array(
              'local' => 'run_id',
              'foreign' => 'id'));
 
-        $this->hasOne('Users', array(
+        $this->hasOne('User', array(
              'local' => 'author_id',
              'foreign' => 'id'));
     }

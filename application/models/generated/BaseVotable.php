@@ -12,10 +12,10 @@ Doctrine_Manager::getInstance()->bindComponent('Votable', 'main');
  * @property integer $author_id
  * @property timestamp $date_modified
  * @property timestamp $date_created
- * @property string $obj_name
- * @property Runs $Runs
- * @property Users $Users
- * @property Doctrine_Collection $Votes
+ * @property string $object
+ * @property Run $Run
+ * @property User $User
+ * @property Doctrine_Collection $Vote
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -69,7 +69,7 @@ abstract class BaseVotable extends Doctrine_Record
              'notnull' => false,
              'autoincrement' => false,
              ));
-        $this->hasColumn('obj_name', 'string', 255, array(
+        $this->hasColumn('object', 'string', 255, array(
              'type' => 'string',
              'length' => 255,
              'fixed' => false,
@@ -83,15 +83,15 @@ abstract class BaseVotable extends Doctrine_Record
     public function setUp()
     {
         parent::setUp();
-        $this->hasOne('Runs', array(
+        $this->hasOne('Run', array(
              'local' => 'run_id',
              'foreign' => 'id'));
 
-        $this->hasOne('Users', array(
+        $this->hasOne('User', array(
              'local' => 'author_id',
              'foreign' => 'id'));
 
-        $this->hasMany('Votes', array(
+        $this->hasMany('Vote', array(
              'local' => 'id',
              'foreign' => 'obj_type'));
     }

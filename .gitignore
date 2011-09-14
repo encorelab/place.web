@@ -7,3 +7,5 @@ test.php
 application/configs/config.php
 application/configs/application.ini
 public/content/
+*.mwb.bak
+.DS_Store

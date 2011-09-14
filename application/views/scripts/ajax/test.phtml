@@ -3,4 +3,11 @@
 view: /application/views/scripts/ajax/test.phtml
 </p>
 <?php
+echo "<h1>Test: this is testAction() in Ajax Controller</h1>";
+
+echo '<h1>$_SESSION</h1>';
+print_r($_SESSION);
+
+echo '<h1>PLACEWEB_CONFIG passed from controller</h1>';
+print_r($this->PLACEWEB_CONFIG);
 ?>

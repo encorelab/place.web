@@ -21,55 +21,21 @@ echo $this->doctype() ?>
 <?php 
 	require(APPLICATION_PATH.'/layouts/include/'.'tinymce.head.inc.php');
 ?>
-</head>
-<body>
-<div id="container">
 
+
+</head>
+<body> 	
+<div id="container">
 	<?php 
 	require(APPLICATION_PATH.'/layouts/include/'.'header.inc.php');
 	?>
 	<div id="main_content">
 		<a name="content"></a>
-		<?php 
-		//var_dump($PLACEWEB_CONFIG);
-		
-		/*
-		switch ($action) 
-		{
-	    case "login":
-	        require(PLACEWEB_INCLUDE_PATH.'login.form.inc.php');
-	        break;
-	    case "home":
-	        require(PLACEWEB_INCLUDE_PATH.'home.inc.php');
-	        break;
-	    case "preferences":
-	        require(PLACEWEB_INCLUDE_PATH.'preferences.inc.php');
-	        break;
-	    case "addExample":
-	        require(PLACEWEB_INCLUDE_PATH.'addExample.inc.php');
-	        break;
-	    case "addQuestion":
-	        require(PLACEWEB_INCLUDE_PATH.'addQuestion.inc.php');
-	        break;
-	  	case "discussion":
-	        require(PLACEWEB_INCLUDE_PATH.'discussion.inc.php');
-	        break;
-	    case "web":
-	        require(PLACEWEB_INCLUDE_PATH.'web.inc.php');
-	        break;
-	    case "test":
-	        require(PLACEWEB_INCLUDE_PATH.'test.inc.php');
-	        break;
-		}
-		*/
-		?>
-		
 	    <?php echo $this->layout()->content ?>
 		    
 		    
 	</div><!-- /main_content --> 
 		<?php 
-	//require(PLACEWEB_INCLUDE_PATH.'footer.inc.php');
 	require(APPLICATION_PATH.'/layouts/include/'.'footer.inc.php');
 		?>
 </div><!-- /container -->

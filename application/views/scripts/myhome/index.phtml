@@ -5,32 +5,28 @@ controller: /application/controllers/MyhomeController.php
 view: /application/views/scripts/myhome/index.phtml
 
  */
-//if(!$this->myAccess)
+//if(!$this->myAccess)(
+
+// printign passed view[array]
+//print_r($this->PLACEWEB_CONFIG);
+//echo '<h1>$_SESSION</h1>';
+//print_r($_SESSION);
+
 if(!$_SESSION['access'])
 {
-/*
-	<div id="login-form">
-		<form action="/" method="post">
-			<span class="label">Username: </span><input type="text" value="" id="username" name="username"/>
-			<br/><span class="label">Password: </span><input type="password" value="" id="password" name="password"/>
-			<br/><br/>
-			Log in as: 
-			<select name="profile" id="profile">
-				<option value="TEACHER">Teacher</option>
-				<option value="STUDENT">Student</option>
-			</select>
-			<br/><br/>
-			<input type="submit" value="Login"/>
-		</form>
-	</div>
-*/
-?>
-
-<?php 	
+	header('Location: /logout.php');
 } else {
 	//header('Location: /');
 	//require_once('')
 	//echo "Login Ok. go to home";
+
+
+	// the content of home.inc.php are now in this file (view)
 	require(APPLICATION_PATH.'/layouts/include/'.'home.inc.php');
-}
+
 ?>
+
+<?php
+} // end if
+?>
+

@@ -1,9 +1,11 @@
 <?php
+//<h1>/application/views/scripts/ajax/classactivity.phtml</h1>
+//print_r($this->activities = $activities;);
 function getUserName($author_id)
 {
 	$q = Doctrine_Query::create()
 	->select('u.username')	
-	->from('Users u')
+	->from('User u')
 	->where('u.id = ?', $author_id);
 	 
 	$user = $q->fetchArray();
@@ -17,7 +19,7 @@ function getExampleName($example_id)
 {
 	$q = Doctrine_Query::create()
 	->select('e.name')
-	->from('Examples e')
+	->from('Example e')
 	->where('e.id = ?', $example_id);
 	 
 	$example = $q->fetchArray();
@@ -30,7 +32,7 @@ function getQuestionName($question_id)
 {
 	$q = Doctrine_Query::create()
 	->select('e.name')
-	->from('Questions e')
+	->from('Question e')
 	->where('e.id = ?', $question_id);
 	 
 	$question = $q->fetchArray();
@@ -43,9 +45,7 @@ function getQuestionName($question_id)
 //print_r($this->activitiesTypes);
 
 $actHtml='
-<!--
 			<div class="dashlet-title">Recent Class Activity</div>
--->
 			<div>
 				<ul class="ul-for-data">
 
@@ -66,7 +66,7 @@ foreach ($this->activities as $activity)
 	if($activity['activity_type_id']==12)
 	{
 		$actHtml.= '<li><div class="alert-question"><strong>'.getUserName($activity['author_id']).'</strong> created a new Question titeled: 
-		<a href="/discussion?type=4&id='.$activity['i1'].'">'.getQuestionName($activity['i1']).'</a></div></li>';
+		<a href="/question/show?type=4&id='.$activity['i1'].'">'.getQuestionName($activity['i1']).'</a></div></li>';
 		
 	}
 	// comments

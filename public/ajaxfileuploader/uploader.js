@@ -73,10 +73,6 @@ function handleResponse() {
 			
 			// set img and thumb path
 			updateMediaPath(filename);
-			
-			
-			
-			
 		}
         //document.getElementById(uploaderId).innerHTML=""+response;
 		

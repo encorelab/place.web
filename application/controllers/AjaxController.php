@@ -2,9 +2,12 @@
 
 class AjaxController extends Zend_Controller_Action
 {
+    //$_SESSION is not available in classactivityAction() ??
+    private $session;
 
     public function init()
     {
+	$this->session=$_SESSION;
         /* Initialize action controller here */
     }
 
@@ -12,7 +15,7 @@ class AjaxController extends Zend_Controller_Action
     {
         // action body
         
-    	print_r($_SESSION);
+    	
     	// disableLayout
     	$this->_helper->layout()->disableLayout();
   	
@@ -20,84 +23,110 @@ class AjaxController extends Zend_Controller_Action
 
     public function testAction()
     {
-    	print_r($_SESSION);
-    }
-    
-    public function test_action()
-    {
-    	echo "<hr>Hola Anto, this is test_action in Ajax Controller";
-    }
-        
-    public function myupdatesAction()
-    {
-        // action body
+    	global $PLACEWEB_CONFIG;
 
-    	//print_r($_SESSION);
     	// disableLayout
     	$this->_helper->layout()->disableLayout();
-    	
-    	// get the data here 
-    	
-    	// return it as a view
-    	$this->view->myUpdates = "printing my updates";
+
+    	//echo '<h1>$_SESSION</h1>';
+    	//print_r($_SESSION);
+
+    	//echo '<h1>$PLACEWEB_CONFIG</h1>';
+    	//print_r($PLACEWEB_CONFIG);
+
+	// pass $PLACEWEB_CONFIG to the view
+        $this->view->PLACEWEB_CONFIG = $PLACEWEB_CONFIG;
+
+	// pass test data to the view
+        $this->view->testData = "<p>this is a test string passed to to the view.</p>";
+
+    }
+    
+    public function myupdatesAction()
+    {
+    	global $PLACEWEB_CONFIG;
+
+	//print_r($PLACEWEB_CONFIG);
+	//print_r($_SESSION);
+
+	$q = Doctrine_Query::create()
+	->select('e.*')
+	->from('Activity e')
+	->where('e.run_id = ? AND e.author_id = ?' , array($_SESSION['run_id'], $_SESSION['author_id']))
+	->orderBy('e.id DESC');
+
+	$activities = $q->fetchArray();		
+        
+        $this->view->activities = $activities;
+
+	// pass $PLACEWEB_CONFIG to the view
+        $this->view->PLACEWEB_CONFIG = $PLACEWEB_CONFIG;
+
+    	// disableLayout
+    	$this->_helper->layout()->disableLayout();
     }
 
     public function myactivityAction()
     {
-        // action body
+    	global $PLACEWEB_CONFIG;
 
-    	//print_r($_SESSION);
+	//print_r($PLACEWEB_CONFIG);
+	//print_r($_SESSION);
+
+	$q = Doctrine_Query::create()
+	->select('e.*')
+	->from('Activity e')
+	->where('e.run_id = ? AND e.activity_on_user = ?' , array($_SESSION['run_id'], $_SESSION['author_id']))
+	->orderBy('e.id DESC');
+	$activities = $q->fetchArray();		
+        
+        $this->view->activities = $activities;
+
+	// pass $PLACEWEB_CONFIG to the view
+        $this->view->PLACEWEB_CONFIG = $PLACEWEB_CONFIG;
+
     	// disableLayout
     	$this->_helper->layout()->disableLayout();
-    	
-    	// get the data here 
-    	
-    	// return it as a view
-    	$this->view->myUpdates = "printing my updates";
     }
 
     public function classactivityAction()
     {
-    	global $PLACEWEB_CONFIG, $_SESSION;
-    	
-    	// need some filters here
-    		//$activities = Doctrine::getTable("Activities")->findAll(Doctrine::HYDRATE_ARRAY);
-    	
-    	///*
-		$q = Doctrine_Query::create()
-		->select('e.*')
-		->from('Activities e')
-//		->where('e.run_id = ?', $_SESSION['run_id'])
-		->orderBy('e.id DESC');
-		$activities = $q->fetchArray();
-		//*/ 
-		
-        
-        $this->view->activities = $activities;
-        // action body
 
-    	//print_r($PLACEWEB_CONFIG);
+	// include $_SESSION file: this is needed when loading this action thrhough 
+	// file_get_contents('http://'.$_SERVER['SERVER_NAME'].'/ajax/classactivity');
+
+	require_once(APPLICATION_PATH.'/configs/config.php');
+	require_once(APPLICATION_PATH.'/layouts/include/'.'security.inc.php');
+    	
+	global $PLACEWEB_CONFIG;
+
+
+	//print_r($PLACEWEB_CONFIG);
+	//print_r($_SESSION);
+	//print_r($this->session);
+
+	$q = Doctrine_Query::create()
+	->select('e.*')
+	->from('Activity e')
+//	->where('e.run_id = ?', $_SESSION['run_id']) // an error here !!
+	->orderBy('e.id DESC');
+	$activities = $q->fetchArray();		
+
+	// pass $PLACEWEB_CONFIG to the view
+        $this->view->PLACEWEB_CONFIG = $PLACEWEB_CONFIG;
+
+	// pass $activities to the view
+        $this->view->activities = $activities;
+
     	// disableLayout
     	$this->_helper->layout()->disableLayout();
-    	
-    	// get the data here 
-    	
-    	// return it as a view
-    	//$this->view->myUpdates = "printing my updates";
     }
 
     public function uploadfileAction()
     {
-        // action body
-
-    	//print_r($_SESSION);
     	// disableLayout
     	$this->_helper->layout()->disableLayout();
     	
-    	// get the data here 
-    	
-    	// return it as a view
-    	//$this->view->myresults = "printing my updates";
     }
     
 }

@@ -2,32 +2,6 @@
 require(APPLICATION_PATH.'/configs/config.php');
 require(APPLICATION_PATH.'/models/static/'.'PlaceWebTools.php');
 require(APPLICATION_PATH.'/models/ajaxfileuploader/AjaxFileUploader.inc.php');
-/*
-$myExample= new Example();
-
-// collect data if sent
-if(isset($_POST['eloSaved']) && $_POST['eloSaved']=="1")
-{
-	// moving to mysql approach
-	
-	echo "<hr> Saving Example's posted data";
-
-	//var_dump($_POST);
-	print_r($_REQUEST);
-	
-	// add data to example object 
-//		$myExample->addMetadata();
-	
-	//$myExample->save($elo_name, $elo_type_id, $content_type, $content_text, $media_path, $thumb_path, $username, $run_id);
-	$myExample->save();
-	
-} // end elo collect data
-
-*/
-
-// be sure that we know what entity is this ELO being attached to ...
-
-// add the first shape of the ELO
 	
 ?>
 <script type="text/javascript" src="/ajaxfileuploader/uploader.js" ></script>

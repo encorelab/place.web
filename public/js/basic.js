@@ -1,4 +1,4 @@
-/*
+	/*
 var jsonUrl = 'json/data.json';
 var eloArray =  new Array();
 
@@ -12,6 +12,40 @@ $.getJSON(jsonUrl,
 	);
 
 */
+function loadInitFunctions()
+{
+
+	//alert("DOM loaded");
+	//classactivity();
+}
+
+function loadClassactivity()
+{
+	//alert("classactivity()");
+	  var a = document.getElementById("recent-class-activity");
+//	  a.innerHTML = "hola anto loading...";
+	  a.innerHTML += '<br/><br/><img src="/images/loader.gif" />';
+}
+
+
+function uploadFile(obj, dname) {
+	 //update status 
+//	var mystatus=document.getElementById("traceUpload");
+//	mystatus.innerHTML+="<br/>uploadFile() ";
+	
+	uploadDir=obj.value;
+	idname=obj.name;
+	dirname=dname;
+	filename=uploadDir.substr(uploadDir.lastIndexOf('\\')+1);
+	uploaderId = 'uploader'+obj.name;
+	uploader = obj.name;
+	document.getElementById('formName'+obj.name).submit();
+	timeInterval=setInterval("traceUpload()", 1500);
+	
+	//document.getElementById(uploaderId).innerHTML+="<br/><br/><img src='"+includePath+"loading.gif' alt='loading...' />";
+	document.getElementById(uploaderId).innerHTML="<div style='text-align:center;'><img src='/images/loader.gif' alt='loading...' /></div>";
+	
+}
 
 function showAnswer()
 {
@@ -60,3 +94,5 @@ function addTag(id)
 {
 	alert("adding Tag "+id+" to this elo");
 }
+
+

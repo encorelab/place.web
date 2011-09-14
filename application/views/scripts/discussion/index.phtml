@@ -1,10 +1,4 @@
 <?php
-//getQuestion(2);
-//print_r($this->PLACEWEB_CONFIG);
-
-//print_r($this->fConcepts);
-//include_once(APPLICATION_PATH.'/layouts/include/discussion.inc.php');
-
 $myExamplesArray = $this->data;
 $activeId = $this->activeId;
 $obj_type=$this->type;
@@ -73,7 +67,7 @@ $myExamplesListHtml.="
 	<div><?php echo $myContentArray[0]['content'];?></div>
 	<?php 
 	// add here the posible answers when the elo is a multiple choice
-	///*
+	/*
 	if($obj_type==4 && $myContentArray[0]['type'] == "MC" )
 	{
 		$anwersFormHtml = '
@@ -90,7 +84,7 @@ $myExamplesListHtml.="
 		';
 		echo $anwersFormHtml;
 	}
-	//*/
+	*/
 	?>
 	
 	<div id="posts-list">
@@ -98,7 +92,7 @@ $myExamplesListHtml.="
 	
 	$discussionHtml = "";
 	$myComments = getCommentsIds($activeId);
-	//print_r($myComments);
+	//print_r($myComment);
 	///*
 	// for each top level comment find its children
 	foreach ($myComments as $posts)
@@ -147,7 +141,7 @@ $myExamplesListHtml.="
 {
 	$q = Doctrine_Query::create()
 	->select('e.id')
-	->from('Comments e')
+	->from('Comment e')
 	->where('e.obj_id = ? AND e.obj_type =? AND e.run_id = ?', array($id,'3',$_SESSION['run_id']));
 	 
 	$result = $q->fetchArray();
@@ -170,7 +164,7 @@ function getConcepts($id,$table)
 function getExample($example_id)
 {
 	$q = Doctrine_Query::create()
-	  ->from('Examples e')
+	  ->from('Example e')
 	  ->where('e.id = ?', $example_id);
 	 
 	$example = $q->fetchArray();
@@ -182,7 +176,7 @@ function getExample($example_id)
 function getQuestion($id)
 {
 	$q = Doctrine_Query::create()
-	  ->from('Questions e')
+	  ->from('Question e')
 	  ->where('e.id = ?', $id);
 	 
 	$result = $q->fetchArray();
@@ -194,7 +188,7 @@ function getQuestion($id)
 function getUserName($author_id)
 {
 	$q = Doctrine_Query::create()
-	  ->from('Users u')
+	  ->from('User u')
 	  ->where('u.id = ?', $author_id);
 	 
 	$user = $q->fetchArray();
@@ -222,7 +216,7 @@ function __getRepliesByRefId($id)
 	
 	$q = Doctrine_Query::create()
 	->select('e.author_id, e.date_created, e.obj_id,  e.content, e.parent_id, e.obj_type')
-	->from('Comments e')
+	->from('Comment e')
 	->where('e.id = ? AND e.obj_type =? AND e.run_id = ?', array($id,'3',$_SESSION['run_id']));
 	 
 	$post = $q->fetchArray();
@@ -303,7 +297,7 @@ function __getRepliesByRefId($id)
 		//get Concepts
 		$q = Doctrine_Query::create()
 			->select('e.id,  e.name')
-			->from('Concepts e')
+			->from('Concept e')
 			->where('e.run_id = ?', $_SESSION['run_id']);
 		
 		$theConcepts = $q->fetchArray();
@@ -323,11 +317,6 @@ function __getRepliesByRefId($id)
 		
 		$whoHasVoted = array();
 		$conn=0;
-		
-		$diffTagsHtmlSelect = '
-<select name="addTag" id="addTag">
-	<option value=""> ...</option>
-';
 		
 		foreach($theConcepts as $concept)
 		{
@@ -382,13 +371,6 @@ function __getRepliesByRefId($id)
 		// not included tags
 		foreach ($diffTags as $diffTagId => $diffTagVal)
 		{
-
-// <select>
-			$diffTagsHtmlSelect .= '
-	<option value="'.$diffTagId.'">'.$diffTagVal.'</option>
-
-';
-// <a>
 			$diffTagsHtml .='
 			<li>
 				<div class="tag-name">'.$diffTagVal.'</div>
@@ -396,23 +378,9 @@ function __getRepliesByRefId($id)
 			</li>';
 			
 			//echo "<br/>".$diffTagId;
-		} // end for
-
-
-		$diffTagsHtmlSelect .= '
-</select>
-';
-		$diffTagsHtmlSelect .= '
-<a href="#">Add</a>
-<!-- or
-<input type="button" value="add" />
--->
-';
+		} 
 		
-		
-		//return $tagsHtml.$diffTagsHtml;
-		return $tagsHtml.$diffTagsHtmlSelect;
-		
+		return $tagsHtml.$diffTagsHtml;
 
 	} // end fnc
 	

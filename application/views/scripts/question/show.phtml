@@ -1,0 +1,250 @@
+<div id="question-container">
+<?php
+///echo "<hr/>";
+
+//echo "<hr/>Type: ".$this->type;
+
+//echo "<hr/>";
+//print_r($this->question);
+
+if($this->type==0)
+{
+	$questionsListHtml="
+	<h2>Questions</h2>
+<ul>";
+
+	foreach ($this->question as $question)
+	{
+		$questionsListHtml.= "		
+		<li><a href='/question/show?id=".$question['id']."'>".$question['name']."</a></li>";
+	}
+	$questionsListHtml.="
+	</ul>";
+	
+	echo $questionsListHtml;
+
+
+} else if($this->type==1) 
+
+ // start single view
+{
+?>
+<h3><?php echo $this->question[0]['name']?></h3>
+
+
+	<div id="elo-tags" class="dashlet-box" style="width:30%; float:right;">
+		<div class="dashlet-title">Tags</div>
+		<div id="tags-container">
+		<?php //print_r($myContentArray[0]['tags']);?>
+			<ul class="ul-for-data">
+			<?php
+			$Myconcepts=getConcepts($this->question[0]['id']);
+			
+			//print_r($Myconcepts);
+			echo __analyzeTags($Myconcepts);
+
+			?>
+			</ul>
+		</div>
+	</div>		
+	
+	<div class="dashlet-box-image">
+		<div><?php echo $this->question[0]['media_content'];?></div>
+	</div>
+	<div><?php echo $this->question[0]['content'];?></div>
+	
+
+<?php 
+// update status 
+if($_SESSION["profile"]=="TEACHER")
+{
+
+?>
+<form method="post" action="/question/updatestatus">
+	<input type="hidden" id="question_id"  name="question_id" value="<?php echo $this->question[0]['id']?>"/>
+	<span class="item-label">Status: </span>
+	<span class="item-input">
+		<select name="status">
+			<option value="-1">--</option>
+			<option value="1"<?php if($this->question[0]['status']==1) { echo "selected"; }?>>Active</option>
+			<option value="0"<?php if($this->question[0]['status']==0) { echo "selected"; }?>>Inactive</option>
+		</select>
+	</span> 
+ <input type="submit" value="Update status">
+</form>
+<?php
+} // 
+?>
+
+
+	<?php
+	//echo print_r($this->answer);
+	
+	if(isset($this->answer[0]['content'])) 
+	{
+	//echo print_r($this->answer);
+	?>
+	<h3>My Answer</h3>
+	<?php
+	if(isset($this->answer[0]['content']))
+	{
+		echo "<p>".$this->answer[0]['content']."</p>";
+	}
+		
+	if($this->question[0]['type'] == "MC" )
+		{
+			echo "<p>Multiple Choice: ".$this->answer[0]['mc_chocie']."</p>";
+		}
+	?>
+	<?php
+	 
+	} else {
+	?>
+	<p></p>
+	<form method="post" action="/question/addanswer">
+		<input type="hidden" id="question_id"  name="question_id" value="<?php echo $this->question[0]['id']?>"/>
+		<?php 
+		// add here the posible answers when the elo is a multiple choice
+		///*
+		if($this->question[0]['type'] == "MC" )
+		{
+			$anwersFormHtml = '
+			<div id="answers-container" style="width:30%; " class="dashlet-box-simple">
+			<div class="dashlet-title">Multiple Choice</div>
+			';
+			for($k=1;$k<=$this->question[0]['choices'];$k++)
+			{
+				$anwersFormHtml .= ' '.$this->PLACEWEB_CONFIG['questionChoices'][$k].'<input type="radio" name="mc_chocie" value="'.$this->PLACEWEB_CONFIG['questionChoices'][$k].'"/>&nbsp;&nbsp;';	
+			}
+			$anwersFormHtml .= '
+			
+			</div>
+			';
+			echo $anwersFormHtml;
+		}
+		//*/
+		?>
+		<textarea name="content"></textarea>
+		<br/><input type="submit" value="Save Answer"> 
+	</form>
+	
+	<?php 	
+	} // 
+	?>
+
+
+<?php 	
+} // end single view
+?>
+
+
+</div><!-- /question-container -->
+
+
+<?php 
+function getConcepts($id)
+{
+	$q = Doctrine_Query::create()
+	->select('e.question_id,  e.concept_id')
+	->from('QuestionConcept e')
+	->where('e.question_id = ? AND e.run_id = ?', array($id,$_SESSION['run_id']));
+	 
+	$result = $q->fetchArray();
+
+	return $result;
+}
+
+	function __analyzeTags($tags)
+	{
+
+		//get Concepts
+		$q = Doctrine_Query::create()
+			->select('e.id,  e.name')
+			->from('Concept e')
+			->where('e.run_id = ?', $_SESSION['run_id']);
+		
+		$theConcepts = $q->fetchArray();
+		
+		//$theConcepts=Doctrine::getTable("Concepts")->findAll(Doctrine::HYDRATE_ARRAY);
+		
+		//print_r($theConcepts);
+		//print_r($tags);
+		
+		$currentTags = array();
+		//$diffTags = array();
+		$theConceptsF = array();
+		//$PLACEWEB_CONFIG['fConcepts']
+		
+		$tagsHtml = "";
+		$diffTagsHtml = "";
+		
+		$whoHasVoted = array();
+		$conn=0;
+		
+		foreach($theConcepts as $concept)
+		{
+			$theConceptsF[$concept['id']] = $concept['name'];
+		}
+		
+		//print_r($theConceptsF);
+		
+		foreach ($tags as $tag)
+		{
+			// sum votes for each tag
+			$votes=0;
+			/*
+			foreach ($tag['votes'] as $vote)
+			{
+				$votes+=$vote['vote'];
+				// collect how has voted  
+				$whoHasVoted[]=$vote['author'];
+			}
+			*/
+
+				// collect tags for comparison 
+				$currentTags[$tag['concept_id']] = $theConceptsF[$tag['concept_id']];
+				
+			
+			//var_dump($tag);
+			//echo "<br/>".$tag['conceptId'];
+			
+			$tagsHtml .='
+			<li>
+				<div class="tag-name">'.$theConceptsF[$tag['concept_id']].'</div>
+				<div class"vote-icons">
+					<a href="javascript:tagVote(1,'.$tag['concept_id'].')"><img src="images/vote_like.png" width="20px"></a>
+					<a href="javascript:tagVote(-1,'.$tag['concept_id'].')"><img src="images/vote_dislike.png" width="20px"></a>
+				</div> 
+				<div class="tag-votes">'.$votes.'</div>
+			</li>';
+				
+				$conn++;
+		}
+		
+		$diffTags = array_diff($theConceptsF, $currentTags);
+
+		//print_r($currentTags);
+		//print_r($diffTags);
+		
+		$diffTagsHtml = "
+		<li> &nbsp; 
+		</li>
+		";
+		
+		// not included tags
+		foreach ($diffTags as $diffTagId => $diffTagVal)
+		{
+			$diffTagsHtml .='
+			<li>
+				<div class="tag-name">'.$diffTagVal.'</div>
+				<div class="tag-add"><a href="javascript:addTag(\''.$diffTagId.'\');">[Add]</a></div>
+			</li>';
+			
+			//echo "<br/>".$diffTagId;
+		} 
+		
+		return $tagsHtml.$diffTagsHtml;
+
+	} // end fnc
+
+?>

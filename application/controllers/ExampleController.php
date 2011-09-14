@@ -38,7 +38,7 @@ class ExampleController extends Zend_Controller_Action
         //if($params['saved'])
         
         //print_r($params);
-        
+
         // set a defaut name
         if(isset($params['name']) && $params['name']!="")
         {
@@ -46,8 +46,9 @@ class ExampleController extends Zend_Controller_Action
         } else {
         	$name = "[ ... ]";
         }
-        
-        $example = new Examples();
+
+              
+        $example = new Example();
                
 		$example->run_id = $_SESSION['run_id'];
 		$example->author_id = $_SESSION['author_id'];
@@ -66,6 +67,19 @@ class ExampleController extends Zend_Controller_Action
         
         echo "<hr>Example Id: ".$example->id;
         
+
+        // insert rational as a first comment
+        $comment = new Comment();
+        $comment->run_id = $_SESSION['run_id'];
+        $comment->author_id = $_SESSION['author_id'];
+        //$comment->date_modified
+        $comment->date_created = date( 'Y-m-d H:i:s');
+        $comment->obj_id = $example->id;
+        $comment->obj_type = 3; // commentable id = example
+        $comment->content = $params['content'];
+        $comment->parent_id = null;
+        $comment->save();
+
         // associate example with concepts
         
         $mysql="";
@@ -92,7 +106,7 @@ class ExampleController extends Zend_Controller_Action
 		} // end for
 		
 		// insert activity log
-		$activity = new Activities();
+		$activity = new Activity();
 		$activity->run_id = $_SESSION['run_id'];
 		$activity->author_id = $_SESSION['author_id'];
 		//$example_comment->date_modified = date( 'Y-m-d H:i:s');

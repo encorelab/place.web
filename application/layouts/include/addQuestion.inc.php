@@ -59,6 +59,15 @@ require(APPLICATION_PATH.'/models/ajaxfileuploader/AjaxFileUploader.inc.php');
 				?>
 				</span> 
 			</div>
+			<div>
+				<span class="item-label">Status: </span>
+				<span class="item-input">
+					<select name="status">
+						<option value="1">Active</option>
+						<option value="0">Inactive</option>
+					</select>
+				</span> 
+			</div>
 		</div>
 		<!-- Multiple Question -->
 		<div id="mc-container" class="hide-container" style="float:left;">

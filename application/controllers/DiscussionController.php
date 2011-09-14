@@ -11,7 +11,7 @@ class DiscussionController extends Zend_Controller_Action
     public function indexAction()
     {
     	// action body
-    	global $PLACEWEB_CONFIG, $_SESSION;
+    	global $PLACEWEB_CONFIG;
     	
     	//print_r($_SESSION);
 
@@ -34,7 +34,7 @@ class DiscussionController extends Zend_Controller_Action
 	        if($params['type']=="3")
 	        {
 			    $q = Doctrine_Query::create()
-				  ->from('Examples e')
+				  ->from('Example e')
 				  ->where('e.id = ?', $params['id']);
 				 
 				$data = $q->fetchArray();
@@ -45,7 +45,7 @@ class DiscussionController extends Zend_Controller_Action
 	        } else if($params['type']=="4") {
 	        	
 			    $q = Doctrine_Query::create()
-				  ->from('Questions e')
+				  ->from('Question e')
 				  ->where('e.id = ?', $params['id']);
 				 
 				$data = $q->fetchArray();
@@ -54,7 +54,7 @@ class DiscussionController extends Zend_Controller_Action
 	        } // end if        	
         } else {
         	// select all examples by default: for testing
-        	$data = Doctrine::getTable("Examples")->findAll(Doctrine::HYDRATE_ARRAY);
+        	$data = Doctrine::getTable("Example")->findAll(Doctrine::HYDRATE_ARRAY);
         	$this->view->type=3;
         }// end if
         
@@ -84,7 +84,7 @@ class DiscussionController extends Zend_Controller_Action
         
         //if($params['saved'])
             
-        $comment = new Comments();
+        $comment = new Comment();
                
 		$comment->run_id = $_SESSION['run_id'];
 		$comment->author_id = $_SESSION['author_id'];
@@ -96,15 +96,7 @@ class DiscussionController extends Zend_Controller_Action
 		$comment->obj_id = $params['eloId'];
 
 		$comment->obj_type = $params['parentType'];
-		
-        // set a defaut name
-        if(isset($params['replyText']) && $params['replyText']!="")
-        {
-        	$content = $params['replyText'];
-        } else {
-        	$content = "[ ... ]";
-        }
-		$comment->content = $content;
+		$comment->content = $params['replyText'];
 		
 		if($params['parentType']==1){
 			$comment->parent_id = $params['postId'];
@@ -115,7 +107,7 @@ class DiscussionController extends Zend_Controller_Action
         //echo "<hr>Comment Id: ".$comment->id;
         
 		// insert activity log
-		$activity = new Activities();
+		$activity = new Activity();
 		$activity->run_id = $_SESSION['run_id'];
 		$activity->author_id = $_SESSION['author_id'];
 		//$comment_comment->date_modified = date( 'Y-m-d H:i:s');
@@ -123,13 +115,13 @@ class DiscussionController extends Zend_Controller_Action
 		
     	if($params['parentType']==3){
 			$activity->activity_type_id = 7;
-			$activity->t2 = "Examples";
+			$activity->t2 = "Example";
 		}
 		
 		// note that there are no comments to questions
 		if($params['parentType']==1){
 			$activity->activity_type_id = 5;
-			$activity->t2 = "Questions";
+			$activity->t2 = "Question";
 		}
 		
 		//$activity->activity_on_user
@@ -142,7 +134,7 @@ class DiscussionController extends Zend_Controller_Action
 		$activity->s1 = "";
 		$activity->s2 = "";
 		$activity->s3 = "";
-		$activity->t1 = "Comments";
+		$activity->t1 = "Comment";
 		
 		$activity->save();
 		

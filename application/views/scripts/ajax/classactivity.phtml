@@ -58,7 +58,7 @@ foreach ($this->activities as $activity)
 	if($activity['activity_type_id']==11)
 	{
 		$actHtml.= '<li><div class="alert-example"><strong>'.getUserName($activity['author_id']).'</strong> created a new Example titeled: 
-		<a href="/discussion?type=3&id='.$activity['i1'].'">'.getExampleName($activity['i1']).'</a></div></li>';
+		<a href="/example/show?id='.$activity['i1'].'">'.getExampleName($activity['i1']).'</a></div></li>';
 		
 	}
 	
@@ -69,11 +69,11 @@ foreach ($this->activities as $activity)
 		<a href="/question/show?&id='.$activity['i1'].'">'.getQuestionName($activity['i1']).'</a></div></li>';
 		
 	}
-	// add comments
+	// add comments on examples
 	if($activity['activity_type_id']==7)
 	{
 		$actHtml.= '<li><div class="alert-comments"><strong>'.getUserName($activity['author_id']).'</strong> commented on an Example : 
-		<a href="/discussion?type=3&id='.$activity['i1'].'&id1='.$activity['i2'].'">'.getExampleName($activity['i2']).'</a></div></li>';
+		<a href="/example/show?id='.$activity['i2'].'&id1='.$activity['i1'].'">'.getExampleName($activity['i2']).'</a></div></li>';
 		
 	}
 	

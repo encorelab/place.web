@@ -33,6 +33,21 @@ class QuestionController extends Zend_Controller_Action
 		  header('Location: /question/show?id='.$params['question_id']);
 		        
     }
+    public function myjointestAction()
+    {
+    	
+    			$q = Doctrine_Query::create()
+					->select ("a.*, u.username")
+					->from("Answer a")
+					->innerJoin("a.User u")
+					->where('a.run_id = ? AND a.question_id = ?' , 
+					array(1, 1))					
+					->orderBy('a.id DESC');
+					$answer = $q->fetchArray();
+					
+					print_r($answer);
+					
+    }
     
     public function showAction()
     {
@@ -71,20 +86,48 @@ class QuestionController extends Zend_Controller_Action
 				if($_SESSION["profile"]=="TEACHER")
 				{
 					$q = Doctrine_Query::create()
+					->select ("a.*, u.*")
+					->from("Answer a")
+					->innerJoin("a.User u")
+					->where('a.run_id = ? AND a.question_id = ?' , 
+					array($_SESSION['run_id'], $question[0]['id']))					
+					->orderBy('a.id DESC');
+					$answer = $q->fetchArray();
+					
+					print_r($answer);
+					
+					/*
+					$q = Doctrine_Query::create()
 					->select('e.*')
 					->from('Answer e')
 					->where('e.run_id = ? AND e.question_id = ?' , array($_SESSION['run_id'], $question[0]['id']))
 					->orderBy('e.id DESC');   
-					$answer = $q->fetchArray(); 	
+					$answer = $q->fetchArray();
+					*/ 	
 					
 				} else if($_SESSION["profile"]=="STUDENT"){
+					
+					$q = Doctrine_Query::create()
+					->select ("a.*, u.*")
+					->from("Answer a")
+					->innerJoin("a.User u")
+					->where('a.run_id = ? AND a.question_id = ? AND a.author_id = ?' , 
+					array($_SESSION['run_id'], $question[0]['id'], $_SESSION['author_id']))
+					->orderBy('a.id DESC');
+					$answer = $q->fetchArray();
+					
+					print_r($answer);
+					
+
+					/*
 					$q = Doctrine_Query::create()
 					->select('e.*')
 					->from('Answer e')
 
 					->where('e.run_id = ? AND e.question_id = ? AND e.author_id = ?' , array($_SESSION['run_id'], $question[0]['id'], $_SESSION['author_id']))
 					->orderBy('e.id DESC');   
-					$answer = $q->fetchArray(); 	
+					$answer = $q->fetchArray();
+					*/ 	
 				}
 
 				/*
@@ -94,7 +137,7 @@ $q = Doctrine_Query::create()
 				 */
 				$this->view->answer = $answer;
 				
-				//print_r($answer);
+				print_r($answer);
 			}
 			
 			

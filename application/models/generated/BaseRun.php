@@ -15,7 +15,6 @@ Doctrine_Manager::getInstance()->bindComponent('Run', 'main');
  * @property Doctrine_Collection $AnswerConcept
  * @property Doctrine_Collection $Assessable
  * @property Doctrine_Collection $Assessment
- * @property Doctrine_Collection $AssessmentReview
  * @property Doctrine_Collection $Comment
  * @property Doctrine_Collection $Commentable
  * @property Doctrine_Collection $Concept
@@ -82,10 +81,6 @@ abstract class BaseRun extends Doctrine_Record
              'foreign' => 'run_id'));
 
         $this->hasMany('Assessment', array(
-             'local' => 'id',
-             'foreign' => 'run_id'));
-
-        $this->hasMany('AssessmentReview', array(
              'local' => 'id',
              'foreign' => 'run_id'));
 

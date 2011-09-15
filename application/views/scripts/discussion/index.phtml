@@ -87,8 +87,8 @@ $myExamplesListHtml.="
 	*/
 	?>
 	
-	<div id="posts-list">
-	<?php 
+		<div id="posts-list">
+<?php 
 	
 	$discussionHtml = "";
 	$myComments = getCommentsIds($activeId);
@@ -106,6 +106,7 @@ $myExamplesListHtml.="
 	
 ?>
 		</div>	<!--  /posts-list -->
+		
 		<div class="clear"></div>
 		<div id="reply-container">
 			<textarea rows="5" cols="25" name="replyText" name="replyText"></textarea>
@@ -126,7 +127,6 @@ $myExamplesListHtml.="
 			echo '<input type="button" value="Add a Rational" onClick="postNewThread('.$obj_type.')"/>';
 		}
 		?>
-		
 		</div>
 <?php  
 		} // end if $activeId!=""

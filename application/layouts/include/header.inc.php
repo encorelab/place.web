@@ -3,7 +3,7 @@
 ?>
 <div id="global_header">
 <?php
-if($_SESSION['access']) 
+if(isset($_SESSION['access']))
 {
 ?>
 	<div id="header">

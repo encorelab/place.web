@@ -15,8 +15,7 @@ Doctrine_Manager::getInstance()->bindComponent('Assessment', 'main');
  * @property integer $obj_id
  * @property integer $obj_type
  * @property float $mark
- * @property integer $assessment_review_id
- * @property AssessmentReview $AssessmentReview
+ * @property string $log
  * @property Run $Run
  * @property User $User
  * @property Assessable $Assessable
@@ -99,13 +98,12 @@ abstract class BaseAssessment extends Doctrine_Record
              'notnull' => false,
              'autoincrement' => false,
              ));
-        $this->hasColumn('assessment_review_id', 'integer', 4, array(
-             'type' => 'integer',
-             'length' => 4,
+        $this->hasColumn('log', 'string', null, array(
+             'type' => 'string',
              'fixed' => false,
              'unsigned' => false,
              'primary' => false,
-             'notnull' => true,
+             'notnull' => false,
              'autoincrement' => false,
              ));
     }
@@ -113,10 +111,6 @@ abstract class BaseAssessment extends Doctrine_Record
     public function setUp()
     {
         parent::setUp();
-        $this->hasOne('AssessmentReview', array(
-             'local' => 'assessment_review_id',
-             'foreign' => 'id'));
-
         $this->hasOne('Run', array(
              'local' => 'run_id',
              'foreign' => 'id'));

@@ -2,23 +2,19 @@
 $PLACEWEB_CONFIG = Array();
 
 // debug mode
-$PLACEWEB_CONFIG['debugMode'] = true; 
-// $PLACEWEB_CONFIG['debugMode'] = false;
-
+//$PLACEWEB_CONFIG['debugMode'] = true; 
+$PLACEWEB_CONFIG['debugMode'] = false;
 
 // upload directory
 $PLACEWEB_CONFIG['uploadDir'] = "/var/www/mywebaps/PlaceWeb.GitHub/place.web/public/content/";
 $PLACEWEB_CONFIG['uploadWebDir'] = "/content/";
 
+// Authentication mode: in development
+$PLACEWEB_CONFIG['authentication'] = "local";
+//$PLACEWEB_CONFIG['authentication'] = "rollCall";
 
 
 //////////////////////////////////////////////////////////////////
-
-$PLACEWEB_CONFIG['includePath'] = "include/"; 
-
-$PLACEWEB_CONFIG['errors'] = array();
-
-
 
 $PLACEWEB_CONFIG['questionChoices'] = array(
 	"1" => "A",
@@ -26,19 +22,6 @@ $PLACEWEB_CONFIG['questionChoices'] = array(
 	"3" => "C",
 	"4" => "D",
 	"5" => "E"
-);
-
-
-// courses
-$PLACEWEB_CONFIG['courses'] = array(
-	"courseId" => "SPH3UE",
-	"courseName" => "Grade 11 Physics",
-	"coursetUnits" => array(
-	"Kinematics",
-	"Dynamics",
-	"Unit1",
-	"Unit2",
-	)
 );
 
 // Fundamental Concepts
@@ -71,15 +54,4 @@ $PLACEWEB_CONFIG['nodeTypes'] = array(
 	"4" => "Video", 
 	"5" => "Narrative", 
 );
-
-// Equation objects
-$PLACEWEB_CONFIG['equations'] = array();
-
-$PLACEWEB_CONFIG['equations'][] = array(
-	array("courseId" =>"xxxx1"), 
-	array("equID" => "myEquIdxx", 
-		"equ" => array ("Equation text", "Equation img", "Equation text/description"))
-);
-
-
 ?>

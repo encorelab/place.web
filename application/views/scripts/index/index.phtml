@@ -1,30 +1,26 @@
 <?php
 //<h3>/application/views/scripts/index/index.phtml</h3>
-if(!$_SESSION['access'])
+if(!isset($_SESSION['access']))
 {
 ?>
 	<div id="login-form">
-		<form action="/" method="post">
+		<form action="/user/login" method="post">
 			<span class="label">Username: </span>
-			<input type="text" value="" id="username" name="username"/>
-			<!-- 
-			
-			
-			<select name="author_id">
-			<option value="1">Teacher</option>
-			<option value="2">Student1</option>
-			<option value="3">Student2</option>
-			<option value="4">Student3</option>
-			-->
-
+			<select name="username" id="username">
+				<option value="teacher">teacher</option>
+				<option value="student1">student1</option>
+				<option value="student2">student2</option>
 			</select>
-			<br/><span class="label">Password: </span><input type="password" value="" id="password" name="password"/>
-			<br/><br/>
+			
+			<!--
+			<input type="text" value="" id="username" name="username"/>
+			<br/><span class="label">Password: </span><input type="password" value="" id="password" name="password"/> 
 			Log in as: 
 			<select name="profile" id="profile">
 				<option value="TEACHER">Teacher</option>
 				<option value="STUDENT">Student</option>
 			</select>
+			 -->
 			<br/><br/>
 			<input type="submit" value="Login"/>
 		</form>

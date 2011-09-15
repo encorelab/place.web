@@ -12,11 +12,60 @@ class ExampleController extends Zend_Controller_Action
         // action body
     }
     
-    public function showAction(){
-        $examples = Doctrine::getTable("Examples")->findAll(Doctrine::HYDRATE_ARRAY);
-        
-        $this->view->myExamples = $examples;
-    }
+    public function showAction()
+    {
+         global $PLACEWEB_CONFIG;
+    	// pass the config as a view.
+    	$this->view->PLACEWEB_CONFIG=$PLACEWEB_CONFIG;
+    	$params = $this->getRequest()->getParams();
+
+    	// select one example to display
+    	if(isset($params['id']) && $params['id']!="")
+    	{
+			$q = Doctrine_Query::create()
+			->select('e.*')
+			->from('Example e')
+			->where('e.run_id = ? AND e.id = ?' , array($_SESSION['run_id'], $params['id']))
+			->orderBy('e.id DESC');
+			$example = $q->fetchArray();
+			//print_r($example);
+			if(!isset($example[0]['id']))
+			{
+				$type=-1; // the example does not exist
+			} else {
+				
+				$type=1; // single view
+			}
+    	} else {
+    		// select all examples [list]
+			$k = Doctrine_Query::create()
+			->select('e.id, e.name')
+			->from('Example e')
+			->where('e.run_id = ?' , $_SESSION['run_id'])
+			->orderBy('e.id DESC');
+			
+			$example = $k->fetchArray();
+			//print_r($example);
+			
+			if(!isset($example[0]['id']))
+			{
+				$type=-2; // there are no examples
+			} else {
+				$type=0; // multiple view
+			}
+			
+			// return an emtpy array
+			$this->view->answer = array();
+    	}
+
+    	$this->view->example = $example;
+		$this->view->type = $type;
+			
+		
+    	//print_r($_SESSION);
+    	
+
+    } // end showAction()
     
     public function addformAction(){
     	// get concepts data from db

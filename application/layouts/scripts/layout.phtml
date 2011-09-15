@@ -1,9 +1,4 @@
 <?php
-// add error if user is NOT logged in
-if(!$_SESSION['access']) 
-{
-	$PLACEWEB_CONFIG['errors'][] = "NO user is logged in"; 
-} 
 ?>
 <?php 
 echo $this->doctype() ?>
@@ -36,7 +31,7 @@ echo $this->doctype() ?>
 		    
 	</div><!-- /main_content --> 
 		<?php 
-	require(APPLICATION_PATH.'/layouts/include/'.'footer.inc.php');
+	//require(APPLICATION_PATH.'/layouts/include/'.'footer.inc.php');
 		?>
 </div><!-- /container -->
 

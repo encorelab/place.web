@@ -12,6 +12,7 @@ $PLACEWEB_CONFIG['authentication'] = "local";
 // upload directory
 
 $PLACEWEB_CONFIG['uploadDir'] = "/var/www/mywebaps/PlaceWeb.GitHub/place.web/public/content/";
+//$PLACEWEB_CONFIG['uploadDir'] = "/var/www/place/public/content/";
 
 $PLACEWEB_CONFIG['uploadWebDir'] = "/content/";
 

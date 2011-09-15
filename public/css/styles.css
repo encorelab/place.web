@@ -148,25 +148,42 @@ display:none;
  /////////////////////// End new styles added
 */
 
-/*#global_header ul li{
+#welcome {
+	background-color: #ffffff;
 	display: inline;
 	display: block;
 	float: left;
 	margin-right: 20px;
-}*/
+	padding: 7px 15px 7px 15px;
+}	
 
-li.left {
-	display: inline;
-	display: block;
-	float: left;
-	margin-right: 20px;
+#welcome span{
+	color: #133d7f;
 }
 
-li.right {
+li.header-li{
 	display: inline;
 	display: block;
-	float: right;
+	float: left;
 	margin-right: 20px;
+	background-color: #dbdbdb;
+	padding: 7px 15px 7px 15px;
+	margin-left: 6px;
+}
+
+li.header-li a{
+	color: black;
+	text-decoration: none;
+}
+
+#search {
+	display: inline;
+	display: block;
+	float: left;
+	margin-right: 20px;
+	background-color: #dbdbdb;
+	padding: 7px 15px 6px 15px;
+	height: 22px;
 }
 
 #project-name {
@@ -182,13 +199,17 @@ li.right {
 	background-color: #dd9e37;
 }
 
-
 #header {
     float: left;
 }
 
+#header-logout {
+	float:right
+}
+
 #header-search {
     float: right;
+    margin-right: 20px;
 }
 
 .dashlet-box-image {
@@ -327,7 +348,7 @@ body {
     box-shadow: 0 2px 6px #000000;
     text-align: center;
     padding-top: 10px;
-	padding-bottom: 2px;
+	padding-bottom: 10px;
 	padding-left: 2px;
 	padding-right: 2px;
 }

@@ -364,6 +364,17 @@ body {
     z-index: 5;
 }
 
+#global_footer {
+	background-image: url("../images/background_top.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    bottom: 0;
+    /*height: 200px;
+    position: fixed;
+    width: 100%;*/
+    z-index: 5;
+}
+
 #header div{
 	float:left;
 }

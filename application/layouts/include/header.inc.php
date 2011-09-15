@@ -3,13 +3,13 @@
 ?>
 <div id="global_header">
 <?php
-if($_SESSION['access']) 
+if(isset($_SESSION['access'])) 
 {
 ?>
 	<div id="project-name">Physics Learning Across Contexts &amp; Environments</div>
 	<div id="header">
 		<ul>
-			<li id="welcome">welcome back <span><?php echo $_SESSION['username']?></span></li>
+			<li id="welcome">welcome back <span><?php echo isset($_SESSION['username'])?></span></li>
 			
 		</ul>
 	</div><!-- /header -->
@@ -27,7 +27,7 @@ if($_SESSION['access'])
 <?php 
 } else {
 ?>
-		<div id="header"><h1>PLACE.Web</h1></div>
+		<div id="project-name">Physics Learning Across Contexts &amp; Environments</div>
 <?php 
 } // end if
 ?>

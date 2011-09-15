@@ -7,7 +7,7 @@ $PLACEWEB_CONFIG['debugMode'] = true;
 
 
 // upload directory
-$PLACEWEB_CONFIG['uploadDir'] = "/var/www/mywebaps/PlaceWeb.GitHub/place.web.live/public/content/";
+$PLACEWEB_CONFIG['uploadDir'] = "/var/www/mywebaps/PlaceWeb.GitHub/place.web/public/content/";
 $PLACEWEB_CONFIG['uploadWebDir'] = "/content/";
 
 

@@ -54,7 +54,7 @@ $actHtml='
 // loop through the activities and determine how to render each type
 foreach ($this->activities as $activity)
 {
-	// examples
+	// add examples
 	if($activity['activity_type_id']==11)
 	{
 		$actHtml.= '<li><div class="alert-example"><strong>'.getUserName($activity['author_id']).'</strong> created a new Example titeled: 
@@ -62,18 +62,26 @@ foreach ($this->activities as $activity)
 		
 	}
 	
-	// questions
+	// add questions
 	if($activity['activity_type_id']==12)
 	{
 		$actHtml.= '<li><div class="alert-question"><strong>'.getUserName($activity['author_id']).'</strong> created a new Question titeled: 
-		<a href="/question/show?type=4&id='.$activity['i1'].'">'.getQuestionName($activity['i1']).'</a></div></li>';
+		<a href="/question/show?&id='.$activity['i1'].'">'.getQuestionName($activity['i1']).'</a></div></li>';
 		
 	}
-	// comments
+	// add comments
 	if($activity['activity_type_id']==7)
 	{
 		$actHtml.= '<li><div class="alert-comments"><strong>'.getUserName($activity['author_id']).'</strong> commented on an Example : 
 		<a href="/discussion?type=3&id='.$activity['i1'].'&id1='.$activity['i2'].'">'.getExampleName($activity['i2']).'</a></div></li>';
+		
+	}
+	
+	// answerd a question
+	if($activity['activity_type_id']==13)
+	{
+		$actHtml.= '<li><div class="alert-answer"><strong>'.getUserName($activity['author_id']).'</strong> answered a Question: 
+		<a href="/question/show?&id='.$activity['i2'].'">'.getQuestionName($activity['i2']).'</a></div></li>';
 		
 	}
 	

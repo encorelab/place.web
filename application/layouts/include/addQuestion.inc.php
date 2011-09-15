@@ -119,11 +119,11 @@ require(APPLICATION_PATH.'/models/ajaxfileuploader/AjaxFileUploader.inc.php');
 <div class="clear"></div>
 
 <!-- some hidden fields, this may be placed here of in $_SESSION array / json Obj-->
-	<input type="text" id="media_path" name="media_path" value=""/>
-	<input type="text" id="thumb_path" name="thumb_path" value=""/>
+	<input type="hidden" id="media_path" name="media_path" value=""/>
+	<input type="hidden" id="thumb_path" name="thumb_path" value=""/>
 	<input type="hidden" id="saved" name="saved" value="1"/>
-	<input type="text" id="media_content" name="media_content" value="" />
-	<input type="text" id="media_type" name="media_type" value="" />
+	<input type="hidden" id="media_content" name="media_content" value="" />
+	<input type="hidden" id="media_type" name="media_type" value="" />
 </form>		
 </div>
 <!-- add some custom jquery here  ... merge !-->

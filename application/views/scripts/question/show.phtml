@@ -1,13 +1,34 @@
 <div id="question-container">
 <?php
 ///echo "<hr/>";
+$totAnswers = count($this->answer);
 
 //echo "<hr/>Type: ".$this->type;
 
 //echo "<hr/>";
 //print_r($this->question);
 
-if($this->type==0)
+// do not attempt to show the question if the question was not found, return an error message
+if($this->type==-1)
+{
+	$error=true;
+	echo '<p class="error-msg">The question does not exist.</p>';
+} else {
+	$error=false;
+}
+
+if($this->type==-2)
+{
+	$error=true;
+	echo '<p class="error-msg">No questions have been created.</p>';
+} else {
+	$error=false;
+}
+
+/*
+ * multiple view
+ */
+if($this->type==0 && !$error)
 {
 	$questionsListHtml="
 	<h2>Questions</h2>
@@ -24,13 +45,37 @@ if($this->type==0)
 	echo $questionsListHtml;
 
 
-} else if($this->type==1) 
+} else if($this->type==1 && !$error) 
 
- // start single view
+/*
+ * start single view
+ */
 {
 ?>
-<h3><?php echo $this->question[0]['name']?></h3>
 
+<h3><?php echo $this->question[0]['name']?></h3>
+<?php 
+// update status 
+if($_SESSION["profile"]=="TEACHER")
+{
+?>
+<div id="updatestatus-container">
+	<form method="post" action="/question/updatestatus">
+		<input type="hidden" id="question_id"  name="question_id" value="<?php echo $this->question[0]['id']?>"/>
+		<span class="item-label">Status: </span>
+		<span class="item-input">
+			<select name="status">
+				<option value="1"<?php if($this->question[0]['status']==1) { echo "selected"; }?>>Active</option>
+				<option value="0"<?php if($this->question[0]['status']==0) { echo "selected"; }?>>Inactive</option>
+			</select>
+		</span> 
+	 <input type="submit" value="Update status">
+	</form>
+	<br/>
+</div>
+<?php
+} // 
+?>
 
 	<div id="elo-tags" class="dashlet-box" style="width:30%; float:right;">
 		<div class="dashlet-title">Tags</div>
@@ -52,53 +97,69 @@ if($this->type==0)
 		<div><?php echo $this->question[0]['media_content'];?></div>
 	</div>
 	<div><?php echo $this->question[0]['content'];?></div>
-	
-
-<?php 
-// update status 
-if($_SESSION["profile"]=="TEACHER")
-{
-
-?>
-<form method="post" action="/question/updatestatus">
-	<input type="hidden" id="question_id"  name="question_id" value="<?php echo $this->question[0]['id']?>"/>
-	<span class="item-label">Status: </span>
-	<span class="item-input">
-		<select name="status">
-			<option value="-1">--</option>
-			<option value="1"<?php if($this->question[0]['status']==1) { echo "selected"; }?>>Active</option>
-			<option value="0"<?php if($this->question[0]['status']==0) { echo "selected"; }?>>Inactive</option>
-		</select>
-	</span> 
- <input type="submit" value="Update status">
-</form>
-<?php
-} // 
-?>
-
-
-	<?php
-	//echo print_r($this->answer);
-	
-	if(isset($this->answer[0]['content'])) 
+	<?php 
+	if($_SESSION["profile"]=="TEACHER")
 	{
-	//echo print_r($this->answer);
-	?>
-	<h3>My Answer</h3>
-	<?php
-	if(isset($this->answer[0]['content']))
-	{
-		echo "<p>".$this->answer[0]['content']."</p>";
-	}
-		
-	if($this->question[0]['type'] == "MC" )
+		echo "<h3>Answers</h3>";
+		if($totAnswers==0)
 		{
-			echo "<p>Multiple Choice: ".$this->answer[0]['mc_chocie']."</p>";
+			echo "<p>There are no answers</p>";	
 		}
+		
+	} else if($_SESSION["profile"]=="STUDENT") {
+		echo "<h3>My Answer</h3>";
+	}
 	?>
+	
 	<?php
-	 
-	} else {
+	//loop through the answers
+	$answersHtml="";
+	foreach ($this->answer as $answer)
+	{
+		$answersHtml.='
+		<div class="answer-item">
+		';
+		// assesment form
+		if($_SESSION["profile"]=="TEACHER")
+		{
+			// check if the answer has an assessment
+			
+			$answersHtml.='<div id="answer_'.$answer['id'].'" class="answer-assessment">
+			<form action="/assessment/add" method="post">
+			1 <input type="radio" name="mark_'.$answer['id'].'" value="1"/> |
+			2 <input type="radio" name="mark_'.$answer['id'].'" value="2"/> |
+			3 <input type="radio" name="mark_'.$answer['id'].'" value="3"/> |
+			4 <input type="radio" name="mark_'.$answer['id'].'" value="4"/>  
+			<input type="hidden" name="answer_id" value="'.$answer['id'].'">
+			<input type="hidden" name="obj_type" value="2">
+			<input type="submit" value="Save Assessment">
+			</form>
+			</div>';
+		} 
+
+		// content
+		if(isset($this->answer[0]['content']))
+		{
+			$answersHtml.='<div class="answer-content">'.$answer['content'].'</div>'; 
+		}
+		// answer
+		if($this->question[0]['type'] == "MC" )
+		{
+			$answersHtml.= '<div class="answer-mc">Multiple Choice: '.$answer['mc_chocie'].'</div>';
+		}
+		
+		// user name
+		$answersHtml .='<div class="answer-username">'.getUserName($answer['author_id']).'</div>';
+		
+		$answersHtml.='
+		</div>
+		';
+	} // end loop answers	
+	
+	echo $answersHtml;
+	
+	if($_SESSION["profile"]=="STUDENT" && !isset($this->answer[0]))
+	{
 	?>
 	<p></p>
 	<form method="post" action="/question/addanswer">
@@ -142,6 +203,20 @@ if($_SESSION["profile"]=="TEACHER")
 
 
 <?php 
+function getUserName($author_id)
+{
+	$q = Doctrine_Query::create()
+	->select('u.username')	
+	->from('User u')
+	->where('u.id = ?', $author_id);
+	 
+	$user = $q->fetchArray();
+	
+	//print_r($user);
+	return $user[0]['username'];
+	
+}
+
 function getConcepts($id)
 {
 	$q = Doctrine_Query::create()
@@ -246,5 +321,6 @@ function getConcepts($id)
 		return $tagsHtml.$diffTagsHtml;
 
 	} // end fnc
+
 
 ?>

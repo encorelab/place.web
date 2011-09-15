@@ -13,55 +13,8 @@ class CommentController extends Zend_Controller_Action
     	// action body
     	global $PLACEWEB_CONFIG;
     	
-    	//print_r($_SESSION);
-
-    	// pass the config as a view.
-    	$this->view->PLACEWEB_CONFIG=$PLACEWEB_CONFIG;
-    	
-        $params = $this->getRequest()->getParams();
-        
-        // check the id and type (obj_id)
-        if(isset($params['id']) && isset($params['type']))
-        {
-        	$this->view->activeId=$params['id'];
-        	$this->view->type=$params['type'];
-        	
-        	//echo "<br/>activeId: ".$params['id'];
-        	//echo "<br/>Type: ".$params['type'];
-        	
-	        // select examples
-	        if($params['type']=="3")
-	        {
-			    $q = Doctrine_Query::create()
-				  ->from('Examples e')
-				  ->where('e.id = ?', $params['id']);
-				 
-				$data = $q->fetchArray();
-				
-				$this->view->type=3;
-	        
-	        // select questions
-	        } else if($params['type']=="4") {
-	        	
-			    $q = Doctrine_Query::create()
-				  ->from('Questions e')
-				  ->where('e.id = ?', $params['id']);
-				 
-				$data = $q->fetchArray();
-
-				$this->view->type=4;
-	        } // end if
-	                	
-        } else {
-        	// select all examples by default: for testing
-        	$data = Doctrine::getTable("Examples")->findAll(Doctrine::HYDRATE_ARRAY);
-        	$this->view->type=3;
-        }// end if
-        
-		
+ 		
 		//print_r($data);
-		
-		$this->view->data = $data;
         
     }
     

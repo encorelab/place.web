@@ -5,29 +5,9 @@ $PLACEWEB_CONFIG = Array();
 //$PLACEWEB_CONFIG['debugMode'] = true; 
 $PLACEWEB_CONFIG['debugMode'] = false;
 
-// database
-/*
-$PLACEWEB_CONFIG['db'] = array(
-	'DB_USER' => 'root',
-	'DB_PASSWORD' => 'anto123',
-	'DB_HOST' => 'localhost',
-	'DB_PORT' => '3306',
-	'DB_NAME' => '_placeweb'
-);
-*/
-
-/* connect to mysql database directly */	
-/*
-$db = mysql_connect($PLACEWEB_CONFIG['db']['DB_HOST'] . ':' . $PLACEWEB_CONFIG['db']['DB_PORT'], $PLACEWEB_CONFIG['db']['DB_USER'], $PLACEWEB_CONFIG['db']['DB_PASSWORD']);
-if (!$db) {
-	trigger_error('VITAL#Unable to connect to db.', E_USER_ERROR);
-	exit;
-}
-if (!mysql_select_db($PLACEWEB_CONFIG['db']['DB_NAME'], $db)) {
-	trigger_error('VITAL#DB connection established, but database "'.$PLACEWEB_CONFIG['db']['DB_NAME'].'" cannot be selected.', E_USER_ERROR);
-	exit;
-}
-*/
+// Authentication mode: in development
+$PLACEWEB_CONFIG['authentication'] = "local";
+//$PLACEWEB_CONFIG['authentication'] = "rollCall";
 
 // upload directory
 

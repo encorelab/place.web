@@ -9,6 +9,10 @@ $PLACEWEB_CONFIG['debugMode'] = false;
 $PLACEWEB_CONFIG['authentication'] = "local";
 //$PLACEWEB_CONFIG['authentication'] = "rollCall";
 
+// set ajax uploader
+//$PLACEWEB_CONFIG['fileuploader'] = 1; // anto uploader
+$PLACEWEB_CONFIG['fileuploader'] = 2; // mike uploader
+
 // upload directory
 
 $PLACEWEB_CONFIG['uploadDir'] = "/var/www/mywebapps/PlaceWeb.GitHub/place.web/public/content/";

@@ -76,7 +76,7 @@ class AjaxFileuploader {
 		else {
 			$this->uploaderIdArray[] = $uploaderId;
 			return '
-	<form id="formName'.$uploaderId.'" method="post" enctype="multipart/form-data" action="/ajax/uploadfile" target="iframe'.$uploaderId.'">
+	<form id="formName'.$uploaderId.'" method="post" enctype="multipart/form-data" action="/ajax/uploadfile1" target="iframe'.$uploaderId.'">
 		<input type="hidden" name="id" value="'.$uploaderId.'" />
 		<span id="uploader'.$uploaderId.'" style="font-family:verdana;font-size:10;">
 	<input name="'.$uploaderId.'" type="file" value="'.$uploaderId.'" onchange=\'return uploadFile(this,"'.$this->uploadDirectory.'")\' /></span>

@@ -10,8 +10,8 @@ $PLACEWEB_CONFIG['authentication'] = "local";
 //$PLACEWEB_CONFIG['authentication'] = "rollCall";
 
 // set ajax uploader
-//$PLACEWEB_CONFIG['fileuploader'] = 1; // anto uploader
-$PLACEWEB_CONFIG['fileuploader'] = 2; // mike uploader
+$PLACEWEB_CONFIG['fileuploader'] = 1; // anto uploader
+//$PLACEWEB_CONFIG['fileuploader'] = 2; // mike uploader
 
 // upload directory
 

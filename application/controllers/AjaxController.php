@@ -96,7 +96,7 @@ class AjaxController extends Zend_Controller_Action
 	// file_get_contents('http://'.$_SERVER['SERVER_NAME'].'/ajax/classactivity');
 
 	require_once(APPLICATION_PATH.'/configs/config.php');
-	require_once(APPLICATION_PATH.'/layouts/include/'.'security.inc.php');
+//	require_once(APPLICATION_PATH.'/layouts/include/'.'security.inc.php');
     	
 	global $PLACEWEB_CONFIG;
 

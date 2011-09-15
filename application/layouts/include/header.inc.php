@@ -3,7 +3,7 @@
 ?>
 <div id="global_header">
 <?php
-if($_SESSION['access']) 
+if(isset($_SESSION['access']))
 {
 ?>
 	<h1 id="project-name">Physics Learning Across Contexts &amp; Environments</h1>

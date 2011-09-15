@@ -14,6 +14,41 @@ class QuestionController extends Zend_Controller_Action
         
     }
     
+    public function updatestatusAction()
+    {
+    	$params = $this->getRequest()->getParams();
+    	print_r($params);
+    	
+    	//update('User u')
+    	
+    	// set('u.username', '?', 'jwage')
+    	
+		// Set user id = 1 to active
+		Doctrine_Query::create()
+		  ->update('Question e')
+		  ->set('e.status', '?', $params['status'])
+		  ->where('e.run_id = ? AND e.author_id = ? AND e.id = ?' , array($_SESSION['run_id'], $_SESSION['author_id'], $params['question_id']))
+		  ->execute();
+		  
+		  header('Location: /question/show?id='.$params['question_id']);
+		        
+    }
+    public function myjointestAction()
+    {
+    	
+    			$q = Doctrine_Query::create()
+					->select ("a.*, u.username")
+					->from("Answer a")
+					->innerJoin("a.User u")
+					->where('a.run_id = ? AND a.question_id = ?' , 
+					array(1, 1))					
+					->orderBy('a.id DESC');
+					$answer = $q->fetchArray();
+					
+					print_r($answer);
+					
+    }
+    
     public function showAction()
     {
     	
@@ -25,6 +60,8 @@ class QuestionController extends Zend_Controller_Action
     	
     	$params = $this->getRequest()->getParams();
     	
+    	//print_r($params);
+    	
     	// select one question to display
     	if(isset($params['id']) && $params['id']!="")
     	{
@@ -33,38 +70,102 @@ class QuestionController extends Zend_Controller_Action
 			->from('Question e')
 			->where('e.run_id = ? AND e.id = ?' , array($_SESSION['run_id'], $params['id']))
 			->orderBy('e.id DESC');
-			$type=1;
+			$question = $q->fetchArray();
+			//print_r($question);
+			
+			if(!isset($question[0]['id']))
+			{
+				$type=-1; // the question does not exist
+			} else {
+				
+				$type=1; // single view
+
+				// get answers data 
+				
+				//if(isset($params['all']) && $params['all']==1 && $_SESSION["profile"]=="TEACHER")
+				if($_SESSION["profile"]=="TEACHER")
+				{
+					$q = Doctrine_Query::create()
+					->select ("a.*, u.*")
+					->from("Answer a")
+					->innerJoin("a.User u")
+					->where('a.run_id = ? AND a.question_id = ?' , 
+					array($_SESSION['run_id'], $question[0]['id']))					
+					->orderBy('a.id DESC');
+					$answer = $q->fetchArray();
+					
+					print_r($answer);
+					
+					/*
+					$q = Doctrine_Query::create()
+					->select('e.*')
+					->from('Answer e')
+					->where('e.run_id = ? AND e.question_id = ?' , array($_SESSION['run_id'], $question[0]['id']))
+					->orderBy('e.id DESC');   
+					$answer = $q->fetchArray();
+					*/ 	
+					
+				} else if($_SESSION["profile"]=="STUDENT"){
+					
+					$q = Doctrine_Query::create()
+					->select ("a.*, u.*")
+					->from("Answer a")
+					->innerJoin("a.User u")
+					->where('a.run_id = ? AND a.question_id = ? AND a.author_id = ?' , 
+					array($_SESSION['run_id'], $question[0]['id'], $_SESSION['author_id']))
+					->orderBy('a.id DESC');
+					$answer = $q->fetchArray();
+					
+					print_r($answer);
+					
+
+					/*
+					$q = Doctrine_Query::create()
+					->select('e.*')
+					->from('Answer e')
+
+					->where('e.run_id = ? AND e.question_id = ? AND e.author_id = ?' , array($_SESSION['run_id'], $question[0]['id'], $_SESSION['author_id']))
+					->orderBy('e.id DESC');   
+					$answer = $q->fetchArray();
+					*/ 	
+				}
+
+				/*
+$q = Doctrine_Query::create()
+  ->from('User u')
+  ->innerJoin('u.Groups g WITH g.name != ?', 'Group 2')
+				 */
+				$this->view->answer = $answer;
+				
+				print_r($answer);
+			}
+			
 			
     	} else {
     		// select all questions [list]
-			$q = Doctrine_Query::create()
+			$k = Doctrine_Query::create()
 			->select('e.id, e.name')
 			->from('Question e')
-//			->where('e.run_id = ?' , $_SESSION['run_id'])
+			->where('e.run_id = ?' , $_SESSION['run_id'])
 			->orderBy('e.id DESC');
-			$type=0;
+			
+			$question = $k->fetchArray();
+			//print_r($question);
+			
+			if(!isset($question[0]['id']))
+			{
+				$type=-2; // there are no questions
+			} else {
+				$type=0; // multiple view
+			}
 			
 			// return an emtpy array
-			//$this->view->answer = array();
+			$this->view->answer = array();
     	}
-    	
-    	$question = $q->fetchArray();
-		//print_r($question);
 
     	$this->view->question = $question;
 		$this->view->type = $type;
 
-    	// check if the user has answer the question
-			$q = Doctrine_Query::create()
-			->select('e.*')
-			->from('Answer e')
-			->where('e.run_id = ? AND e.question_id = ? AND e.author_id = ?' , array($_SESSION['run_id'], $params['id'], $_SESSION['author_id']))
-			->orderBy('e.id DESC');   
-			$answer = $q->fetchArray(); 	
-    	
-			$this->view->answer = $answer;
-			
-			//print_r($answer);
 		
     }
     
@@ -142,7 +243,7 @@ public function addanswerAction(){
 		//$activity->activity_on_user
 		
 		$activity->i1 = $answer->id;
-		$activity->i2 = "";
+		$activity->i2 = $params['question_id'];
 		$activity->i3 = "";
 		$activity->i4 = "";
 		$activity->i5 = "";
@@ -150,7 +251,7 @@ public function addanswerAction(){
 		$activity->s2 = "";
 		$activity->s3 = "";
 		$activity->t1 = "Answer";
-		$activity->t2 = "";
+		$activity->t2 = "Question";
 
 		$activity->save();
 		

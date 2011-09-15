@@ -54,8 +54,12 @@ function showAnswer()
 
 function postReply(postid)
 {
-	  var a = document.getElementById("postId");
+	//var a = document.getElementById("postId");  
+	var a = document.getElementById("obj_id");
 	  a.value=postid;
+
+	  var d = document.getElementById("postId");
+	  d.value=postid;
 	  
 	  var c = document.getElementById("parentType");
 	  c.value="1";

@@ -118,10 +118,9 @@ class DiscussionController extends Zend_Controller_Action
 			$activity->t2 = "Example";
 		}
 		
-		// note that there are no comments to questions
 		if($params['parentType']==1){
 			$activity->activity_type_id = 5;
-			$activity->t2 = "Question";
+			$activity->t2 = "Comment";
 		}
 		
 		//$activity->activity_on_user

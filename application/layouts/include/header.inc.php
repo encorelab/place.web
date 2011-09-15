@@ -6,20 +6,21 @@
 if($_SESSION['access']) 
 {
 ?>
+	<h1 id="project-name">Physics Learning Across Contexts &amp; Environments</h1>
 	<div id="header">
 		<ul>
-			<li>Welcome Back: <strong><?php echo $_SESSION['username']?></strong></li>
-			<li><a href="/myhome/preferences">Preferences</a></li>
-			<li><a href="/myhome">My Home</a></li>
+			<li class="left">welcome back <strong><?php echo $_SESSION['username']?></strong></li>
+			<li class="right"><a href="/myhome">home</a></li>
+			<li class="right"><a href="/myhome/preferences">preferences</a></li>
 		</ul>
 	</div><!-- /header -->
 	
 	<div id="header-search">
 		<form action="#" method="post">
 			<ul>
-				<li>Search: </li>
-				<li><input type="text"/></li>
-				<li><a href="/logout.php">Sign Out</a></li>
+				<li class="right">search </li>
+				<li class="right"><input type="text"/></li>
+				<li class="right"><a href="/logout.php">sign out</a></li>
 			</ul>	
 		</form>
 	</div><!-- /header-search -->

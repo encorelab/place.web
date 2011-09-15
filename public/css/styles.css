@@ -155,6 +155,10 @@ display:none;
 	margin-right: 20px;
 }
 
+#project-name {
+	float:right;
+}
+
 #header {
     float: left;
 }
@@ -169,7 +173,7 @@ display:none;
     border-radius: 6px 6px 6px 6px;
     box-shadow: 3px 3px 6px;
     color: #333333;
-    font-family: Tahoma, Geneva, sans-serif;
+    /*font-family: Tahoma, Geneva, sans-serif;*/
 	margin-right: 1em;
     margin-bottom: 1em;
     overflow: auto;
@@ -183,7 +187,7 @@ display:none;
     border-radius: 6px 6px 6px 6px;
     box-shadow: 3px 3px 6px;
     color: #333333;
-    font-family: Tahoma, Geneva, sans-serif;
+    /*font-family: Tahoma, Geneva, sans-serif;*/
     margin-right: 1em;
     margin-bottom: 1em;
     overflow: auto;
@@ -198,7 +202,7 @@ display:none;
 .dashlet-box-simple{
     border: 1px solid #000000;
     color: #333333;
-    font-family: Tahoma, Geneva, sans-serif;
+    /*font-family: Tahoma, Geneva, sans-serif;*/
     margin-right: 1em;
     margin-bottom: 1em;
     overflow: auto;
@@ -247,7 +251,7 @@ body {
 #main_content a:link, #main_content a:visited {
 	color: #133D7F;
 	font-size: 0.75em;
-	font-family: Tahoma, Geneva, sans-serif;
+	/*font-family: Tahoma, Geneva, sans-serif;*/
 	font-weight: bold;
 	text-decoration: none;
 }
@@ -308,7 +312,7 @@ body {
 	border: 1px solid #000;
 	background: #FFF;
 	color: #333333;
-	font-family: Tahoma, Geneva, sans-serif;
+	/*font-family: Tahoma, Geneva, sans-serif;*/
 	margin-top: .5em;
 	margin-bottom: .5em;
 	margin-left: auto;

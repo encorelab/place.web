@@ -27,12 +27,34 @@ border:1px solid #ccc;
 
 
 #login-form{
-	border: 2px dashed #000000;
+	border: 2px solid #000000;
 	padding:1em;
 }
 /*
  /////////////////////// Start new styles added
 */
+
+#login-form form label {
+	float: left;
+    font-weight: bold;
+    width: 120px;
+}
+
+#login-form form input {
+	margin-bottom: 5px;
+    width: 180px;
+}
+
+/*#login-form form select {
+	margin-bottom: 5px;
+    width: 100px;
+}*/
+
+#login-form #login-button {
+	width: 70px;
+	margin-top: 10px;
+	margin-bottom: 0;
+}
 
 .hide-container{
 display:none;

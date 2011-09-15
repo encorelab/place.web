@@ -2,7 +2,6 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
-DROP SCHEMA IF EXISTS `placeweb` ;
 CREATE SCHEMA IF NOT EXISTS `placeweb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
 USE `placeweb` ;
 
@@ -90,6 +89,7 @@ CREATE  TABLE IF NOT EXISTS `placeweb`.`question` (
   `media_path` VARCHAR(255) NULL ,
   `media_type` VARCHAR(255) NULL ,
   `choices` INT NULL ,
+  `status` INT NULL DEFAULT 0 ,
   PRIMARY KEY (`id`) ,
   CONSTRAINT `fk_template_users0`
     FOREIGN KEY (`author_id` )
@@ -799,6 +799,7 @@ INSERT INTO `placeweb`.`activity_type` (`id`, `run_id`, `author_id`, `date_modif
 INSERT INTO `placeweb`.`activity_type` (`id`, `run_id`, `author_id`, `date_modified`, `date_created`, `name`) VALUES ('10', '1', '1', NULL, NULL, 'assessed answer');
 INSERT INTO `placeweb`.`activity_type` (`id`, `run_id`, `author_id`, `date_modified`, `date_created`, `name`) VALUES ('11', '1', '1', NULL, NULL, 'example created');
 INSERT INTO `placeweb`.`activity_type` (`id`, `run_id`, `author_id`, `date_modified`, `date_created`, `name`) VALUES ('12', '1', '1', NULL, NULL, 'question created');
+INSERT INTO `placeweb`.`activity_type` (`id`, `run_id`, `author_id`, `date_modified`, `date_created`, `name`) VALUES ('13', '1', '1', NULL, NULL, 'answered question');
 
 COMMIT;
 

@@ -3,10 +3,10 @@
 ?>
 <div id="global_header">
 <?php
-if(isset($_SESSION['access']))
+if($_SESSION['access']) 
 {
 ?>
-	<h1 id="project-name">Physics Learning Across Contexts &amp; Environments</h1>
+	<div id="project-name">Physics Learning Across Contexts &amp; Environments</div>
 	<div id="header">
 		<ul>
 			<li class="left">welcome back <strong><?php echo $_SESSION['username']?></strong></li>

@@ -8,6 +8,7 @@ $(document).ready(function () {
   $("#recent-class-activity").html("<img src='/images/loader.gif'>");
 
 // ajax call for activities
+  $("#my-homework").load(servername+"/ajax/myhomework");
   $("#my-updates").load(servername+"/ajax/myupdates");
   $("#my-recent-activity").load(servername+"/ajax/myactivity");
   $("#recent-class-activity").load(servername+"/ajax/classactivity");
@@ -36,6 +37,10 @@ if($_SESSION['profile']=="STUDENT")
 ?>
 	
 	<div id="home-col2" style="float:left;width:40%;">
+	    <div id="my-homework" class="dashlet-box">
+	        
+	    </div>
+	    
 		<div id="my-updates" class="dashlet-box">
 
 		</div>

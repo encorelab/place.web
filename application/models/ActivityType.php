@@ -12,5 +12,17 @@
  */
 class ActivityType extends BaseActivityType
 {
-
+    public static $VOTED_ON_COMMENT = 1;
+    public static $VOTED_ON_ANSWER = 2;
+    public static $VOTED_ON_ANSWER_CONCEPT = 3;
+    public static $VOTED_ON_EXAMPLE_CONCEPT = 4;
+    public static $COMMENTED_ON_COMMENT = 5;
+    public static $COMMENTED_ON_ANSWER = 6;
+    public static $COMMENTED_ON_EXAMPLE = 7;
+    public static $ASSESSED_COMMENT = 8;
+    public static $ASSESSED_EXAMPLE = 9;
+    public static $ASSESSED_ANSWER = 10;
+    public static $CREATED_EXAMPLE = 11;
+    public static $CREATED_QUESTION = 12;
+    public static $ANSWERED_QUESTION = 13;
 }

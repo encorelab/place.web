@@ -12,5 +12,7 @@
  */
 class Question extends BaseQuestion
 {
-
+    public function getUrl(){
+        return "/question/show?&id=".$this->id;
+    }
 }

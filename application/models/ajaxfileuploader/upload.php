@@ -25,7 +25,7 @@ class UploadHandler
         global $PLACEWEB_CONFIG;
 
         $this->options = array(
-            'script_url' => $_SERVER['PHP_SELF'],
+            'script_url' => '/ajax/uploadfile/',
             'upload_dir' => $PLACEWEB_CONFIG['uploadDir'],
             'upload_url' => 'http://' . $_SERVER['HTTP_HOST'] . $PLACEWEB_CONFIG['uploadWebDir'] . "",
             'param_name' => 'files',
@@ -49,14 +49,17 @@ class UploadHandler
                 ),
                 */
                 'thumbnail' => array(
-                    'upload_dir' => $PLACEWEB_CONFIG['uploadDir'] . "",
-                    'upload_url' => 'http://' . $_SERVER['HTTP_HOST'] . $PLACEWEB_CONFIG['uploadWebDir'] . "",
+                    'upload_dir' => $PLACEWEB_CONFIG['uploadDir'] . "thumbnails/",
+                    'upload_url' => 'http://' . $_SERVER['HTTP_HOST'] . $PLACEWEB_CONFIG['uploadWebDir'] . "thumbnails/",
                     'max_width' => 80,
                     'max_height' => 80
                 )
             )
         );
-        if ($options) {
+	
+	
+        
+	if ($options) {
             $this->options = array_replace_recursive($this->options, $options);
         }
     }
@@ -90,6 +93,7 @@ class UploadHandler
     }
 
     private function create_scaled_image($file_name, $options) {
+	@mkdir( $options['upload_dir'], 0755, true);
         $file_path = $this->options['upload_dir'].$file_name;
         $new_file_path = $options['upload_dir'].$file_name;
         list($img_width, $img_height) = @getimagesize($file_path);
@@ -346,6 +350,7 @@ class UploadHandler
     
     function encodeFile($filePath, $fileName)
     {
+	global $PLACEWEB_CONFIG;
 
         $error = null;
         
@@ -359,7 +364,7 @@ class UploadHandler
         $srcFile = $filePath . $fileName;
         $output = array();
         $processReturnResult = '';
-        $result = exec("/usr/local/bin/ffmpeg -i $srcFile -s 320x240 -r 30000/1001 -b 200k -bt 240k -vcodec libx264 -coder 0 -bf 0 -flags2 -wpred-dct8x8 -level 13 -maxrate 768k -bufsize 3M -acodec libfaac -ac 2 -ar 48000 -ab 192k -y $outputFileName", &$output, &$processReturnResult);
+        $result = exec($PLACEWEB_CONFIG['ffmpegPath'] . " -i $srcFile -s 320x240 -r 30000/1001 -b 200k -bt 240k -vcodec libx264 -coder 0 -bf 0 -flags2 -wpred-dct8x8 -level 13 -maxrate 768k -bufsize 3M -acodec libfaac -ac 2 -ar 48000 -ab 192k -y $outputFileName", &$output, &$processReturnResult);
         //echo "/usr/local/bin/ffmpeg -i $srcFile -s 320x240 -r 30000/1001 -b 200k -bt 240k -vcodec libx264 -coder 0 -bf 0 -flags2 -wpred-dct8x8 -level 13 -maxrate 768k -bufsize 3M -acodec libfaac -ac 2 -ar 48000 -ab 192k -y $outputFileName";
         //ffmpeg -i  example.mpg -aspect 4:3 -ab 128kb  -b 1200kb -ar 44100 -vcodec mpeg1video -acodec mp2 -s 320x240 -y converted.mpg
        

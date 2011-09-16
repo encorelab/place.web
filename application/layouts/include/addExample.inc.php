@@ -63,8 +63,7 @@ require(APPLICATION_PATH.'/models/ajaxfileuploader/upload.php');
 		<div class="dashlet-box-image" id="image-preview">
 			<div><img id="eloimg" src="/images/uploader.png" width="320px" height="240px" alt="Drag and Drop a new Media File here..." title="Drag and Drop a new Media File here..."></div>
 		</div>
-		<form action="/ajax/uploadfile/" method="POST" enctype="multipart/form-data" target="myuploader">
-		<iframe id="myuploader"></iframe>
+		<form action="/ajax/uploadfile/" method="POST" enctype="multipart/form-data">
 
 		<div  id="fileupload" style="float:left;">
 			

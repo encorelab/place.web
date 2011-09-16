@@ -44,9 +44,6 @@ class QuestionController extends Zend_Controller_Action
 					array(1, 1))					
 					->orderBy('a.id DESC');
 					$answer = $q->fetchArray();
-					
-					print_r($answer);
-					
     }
     
     public function showAction()
@@ -94,8 +91,6 @@ class QuestionController extends Zend_Controller_Action
 					->orderBy('a.id DESC');
 					$answer = $q->fetchArray();
 					
-					print_r($answer);
-					
 					/*
 					$q = Doctrine_Query::create()
 					->select('e.*')
@@ -116,8 +111,6 @@ class QuestionController extends Zend_Controller_Action
 					->orderBy('a.id DESC');
 					$answer = $q->fetchArray();
 					
-					print_r($answer);
-					
 
 					/*
 					$q = Doctrine_Query::create()
@@ -136,8 +129,6 @@ $q = Doctrine_Query::create()
   ->innerJoin('u.Groups g WITH g.name != ?', 'Group 2')
 				 */
 				$this->view->answer = $answer;
-				
-				print_r($answer);
 			}
 			
 			
@@ -165,7 +156,6 @@ $q = Doctrine_Query::create()
 
     	$this->view->question = $question;
 		$this->view->type = $type;
-
 		
     }
     

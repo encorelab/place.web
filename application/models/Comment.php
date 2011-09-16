@@ -12,5 +12,7 @@
  */
 class Comment extends BaseComment
 {
-
+    public function getUrl(){
+        return "LINK TO COMMENT NOT FUNCTIONAL YET";
+    }
 }

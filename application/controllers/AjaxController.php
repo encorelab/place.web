@@ -8,179 +8,129 @@ class AjaxController extends Zend_Controller_Action
 
     public function init()
     {
-	$this->session=$_SESSION;
-        /* Initialize action controller here */
-    }
-
-    public function indexAction()
-    {
-        // action body
-        
-    	
-    	// disableLayout
-    	$this->_helper->layout()->disableLayout();
-  	
-    }
-
-    public function testAction()
-    {
-    	global $PLACEWEB_CONFIG;
-
-    	// disableLayout
-    	$this->_helper->layout()->disableLayout();
-
-    	//echo '<h1>$_SESSION</h1>';
-    	//print_r($_SESSION);
-
-    	//echo '<h1>$PLACEWEB_CONFIG</h1>';
-    	//print_r($PLACEWEB_CONFIG);
-
-	// pass $PLACEWEB_CONFIG to the view
-        $this->view->PLACEWEB_CONFIG = $PLACEWEB_CONFIG;
-
-	// pass test data to the view
-        $this->view->testData = "<p>this is a test string passed to to the view.</p>";
-
+        $this->_helper->layout()->disableLayout();
     }
     
     public function myupdatesAction()
     {
-    	global $PLACEWEB_CONFIG;
+        $q = Doctrine_Query::create()
+    	->select('e.*')
+    	->from('Activity e')
+    	->where('e.run_id = ?' , $_SESSION['run_id'])
+    	->andWhere('e.activity_on_user = ?', $_SESSION['author_id'])
+        ->andWhere('e.author_id != ?', $_SESSION['author_id'])
+    	->orderBy('e.id DESC');
 
-	//print_r($PLACEWEB_CONFIG);
-	//print_r($_SESSION);
-
-	$q = Doctrine_Query::create()
-	->select('e.*')
-	->from('Activity e')
-	->where('e.run_id = ? AND e.author_id = ?' , array($_SESSION['run_id'], $_SESSION['author_id']))
-	->orderBy('e.id DESC');
-
-	$activities = $q->fetchArray();		
+    	$activities = $q->execute();		
         
         $this->view->activities = $activities;
-
-	// pass $PLACEWEB_CONFIG to the view
-        $this->view->PLACEWEB_CONFIG = $PLACEWEB_CONFIG;
-
-    	// disableLayout
-    	$this->_helper->layout()->disableLayout();
     }
 
     public function myactivityAction()
     {
-    	global $PLACEWEB_CONFIG;
-
-	//print_r($PLACEWEB_CONFIG);
-	//print_r($_SESSION);
-
-	$q = Doctrine_Query::create()
-	->select('e.*')
-	->from('Activity e')
-	->where('e.run_id = ? AND e.activity_on_user = ?' , array($_SESSION['run_id'], $_SESSION['author_id']))
-	->orderBy('e.id DESC');
-	$activities = $q->fetchArray();		
-        
+    	$q = Doctrine_Query::create()
+    	->select('e.*')
+    	->from('Activity e')
+    	->where('e.run_id = ?' , $_SESSION['run_id'])
+    	->andWhere('e.author_id = ?', $_SESSION['author_id'])
+    	->orderBy('e.id DESC');
+    	
+    	$activities = $q->execute();
+    	
         $this->view->activities = $activities;
-
-	// pass $PLACEWEB_CONFIG to the view
-        $this->view->PLACEWEB_CONFIG = $PLACEWEB_CONFIG;
-
-    	// disableLayout
-    	$this->_helper->layout()->disableLayout();
     }
 
     public function classactivityAction()
     {
-		// this is NOT the way to go, brakes inside Zend
-    	// file_get_contents('http://'.$_SERVER['SERVER_NAME'].'/ajax/classactivity');
+        $q = Doctrine_Query::create()
+    	->select('e.*')
+    	->from('Activity e')
+    	->where('e.run_id = ?' , $_SESSION['run_id'])
+    	->andWhere('e.activity_on_user != ?', $_SESSION['author_id'])
+        ->andWhere('e.author_id != ?', $_SESSION['author_id'])
+    	->orderBy('e.id DESC');
     	
-	global $PLACEWEB_CONFIG;
-
-	$q = Doctrine_Query::create()
-	->select('e.*')
-	->from('Activity e')
-//	->where('e.run_id = ?', $_SESSION['run_id']) // an error here !!
-	->orderBy('e.id DESC');
-	$activities = $q->fetchArray();		
-
-	// pass $PLACEWEB_CONFIG to the view
-        $this->view->PLACEWEB_CONFIG = $PLACEWEB_CONFIG;
-
-	// pass $activities to the view
+    	$activities = $q->execute();
+    	
         $this->view->activities = $activities;
-
-    	// disableLayout
-    	$this->_helper->layout()->disableLayout();
     }
-
-    public function uploadfile1Action()
-    {
-    	// disableLayout
-    	$this->_helper->layout()->disableLayout();
-    	
-    } // end uploadfile
-
+    
+    public function myhomeworkAction(){
+        $answeredQuestions = Doctrine_Query::create()
+                    ->select("q.*, a.*")
+                    ->from("Question q")
+                    ->innerJoin("q.Answer a")
+                    ->where("q.run_id = ?", $_SESSION['run_id'])
+                    ->andWhere("a.author_id = ?", $_SESSION['author_id'])
+                    // ->andWhere("q.is_published = 1")
+                    // ->andWhere("q.is_public = 1")
+                    ->orderBy("q.date_created desc")
+                    ->execute();
+                
+        // $q =         Doctrine_Query::create()
+        //                     ->select("q.id")
+        //                     ->from("Question q")
+        //                     ->where("q.run_id = ?", $_SESSION['run_id'])
+        //                     ->andWhere("q.id NOT IN (select answer.question_id from answer where answer.author_id = ".$_SESSION['author_id'].")")
+        //                     // ->andWhere("q.is_published = 1")
+        //                     // ->andWhere("q.is_public = 1")
+        //                     ->orderBy("q.date_created desc");
+        //                     echo $q->getSqlQuery();die();
+        $unansweredQuestions = Doctrine_Query::create()
+                    ->select("q.*")
+                    ->from("Question q")
+                    ->where("q.run_id = ?", $_SESSION['run_id'])
+                    ->andWhere("q.id NOT IN (select answer.question_id from answer where answer.author_id = ".$_SESSION['author_id'].")")
+                    // ->andWhere("q.is_published = 1")
+                    // ->andWhere("q.is_public = 1")
+                    ->orderBy("q.date_created desc")
+                    ->execute();
+                    
+        $this->view->answeredQuestions = $answeredQuestions;
+        $this->view->unansweredQuestions = $unansweredQuestions;
+    }
 
     public function uploadfileAction()
     {
-	global $PLACEWEB_CONFIG;
+	    global $PLACEWEB_CONFIG;
 
-	//print_r($PLACEWEB_CONFIG);
-
-    	// disableLayout
-    	$this->_helper->layout()->disableLayout();
-	//$this->view->PLACEWEB_CONFIG = $PLACEWEB_CONFIG;;
-
-//echo $_SERVER['REQUEST_METHOD'];
-
-
-
-	$upload_handler = new UploadHandler();
+	    $upload_handler = new UploadHandler();
 /*
-	header('Pragma: no-cache');
-	header('Cache-Control: private, no-cache');
-	header('Content-Disposition: inline; filename="files.json"');
-	header('X-Content-Type-Options: nosniff');
+    	header('Pragma: no-cache');
+    	header('Cache-Control: private, no-cache');
+    	header('Content-Disposition: inline; filename="files.json"');
+    	header('X-Content-Type-Options: nosniff');
 */
 
-	ob_start();
-echo $_SERVER['REQUEST_METHOD'];
-	switch ($_SERVER['REQUEST_METHOD']) {
-	    case 'HEAD':
-	    case 'GET':
-		$upload_handler->get();
-		break;
-	    case 'POST':
-		//echo "<hr>hello Mike";
-		$upload_handler->post();
-		break;
-	    case 'DELETE':
-		$upload_handler->delete();
-		break;
-	    default:
-		//header('HTTP/1.0 405 Method Not Allowed');
-	}echo 'yo@';
-	$content = ob_get_contents();
-	ob_end_clean();
+	    ob_start();
+        echo $_SERVER['REQUEST_METHOD'];
+    	switch ($_SERVER['REQUEST_METHOD']) {
+    	    case 'HEAD':
+    	    case 'GET':
+    		    $upload_handler->get();
+    		    break;
+    	    case 'POST':
+    		    $upload_handler->post();
+    		    break;
+    	    case 'DELETE':
+    		    $upload_handler->delete();
+    		    break;
+    	    default:
+    		    //header('HTTP/1.0 405 Method Not Allowed');
+    	}
+    	
+    	echo 'yo@';
+    	$content = ob_get_contents();
+    	ob_end_clean();
 
 ///*
-	$this->getResponse()
-
-	    ->setHeader('Content-Type', 'text/plain')
-
-	    ->appendBody($content)
-		->sendResponse(); exit(0);
-
-	
-
-
-
-
+    	$this->getResponse()
+    	    ->setHeader('Content-Type', 'text/plain')
+    	    ->appendBody($content)
+    		->sendResponse(); 
+    		
+    	exit(0);
 //*/
-
-    	
-    } // end uploadfile
-    
+    }
 }
 

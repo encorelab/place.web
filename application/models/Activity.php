@@ -12,5 +12,144 @@
  */
 class Activity extends BaseActivity
 {
+    private $_author;
+    
+    public function getMessage(){
+        $str = "";
+        
+        $this->_author = Doctrine::getTable("User")->find($this->author_id);
+        
+        switch ($this->activity_type_id) {
+            case ActivityType::$VOTED_ON_COMMENT:
+                $str = $this->toStringVotedOnComment();
+                break;
+            case ActivityType::$VOTED_ON_ANSWER:
+                $str = $this->toStringVotedOnAnswer();
+                break;
+            case ActivityType::$VOTED_ON_ANSWER_CONCEPT :
+                $str = $this->toStringVotedOnAnswerConcept();
+                break;
+            case ActivityType::$VOTED_ON_EXAMPLE_CONCEPT:
+                $str = $this->toStringVotedOnExampleConcept();
+                break;
+            case ActivityType::$COMMENTED_ON_COMMENT:
+                $str = $this->toStringCommentedOnComment();
+                break;
+            case ActivityType::$COMMENTED_ON_ANSWER:
+                $str = $this->toStringCommentedOnAnswer();
+                break;
+            case ActivityType::$COMMENTED_ON_EXAMPLE:
+                $str = $this->toStringCommentedOnExample();
+                break;
+            case ActivityType::$ASSESSED_COMMENT:
+                $str = $this->toStringAssessedComment();
+                break;
+            case ActivityType::$ASSESSED_EXAMPLE:
+                $str = $this->toStringAssessedExample();
+                break;
+            case ActivityType::$ASSESSED_ANSWER:
+                $str = $this->toStringAssessedAnswer();
+                break;
+            case ActivityType::$CREATED_EXAMPLE:
+                $str = $this->toStringCreatedExample();
+                break;
+            case ActivityType::$CREATED_QUESTION:
+                $str = $this->toStringCreatedQuestion();
+                break;
+            case ActivityType::$ANSWERED_QUESTION:
+                $str = $this->toStringAnsweredQuestion();
+                break;
+            default:
+                $str = "Error: unidentified activity type"; 
+                break;
+        }
+        
+        return $str;
+    }
+    
+    
+    public function toStringVotedOnComment() {
+        $vote = Doctrine::getTable("Vote")->find($this->i1);
+        $comment = Doctrine::getTable("Comment")->find($this->i2);
+        $objectCommentedOn = Doctrine::getTable($comment->object)->find($comment->obj_id);
+        $url = $objectCommentedOn->getUrl();
+        
+        $str = $this->_genAuthorHtml()." voted on a <a href='$url'>comment</a>";
+        return "<div class='alert'>$str</div>";
+    }
+    public function toStringVotedOnAnswer() {
+        $vote = Doctrine::getTable("Vote")->find($this->i1);
+        $answer = Doctrine::getTable("Answer")->find($this->i2);
+        $url = $answer->getUrl();
+        
+        $str = $this->_genAuthorHtml()." voted on an <a href='$url'>answer</a>";
+        return "<div class='alert'>$str</div>";
 
+    }
+    public function toStringVotedOnAnswerConcept() {
+        return "UNIMPLEMENTED";
+    }
+    public function toStringVotedOnExampleConcept() {
+        return "UNIMPLEMENTED";
+    }
+    public function toStringCommentedOnComment() {
+        $comment1 = Doctrine::getTable("Comment")->find($this->i1);
+        $comment2 = Doctrine::getTable("Comment")->find($this->i2);
+        
+        $url = $comment2->getUrl();
+        
+        $str = $this->_genAuthorHtml()." replied to a <a href='$url'>comment</a>";
+        return "<div class='alert'>$str</div>";
+    }
+    public function toStringCommentedOnAnswer() {
+        $comment = Doctrine::getTable("Comment")->find($this->i1);
+        $answer = Doctrine::getTable("Answer")->find($this->i2);
+        
+        $url = $answer->getUrl();
+        
+        $str = $this->_genAuthorHtml()." commented on an answer(<a href='$url'>".$answer->name.")</a>";
+        return "<div class='alert'>$str</div>";        
+    }
+    public function toStringCommentedOnExample() {
+        $comment = Doctrine::getTable("Comment")->find($this->i1);
+        $example = Doctrine::getTable("Example")->find($this->i2);
+
+        $str = $this->_genAuthorHtml()." commented on an example(<a href='/example/show?id=". $example->id . "'>" . $example->name . ")</a>";
+        return "<div class='alert-comments'>$str</div>";
+    }
+    public function toStringAssessedComment() {
+        return "UNIMPLEMENTED";
+    }
+    public function toStringAssessedExample() {
+        return "UNIMPLEMENTED";
+    }
+    public function toStringAssessedAnswer() {
+        return "UNIMPLEMENTED";
+    }
+    
+    public function toStringCreatedExample(){
+        $example = Doctrine::getTable("Example")->find($this->i1);
+        
+        $str = $this->_genAuthorHtml()." created an example(<a href='/example/show?id=". $example->id . "'>" . $example->name . ")</a>";
+        return "<div class='alert-example'>$str</div>";
+    }
+    
+    public function toStringCreatedQuestion() {
+        return "UNIMPLEMENTED";
+    }
+    
+    public function toStringAnsweredQuestion(){
+        $example = Doctrine::getTable("Example")->find($this->i1);
+        
+        $str = $this->_genAuthorHtml()." created an example(<a href='/example/show?id=". $example->id . "'>" . $example->name . ")</a>";
+        return "<div class='alert-example'>$str</div>";
+    }
+    
+    
+    
+    
+    
+    private function _genAuthorHtml(){
+        return "<strong>".$this->_author->username."</strong>";
+    }
 }

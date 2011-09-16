@@ -6,6 +6,7 @@
 if(isset($_SESSION['access'])) 
 {
 ?>
+	<img src="images/placeweb.png" />
 	<div id="project-name">Physics Learning Across Contexts &amp; Environments</div>
 	<div id="header">
 		<ul>

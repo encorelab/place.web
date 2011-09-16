@@ -482,7 +482,7 @@
             var button = $(this);
             
             /* Update ELO Preview */
-            $("#eloimg").prop('src','images/uploader.png');
+            $("#eloimg").prop('src','/images/uploader.png');
             $("#eloimg").prop('alt', 'Drag and Drop a new Media File here...');
             $("#eloimg").prop('title', 'Drag and Drop a new Media File here...');
                             

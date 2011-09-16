@@ -1,5 +1,5 @@
 <div id="example-container">
-<form method="post" action="/comment/add">
+
 <?php 
 ///echo "<hr/>";
 //echo "<hr/>Type: ".$this->type;
@@ -83,13 +83,13 @@ if($this->type==0 && !$error)
 	
 // get first level comments
 	$discussionHtml = "";
-	$myComments = getCommentsIds($this->example[0]['id'],3);
+	$myComments = getCommentsIds($this->example[0]['id'],3); // first level
 	//print_r($myComments);
 	///*
 	// for each top level comment find its children
 	foreach ($myComments as $comment)
 	{
-		$discussionHtml .= __getRepliesByRefId($comment['id'],3);
+		$discussionHtml .= getCommentById($comment['id'],3);
 		//echo "<br/>Comment Id: ".$comment['id'];
 	}
 	//*/
@@ -100,6 +100,9 @@ if($this->type==0 && !$error)
 		</div>	<!--  /posts-list -->
  
 		<div class="clear"></div>
+ 	
+ 	<!--  Start add comment form -->
+	<form method="post" action="/comment/add">
  
 		<div id="reply-container">
 			<textarea rows="5" cols="25" name="replyText" name="replyText"></textarea>
@@ -110,38 +113,41 @@ if($this->type==0 && !$error)
 			<input type="text" name="example_id" id="example_id" value="<?php echo $this->example[0]['id']; ?>"/>
 			<input type="text" name="parentType" id="parentType" value=""/>
 			<input type="hidden" name="replyPosted" id="replyPosted" value="1"/>
-			
 		</div>
 		<div id="newThread-container">
 		
 			<input type="button" value="New Thread" onClick="postNewThread('3')"/>
 
 		</div>
-		
+	</form>
+	<!--  end add comment form -->		
 	
 <?php 
 
-
-
-
-
-
-
-
-
-
-
 } // end single view
 ?>
-</form>
-</div><!-- /example-container -->
+	<!--  start add vote form -->
+	<form id="vote-form" method="post" action="/votes/add" target="iframe-voting">
+		<input type="hidden" name="vote_obj_id" id="vote_obj_id" value=""/>
+		<input type="hidden" name="vote_obj_type" id="vote_obj_type" value="1"/>
+		<input type="hidden" name="vote_value" id="vote_value" value=""/>
+		<input type="hidden" name="vote_activity_type_id" id="vote_activity_type_id" value="1"/>
+		<input type="hidden" name="vote_activity_on_user" id="vote_activity_on_user" value=""/>
+		<input type="hidden" name="vote_i1" id="vote_i1" value="<?php echo $this->example[0]['id']; ?>"/>
+		<input type="hidden" name="vote_i2" id="vote_i2" value=""/>
+		<input type="hidden" name="vote_t1" id="vote_t1" value="Example"/>
+		<input type="hidden" name="vote_t2" id="vote_t2" value="Comment"/>
+	</form>
+	<!--  end add vote form -->	
 
+<iframe id="iframe-voting" name="iframe-voting" src="/votes/add?u=1" width="10" height="10" style="display:none"> </iframe>
+</div><!-- /example-container -->
 
 <?php 
 //////////////////////////////////////////
 /**
  * 
- * gets first level comments: comments in an example
+ * gets first level comments ids
  * @param unknown_type $id
  */
 function getCommentsIds($id, $obj_type)
@@ -205,39 +211,85 @@ function getUserName($author_id)
 	
 }
 
-function __getRepliesByRefId($id,$obj_type)
+function getCommentById($id,$obj_type)
 {
-	$repliesHtml= "";
+	$repliesHtml= ""; // stores all the threaded discussion html
 
+	// get comment and user data
 	$q = Doctrine_Query::create()
-	->select ("c.*, u.username")
-	->from("Comment c")
-	->innerJoin("c.User u")
-	->where('c.id = ? AND c.obj_type =? AND c.run_id = ?', array($id, $obj_type, $_SESSION['run_id']))
-	//->where('a.run_id = ? AND a.question_id = ?' ,array(1, 1))					
-	->orderBy('c.id DESC');
-	$post = $q->fetchArray();
+		->select ("c.*, u.username, u.id")
+		->from("Comment c")
+		->innerJoin("c.User u")
+		->where('c.id = ? AND c.obj_type =? AND c.run_id = ?', array($id, $obj_type, $_SESSION['run_id']));
+		//->where('a.run_id = ? AND a.question_id = ?' ,array(1, 1))					
+		//->orderBy('c.id DESC'); // not needed, return only one entry
+	
+		$post = $q->fetchArray();
+		
 	//*/
 	//echo "<hr>Comment data";
 	//echo "<hr>User Name: ".$post[0]['User']['username'];
 	//print_r($post);
+					
+	// get all votes for this post: note that we can use SUM in SQL instead 
+    $q = Doctrine_Query::create()
+	->select ("v.id, v.vote_value, u.id, u.username")
+	->from("Vote v")
+	->innerJoin("v.User u")
+	->where('v.run_id = ? AND obj_id = ? AND obj_type = ?' , 
+	array($_SESSION['run_id'],$id, 1))	// look for votes only on obj_type = 1 comments				
+	->orderBy('v.id DESC');
+	$votes = $q->fetchArray();
 	
-///*
+	//echo "<hr>comment id: ".$id;
+	//echo "<br>votes: <br/>";
+	//print_r($votes);
+
+	// get the total
+	$votesSumm = 0;
+	$votesMinus = 0;
+	$votesPlus = 0;
+	foreach ($votes as $vote)
+	{
+		$votesSumm += $vote['vote_value'];
+		if($vote['vote_value']=-1)
+		{
+			$votesMinus -= $vote['vote_value'];
+		} else {
+			$votesPlus += $vote['vote_value'];
+		}
+		
+	}
+
+	//echo "<br>Vote Tot:".$votesSumm;
+	//echo "<br>Vote + :".$votesPlus;
+	//echo "<br>Vote - :".$votesMinus;
+	///*
 	$repliesHtml .= "
 	<ul>";
 	
 	// add this post data
+	//Id:'.$id.'
 	$repliesHtml .='
 	<li>
-	<div class="post-item">Id:'.$id.'
+	<div class="post-item">
 
-		<div style="float:right;">
-			<div class"vote-icons">
-				<a href="javascript:postVote(1,\''.$id.'\')"><img src="/images/vote_like.png" width="20px"></a>
-				<a href="javascript:postVote(-1,\''.$id.'\')"><img src="/images/vote_dislike.png" width="20px"></a>
+		<div class="votes-container" style="float:right;">
+			<div class="vote-minus-plus">
+				'.$votesMinus.'
 			</div> 
-		
-			<div class="tag-votes">'.'0'.'</div>
+			<div class="vote-icon">
+				<a href="javascript:postVote(-1,'.$id.',1,'.$post[0]['User']['id'].')"><img src="/images/icon_arrow_down.png" width="20px"></a>
+			</div>
+			<div class="vote-total">
+				'.$votesSumm.'
+			</div>
+			<div class="vote-icon">
+				<a href="javascript:postVote(1,'.$id.',1,'.$post[0]['User']['id'].')"><img src="/images/icon_arrow_up.png" width="20px"></a>
+			</div>
+			<div class="vote-minus-plus">
+				'.$votesPlus.'
+			</div> 
 		</div>
 			
 		<div class="post-content">'
@@ -274,8 +326,6 @@ function __getRepliesByRefId($id,$obj_type)
 	//if(($post[0]['parent_id']) != null)
 	if($tot>0)
 	{ 
-		
-		
 		$repliesHtml .= "
 	<li>
 			<ul>";
@@ -283,7 +333,7 @@ function __getRepliesByRefId($id,$obj_type)
 		foreach ($commentReplies as $replies)
 		{
 			$repliesHtml .= '
-				<li>'.__getRepliesByRefId($replies['id'],1).'</li>';
+				<li>'.getCommentById($replies['id'],1).'</li>';
 		
 			//$repliesHtml .= '<li>'.$replies['$id'].'</li>';
 		}
@@ -294,7 +344,8 @@ function __getRepliesByRefId($id,$obj_type)
 //*/
 
 	// close main </ul>
-			$repliesHtml .= "</ul>";
+			$repliesHtml .= "
+</ul>";
 	
 	
 	return  $repliesHtml;
@@ -334,6 +385,7 @@ function __getRepliesByRefId($id,$obj_type)
 		$whoHasVoted = array();
 		$conn=0;
 		
+		// adjust the concepts from db 
 		foreach($theConcepts as $concept)
 		{
 			$theConceptsF[$concept['id']] = $concept['name'];

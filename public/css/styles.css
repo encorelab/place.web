@@ -1,14 +1,3 @@
-.answer-item{
-    background: none repeat scroll 0 0 #CCCCCC;
-    border-bottom: 1px solid #CCCCCC;
-    margin-bottom: 15px;
-    width: 64%;
-}
-
-.answer-assessment{
-	border:1px solid #ccc;
-}
-
 .alert-example{
 	background: orange;
 }
@@ -274,6 +263,25 @@ li.header-li a{
     padding-bottom: 5px;
     text-align: left;
 }
+
+/* overwriting look of some dashlet's that behave like buttons*/
+#course-actions div{
+	color: #FFFFFF;
+	text-align: center;
+	padding-left: 40px;
+	padding-right: 40px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background-color: #dd9e37;
+}
+
+#course-actions div a:link, #course-actions div a:visited {
+	color: #FFFFFF;
+	text-decoration: none;
+	font-size: 17pt;
+	font-weight: normal;
+}
+
 .ul-for-data {
    list-style: none outside none;
     margin: 0;

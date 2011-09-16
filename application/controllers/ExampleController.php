@@ -71,12 +71,13 @@ class ExampleController extends Zend_Controller_Action
     	// get concepts data from db
     	
     	// using fixed concepts array in config.php
-    	global $PLACEWEB_CONFIG, $_SESSION;
-    	//require(APPLICATION_PATH.'/configs/config.php');
+    	global $PLACEWEB_CONFIG;
+    	
     	
     	//print_r($PLACEWEB_CONFIG['fConcepts']);
     	
     	$this->view->fConcepts = $PLACEWEB_CONFIG['fConcepts'];
+	$this->view->uploader = $PLACEWEB_CONFIG['fileuploader'];
     }
     
     public function addAction(){

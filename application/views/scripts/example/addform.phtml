@@ -1,4 +1,10 @@
 <?php
 //print_r($this->fConcepts);
-include_once(APPLICATION_PATH.'/layouts/include/addExample.inc.php');
+if($this->uploader==1)
+{
+	include_once(APPLICATION_PATH.'/layouts/include/addExample1.inc.php'); 
+} else if($this->uploader==2) {
+	include_once(APPLICATION_PATH.'/layouts/include/addExample.inc.php');
+}
+
 ?>

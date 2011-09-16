@@ -52,7 +52,7 @@ function traceUpload() {
 
    http.onreadystatechange = handleResponse;
    //http.open("GET", includePath+'imageupload.php?uploadDir='+uploadDir+'&dirname='+dirname+'&filename='+filename+'&uploader='+uploader); 
-   http.open("GET", '/ajax/uploadfile/?uploadDir='+uploadDir+'&dirname='+dirname+'&filename='+filename+'&uploader='+uploader);
+   http.open("GET", '/ajax/uploadfile1/?uploadDir='+uploadDir+'&dirname='+dirname+'&filename='+filename+'&uploader='+uploader);
    http.send(null);   
 }
 function handleResponse() {

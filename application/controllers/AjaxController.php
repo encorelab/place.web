@@ -1,4 +1,5 @@
 <?php
+require(APPLICATION_PATH.'/models/ajaxfileuploader/upload.php');
 
 class AjaxController extends Zend_Controller_Action
 {
@@ -122,12 +123,73 @@ class AjaxController extends Zend_Controller_Action
     	$this->_helper->layout()->disableLayout();
     }
 
-    public function uploadfileAction()
+    public function uploadfile1Action()
     {
     	// disableLayout
     	$this->_helper->layout()->disableLayout();
     	
-    }
+    } // end uploadfile
+
+
+    public function uploadfileAction()
+    {
+	global $PLACEWEB_CONFIG;
+
+	//print_r($PLACEWEB_CONFIG);
+
+    	// disableLayout
+    	$this->_helper->layout()->disableLayout();
+	//$this->view->PLACEWEB_CONFIG = $PLACEWEB_CONFIG;;
+
+//echo $_SERVER['REQUEST_METHOD'];
+
+
+
+	$upload_handler = new UploadHandler();
+/*
+	header('Pragma: no-cache');
+	header('Cache-Control: private, no-cache');
+	header('Content-Disposition: inline; filename="files.json"');
+	header('X-Content-Type-Options: nosniff');
+*/
+
+	ob_start();
+echo $_SERVER['REQUEST_METHOD'];
+	switch ($_SERVER['REQUEST_METHOD']) {
+	    case 'HEAD':
+	    case 'GET':
+		$upload_handler->get();
+		break;
+	    case 'POST':
+		//echo "<hr>hello Mike";
+		$upload_handler->post();
+		break;
+	    case 'DELETE':
+		$upload_handler->delete();
+		break;
+	    default:
+		//header('HTTP/1.0 405 Method Not Allowed');
+	}echo 'yo@';
+	$content = ob_get_contents();
+	ob_end_clean();
+
+///*
+	$this->getResponse()
+
+	    ->setHeader('Content-Type', 'text/plain')
+
+	    ->appendBody($content)
+		->sendResponse(); exit(0);
+
+	
+
+
+
+
+//*/
+
+    	
+    } // end uploadfile
     
 }
 

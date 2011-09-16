@@ -216,7 +216,7 @@ li.header-li a{
     background: none repeat scroll 0 0 #dbdbdb;
     border: 1px solid #000000;
     border-radius: 6px 6px 6px 6px;
-    box-shadow: 3px 3px 6px;
+    box-shadow: 1px 1px 3px;
     color: #333333;
     /*font-family: Tahoma, Geneva, sans-serif;*/
 	margin-right: 1em;

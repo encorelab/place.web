@@ -165,7 +165,7 @@ display:none;
 	display: block;
 	float: left;
 	margin-right: 20px;
-	padding: 7px 15px 7px 15px;
+	padding: 7px 15px 7px 0px;
 }	
 
 #welcome span{
@@ -205,7 +205,7 @@ li.header-li a{
 	padding-right: 40px;
 	padding-top: 10px;
 	padding-bottom: 10px;
-	margin-left: 10em;
+	margin-left: 5em;
 	margin-right: 40px;
 	background-color: #dd9e37;
 }
@@ -392,6 +392,14 @@ body {
     position: fixed;
     width: 100%;*/
     z-index: 5;
+}
+
+#global_header img {
+	text-align: left;
+	float: left;
+	width: 20%;
+	height: 20%;
+	margin-left: 36px;
 }
 
 #global_footer {

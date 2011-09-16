@@ -92,18 +92,16 @@ class AjaxController extends Zend_Controller_Action
 
     public function uploadfileAction()
     {
-	    global $PLACEWEB_CONFIG;
+	global $PLACEWEB_CONFIG;
+	$this->_helper->layout->disableLayout();
+	$this->_helper->viewRenderer->setNoRender();	
 
-	    $upload_handler = new UploadHandler();
-/*
-    	header('Pragma: no-cache');
-    	header('Cache-Control: private, no-cache');
-    	header('Content-Disposition: inline; filename="files.json"');
-    	header('X-Content-Type-Options: nosniff');
-*/
+	$upload_handler = new UploadHandler();
+	ob_end_clean();
+
 
 	    ob_start();
-        echo $_SERVER['REQUEST_METHOD'];
+ 
     	switch ($_SERVER['REQUEST_METHOD']) {
     	    case 'HEAD':
     	    case 'GET':
@@ -116,20 +114,29 @@ class AjaxController extends Zend_Controller_Action
     		    $upload_handler->delete();
     		    break;
     	    default:
-    		    //header('HTTP/1.0 405 Method Not Allowed');
+		$this->getResponse()    	
+		->setHeader('HTTP/1.0 405 Method Not Allowed')
+		->sendResponse();
+    		return;	  
     	}
     	
-    	echo 'yo@';
+
     	$content = ob_get_contents();
     	ob_end_clean();
 
 ///*
-    	$this->getResponse()
-    	    ->setHeader('Content-Type', 'text/plain')
+    	$this->getResponse()    	
+	->setHeader('Pragma: no-cache')
+    	->setHeader('Cache-Control: private, no-cache')
+    	->setHeader('Content-Disposition: inline; filename="files.json"')
+    	->setHeader('X-Content-Type-Options: nosniff')
+	->setHeader('Content-Type', 'text/plain')
     	    ->appendBody($content)
-    		->sendResponse(); 
+    	->sendResponse(); 
+	
+	ob_end_clean();
     		
-    	exit(0);
+    	
 //*/
     }
 }

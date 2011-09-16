@@ -1,3 +1,8 @@
+.votes-container div {
+	float: left;
+	margin-right: 15px;
+}
+
 .answer-item{
     background: none repeat scroll 0 0 #CCCCCC;
     border-bottom: 1px solid #CCCCCC;

@@ -1,17 +1,16 @@
-	/*
-var jsonUrl = 'json/data.json';
-var eloArray =  new Array();
-
-var debugModeOn = true; // set debug mode 
-var errorArray = new Array(); // stores all warning/errors
+/*
+var jsonUrl = 'http://placeweb/ajax/uploadfile';
+var mediaArr =  new Array();
 
 $.getJSON(jsonUrl,
 		function (d) {
-			slidesArray = d.data.slides;
+			mediaArr = d.GET;
 		} 
 	);
 
 */
+
+
 function loadInitFunctions()
 {
 
@@ -84,9 +83,15 @@ function postNewThread(parentType)
 }
 
 
-function postVote(val, id)
+function postVote(val, id, type, userid)
 {
-	alert(""+val+" to POST "+ id);
+	$("#vote_value").val(val);
+	$("#vote_obj_id").val(id);
+	$("#vote_obj_type").val(type);
+	$("#vote_activity_on_user").val(userid);
+	$("#vote_i2").val(id);
+	$("#vote-form").submit();
+	
 }
 
 function tagVote(val, id)

@@ -102,6 +102,17 @@ class UserController extends Zend_Controller_Action
     {
     	echo "<hr/>";
     	echo "using rollCall authentication";;
+		/*
+    	require 'PestXML.php';
+		$rollcall_site_url = "http://rollcall.proto.encorelab.org/:3000";
+		$rest = new PestXML($rollcall_site_url);
+		*/
+    	
+    	// get json
+    	
+    	// convert array
+    	
+    	
     	
     	/*
     	 * 1) send username and passw to rollcall

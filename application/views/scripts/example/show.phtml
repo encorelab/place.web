@@ -108,10 +108,10 @@ if($this->type==0 && !$error)
 			<textarea rows="5" cols="25" name="replyText" name="replyText"></textarea>
 			<br/>
 			<input type="submit" value="Save"/>
-			<input type="text" name="obj_id" id="obj_id" value="<?php echo $this->example[0]['id']; ?>"/>
-			<input type="text" name="postId" id="postId" value=""/>
-			<input type="text" name="example_id" id="example_id" value="<?php echo $this->example[0]['id']; ?>"/>
-			<input type="text" name="parentType" id="parentType" value=""/>
+			<input type="hidden" name="obj_id" id="obj_id" value="<?php echo $this->example[0]['id']; ?>"/>
+			<input type="hidden" name="postId" id="postId" value=""/>
+			<input type="hidden" name="example_id" id="example_id" value="<?php echo $this->example[0]['id']; ?>"/>
+			<input type="hidden" name="parentType" id="parentType" value=""/>
 			<input type="hidden" name="replyPosted" id="replyPosted" value="1"/>
 		</div>
 		<div id="newThread-container">
@@ -139,8 +139,9 @@ if($this->type==0 && !$error)
 		<input type="hidden" name="vote_t2" id="vote_t2" value="Comment"/>
 	</form>
 	<!--  end add vote form -->	
-
-<iframe id="iframe-voting" name="iframe-voting" src="/votes/add?u=1" width="10" height="10" style="display:none"> </iframe>
+<!-- 
+<iframe id="iframe-voting" name="iframe-voting" src="/votes/add?u=1" width="600" height="300" style="display:block"> </iframe>
+ -->
 </div><!-- /example-container -->
 
 <?php 
@@ -260,6 +261,7 @@ function getCommentById($id,$obj_type)
 		}
 		
 	}
+	// end get votes
 
 	//echo "<br>Vote Tot:".$votesSumm;
 	//echo "<br>Vote + :".$votesPlus;
@@ -273,21 +275,22 @@ function getCommentById($id,$obj_type)
 	$repliesHtml .='
 	<li>
 	<div class="post-item">
-
 		<div class="votes-container" style="float:right;">
-			<div class="vote-minus-plus">
+			<div id="vote-loading-'.$id.'"></div> 
+		
+			<div id="vote-minus-'.$id.'" class="vote-minus-plus">
 				'.$votesMinus.'
 			</div> 
 			<div class="vote-icon">
 				<a href="javascript:postVote(-1,'.$id.',1,'.$post[0]['User']['id'].')"><img src="/images/icon_arrow_down.png" width="20px"></a>
 			</div>
-			<div class="vote-total">
+			<div id="vote-total-'.$id.'" class="vote-total">
 				'.$votesSumm.'
 			</div>
 			<div class="vote-icon">
 				<a href="javascript:postVote(1,'.$id.',1,'.$post[0]['User']['id'].')"><img src="/images/icon_arrow_up.png" width="20px"></a>
 			</div>
-			<div class="vote-minus-plus">
+			<div id="vote-plus-'.$id.'" class="vote-minus-plus">
 				'.$votesPlus.'
 			</div> 
 		</div>

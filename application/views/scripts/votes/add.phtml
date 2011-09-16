@@ -1,3 +1,11 @@
-<script>
-//alert('waiting for votes');
-</script>
+<?php 
+if(isset($this->error) && $this->error==1)
+{
+	//echo "<script>alert('You have already voted');</script>";
+	echo  "1"; 
+} else if(isset($this->error) && $this->error==2) {
+	echo "invalid";	
+} else {
+	echo $this->json;
+}
+?>

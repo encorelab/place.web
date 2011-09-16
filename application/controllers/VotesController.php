@@ -39,23 +39,24 @@ class VotesController extends Zend_Controller_Action
 			
 			if(!$allowVote)
 			{
-				echo "<script>alert('You have already voted');</script>";
+				//echo "<script>alert('You have already voted');</script>";
+				$this->view->error=1; // you already votted
 			}
-			
+
 			//print_r($params);
 		} else {
-			echo "Waiting for votes";
+			//echo "Waiting for votes";
 		}
 		
 		// this values have been hard-coded in the table commentable
 		//if($params['vote_obj_id']==1)
 		if($allowVote)
 		{
-    		echo "<hr/>adding vote";
+    		//echo "<hr/>adding vote";
 			
 	        //if($params['saved'])
 	        
-	        print_r($params);
+	        //print_r($params);
 
 
 	    $vote = new Vote();           
@@ -106,6 +107,7 @@ class VotesController extends Zend_Controller_Action
 	     	
 		// redirect 
 			//header('Location: '.$_SERVER['HTTP_REFERER']);
+		$this->view->json = $this->reloadVotesCount($_SESSION['run_id'], $params['vote_obj_id'], $params['vote_obj_type']);
 			
 		} // end if allow vote	
 
@@ -113,28 +115,16 @@ class VotesController extends Zend_Controller_Action
      
 	private function checkVoteStatus($run_id, $author_id, $obj_id, $obj_type)
 	{
-		/*
-	1 comments
-	2 answers
-	3 answer_concept
-	4 example_concept
-		 */
-		echo "<hr>Check votting status";
-		/*
-		 * v votable
-		 * a vote
-		 * t 
-		 */
 		$q = Doctrine_Query::create()
 			->select ("v.*")
 			->from("Vote v")
-//			->innerJoin("v.User u")
+
 			->where('v.run_id = ? AND v.author_id = ? AND v.obj_id = ? AND v.obj_type = ?' , 
 			array($run_id, $author_id, $obj_id, $obj_type))					
 			->orderBy('v.id DESC');
 		$vote = $q->fetchArray();
 
-		print_r($vote);
+		//print_r($vote);
 		
 		if(count($vote)==0)
 		{
@@ -142,11 +132,85 @@ class VotesController extends Zend_Controller_Action
 		} else {
 			return false;
 		} 
-		
-
-		
 
 	} // end checkVoteStatus()
 
+	/**
+	 * this is a function to be called via ajax
+	 * it returns an array with the new vote counts for a given entity
+	 * (e.g. comment, question_concept, example_concept)
+	 */
+	private function reloadVotesCount($run_id, $obj_id, $obj_type)
+	{
+    	
+    	if($run_id!="" && $obj_id!="" && $obj_type!="" )
+    	{
+    	
+			// get all votes for this post: note that we can use SUM in SQL instead 
+		    $q = Doctrine_Query::create()
+			->select ("v.id, v.vote_value, u.id, u.username")
+			->from("Vote v")
+			->innerJoin("v.User u")
+			->where('v.run_id = ? AND obj_id = ? AND obj_type = ?' , 
+			array($run_id,$obj_id, $obj_type))					
+			->orderBy('v.id DESC');
+			$votes = $q->fetchArray();
+			
+			$this->view->votesData=$votes;
+			
+			//echo "<hr>obj_id: ".$obj_id;
+			//echo "<br>obj_type: ".$obj_type;;
+			//echo "<br>votes: <br/>";
+			// print_r($votes);
+		
+			// get the total
+			$votesSumm = 0;
+			$votesMinus = 0;
+			$votesPlus = 0;
+			foreach ($votes as $vote)
+			{
+				$votesSumm += $vote['vote_value'];
+				if($vote['vote_value']=-1)
+				{
+					$votesMinus -= $vote['vote_value'];
+				} else {
+					$votesPlus += $vote['vote_value'];
+				}
+				
+			}
+
+    		// determine the name of the container to be updated
+			if($obj_type==1)
+			{ 
+				$contName = "vote";
+			} else if ($obj_type==2) {
+				$contName = "answer";
+			} else if ($obj_type==3) {
+				$contName = "answer_concept";
+			} else if ($obj_type==4) {
+				$contName = "example_concept";
+			}
+			
+			$votesArray = array(
+			"voteOnId" 	=> $obj_id,
+			"voteOnName"=> $contName,
+			"votesSumm"	=>$votesSumm,
+			"votesMinus"=>$votesMinus,
+			"votesPlus"=>$votesPlus,
+			);
+			
+			$this->view->votesVals = $votesArray;
+			// end get votes
+			
+			$votesJson = json_encode($votesArray); 
+
+			return $votesJson;
+			;
+    	} else {
+    		return 2; // invalid parameters
+    	}
+		
+	} // reloadVotesCount()
+	
 } // end class
 

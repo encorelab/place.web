@@ -82,18 +82,42 @@ function postNewThread(parentType)
 	  d.style.display='none';
 }
 
-
 function postVote(val, id, type, userid)
 {
+	//set up a loader image
+	//$("#loading").html("<img src=\'/images/loader.gif\'>");
+	  
 	$("#vote_value").val(val);
 	$("#vote_obj_id").val(id);
 	$("#vote_obj_type").val(type);
 	$("#vote_activity_on_user").val(userid);
 	$("#vote_i2").val(id);
-	$("#vote-form").submit();
-	
+	//$("#vote-form").submit();
+
+	 var jqxhr = $.post($("#vote-form").attr('action'), $("#vote-form").serialize())
+	    .success(function(data) { 
+		 	alert(data);
+		 	if(data==1)
+		 		{
+		 			alert("You have already voted");
+		 		} else if (data == "invalid"){
+		 			alert("Invalid parameters")
+		 		} else {
+		 			var obj = jQuery.parseJSON(data);
+		 			// update voting 
+		 			  $("#"+obj.voteOnName+"-minus-"+obj.voteOnId).html(obj.votesMinus);
+		 			  $("#"+obj.voteOnName+"-total-"+obj.voteOnId).html(obj.votesSumm);
+		 			  $("#"+obj.voteOnName+"-plus-"+obj.voteOnId).html(obj.votesPlus);
+		 		}
+		 		
+		 })
+	    //.error(function() { alert("error"); })
+	    //.complete(function() { alert("complete");});
 }
 
+/*
+
+ */
 function tagVote(val, id)
 {
 	alert(""+val+" to TAG "+ id);

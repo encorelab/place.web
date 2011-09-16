@@ -1,19 +1,31 @@
 <script>
-var servername = "http://<?php echo $_SERVER['SERVER_NAME']; ?>";
+var servername = "http://<?php echo $_SERVER['SERVER_NAME']; ?>"
 
 $(document).ready(function () {
 //  $("#ajax-status").text("The DOM is now loaded and can be manipulated.");
-  $("#my-updates").html("<img src='/images/loader.gif'>");
-  $("#my-recent-activity").html("<img src='/images/loader.gif'>");
-  $("#recent-class-activity").html("<img src='/images/loader.gif'>");
+  $("#my-updates").html("<img src='/images/loader.gif'>")
+  $("#my-recent-activity").html("<img src='/images/loader.gif'>")
+  $("#recent-class-activity").html("<img src='/images/loader.gif'>")
 
 // ajax call for activities
-  $("#my-homework").load(servername+"/ajax/myhomework");
-  $("#my-updates").load(servername+"/ajax/myupdates");
-  $("#my-recent-activity").load(servername+"/ajax/myactivity");
-  $("#recent-class-activity").load(servername+"/ajax/classactivity");
-});
+  $("#my-homework").load(servername+"/ajax/myhomework")
+  $("#my-updates").load(servername+"/ajax/myupdates", function(){setupAlertCloseButtons('#my-updates')})
+  $("#my-recent-activity").load(servername+"/ajax/myactivity", function(){setupAlertCloseButtons('#my-recent-activity')})
+  $("#recent-class-activity").load(servername+"/ajax/classactivity", function(){setupAlertCloseButtons('#recent-class-activity')})
+})
 
+
+function setupAlertCloseButtons(section){
+    
+    // activity close buttons
+    $(section+" .alert-close-btn").click(function(){
+        var activityId = $(this).attr('activityId')
+        var button = $(this)
+        $.post('/ajax/resolve-alert', {'activityId': activityId}, function(data){
+            button.parent().slideUp()
+        })
+    })
+}
 </script>
 
 <div id="home-columns">
@@ -37,10 +49,16 @@ if($_SESSION['profile']=="STUDENT")
 ?>
 	
 	<div id="home-col2" style="float:left;width:40%;">
+<?php 
+if($_SESSION['profile']=="STUDENT")
+{
+?>
 	    <div id="my-homework" class="dashlet-box">
 	        
 	    </div>
-	    
+<?php 
+} // end if student
+?>	    
 		<div id="my-updates" class="dashlet-box">
 
 		</div>

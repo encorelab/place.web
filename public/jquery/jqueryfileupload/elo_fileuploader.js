@@ -922,7 +922,14 @@ $('#fileupload').fileupload({
                                    
                                                                 
                             }
-                            
+			// populate the form with the file data 
+
+                $("#media_path").val(file['url']);
+		$("#thumb_path").val(file['thumbnail_url']);
+		$("#saved").val('1');
+		$("#media_content").val(file['type']);
+		$("#media_type").val(file['type']);
+		//alert($("#addExmple").serialize());
                                 
                           
                             

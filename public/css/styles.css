@@ -1,3 +1,14 @@
+.answer-item{
+    background: none repeat scroll 0 0 #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    margin-bottom: 15px;
+    width: 64%;
+}
+
+.answer-assessment{
+	border:1px solid #ccc;
+}
+
 .alert-example{
 	background: orange;
 }

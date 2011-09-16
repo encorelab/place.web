@@ -92,19 +92,10 @@ class AjaxController extends Zend_Controller_Action
 
     public function classactivityAction()
     {
-
-	// include $_SESSION file: this is needed when loading this action thrhough 
-	// file_get_contents('http://'.$_SERVER['SERVER_NAME'].'/ajax/classactivity');
-
-	require_once(APPLICATION_PATH.'/configs/config.php');
-//	require_once(APPLICATION_PATH.'/layouts/include/'.'security.inc.php');
+		// this is NOT the way to go, brakes inside Zend
+    	// file_get_contents('http://'.$_SERVER['SERVER_NAME'].'/ajax/classactivity');
     	
 	global $PLACEWEB_CONFIG;
-
-
-	//print_r($PLACEWEB_CONFIG);
-	//print_r($_SESSION);
-	//print_r($this->session);
 
 	$q = Doctrine_Query::create()
 	->select('e.*')

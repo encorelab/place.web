@@ -25,6 +25,19 @@ border:1px solid #ccc;
 	background: yellow;
 }
 
+.alert-ok{
+	background: green;
+}
+
+.alert-close-btn{
+	cursor: pointer;
+	font-size: small;
+	display: block;
+	float: right;
+}
+.alert-close-btn:hover{
+	background-color: red;
+}
 
 #login-form{
 	border: 2px solid #000000;

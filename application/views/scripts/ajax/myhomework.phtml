@@ -7,14 +7,14 @@
 foreach ($this->unansweredQuestions as $question)
 {
     $url = $question->getUrl();
-    echo "<li>Please answer <a href='$url'>".$question->name."</a></li>";
+    echo "<li><div class='alert-question'>Please answer <a href='$url'>".$question->name."</a></div></li>";
 }
 
 foreach($this->answeredQuestions as $question)
 {
     $answer = $question['Answer'][0];
     $url = $answer->getUrl();
-    echo "<li>You've answered <a href='$url'>".$question->name."</a></li>"; 
+    echo "<li><div class='alert-ok'>You've answered <a href='$url'>".$question->name."</a></div></li>"; 
 }
 ?>
 	</ul>

@@ -11,15 +11,35 @@ class AjaxController extends Zend_Controller_Action
         $this->_helper->layout()->disableLayout();
     }
     
+    public function resolveAlertAction()
+    {
+        $params = $this->getRequest()->getParams();
+        $activityId = $params['activityId'];
+        
+        $resolver = new ResolvedUserAlert();
+        $resolver->run_id = $_SESSION['run_id'];
+        $resolver->author_id = $_SESSION['author_id'];
+        $resolver->date_created = date( 'Y-m-d H:i:s');
+        $resolver->activity_id = $activityId;
+        $resolver->response = 'ok';        
+        $resolver->save();
+        
+        $this->_helper->viewRenderer->setNoRender();
+        echo "ok";
+    }
+    
     public function myupdatesAction()
     {
-        $q = Doctrine_Query::create()
-    	->select('e.*')
-    	->from('Activity e')
-    	->where('e.run_id = ?' , $_SESSION['run_id'])
-    	->andWhere('e.activity_on_user = ?', $_SESSION['author_id'])
-        ->andWhere('e.author_id != ?', $_SESSION['author_id'])
-    	->orderBy('e.id DESC');
+        $q = new Doctrine_RawSql();
+        $q
+        	->select('{a.*}')
+        	->from('Activity a')
+        	->addComponent('a', 'Activity a')
+        	->where('a.run_id = ?' , $_SESSION['run_id'])
+        	->andWhere('a.activity_on_user = ?', $_SESSION['author_id'])
+            ->andWhere('a.author_id != ?', $_SESSION['author_id'])
+            ->andWhere('a.id NOT IN (select r.activity_id from resolved_user_alert r where r.author_id = '.$_SESSION['author_id'].')')
+        	->orderBy('a.id DESC');
 
     	$activities = $q->execute();		
         
@@ -28,12 +48,14 @@ class AjaxController extends Zend_Controller_Action
 
     public function myactivityAction()
     {
-    	$q = Doctrine_Query::create()
-    	->select('e.*')
-    	->from('Activity e')
-    	->where('e.run_id = ?' , $_SESSION['run_id'])
-    	->andWhere('e.author_id = ?', $_SESSION['author_id'])
-    	->orderBy('e.id DESC');
+        $q = new Doctrine_RawSql();
+    	$q	->select('{a.*}')
+        	->from('Activity a')
+        	->addComponent('a', 'Activity a')
+        	->where('a.run_id = ?' , $_SESSION['run_id'])
+        	->andWhere('a.author_id = ?', $_SESSION['author_id'])
+        	->andWhere('a.id NOT IN (select r.activity_id from resolved_user_alert r where r.author_id = '.$_SESSION['author_id'].')')
+        	->orderBy('a.id DESC');
     	
     	$activities = $q->execute();
     	
@@ -42,13 +64,17 @@ class AjaxController extends Zend_Controller_Action
 
     public function classactivityAction()
     {
-        $q = Doctrine_Query::create()
-    	->select('e.*')
-    	->from('Activity e')
-    	->where('e.run_id = ?' , $_SESSION['run_id'])
-    	->andWhere('e.activity_on_user != ?', $_SESSION['author_id'])
-        ->andWhere('e.author_id != ?', $_SESSION['author_id'])
-    	->orderBy('e.id DESC');
+        $q = new Doctrine_RawSql();
+        $q	->select('{a.*}')
+        	->from('Activity a')
+        	->addComponent('a', 'Activity a')
+        	->where('a.run_id = ?' , $_SESSION['run_id'])
+        	->andWhere('a.activity_on_user != ?', $_SESSION['author_id'])
+            ->andWhere('a.author_id != ?', $_SESSION['author_id'])
+            ->andWhere('a.id NOT IN (select r.activity_id from resolved_user_alert r where r.author_id = '.$_SESSION['author_id'].')')
+        	->orderBy('a.id DESC');
+    	
+        // echo $q->getSqlQuery();die();
     	
     	$activities = $q->execute();
     	
@@ -66,26 +92,20 @@ class AjaxController extends Zend_Controller_Action
                     // ->andWhere("q.is_public = 1")
                     ->orderBy("q.date_created desc")
                     ->execute();
-                
-        // $q =         Doctrine_Query::create()
-        //                     ->select("q.id")
-        //                     ->from("Question q")
-        //                     ->where("q.run_id = ?", $_SESSION['run_id'])
-        //                     ->andWhere("q.id NOT IN (select answer.question_id from answer where answer.author_id = ".$_SESSION['author_id'].")")
-        //                     // ->andWhere("q.is_published = 1")
-        //                     // ->andWhere("q.is_public = 1")
-        //                     ->orderBy("q.date_created desc");
-        //                     echo $q->getSqlQuery();die();
-        $unansweredQuestions = Doctrine_Query::create()
-                    ->select("q.*")
-                    ->from("Question q")
-                    ->where("q.run_id = ?", $_SESSION['run_id'])
-                    ->andWhere("q.id NOT IN (select answer.question_id from answer where answer.author_id = ".$_SESSION['author_id'].")")
-                    // ->andWhere("q.is_published = 1")
-                    // ->andWhere("q.is_public = 1")
-                    ->orderBy("q.date_created desc")
-                    ->execute();
-                    
+    
+        $q = new Doctrine_RawSql();
+        $q  ->select('{q.*}')
+            ->from("question q")
+            ->addComponent('q', 'Question q')
+            ->where("q.run_id = ?", $_SESSION['run_id'])
+            ->andWhere("q.id NOT IN (select a.question_id from answer a where a.author_id = ".$_SESSION['author_id'].")")
+            // ->andWhere("q.is_published = 1")
+            // ->andWhere("q.is_public = 1")            
+            ->orderBy("q.date_created desc");
+            
+        // echo $q->getSqlQuery();die();
+        $unansweredQuestions = $q->execute();
+        
         $this->view->answeredQuestions = $answeredQuestions;
         $this->view->unansweredQuestions = $unansweredQuestions;
     }

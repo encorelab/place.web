@@ -1,0 +1,21 @@
+<div class="dashlet-title">My Homework</div>
+
+<div>
+    <ul class="ul-for-data">
+<?php 
+
+foreach ($this->unansweredQuestions as $question)
+{
+    $url = $question->getUrl();
+    echo "<li>Please answer <a href='$url'>".$question->name."</a></li>";
+}
+
+foreach($this->answeredQuestions as $question)
+{
+    $answer = $question['Answer'][0];
+    $url = $answer->getUrl();
+    echo "<li>You've answered <a href='$url'>".$question->name."</a></li>"; 
+}
+?>
+	</ul>
+</div>

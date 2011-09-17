@@ -52,7 +52,6 @@ if($this->type==0 && !$error)
  * start single view
  */
 {
-	//echo "single view";
 ?>
 <h3><?php echo $this->example[0]['name']?></h3>
 
@@ -90,7 +89,7 @@ if($this->type==0 && !$error)
 			$Myconcepts=getConcepts($this->example[0]['id']);
 			
 			//print_r($Myconcepts);
-			echo __analyzeTags($Myconcepts);
+			echo analyzeTags($Myconcepts);
 			?>
 			</ul>
 		</div>
@@ -120,28 +119,44 @@ if($this->type==0 && !$error)
 		</div>
 	</form>
 	<!--  end add comment form -->		
+
+	<!--  start add vote to comments -->
+	<form id="comm_vote_form" method="post" action="/votes/add?prefix=comm_">
+		<input type="hidden" name="comm_obj_id" id="comm_obj_id" value=""/>
+		<input type="hidden" name="comm_obj_type" id="comm_obj_type" value="1"/>
+		<input type="hidden" name="comm_vote_value" id="comm_vote_value" value=""/>
+		<input type="hidden" name="comm_activity_type_id" id="comm_activity_type_id" value="1"/>
+		<input type="hidden" name="comm_activity_on_user" id="comm_activity_on_user" value=""/>
+		<input type="hidden" name="comm_i1" id="comm_i1" value="<?php echo $this->example[0]['id']; ?>"/>
+		<input type="hidden" name="comm_i2" id="comm_i2" value=""/>
+		<input type="hidden" name="comm_t1" id="comm_t1" value="Example"/>
+		<input type="hidden" name="comm_t2" id="comm_t2" value="Comment"/>
+	</form>
+	<!--  end add vote to comments -->	
 	
+	<!--  start add vote to example_concept -->
+	<form id="qe_vote_form" method="post" action="/votes/add?prefix=qe_">
+		<input type="hidden" name="qe_obj_id" id="qe_obj_id" value=""/>
+		<input type="hidden" name="qe_obj_type" id="qe_obj_type" value="4"/>
+		<input type="hidden" name="qe_vote_value" id="qe_vote_value" value=""/>
+		<input type="hidden" name="qe_activity_type_id" id="qe_activity_type_id" value="4"/>
+		<input type="hidden" name="qe_activity_on_user" id="qe_activity_on_user" value=""/>
+		<input type="hidden" name="qe_i1" id="qe_i1" value="<?php echo $this->example[0]['id']; ?>"/>
+		<input type="hidden" name="qe_i2" id="qe_i2" value=""/>
+		<input type="hidden" name="qe_t1" id="qe_t1" value="Example"/>
+		<input type="hidden" name="qe_t2" id="qe_t2" value="Example_comment"/>
+	</form>
+	<!--  end add vote to example_concept -->
 <?php 
 
 } // end single view
 ?>
-	<!--  start add vote form -->
-	<form id="vote-form" method="post" action="/votes/add" target="iframe-voting">
-		<input type="hidden" name="vote_obj_id" id="vote_obj_id" value=""/>
-		<input type="hidden" name="vote_obj_type" id="vote_obj_type" value="1"/>
-		<input type="hidden" name="vote_value" id="vote_value" value=""/>
-		<input type="hidden" name="vote_activity_type_id" id="vote_activity_type_id" value="1"/>
-		<input type="hidden" name="vote_activity_on_user" id="vote_activity_on_user" value=""/>
-		<input type="hidden" name="vote_i1" id="vote_i1" value="<?php echo $this->example[0]['id']; ?>"/>
-		<input type="hidden" name="vote_i2" id="vote_i2" value=""/>
-		<input type="hidden" name="vote_t1" id="vote_t1" value="Example"/>
-		<input type="hidden" name="vote_t2" id="vote_t2" value="Comment"/>
-	</form>
-	<!--  end add vote form -->	
-<!-- 
-<iframe id="iframe-voting" name="iframe-voting" src="/votes/add?u=1" width="600" height="300" style="display:block"> </iframe>
+<!--  
+<div id="test-data">test-data</div>
  -->
-</div><!-- /example-container -->
+ 
+</div>
+<!-- /example-container -->
 
 <?php 
 //////////////////////////////////////////
@@ -211,12 +226,55 @@ function getUserName($author_id)
 	
 }
 
-function getCommentById($id,$obj_type)
+function countVotes($obj_id, $obj_type)
 {
+	// get all votes for this post: note that we can use SUM in SQL instead
+	// ********************************************************************* 
+    $q = Doctrine_Query::create()
+	//->select ("v.id, v.vote_value, u.id, u.username") // use this if we want to show who and how someone voted
+	->select ("v.id, v.vote_value")
+	->from("Vote v")
+	//->innerJoin("v.User u")
+	->where('v.run_id = ? AND v.obj_id = ? AND v.obj_type = ?' , 
+	array($_SESSION['run_id'],$obj_id, $obj_type)) 				
+	->orderBy('v.id DESC');
+	
+	$votes = $q->fetchArray();
+
+	$votesCount = array();
+	$votesSumm = 0; $votesMinus = 0; $votesPlus = 0;
+	
+	foreach ($votes as $vote)
+	{
+		$votesSumm += $vote['vote_value'];
+		
+		if($vote['vote_value']==-1)
+		{
+			$votesMinus-= $vote['vote_value'];
+		} else {
+			$votesPlus+= $vote['vote_value'];
+		}
+		
+	}
+	$votesCount = array (
+		"votesSumm" => $votesSumm,
+		"votesMinus" => $votesMinus,
+		"votesPlus" => $votesPlus
+	);
+	return $votesCount;
+	// end get votes
+	
+} // end countVotes()
+
+function getCommentById($id,$obj_type, $prefix="")
+{
+	$prefix="comm_";
+	
 	$repliesHtml= ""; // stores all the threaded discussion html
 
 	// get comment and user data
 	$q = Doctrine_Query::create()
+			//->select ("c.*, u.username, u.id")
 		->select ("c.*, u.username, u.id")
 		->from("Comment c")
 		->innerJoin("c.User u")
@@ -224,94 +282,55 @@ function getCommentById($id,$obj_type)
 		//->where('a.run_id = ? AND a.question_id = ?' ,array(1, 1))					
 		//->orderBy('c.id DESC'); // not needed, return only one entry
 	
-		$post = $q->fetchArray();
-		
-	//*/
-	//echo "<hr>Comment data";
-	//echo "<hr>User Name: ".$post[0]['User']['username'];
-	//print_r($post);
-					
-	// get all votes for this post: note that we can use SUM in SQL instead 
-    $q = Doctrine_Query::create()
-	->select ("v.id, v.vote_value, u.id, u.username")
-	->from("Vote v")
-	->innerJoin("v.User u")
-	->where('v.run_id = ? AND obj_id = ? AND obj_type = ?' , 
-	array($_SESSION['run_id'],$id, 1))	// look for votes only on obj_type = 1 comments				
-	->orderBy('v.id DESC');
-	$votes = $q->fetchArray();
+	$post = $q->fetchArray();
 	
-	//echo "<hr>comment id: ".$id;
-	//echo "<br>votes: <br/>";
-	//print_r($votes);
-
-	// get the total
-	$votesSumm = 0;
-	$votesMinus = 0;
-	$votesPlus = 0;
-	foreach ($votes as $vote)
-	{
-		$votesSumm += $vote['vote_value'];
-		if($vote['vote_value']==-1)
-		{
-			$votesMinus -= $vote['vote_value'];
-		} else {
-			$votesPlus += $vote['vote_value'];
-		}
-		
-	}
-	// end get votes
-
-	//echo "<br>Vote Tot:".$votesSumm;
-	//echo "<br>Vote + :".$votesPlus;
-	//echo "<br>Vote - :".$votesMinus;
-	///*
+	$votesCount = countVotes($id,1); // look for votes only on obj_type = 1 comments
+	
 	$repliesHtml .= "
 	<ul>";
 	
 	// add this post data
 	//Id:'.$id.'
-	$repliesHtml .='
+	$repliesHtml .=''.$id.'
 	<li>
-	<div class="post-item">
-		<div class="votes-container" style="float:right;">
-			<div id="vote-loading-'.$id.'"></div> 
-			<div id="vote-minus-'.$id.'" class="vote-minus-plus">
-				'.$votesMinus.'
-			</div> 
-			<div class="vote-icon">
-				<a href="javascript:postVote(-1,'.$id.',1,'.$_SESSION['author_id'].')"><img src="/images/icon_arrow_down.png" width="20px"></a>
+		<div class="post-item">
+			<div class="votes-container" style="float:right;">
+				<div id="'.$prefix.'vote-loading-'.$id.'"></div> 
+				<div id="'.$prefix.'vote-minus-'.$id.'" class="vote-minus-plus">
+					'.$votesCount['votesMinus'].'
+				</div> 
+				<div class="vote-icon">
+					<a href="javascript:postVote(-1,'.$id.',1,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_down.png" width="20px"></a>
+				</div>
+				<div id="'.$prefix.'vote-total-'.$id.'" class="vote-total">
+					'.$votesCount['votesSumm'].'
+				</div>
+				<div class="vote-icon">
+					<a href="javascript:postVote(1,'.$id.',1,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_up.png" width="20px"></a>
+				</div>
+				<div id="'.$prefix.'vote-plus-'.$id.'" class="vote-minus-plus">
+					'.$votesCount['votesPlus'].'
+				</div> 
 			</div>
-			<div id="vote-total-'.$id.'" class="vote-total">
-				'.$votesSumm.'
+				
+			<div class="post-content">'
+				.$post[0]['content'].'
 			</div>
-			<div class="vote-icon">
-				<a href="javascript:postVote(1,'.$id.',1,'.$_SESSION['author_id'].')"><img src="/images/icon_arrow_up.png" width="20px"></a>
+	
+			<div class="post-author">	
+				Posted by : <a href="#">'.$post[0]['User']['username'].'</a>
 			</div>
-			<div id="vote-plus-'.$id.'" class="vote-minus-plus">
-				'.$votesPlus.'
-			</div> 
-		</div>
 			
-		<div class="post-content">'
-			.$post[0]['content'].'
+			<div class="post-reply">	
+				<a href="javascript: postReply(\''.$id.'\')">Reply</a>
+			</div>
 		</div>
-
-		<div class="post-author">	
-			Posted by : <a href="#">'.$post[0]['User']['username'].'</a>
-		</div>
-		
-		<div class="post-reply">	
-			<a href="javascript: postReply(\''.$id.'\')">Reply</a>
-		</div>
-	</div>
-	
-	
 	</li>';
 //*/
 
 
-			//go recursive here: not the best approach
+	//go recursive here: not the best approach 
+	// we need a contract expand here 
 			
 // determine if the comment has replies
 	$commentReplies = getCommentsIds($id, 1); 
@@ -322,7 +341,6 @@ function getCommentById($id,$obj_type)
 	//echo "<br/>replies: ".count($commentReplies); 
 	//print_r($commentReplies);
 	
-/////////////////////////
 ///*
 	//if(($post[0]['parent_id']) != null)
 	if($tot>0)
@@ -353,127 +371,124 @@ function getCommentById($id,$obj_type)
 	
 } // end fnc
 
+function analyzeTags($tags, $prefix="")
+{
+	$prefix = "qe_"; // same for voting on question_concept and example_concept 
 
-    /**
-	 * 
-	 * analyzes the tags, sum the votes each tag has, and returns an html <li> list
-	 * @param array $tags // this is the array "tags" from an elo
-	 */
-	function __analyzeTags($tags)
+	//get all Concepts in db for comparison: which ones are not added yet
+	$q = Doctrine_Query::create()
+		->select('e.id,  e.name')
+		->from('Concept e')
+		->where('e.run_id = ?', $_SESSION['run_id']);
+	
+	$theConcepts = $q->fetchArray();
+	
+	//$theConcepts=Doctrine::getTable("Concepts")->findAll(Doctrine::HYDRATE_ARRAY);
+	
+	//print_r($theConcepts);
+	//print_r($tags);
+	
+	$currentConcepts = array(); // collects the concepts already associated to the example
+	//$notIncludedConcepts = array();
+	$theConceptsF = array(); // formats the concepts in db to same structure than current $currentConcepts
+
+	//$PLACEWEB_CONFIG['fConcepts']
+	
+	$tagsHtml = "";
+	$notIncludedConceptsHtml = "";
+	
+	$whoHasVoted = array();
+	$conn=0;
+	
+	// adjust the concepts from db 
+	foreach($theConcepts as $concept)
 	{
+		$theConceptsF[$concept['id']] = $concept['name'];
+	}
+	
+	//print_r($theConceptsF);
+	
+	foreach ($tags as $tag)
+	{
+		/* 
+		 * get votes data
+		 */ 
 
-		//get Concepts
-		$q = Doctrine_Query::create()
-			->select('e.id,  e.name')
-			->from('Concept e')
-			->where('e.run_id = ?', $_SESSION['run_id']);
-		
-		$theConcepts = $q->fetchArray();
-		
-		//$theConcepts=Doctrine::getTable("Concepts")->findAll(Doctrine::HYDRATE_ARRAY);
-		
-		//print_r($theConcepts);
-		//print_r($tags);
-		
-		$currentTags = array();
-		//$diffTags = array();
-		$theConceptsF = array();
-		//$PLACEWEB_CONFIG['fConcepts']
-		
-		$tagsHtml = "";
-		$diffTagsHtml = "";
-		
-		$whoHasVoted = array();
-		$conn=0;
-		
-		// adjust the concepts from db 
-		foreach($theConcepts as $concept)
-		{
-			$theConceptsF[$concept['id']] = $concept['name'];
-		}
-		
-		//print_r($theConceptsF);
-		
-		foreach ($tags as $tag)
-		{
-			// sum votes for each tag
-			$votes=0;
-			/*
-			foreach ($tag['votes'] as $vote)
-			{
-				$votes+=$vote['vote'];
-				// collect how has voted  
-				$whoHasVoted[]=$vote['author'];
-			}
-			*/
-
-				// collect tags for comparison 
-				$currentTags[$tag['concept_id']] = $theConceptsF[$tag['concept_id']];
-				
+			// collect tags for comparison 
+			$currentConcepts[$tag['concept_id']] = $theConceptsF[$tag['concept_id']];
 			
-			//var_dump($tag);
-			//echo "<br/>".$tag['conceptId'];
+		
+		//var_dump($tag);
+		//echo "<br/>".$tag['conceptId'];
+		
+			$votesCount = countVotes($tag['concept_id'],4); // look for votes for obj_type = 4 example_concept
 			
-			$tagsHtml .='
-			<li>
-			
-				<div class="tag-name">'.$theConceptsF[$tag['concept_id']].'</div>';
-				/*
-				<div class="votes-container" style="float:right;">
-					<div id="vote-loading-'.$id.'"></div> 
-					<div id="vote-minus-'.$id.'" class="vote-minus-plus">
-						'.$votesMinus.'
-					</div> 
-					<div class="vote-icon">
-						<a href="javascript:postVote(-1,'.$id.',1,'.$post[0]['User']['id'].')"><img src="/images/icon_arrow_down.png" width="20px"></a>
-					</div>
-					<div id="vote-total-'.$id.'" class="vote-total">
-						'.$votesSumm.'
-					</div>
-					<div class="vote-icon">
-						<a href="javascript:postVote(1,'.$id.',1,'.$post[0]['User']['id'].')"><img src="/images/icon_arrow_up.png" width="20px"></a>
-					</div>
-					<div id="vote-plus-'.$id.'" class="vote-minus-plus">
-						'.$votesPlus.'
-					</div> 
-				</div>
-		*/
-			$tagsHtml .='
-			<li>
-				<div class"vote-icons">
-					<a href="javascript:tagVote(1,'.$tag['concept_id'].')"><img src="/images/vote_like.png" width="20px"></a>
-					<a href="javascript:tagVote(-1,'.$tag['concept_id'].')"><img src="/images/vote_dislike.png" width="20px"></a>
+			$votesMinus =0 ;
+			$votesSumm = 0;
+			$votesPlus = 0;
+		
+		$tagsHtml .='
+		<li>
+			<div class="tag-name">'.$theConceptsF[$tag['concept_id']].'</div>
+			<div class="votes-container" style="float:right;">
+				<div  id="'.$prefix.'vote-loading-'.$tag['concept_id'].'"></div> 
+				<div  id="'.$prefix.'vote-minus-'.$tag['concept_id'].'" class="vote-minus-plus">
+					'.$votesCount['votesMinus'].'
 				</div> 
-				<div class="tag-votes">'.$votes.'</div>
-			</li>';
-				
-				$conn++;
-		}
-		
-		$diffTags = array_diff($theConceptsF, $currentTags);
+				<div class="vote-icon">
+					<a href="javascript:postVote(-1,'.$tag['concept_id'].',4,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_down.png" width="20px"></a>
+				</div>
+				<div  id="'.$prefix.'vote-total-'.$tag['concept_id'].'" class="vote-total">
+					'.$votesCount['votesSumm'].'
+				</div>
+				<div class="vote-icon">
+					<a href="javascript:postVote(1,'.$tag['concept_id'].',4,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_up.png" width="20px"></a>
+				</div>
+				<div  id="'.$prefix.'vote-plus-'.$tag['concept_id'].'" class="vote-minus-plus">
+					'.$votesCount['votesPlus'].'
+				</div> 
+			</div>
+		</li>';
 
-		//print_r($currentTags);
-		//print_r($diffTags);
-		
-		$diffTagsHtml = "
-		<li> &nbsp; 
-		</li>
-		";
-		
-		// not included tags
-		foreach ($diffTags as $diffTagId => $diffTagVal)
-		{
-			$diffTagsHtml .='
-			<li>
-				<div class="tag-name">'.$diffTagVal.'</div>
-				<div class="tag-add"><a href="javascript:addTag(\''.$diffTagId.'\');">[Add]</a></div>
-			</li>';
+		/*
+		$tagsHtml .='
+		<li>
+			<div class="tag-name">'.$theConceptsF[$tag['concept_id']].'</div>';
+			<div class"vote-icons">
+				<a href="javascript:tagVote(1,'.$tag['concept_id'].')"><img src="/images/vote_like.png" width="20px"></a>
+				<a href="javascript:tagVote(-1,'.$tag['concept_id'].')"><img src="/images/vote_dislike.png" width="20px"></a>
+			</div> 
+			<div class="tag-votes">'.$votes.'</div>
+		</li>';
+		*/
 			
-			//echo "<br/>".$diffTagId;
-		} 
-		
-		return $tagsHtml.$diffTagsHtml;
+			$conn++;
+	}
+	
+	$notIncludedConcepts = array_diff($theConceptsF, $currentConcepts);
 
-	} // end fnc
+	//print_r($currentConcepts);
+	//print_r($notIncludedConcepts);
+	
+	$notIncludedConceptsHtml = "
+	<li> &nbsp; 
+	</li>
+	";
+	
+	// not included tags
+	foreach ($notIncludedConcepts as $diffTagId => $diffTagVal)
+	{
+		$notIncludedConceptsHtml .='
+		<li>
+			<div class="tag-name">'.$diffTagVal.'</div>
+			<div class="tag-add"><a href="javascript:addTag(\''.$diffTagId.'\');">[Add]</a></div>
+		</li>';
+		
+		//echo "<br/>".$diffTagId;
+	} 
+	
+	return $tagsHtml.$notIncludedConceptsHtml;
+
+} // end fnc
 
 ?>

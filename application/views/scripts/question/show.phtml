@@ -246,8 +246,6 @@ function getConcepts($id)
 		
 		$theConcepts = $q->fetchArray();
 		
-		//$theConcepts=Doctrine::getTable("Concepts")->findAll(Doctrine::HYDRATE_ARRAY);
-		
 		//print_r($theConcepts);
 		//print_r($tags);
 		
@@ -288,7 +286,16 @@ function getConcepts($id)
 			
 			//var_dump($tag);
 			//echo "<br/>".$tag['conceptId'];
-			
+
+				/*
+				$tagsHtml .='
+			<li>
+
+			</li>
+				';
+				*/
+				
+				
 			$tagsHtml .='
 			<li>
 				<div class="tag-name">'.$theConceptsF[$tag['concept_id']].'</div>
@@ -298,6 +305,7 @@ function getConcepts($id)
 				</div> 
 				<div class="tag-votes">'.$votes.'</div>
 			</li>';
+			
 				
 				$conn++;
 		}

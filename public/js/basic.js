@@ -69,33 +69,34 @@ function postReply(postid)
 
 function postNewThread(parentType)
 {
-	  var a = document.getElementById("postId");
-	  a.value="";
+	$("#postId").val("");
+	$("#parentType").val(parentType);
 
-	  var c = document.getElementById("parentType");
-	  c.value=parentType;
+	var b = document.getElementById("reply-container");
+	b.style.display='inline';
 
-	  var b = document.getElementById("reply-container");
-	  b.style.display='inline';
-
-	  var d = document.getElementById("newThread-container");
-	  d.style.display='none';
+	var d = document.getElementById("newThread-container");
+	d.style.display='none';
 }
 
-function postVote(val, id, type, userid)
+function postVote(vote, id, type, userid, prefix)
 {
+	
+	//alert(prefix);
 	//set up a loader image
 	//$("#loading").html("<img src=\'/images/loader.gif\'>");
 	  
-	$("#vote_value").val(val);
-	$("#vote_obj_id").val(id);
-	$("#vote_obj_type").val(type);
-	$("#vote_activity_on_user").val(userid);
-	$("#vote_i2").val(id);
-	//$("#vote-form").submit();
+	$("#"+prefix+"vote_value").val(vote);
+	$("#"+prefix+"obj_id").val(id);
+	$("#"+prefix+"obj_type").val(type);
+	$("#"+prefix+"activity_on_user").val(userid);
+	$("#"+prefix+"i2").val(id);
+	//$("#"+prefix+"-form").submit();
 
-	 var jqxhr = $.post($("#vote-form").attr('action'), $("#vote-form").serialize())
+	var jqxhr = $.post($("#"+prefix+"vote_form").attr('action'), $("#"+prefix+"vote_form").serialize())
 	    .success(function(data) { 
+			// test this
+			//$("#test-data").html(data);
 		 	//alert(data);
 		 	if(data==1)
 		 		{
@@ -104,28 +105,17 @@ function postVote(val, id, type, userid)
 		 			alert("Invalid parameters")
 		 		} else {
 		 			var obj = jQuery.parseJSON(data);
-		 			// update voting 
-		 			  $("#"+obj.voteOnName+"-minus-"+obj.voteOnId).html(obj.votesMinus);
-		 			  $("#"+obj.voteOnName+"-total-"+obj.voteOnId).html(obj.votesSumm);
-		 			  $("#"+obj.voteOnName+"-plus-"+obj.voteOnId).html(obj.votesPlus);
-		 		}
-		 		
-		 })
+
+		 			// update voting  
+		 			  $("#"+prefix+"vote-minus-"+obj.voteOnId).html(obj.votesMinus);
+		 			  $("#"+prefix+"vote-total-"+obj.voteOnId).html(obj.votesSumm);
+		 			  $("#"+prefix+"vote-plus-"+obj.voteOnId).html(obj.votesPlus);
+		 		}})
 	    //.error(function() { alert("error"); })
 	    //.complete(function() { alert("complete");});
-}
-
-/*
-
- */
-function tagVote(val, id)
-{
-	alert(""+val+" to TAG "+ id);
 }
 
 function addTag(id)
 {
 	alert("adding Tag "+id+" to this elo");
 }
-
-

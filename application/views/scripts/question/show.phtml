@@ -52,33 +52,42 @@ if($this->type==0 && !$error)
  */
 {
 ?>
-
 <h3><?php echo $this->question[0]['name']?></h3>
-<?php 
-// update status 
-if($_SESSION["profile"]=="TEACHER")
-{
-?>
-<div id="updatestatus-container">
-	<form method="post" action="/question/updatestatus">
-		<input type="hidden" id="question_id"  name="question_id" value="<?php echo $this->question[0]['id']?>"/>
-		<span class="item-label">Status: </span>
-		<span class="item-input">
-			<select name="status">
-				<option value="1"<?php if($this->question[0]['status']==1) { echo "selected"; }?>>Active</option>
-				<option value="0"<?php if($this->question[0]['status']==0) { echo "selected"; }?>>Inactive</option>
-			</select>
-		</span> 
-	 <input type="submit" value="Update status">
-	</form>
-	<br/>
-</div>
-<?php
-} // 
-?>
 
+	<?php 
+	// update status 
+	if($_SESSION["profile"]=="TEACHER")
+	{
+	?>
+	<div id="updatestatus-container">
+		<form method="post" action="/question/updatestatus">
+			<input type="hidden" id="question_id"  name="question_id" value="<?php echo $this->question[0]['id']?>"/>
+			<span class="item-label">Status: </span>
+			<span class="item-input">
+				<select name="status">
+					<option value="1"<?php if($this->question[0]['status']==1) { echo "selected"; }?>>Active</option>
+					<option value="0"<?php if($this->question[0]['status']==0) { echo "selected"; }?>>Inactive</option>
+				</select>
+			</span> 
+		 <input type="submit" value="Update status">
+		</form>
+		<br/>
+	</div>
+	<?php
+	} // 
+	?>
+	
+	<div class="dashlet-box-image">
+		<div><?php echo $this->question[0]['media_content'];?></div>
+	</div>
+	<div><?php echo $this->question[0]['content'];?></div>
+
+	<!-- start  tags-container -->
 	<div id="elo-tags" class="dashlet-box" style="width:30%; float:right;">
+
 		<div class="dashlet-title">Tags</div>
+
+		
 		<div id="tags-container">
 		<?php //print_r($myContentArray[0]['tags']);?>
 			<ul class="ul-for-data">
@@ -91,12 +100,9 @@ if($_SESSION["profile"]=="TEACHER")
 			?>
 			</ul>
 		</div>
-	</div>		
-	
-	<div class="dashlet-box-image">
-		<div><?php echo $this->question[0]['media_content'];?></div>
 	</div>
-	<div><?php echo $this->question[0]['content'];?></div>
+	<!-- /tags-container -->	
+	
 	<?php 
 	if($_SESSION["profile"]=="TEACHER")
 	{

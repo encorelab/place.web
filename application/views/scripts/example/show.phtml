@@ -55,33 +55,16 @@ if($this->type==0 && !$error)
 	//echo "single view";
 ?>
 <h3><?php echo $this->example[0]['name']?></h3>
-	<div id="elo-tags" class="dashlet-box" style="width:30%; float:right;">
-		<div class="dashlet-title">Tags</div>
-		<div id="tags-container">
-		<?php //print_r($myContentArray[0]['tags']);?>
-			<ul class="ul-for-data">
-			<?php
-			$Myconcepts=getConcepts($this->example[0]['id']);
-			
-			//print_r($Myconcepts);
-			echo __analyzeTags($Myconcepts);
-
-			?>
-			</ul>
-		</div>
-	</div>		
-
 
 	<div class="dashlet-box-image">
 		<div><?php echo $this->example[0]['media_content'];?></div>
 	</div>
+	
 	<div><?php //echo $this->example[0]['content'];?></div>
 	
-	
-		<div id="posts-list">
-<?php 
-	
-// get first level comments
+	<div id="posts-list">
+	<?php 
+	// get first level comments
 	$discussionHtml = "";
 	$myComments = getCommentsIds($this->example[0]['id'],3); // first level
 	//print_r($myComments);
@@ -93,11 +76,27 @@ if($this->type==0 && !$error)
 		//echo "<br/>Comment Id: ".$comment['id'];
 	}
 	//*/
-
 	echo $discussionHtml;
+	?>
+	</div>	<!--  /posts-list -->
+
+	<div id="elo-tags" class="dashlet-box" style="width:30%; float:right;">
+		<div class="dashlet-title">Tags</div>
+		
+		<!-- start  tags-container -->
+		<div id="tags-container">
+			<ul class="ul-for-data">
+			<?php
+			$Myconcepts=getConcepts($this->example[0]['id']);
+			
+			//print_r($Myconcepts);
+			echo __analyzeTags($Myconcepts);
+			?>
+			</ul>
+		</div>
+		<!-- /tags-container -->
+	</div>		
 	
-?>
-		</div>	<!--  /posts-list -->
  
 		<div class="clear"></div>
  	

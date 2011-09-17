@@ -201,12 +201,12 @@ if($this->type==0 && !$error)
 	} // end if student
 	?>
 
-	<!--  start add vote to example_concept -->
+	<!--  start add vote on question_concept -->
 	<form id="qe_vote_form" method="post" action="/votes/add?prefix=qe_">
 		<input type="hidden" name="qe_obj_id" id="qe_obj_id" value=""/>
 		<input type="hidden" name="qe_obj_type" id="qe_obj_type" value="5"/>
 		<input type="hidden" name="qe_vote_value" id="qe_vote_value" value=""/>
-		<input type="hidden" name="qe_activity_type_id" id="qe_activity_type_id" value="3"/>
+		<input type="hidden" name="qe_activity_type_id" id="qe_activity_type_id" value="14"/>
 		<input type="hidden" name="qe_activity_on_user" id="qe_activity_on_user" value=""/>
 		<input type="text" name="qe_i1" id="qe_i1" value="<?php echo $this->question[0]['id']; ?>"/>
 		<input type="hidden" name="qe_i2" id="qe_i2" value=""/>

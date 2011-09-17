@@ -1,3 +1,31 @@
+<script type='text/javascript'>
+$(document).ready(function(){
+    $("input[name='students']").change(function(){
+        var studentId = $("input[name='students']:checked").val()
+        $("#studentProfile").load('/ajax/student-profile', {'studentId':studentId})
+    })
+})
+</script>
+
 <h3>Class List</h3>
+
+<div id="home-columns">
+    <div id="home-col1" style="float:left;width:20%;">
+        <h2>Students</h2>
 <?php
+foreach($this->students as $student){
+    $studentId = $student->id;
+    $studentName = $student->username;
+    
+    echo "<p><input type='radio' name='students' value='$studentId' /> $studentName</p>";
+}
 ?>
+
+    </div>
+
+    <div id="home-col2" style="float:right;width:75%;">
+        <div id='studentProfile'>
+            
+        </div>
+    </div>
+</div>

@@ -284,7 +284,7 @@ public function addanswerAction(){
 		$question->media_type = $params['media_type'];
 		$question->type = $params['question_type'];
 		$question->choices = $params['mc-list'];
-		$question->status = $params['status'];
+        // $question->status = $params['status'];
 
         $question->save();
         

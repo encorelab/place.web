@@ -3,12 +3,20 @@ require(APPLICATION_PATH.'/models/ajaxfileuploader/upload.php');
 
 class AjaxController extends Zend_Controller_Action
 {
-    //$_SESSION is not available in classactivityAction() ??
     private $session;
 
     public function init()
     {
         $this->_helper->layout()->disableLayout();
+    }
+    
+    public function studentProfileAction()
+    {
+        $params = $this->getRequest()->getParams();
+        
+        $this->view->student = Doctrine::getTable("User")->find($params['studentId']);
+        $this->view->activities = Doctrine::getTable("Activity")
+                                    ->findByDql("author_id = ?", $_SESSION['author_id']);
     }
     
     public function resolveAlertAction()
@@ -112,13 +120,12 @@ class AjaxController extends Zend_Controller_Action
 
     public function uploadfileAction()
     {
-	global $PLACEWEB_CONFIG;
-	$this->_helper->layout->disableLayout();
-	$this->_helper->viewRenderer->setNoRender();	
+    	global $PLACEWEB_CONFIG;
+    	$this->_helper->layout->disableLayout();
+    	$this->_helper->viewRenderer->setNoRender();	
 
-	$upload_handler = new UploadHandler();
-	ob_end_clean();
-
+    	$upload_handler = new UploadHandler();
+    	ob_end_clean();
 
 	    ob_start();
  
@@ -140,24 +147,19 @@ class AjaxController extends Zend_Controller_Action
     		return;	  
     	}
     	
-
     	$content = ob_get_contents();
     	ob_end_clean();
 
-///*
     	$this->getResponse()    	
-	->setHeader('Pragma: no-cache')
-    	->setHeader('Cache-Control: private, no-cache')
-    	->setHeader('Content-Disposition: inline; filename="files.json"')
-    	->setHeader('X-Content-Type-Options: nosniff')
-	->setHeader('Content-Type', 'text/plain')
-    	    ->appendBody($content)
-    	->sendResponse(); 
+    	->setHeader('Pragma: no-cache')
+        	->setHeader('Cache-Control: private, no-cache')
+        	->setHeader('Content-Disposition: inline; filename="files.json"')
+        	->setHeader('X-Content-Type-Options: nosniff')
+    	->setHeader('Content-Type', 'text/plain')
+        	    ->appendBody($content)
+        	->sendResponse(); 
 	
-	ob_end_clean();
-    		
-    	
-//*/
+    	ob_end_clean();
     }
 }
 

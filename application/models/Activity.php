@@ -64,8 +64,6 @@ class Activity extends BaseActivity
                 break;
         }
         
-        $str .= "<span class='alert-close-btn' activityId='".$this->id."'>[x]</span>";
-        
         return $str;
     }
     

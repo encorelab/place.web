@@ -101,7 +101,7 @@ class UserController extends Zend_Controller_Action
     private function rollCallAuthentication()
     {
     	echo "<hr/>";
-    	echo "using rollCall authentication";;
+    	echo "using rollCall authentication";
     	
     	/*
     	 * 1) send username and passw to rollcall

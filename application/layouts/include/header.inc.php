@@ -32,7 +32,10 @@ if(isset($_SESSION['access']))
 <?php 
 } else {
 ?>
+	<div id="header-top">
+		<img src="/images/placeweb.png" />
 		<div id="project-name">Physics Learning Across Contexts &amp; Environments</div>
+	</div>
 <?php 
 } // end if
 ?>

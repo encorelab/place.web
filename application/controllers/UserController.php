@@ -108,6 +108,8 @@ class UserController extends Zend_Controller_Action
 		$rest = new PestXML($rollcall_site_url);
 		*/
     	
+    	
+    	
     	// get json
     	
     	// convert array

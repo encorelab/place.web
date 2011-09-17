@@ -198,6 +198,7 @@ require(APPLICATION_PATH.'/models/ajaxfileuploader/upload.php');
 	<input type="hidden" id="saved" name="saved" value="1"/>
 	<input type="hidden" id="media_content" name="media_content" value="" />
 	<input type="hidden" id="media_type" name="media_type" value="" />
+	<input type="hidden" id="is_video" name="is_video" value="0" />
 
 </form>		
 </div>

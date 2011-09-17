@@ -940,11 +940,12 @@ $('#fileupload').fileupload({
                             }
 			// populate the form with the file data 
 
-                $("#media_path").val(file['url']);
-		$("#thumb_path").val(file['thumbnail_url']);
+                $("#media_path").val(file['name']);
+		$("#thumb_path").val(file['name']);
 		$("#saved").val('1');
-		$("#media_content").val(file['type']);
+		$("#media_content").val(file['url']);
 		$("#media_type").val(file['type']);
+		$("#is_video").val((file['is_video']?'1':'0'));
 		//alert($("#addExmple").serialize());
                                 
                           

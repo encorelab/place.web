@@ -492,6 +492,7 @@
 		$("#saved").val('');
 		$("#media_content").val('');
 		$("#media_type").val('');
+		$("#is_video").val('0');
                
             e.data.fileupload._trigger('destroy', e, {
                 context: button.closest('.template-download'),

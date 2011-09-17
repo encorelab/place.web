@@ -170,7 +170,7 @@ class VotesController extends Zend_Controller_Action
 			foreach ($votes as $vote)
 			{
 				$votesSumm += $vote['vote_value'];
-				if($vote['vote_value']=-1)
+				if($vote['vote_value']==-1)
 				{
 					$votesMinus -= $vote['vote_value'];
 				} else {

@@ -96,7 +96,7 @@ function postVote(val, id, type, userid)
 
 	 var jqxhr = $.post($("#vote-form").attr('action'), $("#vote-form").serialize())
 	    .success(function(data) { 
-		 	alert(data);
+		 	//alert(data);
 		 	if(data==1)
 		 		{
 		 			alert("You have already voted");

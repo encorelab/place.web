@@ -252,7 +252,7 @@ function getCommentById($id,$obj_type)
 	foreach ($votes as $vote)
 	{
 		$votesSumm += $vote['vote_value'];
-		if($vote['vote_value']=-1)
+		if($vote['vote_value']==-1)
 		{
 			$votesMinus -= $vote['vote_value'];
 		} else {
@@ -276,18 +276,17 @@ function getCommentById($id,$obj_type)
 	<div class="post-item">
 		<div class="votes-container" style="float:right;">
 			<div id="vote-loading-'.$id.'"></div> 
-		
 			<div id="vote-minus-'.$id.'" class="vote-minus-plus">
 				'.$votesMinus.'
 			</div> 
 			<div class="vote-icon">
-				<a href="javascript:postVote(-1,'.$id.',1,'.$post[0]['User']['id'].')"><img src="/images/icon_arrow_down.png" width="20px"></a>
+				<a href="javascript:postVote(-1,'.$id.',1,'.$_SESSION['author_id'].')"><img src="/images/icon_arrow_down.png" width="20px"></a>
 			</div>
 			<div id="vote-total-'.$id.'" class="vote-total">
 				'.$votesSumm.'
 			</div>
 			<div class="vote-icon">
-				<a href="javascript:postVote(1,'.$id.',1,'.$post[0]['User']['id'].')"><img src="/images/icon_arrow_up.png" width="20px"></a>
+				<a href="javascript:postVote(1,'.$id.',1,'.$_SESSION['author_id'].')"><img src="/images/icon_arrow_up.png" width="20px"></a>
 			</div>
 			<div id="vote-plus-'.$id.'" class="vote-minus-plus">
 				'.$votesPlus.'
@@ -417,7 +416,30 @@ function getCommentById($id,$obj_type)
 			
 			$tagsHtml .='
 			<li>
-				<div class="tag-name">'.$theConceptsF[$tag['concept_id']].'</div>
+			
+				<div class="tag-name">'.$theConceptsF[$tag['concept_id']].'</div>';
+				/*
+				<div class="votes-container" style="float:right;">
+					<div id="vote-loading-'.$id.'"></div> 
+					<div id="vote-minus-'.$id.'" class="vote-minus-plus">
+						'.$votesMinus.'
+					</div> 
+					<div class="vote-icon">
+						<a href="javascript:postVote(-1,'.$id.',1,'.$post[0]['User']['id'].')"><img src="/images/icon_arrow_down.png" width="20px"></a>
+					</div>
+					<div id="vote-total-'.$id.'" class="vote-total">
+						'.$votesSumm.'
+					</div>
+					<div class="vote-icon">
+						<a href="javascript:postVote(1,'.$id.',1,'.$post[0]['User']['id'].')"><img src="/images/icon_arrow_up.png" width="20px"></a>
+					</div>
+					<div id="vote-plus-'.$id.'" class="vote-minus-plus">
+						'.$votesPlus.'
+					</div> 
+				</div>
+		*/
+			$tagsHtml .='
+			<li>
 				<div class"vote-icons">
 					<a href="javascript:tagVote(1,'.$tag['concept_id'].')"><img src="/images/vote_like.png" width="20px"></a>
 					<a href="javascript:tagVote(-1,'.$tag['concept_id'].')"><img src="/images/vote_dislike.png" width="20px"></a>

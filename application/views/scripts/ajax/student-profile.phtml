@@ -1,0 +1,16 @@
+<div id='studentActivities' class='dashlet-box'>
+    <div class="dashlet-title">Student Activities</div>
+
+    <div>
+        <ul class="ul-for-data">
+    
+<?php 
+foreach ($this->activities as $activity)
+{
+	echo "<li>".$activity->getMessage()."</li>";
+}
+?>
+    	</ul>
+    </div>
+</div>
+    

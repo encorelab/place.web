@@ -14,7 +14,7 @@ Doctrine_Manager::getInstance()->bindComponent('QuestionConcept', 'main');
  * @property timestamp $date_created
  * @property integer $question_id
  * @property integer $concept_id
- * @property Example $Example
+ * @property Question $Question
  * @property Concept $Concept
  * @property Run $Run
  * @property User $User
@@ -94,7 +94,7 @@ abstract class BaseQuestionConcept extends Doctrine_Record
     public function setUp()
     {
         parent::setUp();
-        $this->hasOne('Example', array(
+        $this->hasOne('Question', array(
              'local' => 'question_id',
              'foreign' => 'id'));
 

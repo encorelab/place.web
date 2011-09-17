@@ -76,8 +76,9 @@ class ExampleController extends Zend_Controller_Action
     	
     	//print_r($PLACEWEB_CONFIG['fConcepts']);
     	
+    	// ??? check this
     	$this->view->fConcepts = $PLACEWEB_CONFIG['fConcepts'];
-	$this->view->uploader = $PLACEWEB_CONFIG['fileuploader'];
+		$this->view->uploader = $PLACEWEB_CONFIG['fileuploader'];
     }
     
     public function addAction(){
@@ -137,21 +138,19 @@ class ExampleController extends Zend_Controller_Action
         $mysql="";
     	foreach ($PLACEWEB_CONFIG['fConcepts'] as $cId => $cName)
 		{
-			//$mysql.="INSERT INTO concepts (run_id, author_id, date_modified, date_created, name) VALUES (1, 1, '2011-09-08 14:25:59', '2011-09-08 14:25:59', '".$cName."');<br>";
-			//echo "<br/>".$cId;
 			if(isset($params['concept_id__'.$cId]))
 			{
 				echo "<hr/>".$cName;
-				$example_comment = new ExampleConcept();
+				$example_concept = new ExampleConcept();
 		        
-				$example_comment->run_id = $_SESSION['run_id'];
-				$example_comment->author_id = $_SESSION['author_id'];
-				//$example_comment->date_modified = date( 'Y-m-d H:i:s');
-				$example_comment->date_created = date( 'Y-m-d H:i:s');
-				$example_comment->example_id= $example->id;
-				$example_comment->concept_id= $cId;
-				$example_comment->save();
-				echo "<br>Example_concept Id: ".$example_comment->id;
+				$example_concept->run_id = $_SESSION['run_id'];
+				$example_concept->author_id = $_SESSION['author_id'];
+				//$example_concept->date_modified = date( 'Y-m-d H:i:s');
+				$example_concept->date_created = date( 'Y-m-d H:i:s');
+				$example_concept->example_id= $example->id;
+				$example_concept->concept_id= $cId;
+				$example_concept->save();
+				echo "<br>Example_concept Id: ".$example_concept->id;
 			}
 		} // end for
 		
@@ -159,7 +158,7 @@ class ExampleController extends Zend_Controller_Action
 		$activity = new Activity();
 		$activity->run_id = $_SESSION['run_id'];
 		$activity->author_id = $_SESSION['author_id'];
-		//$example_comment->date_modified = date( 'Y-m-d H:i:s');
+		//$example_concept->date_modified = date( 'Y-m-d H:i:s');
 		$activity->date_created = date( 'Y-m-d H:i:s');
 		$activity->activity_type_id = 11;
 		//$activity->activity_on_user

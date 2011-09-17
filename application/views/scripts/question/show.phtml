@@ -208,12 +208,36 @@ if($this->type==0 && !$error)
 		<input type="hidden" name="qe_vote_value" id="qe_vote_value" value=""/>
 		<input type="hidden" name="qe_activity_type_id" id="qe_activity_type_id" value="3"/>
 		<input type="hidden" name="qe_activity_on_user" id="qe_activity_on_user" value=""/>
-		<input type="hidden" name="qe_i1" id="qe_i1" value="<?php echo $this->example[0]['id']; ?>"/>
+		<input type="text" name="qe_i1" id="qe_i1" value="<?php echo $this->question[0]['id']; ?>"/>
 		<input type="hidden" name="qe_i2" id="qe_i2" value=""/>
 		<input type="hidden" name="qe_t1" id="qe_t1" value="Question"/>
 		<input type="hidden" name="qe_t2" id="qe_t2" value="QuestionConcept"/>
 	</form>
 	<!--  end add vote to example_concept -->
+	
+	<!--  start add question_concept -->
+	<form id="qe_tag_form" method="post" action="/tags/add?prefix=qe_">
+	<input type="hidden" name="qe_id" id="qe_id" value="<?php echo $this->question[0]['id']; ?>"/>
+	<input type="hidden" name="concept_id" id="concept_id" value=""/>
+	<input type="hidden" name="tag_type" id="tag_type" value="2"/> <?php // 1 for example, 2 for questions?>
+	
+<?php 
+/**
+ * we need new types of activity for this
+ */
+?>
+<!-- 
+		<input type="hidden" name="ex_activity_type_id" id="ex_activity_type_id" value=""/> 
+		<input type="hidden" name="ex_activity_on_user" id="ex_activity_on_user" value=""/> 
+	
+		<input type="hidden" name="ex_i1" id="ex_i1" value="<?php //echo $this->example[0]['id']; ?>"/>
+		<input type="hidden" name="ex_i2" id="ex_i2" value=""/>
+		<input type="hidden" name="ex_t1" id="ex_t1" value="Example"/>
+		<input type="hidden" name="ex_t2" id="ex_t2" value="ExampleConcept"/>
+-->
+	</form>
+	<!--  end add question_concept -->
+	
 <?php 	
 } // end single view
 ?>
@@ -248,6 +272,46 @@ function getConcepts($id)
 
 	return $result;
 }
+
+function countVotes($obj_id, $obj_type)
+{
+	// get all votes for this post: note that we can use SUM in SQL instead
+	// ********************************************************************* 
+    $q = Doctrine_Query::create()
+	//->select ("v.id, v.vote_value, u.id, u.username") // use this if we want to show who and how someone voted
+	->select ("v.id, v.vote_value")
+	->from("Vote v")
+	//->innerJoin("v.User u")
+	->where('v.run_id = ? AND v.obj_id = ? AND v.obj_type = ?' , 
+	array($_SESSION['run_id'],$obj_id, $obj_type)) 				
+	->orderBy('v.id DESC');
+	
+	$votes = $q->fetchArray();
+
+	$votesCount = array();
+	$votesSumm = 0; $votesMinus = 0; $votesPlus = 0;
+	
+	foreach ($votes as $vote)
+	{
+		$votesSumm += $vote['vote_value'];
+		
+		if($vote['vote_value']==-1)
+		{
+			$votesMinus-= $vote['vote_value'];
+		} else {
+			$votesPlus+= $vote['vote_value'];
+		}
+		
+	}
+	$votesCount = array (
+		"votesSumm" => $votesSumm,
+		"votesMinus" => $votesMinus,
+		"votesPlus" => $votesPlus
+	);
+	return $votesCount;
+	// end get votes
+	
+} // end countVotes()
 
 function analyzeTags($tags, $prefix="")
 {
@@ -299,7 +363,7 @@ function analyzeTags($tags, $prefix="")
 		//var_dump($tag);
 		//echo "<br/>".$tag['conceptId'];
 		
-			$votesCount = countVotes($tag['concept_id'],4); // look for votes for obj_type = 4 example_concept
+			$votesCount = countVotes($tag['concept_id'],5); // look for votes for obj_type = 4 example_concept
 			
 			$votesMinus =0 ;
 			$votesSumm = 0;
@@ -314,13 +378,13 @@ function analyzeTags($tags, $prefix="")
 					'.$votesCount['votesMinus'].'
 				</div> 
 				<div class="vote-icon">
-					<a href="javascript:postVote(-1,'.$tag['concept_id'].',4,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_down.png" width="20px"></a>
+					<a href="javascript:postVote(-1,'.$tag['concept_id'].',5,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_down.png" width="20px"></a>
 				</div>
 				<div  id="'.$prefix.'vote-total-'.$tag['concept_id'].'" class="vote-total">
 					'.$votesCount['votesSumm'].'
 				</div>
 				<div class="vote-icon">
-					<a href="javascript:postVote(1,'.$tag['concept_id'].',4,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_up.png" width="20px"></a>
+					<a href="javascript:postVote(1,'.$tag['concept_id'].',5,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_up.png" width="20px"></a>
 				</div>
 				<div  id="'.$prefix.'vote-plus-'.$tag['concept_id'].'" class="vote-minus-plus">
 					'.$votesCount['votesPlus'].'

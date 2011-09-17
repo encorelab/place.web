@@ -117,5 +117,7 @@ function postVote(vote, id, type, userid, prefix)
 
 function addTag(id)
 {
-	alert("adding Tag "+id+" to this elo");
+	$("#concept_id").val(id);
+	$("#qe_tag_form").submit();
+	
 }

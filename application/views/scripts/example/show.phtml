@@ -142,7 +142,7 @@ if($this->type==0 && !$error)
 	</form>
 	<!--  end add vote to comments -->	
 	
-	<!--  start add vote to example_concept -->
+	<!--  start add vote on example_concept -->
 	<form id="qe_vote_form" method="post" action="/votes/add?prefix=qe_">
 		<input type="hidden" name="qe_obj_id" id="qe_obj_id" value=""/>
 		<input type="hidden" name="qe_obj_type" id="qe_obj_type" value="4"/>
@@ -155,6 +155,31 @@ if($this->type==0 && !$error)
 		<input type="hidden" name="qe_t2" id="qe_t2" value="ExampleConcept"/>
 	</form>
 	<!--  end add vote to example_concept -->
+	
+	
+	<!--  start add example_concept -->
+	<form id="qe_tag_form" method="post" action="/tags/add?prefix=qe_">
+	<input type="hidden" name="qe_id" id="qe_id" value="<?php echo $this->example[0]['id']; ?>"/>
+	<input type="hidden" name="concept_id" id="concept_id" value=""/>
+	<input type="hidden" name="tag_type" id="tag_type" value="1"/> <?php // 1 for example, 2 for questions?>
+	
+<?php 
+/**
+ * we need new types of activity for this
+ */
+?>
+<!-- 
+		<input type="hidden" name="ex_activity_type_id" id="ex_activity_type_id" value=""/> 
+		<input type="hidden" name="ex_activity_on_user" id="ex_activity_on_user" value=""/> 
+	
+		<input type="hidden" name="ex_i1" id="ex_i1" value="<?php //echo $this->example[0]['id']; ?>"/>
+		<input type="hidden" name="ex_i2" id="ex_i2" value=""/>
+		<input type="hidden" name="ex_t1" id="ex_t1" value="Example"/>
+		<input type="hidden" name="ex_t2" id="ex_t2" value="ExampleConcept"/>
+-->
+	</form>
+	<!--  end add example_concept -->
+	
 <?php 
 
 } // end single view

@@ -1,4 +1,5 @@
 <?php
+
 // Make sure to see http://www.pikopong.com/blog/2010/10/14/how-to-setup-example-application-from-zend-framework-a-beginners-guide-book/
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
@@ -46,5 +47,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         // Zend_Locale::setCache($memoryCache);
         // Zend_Translate::setCache($memoryCache);      
       }
+
+      protected function _initSession()
+      {
+      	 Zend_Session::start();
+      }
+      
 }
 

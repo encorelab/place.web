@@ -60,6 +60,8 @@ class ExampleController extends Zend_Controller_Action
 
     	$this->view->example = $example;
 		$this->view->type = $type;
+		
+		$this->view->notAssessedItems=0;
 			
 		
     	//print_r($_SESSION);

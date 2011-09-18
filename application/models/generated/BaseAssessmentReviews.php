@@ -13,6 +13,10 @@ Doctrine_Manager::getInstance()->bindComponent('AssessmentReviews', 'main');
  * @property timestamp $date_modified
  * @property timestamp $date_created
  * @property string $log
+ * @property integer $i1
+ * @property integer $i2
+ * @property string $t1
+ * @property string $t2
  * @property Run $Run
  * @property User $User
  * 
@@ -70,6 +74,42 @@ abstract class BaseAssessmentReviews extends Doctrine_Record
              ));
         $this->hasColumn('log', 'string', null, array(
              'type' => 'string',
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('i1', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => 4,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('i2', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => 4,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('t1', 'string', 255, array(
+             'type' => 'string',
+             'length' => 255,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('t2', 'string', 255, array(
+             'type' => 'string',
+             'length' => 255,
              'fixed' => false,
              'unsigned' => false,
              'primary' => false,

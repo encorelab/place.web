@@ -14,7 +14,7 @@ $PLACEWEB_CONFIG['authentication'] = "local";
 $PLACEWEB_CONFIG['fileuploader'] = 2; // mike uploader
 
 //FFMPEG path
-$PLACEWEB_CONFIG['ffmpegPath'] = '/usr/bin/ffmpeg';
+$PLACEWEB_CONFIG['ffmpegPath'] = '/usr/local/bin/ffmpeg';
 
 // upload directory
 // Mike M config

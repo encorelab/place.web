@@ -19,6 +19,9 @@ Doctrine_Manager::getInstance()->bindComponent('Question', 'main');
  * @property string $media_path
  * @property string $media_type
  * @property integer $choices
+ * @property integer $status
+ * @property integer $is_published
+ * @property integer $is_public
  * @property Run $Run
  * @property User $User
  * @property Doctrine_Collection $Answer
@@ -141,6 +144,36 @@ abstract class BaseQuestion extends Doctrine_Record
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('status', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => 4,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'default' => '0',
+             'notnull' => false,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('is_published', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => 4,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'default' => '0',
+             'notnull' => true,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('is_public', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => 4,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'default' => '0',
+             'notnull' => true,
              'autoincrement' => false,
              ));
     }

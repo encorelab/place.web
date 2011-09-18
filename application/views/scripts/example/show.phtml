@@ -1,6 +1,8 @@
 <div id="example-container">
-
 <?php 
+global $notAssessedItems;
+$notAssessedItems="";
+
 ///echo "<hr/>";
 //echo "<hr/>Type: ".$this->type;
 
@@ -85,24 +87,56 @@ if($this->type==0 && !$error)
 	</div>
 	
 	<div><?php //echo $this->example[0]['content'];?></div>
+	
+	<!-- assessment form -->
+	<form name="assessment-form" method="post" action="/assessment/add">			
 		
 	<div id="posts-list">
 	<?php 
 	// get first level comments
 	$discussionHtml = "";
-	$myComments = getCommentsIds($this->example[0]['id'],3); // first level
+	$myComments = getCommentsIds($this->example[0]['id'],3); // first level type=3
 	//print_r($myComments);
 	///*
 	// for each top level comment find its children
 	foreach ($myComments as $comment)
 	{
-		$discussionHtml .= getCommentById($comment['id'],3);
+		$discussionHtml .= getCommentById($comment['id'],3); // first level type=3
 		//echo "<br/>Comment Id: ".$comment['id'];
 	}
 	//*/
 	echo $discussionHtml;
 	?>
 	</div>	<!--  /posts-list -->
+
+	<div id="newThread-container">
+		<input type="button" value="New Thread" onClick="postNewThread('3')"/>
+	</div>
+	
+		<div class="clear"></div>
+<?php 
+	if($_SESSION['profile']=="TEACHER"){
+?>
+		<input type="hidden" value="1" name="obj_type"> <!-- 1=comment -->
+		<input type="hidden" value="<?php echo $this->example[0]['id']; ?>" name="parent_id">
+		<input type="hidden" value="examples" name="parent_type">
+		<input type="hidden" value="<?php echo $notAssessedItems; ?>" name="assesment_list">
+		<div id="btn_submit_marks" class="div-show">
+			<input id="btn_submit_marks" type="button" value="Submit Marks" onclick="showAssessmentReview()">
+		</div>
+		<div id="assessment-review-container" class="dashlet-box div-hide">
+			<div class="dashlet-title">Assessment Review</div>
+			<textarea name="review-log" rows="" cols="" name="assessment_review"></textarea>
+			<br/>
+			<input type="submit" value="Confirm">
+			<input type="button" value="Cancel" onclick="marksCancel()">
+		</div>
+<?php 
+	} // end if teacher
+?>
+
+	</form>
+	<!-- /assessment form -->
 	
  
 		<div class="clear"></div>
@@ -110,20 +144,17 @@ if($this->type==0 && !$error)
  	<!--  Start add comment form -->
 	<form method="post" action="/comment/add">
  
-		<div id="reply-container">
+		<div id="reply-container" class="dashlet-box div-hide">
+			<div id="reply-new-title" class="dashlet-title"></div>
 			<textarea rows="5" cols="25" name="replyText" name="replyText"></textarea>
 			<br/>
-			<input type="submit" value="Save"/>
+			<input type="submit" value="Submit"/>
+			<input type="button" value="Cancel" onClick="postCancel()"/>
 			<input type="hidden" name="obj_id" id="obj_id" value="<?php echo $this->example[0]['id']; ?>"/>
 			<input type="hidden" name="postId" id="postId" value=""/>
 			<input type="hidden" name="example_id" id="example_id" value="<?php echo $this->example[0]['id']; ?>"/>
 			<input type="hidden" name="parentType" id="parentType" value=""/>
 			<input type="hidden" name="replyPosted" id="replyPosted" value="1"/>
-		</div>
-		<div id="newThread-container">
-		
-			<input type="button" value="New Thread" onClick="postNewThread('3')"/>
-
 		</div>
 	</form>
 	<!--  end add comment form -->		
@@ -299,8 +330,52 @@ function countVotes($obj_id, $obj_type)
 	
 } // end countVotes()
 
+function checkHasAssessment($author_id, $obj_id, $obj_type)
+{
+	global $notAssessedItems;
+	
+	$q = Doctrine_Query::create()
+	->select('a.id, a.mark')
+	->from('Assessment a')
+	->where('a.run_id = ? AND a.author_id = ? AND a.obj_id = ? AND a.obj_type = ?', 
+		array($_SESSION['run_id'], $_SESSION['author_id'], $obj_id, $obj_type));
+	 
+	$assessment = $q->fetchArray();
+	
+	if(count($assessment)==0)
+	{
+		// add this iterm to the assessment list
+		$notAssessedItems .= "".$obj_id.",";
+		//return "has no assessment";
+		//echo "<hr>checkHasAssessment: ".$notAssessedItems;
+		return renderAssessmentFormItem($obj_id);
+		
+	} else {
+		return '<div class="assessment-mark">'.$assessment[0]['mark'].'</div>';
+		
+	}
+	
+	//return $assessment;
+}
+
+function renderAssessmentFormItem($id)
+{
+	$assessmentForm = '
+	<div class="assessment-item">
+			<input type="radio" value="1" name="mark_'.$id.'">1  |
+			<input type="radio" value="2" name="mark_'.$id.'">2  |
+			<input type="radio" value="3" name="mark_'.$id.'">3  |
+			<input type="radio" value="4" name="mark_'.$id.'">4   
+			<input type="hidden" value="'.$id.'" name="obj_id_'.$id.'">
+	</div>
+	';
+	return $assessmentForm;
+}
+
 function getCommentById($id,$obj_type, $prefix="")
 {
+	global $notAssessedItems;
+	
 	$prefix="comm_";
 	
 	$repliesHtml= ""; // stores all the threaded discussion html
@@ -316,7 +391,7 @@ function getCommentById($id,$obj_type, $prefix="")
 		//->orderBy('c.id DESC'); // not needed, return only one entry
 	
 	$post = $q->fetchArray();
-	
+
 	$votesCount = countVotes($id,1); // look for votes only on obj_type = 1 comments
 	
 	$repliesHtml .= "
@@ -326,7 +401,18 @@ function getCommentById($id,$obj_type, $prefix="")
 	//Id:'.$id.'
 	$repliesHtml .=''.$id.'
 	<li>
-		<div class="post-item">
+		<div class="post-item">';
+	
+	// add assessment for if is a teacher
+	if($_SESSION['profile']=="TEACHER")
+	{
+		
+		$repliesHtml .=''.checkHasAssessment($post[0]['User']['id'], $id, 1); // obj_type = 1 comments in assessable
+	}
+	
+	//$repliesHtml .='notAssessedItems: '.$notAssessedItems;
+	
+	$repliesHtml .='
 			<div class="votes-container" style="float:right;">
 				<div id="'.$prefix.'vote-loading-'.$id.'"></div> 
 				<div id="'.$prefix.'vote-minus-'.$id.'" class="vote-minus-plus">
@@ -337,7 +423,7 @@ function getCommentById($id,$obj_type, $prefix="")
 				</div>
 				<div id="'.$prefix.'vote-total-'.$id.'" class="vote-total">
 					'.$votesCount['votesSumm'].'
-				</div>
+				</div> 
 				<div class="vote-icon">
 					<a href="javascript:postVote(1,'.$id.',1,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_up.png" width="20px"></a>
 				</div>
@@ -366,7 +452,7 @@ function getCommentById($id,$obj_type, $prefix="")
 	// we need a contract expand here 
 			
 // determine if the comment has replies
-	$commentReplies = getCommentsIds($id, 1); 
+	$commentReplies = getCommentsIds($id, 1);
 	$tot=0;
 	$tot=count($commentReplies);
 	//echo "<hr/>";
@@ -398,7 +484,6 @@ function getCommentById($id,$obj_type, $prefix="")
 	// close main </ul>
 			$repliesHtml .= "
 </ul>";
-	
 	
 	return  $repliesHtml;
 	

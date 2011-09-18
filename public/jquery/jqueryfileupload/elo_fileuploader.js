@@ -930,7 +930,7 @@ $('#fileupload').fileupload({
                                                     },
                                     
                                      solution:"html, flash",
-                                     swfPath: "./jquery/jplayer",
+                                     swfPath: "/jquery/jplayer",
                                      supplied: "m4v",
                                      errorAlerts: true
                                     });

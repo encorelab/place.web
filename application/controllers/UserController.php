@@ -7,6 +7,8 @@ class UserController extends Zend_Controller_Action
     public function init()
     {
     	global $PLACEWEB_CONFIG;
+//    	print_r($PLACEWEB_CONFIG);
+    	
 		if(isset($PLACEWEB_CONFIG['authentication']))
 		{
 			$this->authMethod = $PLACEWEB_CONFIG['authentication'];
@@ -27,6 +29,10 @@ class UserController extends Zend_Controller_Action
     
     public function loginAction()
     {
+    	//require_once(APPLICATION_PATH.'/configs/config.php');
+    	
+    	//global $PLACEWEB_CONFIG;
+    	
 		
     	
     	if($this->authMethod == "local")
@@ -70,7 +76,7 @@ class UserController extends Zend_Controller_Action
 		->where('e.run_id = ? AND e.username = ?' , array(1, $this->params['username']))
 		->orderBy('e.id DESC');
 		$user = $q->fetchArray();
-		//print_r($user);
+		print_r($user);
 		
     	$_SESSION['access'] = true;
     	$_SESSION['username'] = $user[0]['username']; 	// user.username
@@ -101,7 +107,20 @@ class UserController extends Zend_Controller_Action
     private function rollCallAuthentication()
     {
     	echo "<hr/>";
-    	echo "using rollCall authentication";
+    	echo "using rollCall authentication";;
+		/*
+    	require 'PestXML.php';
+		$rollcall_site_url = "http://rollcall.proto.encorelab.org/:3000";
+		$rest = new PestXML($rollcall_site_url);
+		*/
+    	
+    	
+    	
+    	// get json
+    	
+    	// convert array
+    	
+    	
     	
     	/*
     	 * 1) send username and passw to rollcall

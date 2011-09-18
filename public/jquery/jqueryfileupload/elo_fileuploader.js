@@ -860,6 +860,22 @@ collision: o.positionOptions.collision || 'flip'
 
 $(document).ready(function () {
     'use strict';
+
+$( "#error-dialog" ).dialog({
+			autoOpen: false,
+			show: "",
+			hide: "",
+			resizable: false,
+			modal: true,
+			buttons: {
+				Ok: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+
+
+
 var isJPlayerReady = false;
 $('select#eloType').selectmenu({style: 'popup'});
 $('select#eloChoices').selectmenu({style: 'popup'});
@@ -922,7 +938,15 @@ $('#fileupload').fileupload({
                                    
                                                                 
                             }
-                            
+			// populate the form with the file data 
+
+                $("#media_path").val(file['name']);
+		$("#thumb_path").val(file['name']);
+		$("#saved").val('1');
+		$("#media_content").val(file['url']);
+		$("#media_type").val(file['type']);
+		$("#is_video").val((file['is_video']?'1':'0'));
+		//alert($("#addExmple").serialize());
                                 
                           
                             
@@ -976,3 +1000,34 @@ $('#fileupload').fileupload({
     });
 
 });
+
+function checkExample() {
+
+	var isTagged = false;
+
+$('input:checkbox').each(function(){
+	if ($(this).attr('checked'))
+		isTagged = true;
+	}) 
+	
+	if ($("#example-name").val().length < 3)
+	{
+		$( "#error-dialog" ).dialog( "open" );
+		$( "#error-dialogue-text").html("<p>You must enter a name (with at least 3 characters) in the <strong>Name</strong> field for your example.</p>");		
+		return false;
+	}
+	else if(! isTagged)
+	{
+		$( "#error-dialog" ).dialog( "open" );
+		$( "#error-dialogue-text").html("<p>You must select at least <strong>one</strong> Tag.</p>");		
+		return false;
+	}
+	/*
+		
+	
+	*/
+	$("#addExmple").submit();
+}
+
+
+

@@ -21,7 +21,6 @@ Doctrine_Manager::getInstance()->bindComponent('Example', 'main');
  * @property Run $Run
  * @property User $User
  * @property Doctrine_Collection $ExampleConcept
- * @property Doctrine_Collection $QuestionConcept
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -143,9 +142,5 @@ abstract class BaseExample extends Doctrine_Record
         $this->hasMany('ExampleConcept', array(
              'local' => 'id',
              'foreign' => 'example_id'));
-
-        $this->hasMany('QuestionConcept', array(
-             'local' => 'id',
-             'foreign' => 'question_id'));
     }
 }

@@ -23,6 +23,7 @@ Doctrine_Manager::getInstance()->bindComponent('User', 'main');
  * @property Doctrine_Collection $AnswerConcept
  * @property Doctrine_Collection $Assessable
  * @property Doctrine_Collection $Assessment
+ * @property Doctrine_Collection $AssessmentReviews
  * @property Doctrine_Collection $Comment
  * @property Doctrine_Collection $Commentable
  * @property Doctrine_Collection $Concept
@@ -154,6 +155,10 @@ abstract class BaseUser extends Doctrine_Record
              'foreign' => 'author_id'));
 
         $this->hasMany('Assessment', array(
+             'local' => 'id',
+             'foreign' => 'author_id'));
+
+        $this->hasMany('AssessmentReviews', array(
              'local' => 'id',
              'foreign' => 'author_id'));
 

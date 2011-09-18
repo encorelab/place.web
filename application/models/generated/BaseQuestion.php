@@ -22,6 +22,7 @@ Doctrine_Manager::getInstance()->bindComponent('Question', 'main');
  * @property Run $Run
  * @property User $User
  * @property Doctrine_Collection $Answer
+ * @property Doctrine_Collection $QuestionConcept
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -156,6 +157,10 @@ abstract class BaseQuestion extends Doctrine_Record
              'foreign' => 'id'));
 
         $this->hasMany('Answer', array(
+             'local' => 'id',
+             'foreign' => 'question_id'));
+
+        $this->hasMany('QuestionConcept', array(
              'local' => 'id',
              'foreign' => 'question_id'));
     }

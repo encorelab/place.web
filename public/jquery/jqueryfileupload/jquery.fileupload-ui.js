@@ -485,7 +485,15 @@
             $("#eloimg").prop('src','/images/uploader.png');
             $("#eloimg").prop('alt', 'Drag and Drop a new Media File here...');
             $("#eloimg").prop('title', 'Drag and Drop a new Media File here...');
-                            
+
+	   /* update the form values with null */
+		$("#media_path").val('');
+		$("#thumb_path").val('');
+		$("#saved").val('');
+		$("#media_content").val('');
+		$("#media_type").val('');
+		$("#is_video").val('0');
+               
             e.data.fileupload._trigger('destroy', e, {
                 context: button.closest('.template-download'),
                 url: button.attr('data-url'),

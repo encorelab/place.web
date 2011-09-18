@@ -148,8 +148,11 @@ display:none;
 
 
 #posts-list {
-	float:left;
-	 width: 62%;
+    border: 1px dashed;
+    float: left;
+    height: 400px;
+    overflow: auto;
+    width: 62%;
 }
 
 
@@ -219,12 +222,11 @@ li.header-li a{
 	float:right;
 	font-size: 17pt;
 	color: #FFFFFF;
+	margin-right: 40px;
 	padding-left: 40px;
 	padding-right: 40px;
 	padding-top: 10px;
 	padding-bottom: 10px;
-	margin-left: 5em;
-	margin-right: 40px;
 	background-color: #dd9e37;
 }
 
@@ -360,7 +362,7 @@ body {
 .dashlet-box li {
 	background: none repeat scroll 0 0 #FFFFFF;
 	border: 1px solid #CCCCCC;
-	font-size: 1.2em;
+	font-size: 0.8em;
 	/*margin-left: 2em;*/
 	overflow: auto;
 	float:left;
@@ -371,11 +373,18 @@ body {
 }
 
 #container {
+/*
+    margin: 0.5em;
+    text-align: left;
+    width: 1000px;
+*/
+	    
     margin-top: 2em;
     margin-bottom: 2em;
     margin-left: 4em;
     margin-right: 4em;
     text-align: left;
+	
 }
 
 #global_header, #global_footer {
@@ -416,7 +425,7 @@ body {
 	text-align: left;
 	float: left;
 	width: 20%;
-	height: 20%;
+	/*height: 20%;*/
 	margin-left: 36px;
 }
 

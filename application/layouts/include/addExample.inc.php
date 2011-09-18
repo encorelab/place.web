@@ -6,6 +6,10 @@ require(APPLICATION_PATH.'/models/ajaxfileuploader/upload.php');
 ?>
 <script type="text/javascript" src="/jquery/jqueryfileupload/elo_fileuploader.js" ></script>
 <h2>Add Example</h2>
+<div id="error-dialog" title="Submission Error">
+	<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+ 	<span id="error-dialogue-text"></span>
+</div>
 <div id="home-columns">
 	<div id="home-col1" style="float:left;">
 
@@ -148,7 +152,7 @@ require(APPLICATION_PATH.'/models/ajaxfileuploader/upload.php');
 		<div class="dashlet-box-simple">
 			<div>
 				<span class="item-label">Name: </span>
-				<span class="item-input"><input type="text" name="name"/></span> 
+				<span class="item-input"><input type="text" id="example-name" name="name"/></span> 
 			</div>
 			<div>
 				<span class="item-label">Type: </span>
@@ -181,7 +185,7 @@ require(APPLICATION_PATH.'/models/ajaxfileuploader/upload.php');
 			<div>
 				<textarea rows="10" cols="10" name="content" id="content"></textarea>
 				<div style="text-align:center; margin-top:25px;">
-					<input type="submit" value="Add Example"> <input type="reset" value="Cancel">
+					<input type="button" onClick="checkExample()" value="Add Example"> <input type="reset" value="Cancel">
 				</div>   
 			</div>
 		</div>
@@ -194,6 +198,7 @@ require(APPLICATION_PATH.'/models/ajaxfileuploader/upload.php');
 	<input type="hidden" id="saved" name="saved" value="1"/>
 	<input type="hidden" id="media_content" name="media_content" value="" />
 	<input type="hidden" id="media_type" name="media_type" value="" />
+	<input type="hidden" id="is_video" name="is_video" value="0" />
 
 </form>		
 </div>

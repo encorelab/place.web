@@ -52,31 +52,9 @@ if($this->type==0 && !$error)
  */
 {
 ?>
-
 <h3><?php echo $this->question[0]['name']?></h3>
-<?php 
-// update status 
-if($_SESSION["profile"]=="TEACHER")
-{
-?>
-<div id="updatestatus-container">
-	<form method="post" action="/question/updatestatus">
-		<input type="hidden" id="question_id"  name="question_id" value="<?php echo $this->question[0]['id']?>"/>
-		<span class="item-label">Status: </span>
-		<span class="item-input">
-			<select name="status">
-				<option value="1"<?php if($this->question[0]['status']==1) { echo "selected"; }?>>Active</option>
-				<option value="0"<?php if($this->question[0]['status']==0) { echo "selected"; }?>>Inactive</option>
-			</select>
-		</span> 
-	 <input type="submit" value="Update status">
-	</form>
-	<br/>
-</div>
-<?php
-} // 
-?>
 
+	<!-- start  tags-container -->
 	<div id="elo-tags" class="dashlet-box" style="width:30%; float:right;">
 		<div class="dashlet-title">Tags</div>
 		<div id="tags-container">
@@ -86,17 +64,47 @@ if($_SESSION["profile"]=="TEACHER")
 			$Myconcepts=getConcepts($this->question[0]['id']);
 			
 			//print_r($Myconcepts);
-			echo __analyzeTags($Myconcepts);
+			echo analyzeTags($Myconcepts);
 
 			?>
 			</ul>
 		</div>
-	</div>		
+	</div>
+	<!-- /tags-container -->
+	
+	<?php 
+	// update status 
+	if($_SESSION["profile"]=="TEACHER")
+	{
+	?>
+	<div id="updatestatus-container">
+		<form method="post" action="/question/updatestatus">
+			<input type="hidden" id="question_id"  name="question_id" value="<?php echo $this->question[0]['id']?>"/>
+			<span class="item-label">Status: </span>
+			<span class="item-input">
+				<select name="status">
+					<option value="1"<?php if($this->question[0]['status']==1) { echo "selected"; }?>>Active</option>
+					<option value="0"<?php if($this->question[0]['status']==0) { echo "selected"; }?>>Inactive</option>
+				</select>
+			</span> 
+		 <input type="submit" value="Update status">
+		</form>
+		<br/>
+	</div>
+	<?php
+	} // 
+	?>
 	
 	<div class="dashlet-box-image">
-		<div><?php echo $this->question[0]['media_content'];?></div>
+		<div><?php 
+			echo '<img src="/content/'.$this->question[0]['media_path'].'" title="'.$this->question[0]['name'].'" width="320px" />';
+		//echo $this->question[0]['media_content'];?></div>
 	</div>
-	<div><?php echo $this->question[0]['content'];?></div>
+	<div><?php 
+		echo $this->question[0]['content'];?>
+		</div>
+
+	
 	<?php 
 	if($_SESSION["profile"]=="TEACHER")
 	{
@@ -190,10 +198,46 @@ if($_SESSION["profile"]=="TEACHER")
 	</form>
 	
 	<?php 	
-	} // 
+	} // end if student
 	?>
 
-
+	<!--  start add vote to example_concept -->
+	<form id="qe_vote_form" method="post" action="/votes/add?prefix=qe_">
+		<input type="hidden" name="qe_obj_id" id="qe_obj_id" value=""/>
+		<input type="hidden" name="qe_obj_type" id="qe_obj_type" value="5"/>
+		<input type="hidden" name="qe_vote_value" id="qe_vote_value" value=""/>
+		<input type="hidden" name="qe_activity_type_id" id="qe_activity_type_id" value="3"/>
+		<input type="hidden" name="qe_activity_on_user" id="qe_activity_on_user" value=""/>
+		<input type="text" name="qe_i1" id="qe_i1" value="<?php echo $this->question[0]['id']; ?>"/>
+		<input type="hidden" name="qe_i2" id="qe_i2" value=""/>
+		<input type="hidden" name="qe_t1" id="qe_t1" value="Question"/>
+		<input type="hidden" name="qe_t2" id="qe_t2" value="QuestionConcept"/>
+	</form>
+	<!--  end add vote to example_concept -->
+	
+	<!--  start add question_concept -->
+	<form id="qe_tag_form" method="post" action="/tags/add?prefix=qe_">
+	<input type="hidden" name="qe_id" id="qe_id" value="<?php echo $this->question[0]['id']; ?>"/>
+	<input type="hidden" name="concept_id" id="concept_id" value=""/>
+	<input type="hidden" name="tag_type" id="tag_type" value="2"/> <?php // 1 for example, 2 for questions?>
+	
+<?php 
+/**
+ * we need new types of activity for this
+ */
+?>
+<!-- 
+		<input type="hidden" name="ex_activity_type_id" id="ex_activity_type_id" value=""/> 
+		<input type="hidden" name="ex_activity_on_user" id="ex_activity_on_user" value=""/> 
+	
+		<input type="hidden" name="ex_i1" id="ex_i1" value="<?php //echo $this->example[0]['id']; ?>"/>
+		<input type="hidden" name="ex_i2" id="ex_i2" value=""/>
+		<input type="hidden" name="ex_t1" id="ex_t1" value="Example"/>
+		<input type="hidden" name="ex_t2" id="ex_t2" value="ExampleConcept"/>
+-->
+	</form>
+	<!--  end add question_concept -->
+	
 <?php 	
 } // end single view
 ?>
@@ -229,98 +273,153 @@ function getConcepts($id)
 	return $result;
 }
 
-	function __analyzeTags($tags)
+function countVotes($obj_id, $obj_type)
+{
+	// get all votes for this post: note that we can use SUM in SQL instead
+	// ********************************************************************* 
+    $q = Doctrine_Query::create()
+	//->select ("v.id, v.vote_value, u.id, u.username") // use this if we want to show who and how someone voted
+	->select ("v.id, v.vote_value")
+	->from("Vote v")
+	//->innerJoin("v.User u")
+	->where('v.run_id = ? AND v.obj_id = ? AND v.obj_type = ?' , 
+	array($_SESSION['run_id'],$obj_id, $obj_type)) 				
+	->orderBy('v.id DESC');
+	
+	$votes = $q->fetchArray();
+
+	$votesCount = array();
+	$votesSumm = 0; $votesMinus = 0; $votesPlus = 0;
+	
+	foreach ($votes as $vote)
 	{
-
-		//get Concepts
-		$q = Doctrine_Query::create()
-			->select('e.id,  e.name')
-			->from('Concept e')
-			->where('e.run_id = ?', $_SESSION['run_id']);
+		$votesSumm += $vote['vote_value'];
 		
-		$theConcepts = $q->fetchArray();
-		
-		//$theConcepts=Doctrine::getTable("Concepts")->findAll(Doctrine::HYDRATE_ARRAY);
-		
-		//print_r($theConcepts);
-		//print_r($tags);
-		
-		$currentTags = array();
-		//$diffTags = array();
-		$theConceptsF = array();
-		//$PLACEWEB_CONFIG['fConcepts']
-		
-		$tagsHtml = "";
-		$diffTagsHtml = "";
-		
-		$whoHasVoted = array();
-		$conn=0;
-		
-		foreach($theConcepts as $concept)
+		if($vote['vote_value']==-1)
 		{
-			$theConceptsF[$concept['id']] = $concept['name'];
+			$votesMinus-= $vote['vote_value'];
+		} else {
+			$votesPlus+= $vote['vote_value'];
 		}
 		
-		//print_r($theConceptsF);
-		
-		foreach ($tags as $tag)
-		{
-			// sum votes for each tag
-			$votes=0;
-			/*
-			foreach ($tag['votes'] as $vote)
-			{
-				$votes+=$vote['vote'];
-				// collect how has voted  
-				$whoHasVoted[]=$vote['author'];
-			}
-			*/
+	}
+	$votesCount = array (
+		"votesSumm" => $votesSumm,
+		"votesMinus" => $votesMinus,
+		"votesPlus" => $votesPlus
+	);
+	return $votesCount;
+	// end get votes
+	
+} // end countVotes()
 
-				// collect tags for comparison 
-				$currentTags[$tag['concept_id']] = $theConceptsF[$tag['concept_id']];
-				
+function analyzeTags($tags, $prefix="")
+{
+	$prefix = "qe_"; // same for voting on question_concept and example_concept 
+
+	//get all Concepts in db for comparison: which ones are not added yet
+	$q = Doctrine_Query::create()
+		->select('e.id,  e.name')
+		->from('Concept e')
+		->where('e.run_id = ?', $_SESSION['run_id']);
+	
+	$theConcepts = $q->fetchArray();
+	
+	//$theConcepts=Doctrine::getTable("Concepts")->findAll(Doctrine::HYDRATE_ARRAY);
+	
+	//print_r($theConcepts);
+	//print_r($tags);
+	
+	$currentConcepts = array(); // collects the concepts already associated to the example
+	//$notIncludedConcepts = array();
+	$theConceptsF = array(); // formats the concepts in db to same structure than current $currentConcepts
+
+	//$PLACEWEB_CONFIG['fConcepts']
+	
+	$tagsHtml = "";
+	$notIncludedConceptsHtml = "";
+	
+	$whoHasVoted = array();
+	$conn=0;
+	
+	// adjust the concepts from db 
+	foreach($theConcepts as $concept)
+	{
+		$theConceptsF[$concept['id']] = $concept['name'];
+	}
+	
+	//print_r($theConceptsF);
+	
+	foreach ($tags as $tag)
+	{
+		/* 
+		 * get votes data
+		 */ 
+
+			// collect tags for comparison 
+			$currentConcepts[$tag['concept_id']] = $theConceptsF[$tag['concept_id']];
 			
-			//var_dump($tag);
-			//echo "<br/>".$tag['conceptId'];
+		
+		//var_dump($tag);
+		//echo "<br/>".$tag['conceptId'];
+		
+			$votesCount = countVotes($tag['concept_id'],5); // look for votes for obj_type = 4 example_concept
 			
-			$tagsHtml .='
-			<li>
-				<div class="tag-name">'.$theConceptsF[$tag['concept_id']].'</div>
-				<div class"vote-icons">
-					<a href="javascript:tagVote(1,'.$tag['concept_id'].')"><img src="/images/vote_like.png" width="20px"></a>
-					<a href="javascript:tagVote(-1,'.$tag['concept_id'].')"><img src="/images/vote_dislike.png" width="20px"></a>
+			$votesMinus =0 ;
+			$votesSumm = 0;
+			$votesPlus = 0;
+		
+		$tagsHtml .='
+		<li>
+			<div class="tag-name">'.$theConceptsF[$tag['concept_id']].'</div>
+			<div class="votes-container" style="float:right;">
+				<div  id="'.$prefix.'vote-loading-'.$tag['concept_id'].'"></div> 
+				<div  id="'.$prefix.'vote-minus-'.$tag['concept_id'].'" class="vote-minus-plus">
+					'.$votesCount['votesMinus'].'
 				</div> 
-				<div class="tag-votes">'.$votes.'</div>
-			</li>';
-				
-				$conn++;
-		}
-		
-		$diffTags = array_diff($theConceptsF, $currentTags);
-
-		//print_r($currentTags);
-		//print_r($diffTags);
-		
-		$diffTagsHtml = "
-		<li> &nbsp; 
-		</li>
-		";
-		
-		// not included tags
-		foreach ($diffTags as $diffTagId => $diffTagVal)
-		{
-			$diffTagsHtml .='
-			<li>
-				<div class="tag-name">'.$diffTagVal.'</div>
-				<div class="tag-add"><a href="javascript:addTag(\''.$diffTagId.'\');">[Add]</a></div>
-			</li>';
+				<div class="vote-icon">
+					<a href="javascript:postVote(-1,'.$tag['concept_id'].',5,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_down.png" width="20px"></a>
+				</div>
+				<div  id="'.$prefix.'vote-total-'.$tag['concept_id'].'" class="vote-total">
+					'.$votesCount['votesSumm'].'
+				</div>
+				<div class="vote-icon">
+					<a href="javascript:postVote(1,'.$tag['concept_id'].',5,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_up.png" width="20px"></a>
+				</div>
+				<div  id="'.$prefix.'vote-plus-'.$tag['concept_id'].'" class="vote-minus-plus">
+					'.$votesCount['votesPlus'].'
+				</div> 
+			</div>
+		</li>';
 			
-			//echo "<br/>".$diffTagId;
-		} 
-		
-		return $tagsHtml.$diffTagsHtml;
+			$conn++;
+	}
+	
+	$notIncludedConcepts = array_diff($theConceptsF, $currentConcepts);
 
-	} // end fnc
+	//print_r($currentConcepts);
+	//print_r($notIncludedConcepts);
+	
+	$notIncludedConceptsHtml = "
+	<li> &nbsp; 
+	</li>
+	";
+	
+	// not included tags
+	foreach ($notIncludedConcepts as $diffTagId => $diffTagVal)
+	{
+		$notIncludedConceptsHtml .='
+		<li>
+			<div class="tag-name">'.$diffTagVal.'</div>
+			<div class="tag-add"><a href="javascript:addTag(\''.$diffTagId.'\');">[Add]</a></div>
+		</li>';
+		
+		//echo "<br/>".$diffTagId;
+	} 
+	
+	return $tagsHtml.$notIncludedConceptsHtml;
+
+} // end fnc
 
 
 ?>

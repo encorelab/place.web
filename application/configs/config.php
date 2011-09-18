@@ -18,13 +18,13 @@ $PLACEWEB_CONFIG['ffmpegPath'] = '/usr/bin/ffmpeg';
 
 // upload directory
 // Mike M config
-$PLACEWEB_CONFIG['uploadDir'] = "/var/www/place/content/";
+//$PLACEWEB_CONFIG['uploadDir'] = "/var/www/place/content/";
 
 // Antonio Config
-//$PLACEWEB_CONFIG['uploadDir'] = "/var/www/mywebapps/PlaceWeb.GitHub/place.web/public/content/";
+// $PLACEWEB_CONFIG['uploadDir'] = "/var/www/mywebapps/PlaceWeb.GitHub/place.web/public/content/";
 
-// Not sure who's config this is??
-//$PLACEWEB_CONFIG['uploadDir'] = "/var/www/place/public/content/";
+// server config
+$PLACEWEB_CONFIG['uploadDir'] = "/var/www/place/public/content/";
 
 $PLACEWEB_CONFIG['uploadWebDir'] = "/content/";
 

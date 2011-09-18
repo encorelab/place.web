@@ -38,4 +38,3 @@ $autoloader = Zend_Loader_Autoloader::getInstance();
 $autoloader->pushAutoloader(array('Doctrine_Core', 'modelsAutoload'));
 
 require_once(APPLICATION_PATH.'/configs/config.php');
-require_once(APPLICATION_PATH.'/layouts/include/'.'security.inc.php');

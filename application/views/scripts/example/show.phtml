@@ -114,7 +114,9 @@ if($this->type==0 && !$error)
 	</div>
 	
 		<div class="clear"></div>
-
+<?php 
+	if($_SESSION['profile']=="TEACHER"){
+?>
 		<input type="hidden" value="1" name="obj_type"> <!-- 1=comment -->
 		<input type="hidden" value="<?php echo $this->example[0]['id']; ?>" name="parent_id">
 		<input type="hidden" value="examples" name="parent_type">
@@ -129,6 +131,10 @@ if($this->type==0 && !$error)
 			<input type="submit" value="Confirm">
 			<input type="button" value="Cancel" onclick="marksCancel()">
 		</div>
+<?php 
+	} // end if teacher
+?>
+
 	</form>
 	<!-- /assessment form -->
 	

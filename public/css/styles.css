@@ -1,3 +1,28 @@
+#btn_submit_marks{
+	margin-top:25px;
+}
+
+.assessment-mark{
+    background: none repeat scroll 0 0 #CCCCCC;
+    border: 1px solid #000000;
+    float: none;
+    text-align: center;
+    width: 25px;
+}
+
+#assessment-review-container{
+    margin-top: 25px;
+    width: 607px;
+}
+
+.div-show {
+	display: block;
+}
+
+.div-hide {
+	display: none;
+}
+
 .votes-container div {
 	float: left;
 	margin-right: 15px;
@@ -85,7 +110,9 @@ display:none;
 }
 
 #newThread-container {
-
+    float: right;
+    margin-right: 50px;
+    margin-top: 50px;
 }
 
 #discussion-container {
@@ -150,9 +177,10 @@ display:none;
 #posts-list {
     border: 1px dashed;
     float: left;
-    height: 400px;
+    height: 450px;
     overflow: auto;
     width: 62%;
+ 	padding-right: 15px;
 }
 
 
@@ -172,7 +200,8 @@ display:none;
 }
 
 #reply-container {
-	display:none;
+    margin-top: 25px;
+    width: 607px;
 }
 
 

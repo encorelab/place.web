@@ -51,32 +51,34 @@ function showAnswer()
 	alert("Show Answer for the Question");
 }
 
+function postCancel()
+{
+	$("#reply-new-title").html('');
+	$("#reply-container").removeClass('div-show');
+	$("#reply-container").addClass('div-hide');
+	
+}
+	
 function postReply(postid)
 {
-	//var a = document.getElementById("postId");  
-	var a = document.getElementById("obj_id");
-	  a.value=postid;
-
-	  var d = document.getElementById("postId");
-	  d.value=postid;
-	  
-	  var c = document.getElementById("parentType");
-	  c.value="1";
-
-	  var b = document.getElementById("reply-container");
-	  b.style.display='inline';
+	marksCancel();
+	$("#reply-new-title").html('Add a Reply');
+	$("#reply-container").removeClass('div-hide');
+	$("#reply-container").addClass('div-show');
+	
+	$("#obj_id").val(postid);
+	$("#postId").val(postid);
+	$("#parentType").val(1);
 }
 
 function postNewThread(parentType)
 {
+	marksCancel();
 	$("#postId").val("");
 	$("#parentType").val(parentType);
-
-	var b = document.getElementById("reply-container");
-	b.style.display='inline';
-
-	var d = document.getElementById("newThread-container");
-	d.style.display='none';
+	$("#reply-container").removeClass('div-hide');
+	$("#reply-container").addClass('div-show');
+	$("#reply-new-title").html('Add New Thread');
 }
 
 function postVote(vote, id, type, userid, prefix)
@@ -120,4 +122,28 @@ function addTag(id)
 	$("#concept_id").val(id);
 	$("#qe_tag_form").submit();
 	
+}
+
+function showAssessmentReview()
+{
+	postCancel();
+	$('#assessment-review-container').addClass('div-show');
+	$('#assessment-review-container').removeClass('div-hide');
+	$('#btn_submit_marks').addClass('div-hide');
+	$('#btn_submit_marks').removeClass('div-show');
+}
+
+function marksCancel()
+{
+	$('#assessment-review-container').addClass('div-hide');
+	$('#assessment-review-container').removeClass('div-show');
+	
+	$('#btn_submit_marks').addClass('div-show');
+	$('#btn_submit_marks').removeClass('div-hide');
+}
+
+function marksPost()
+{
+	alert("post Marks");
+	$("#assessment-form").submit();
 }

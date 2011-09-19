@@ -1,3 +1,76 @@
+<<<<<<< HEAD
+=======
+#btn_submit_marks{
+	margin-top:25px;
+}
+
+.assessment-mark{
+    background: none repeat scroll 0 0 #CCCCCC;
+    border: 1px solid #000000;
+    float: none;
+    text-align: center;
+    width: 25px;
+}
+
+#assessment-review-container{
+    margin-top: 25px;
+    width: 607px;
+}
+
+.div-show {
+	display: block;
+}
+
+.div-hide {
+	display: none;
+}
+
+.votes-container div {
+	float: left;
+	margin-right: 15px;
+}
+
+.answer-item{
+    background: none repeat scroll 0 0 #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    margin-bottom: 15px;
+    width: 64%;
+}
+
+.answer-assessment{
+border:1px solid #ccc;
+}
+
+.alert-example{
+	background: orange;
+}
+
+.alert-question{
+	background: red;
+}
+
+.alert-comment{
+	background: olive;
+}
+
+.alert-answer{
+	background: yellow;
+}
+
+.alert-ok{
+	background: green;
+}
+
+.alert-close-btn{
+	cursor: pointer;
+	font-size: small;
+	display: block;
+	float: right;
+}
+/*.alert-close-btn:hover{
+	background-color: red;
+}*/
+>>>>>>> 5a0ef0aaeb419be71db42c3d31c5ce7ba3c16c41
 
 #login-form{
 	border: 2px solid #000000;
@@ -171,8 +244,14 @@ li.header-li a{
 }
 
 /*li.header-li a:hover{
+<<<<<<< HEAD
     background: #ffffcc;
 }*/
+=======
+    background: #ffffcc;*/
+        
+}
+>>>>>>> 5a0ef0aaeb419be71db42c3d31c5ce7ba3c16c41
 
 #search {
 	display: inline;

@@ -99,8 +99,8 @@ class VotesController extends Zend_Controller_Action
 			$i1 = $params[$prefix.'i1'];
 			$i2 = $params[$prefix.'i2'];
 
-			$t1 = $prefix.$params[$prefix.'t1'];
-			$t2 = $prefix.$params[$prefix.'t2'];
+			$t1 = $params[$prefix.'t1'];
+			$t2 = $params[$prefix.'t2'];
 			
 			// check the votting status
 			$allowVote = $this->checkVoteStatus($_SESSION['run_id'], $_SESSION['author_id'], 

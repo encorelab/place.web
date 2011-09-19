@@ -16,7 +16,7 @@ class AjaxController extends Zend_Controller_Action
         
         $this->view->student = Doctrine::getTable("User")->find($params['studentId']);
         $this->view->activities = Doctrine::getTable("Activity")
-                                    ->findByDql("author_id = ?", $_SESSION['author_id']);
+                                    ->findByDql("author_id = ?", $params['studentId']);
     }
     
     public function resolveAlertAction()
@@ -77,7 +77,7 @@ class AjaxController extends Zend_Controller_Action
         	->from('Activity a')
         	->addComponent('a', 'Activity a')
         	->where('a.run_id = ?' , $_SESSION['run_id'])
-        	->andWhere('a.activity_on_user != ?', $_SESSION['author_id'])
+        	->andWhere('(a.activity_on_user != ? OR a.activity_on_user is null)', $_SESSION['author_id'])
             ->andWhere('a.author_id != ?', $_SESSION['author_id'])
             ->andWhere('a.id NOT IN (select r.activity_id from resolved_user_alert r where r.author_id = '.$_SESSION['author_id'].')')
         	->orderBy('a.id DESC');
@@ -96,8 +96,7 @@ class AjaxController extends Zend_Controller_Action
                     ->innerJoin("q.Answer a")
                     ->where("q.run_id = ?", $_SESSION['run_id'])
                     ->andWhere("a.author_id = ?", $_SESSION['author_id'])
-                    // ->andWhere("q.is_published = 1")
-                    // ->andWhere("q.is_public = 1")
+                    ->andWhere("q.is_published = 1")
                     ->orderBy("q.date_created desc")
                     ->execute();
     
@@ -107,11 +106,9 @@ class AjaxController extends Zend_Controller_Action
             ->addComponent('q', 'Question q')
             ->where("q.run_id = ?", $_SESSION['run_id'])
             ->andWhere("q.id NOT IN (select a.question_id from answer a where a.author_id = ".$_SESSION['author_id'].")")
-            // ->andWhere("q.is_published = 1")
-            // ->andWhere("q.is_public = 1")            
+            ->andWhere("q.is_published = 1")         
             ->orderBy("q.date_created desc");
             
-        // echo $q->getSqlQuery();die();
         $unansweredQuestions = $q->execute();
         
         $this->view->answeredQuestions = $answeredQuestions;

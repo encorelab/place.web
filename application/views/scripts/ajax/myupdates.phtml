@@ -5,7 +5,7 @@
 <?php 
 foreach ($this->activities as $activity)
 {
-	echo "<li>".$activity->getMessage()."<span class='alert-close-btn' activityId='{$this->id}'>[x]</span></li>";
+	echo "<li>".$activity->getMessage()."<span class='alert-close-btn' activityId='{$activity->id}'>[x]</span></li>";
 }
 ?>
 	</ul>

@@ -12,5 +12,9 @@
  */
 class Votable extends BaseVotable
 {
-
+    public static $COMMENT = 1;
+    public static $ANSWER = 2;
+    public static $ANSWER_CONCEPT = 3;
+    public static $EXAMPLE_CONCEPT = 4;
+    public static $QUESTION_CONCEPT = 5;
 }

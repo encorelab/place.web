@@ -9,3 +9,4 @@ application/configs/application.ini
 public/content/
 *.mwb.bak
 .DS_Store
+public/css/styles.css.save

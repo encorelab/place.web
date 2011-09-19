@@ -124,6 +124,6 @@ function marksCancel()
 
 function marksPost()
 {
-	alert("post Marks");
-	$("#assessment-form").submit();
+	//alert("post Marks");
+	//$("#assessment-form").submit();
 }

@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-=======
+
 #btn_submit_marks{
 	margin-top:25px;
 }
@@ -70,7 +69,7 @@ border:1px solid #ccc;
 /*.alert-close-btn:hover{
 	background-color: red;
 }*/
->>>>>>> 5a0ef0aaeb419be71db42c3d31c5ce7ba3c16c41
+
 
 #login-form{
 	border: 2px solid #000000;
@@ -244,14 +243,7 @@ li.header-li a{
 }
 
 /*li.header-li a:hover{
-<<<<<<< HEAD
-    background: #ffffcc;
-}*/
-=======
     background: #ffffcc;*/
-        
-}
->>>>>>> 5a0ef0aaeb419be71db42c3d31c5ce7ba3c16c41
 
 #search {
 	display: inline;

@@ -131,7 +131,7 @@ class Activity extends BaseActivity
         $example = Doctrine::getTable("Example")->find($this->i2);
         
         $exampleUrl = $example->getUrl();
-        $exampleName = $xample->name;
+        $exampleName = $example->name;
 
         $str = $this->_genAuthorHtml()." commented on example <a href='$exampleUrl'>$exampleName</a>";
         return "<div class='alert-comments'>$str</div>";

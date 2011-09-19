@@ -31,9 +31,7 @@ class UserController extends Zend_Controller_Action
     {
     	//require_once(APPLICATION_PATH.'/configs/config.php');
     	
-    	//global $PLACEWEB_CONFIG;
-    	
-		
+        $this->authMethod = "rollCall";
     	
     	if($this->authMethod == "local")
     	{
@@ -105,36 +103,53 @@ class UserController extends Zend_Controller_Action
     } // end localAuthentication()
     
     private function rollCallAuthentication()
-    {
-    	echo "<hr/>";
-    	echo "using rollCall authentication";;
-		/*
-    	require 'PestXML.php';
-		$rollcall_site_url = "http://rollcall.proto.encorelab.org/:3000";
-		$rest = new PestXML($rollcall_site_url);
-		*/
-    	
-    	
-    	
-    	// get json
-    	
-    	// convert array
-    	
-    	
-    	
-    	/*
-    	 * 1) send username and passw to rollcall
-    	 * 2) get rollcall response (JSON?)
-    	 * 3) analyze the response
-    	 * 4) if username and password are OK set the following:
-    	 *     	$_SESSION['access'] = true;
-    	 *     	$_SESSION['username'] = "[the username]";
-    	 * 		$_SESSION['profile'] = "[the profile]"; // (e.g. TEACHER, STUDENT)
-    	 * 		$_SESSION['run_id']="[the run_id]";
-    	 * 5) insert/check the user exist in table user
-    	 * 6) set 
-    	 * 		$_SESSION['author_id'] = [user.author_id]
-    	 */
+    {   
+        $username = $this->params['username'];
+        $password = $this->params['password'];
+        
+        $authJson = @file_get_contents("http://rollcall.aardvark.encorelab.org/users/$username.json");
+        // if request was successful (ie user exists)
+        if ($authJson){
+            $auth = Zend_Json::decode($authJson);
+            $realPassword = $auth['user']['account']['password'];
+            
+            if ($realPassword == $password){
+                // OK to login
+                // Fetch the User from local DB
+                $localUser = Doctrine::getTable('User')->findByDql("username = ?", $username);
+                
+                // Create the user if it doesn't exist in local DB
+                if (count($localUser) == 0){
+                    echo "creating user";
+                    
+                    $localUser = new User();
+                    $localUser->run_id = 1;
+                    $localUser->author_id = 0;
+                    $localUser->date_created = date( 'Y-m-d H:i:s');
+                    $localUser->username = $username;
+                    $localUser->password = $password;
+                    $localUser->user_type = strtoupper($auth['user']['kind']);
+                    $localUser->save();
+
+                }else{
+                    $localUser = $localUser[0];
+                }
+                
+                // setup session 
+                $_SESSION['access'] = true;
+            	$_SESSION['username'] = $localUser->username;
+            	$_SESSION['profile'] = $localUser->user_type;
+            	$_SESSION['run_id'] = 1;
+            	$_SESSION['author_id'] = $localUser->id;
+
+                header('Location: /myhome');
+            	
+            }else{
+                echo "wrong password";
+            }
+        }else{
+            echo "user not found";
+        }
     } // end rollCallAuthentication()
     
 } // end class

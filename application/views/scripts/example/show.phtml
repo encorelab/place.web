@@ -244,7 +244,7 @@ function getCommentsIds($id, $obj_type)
 function getConcepts($id)
 {
 	$q = Doctrine_Query::create()
-	->select('e.example_id,  e.concept_id')
+	->select('e.id, e.example_id,  e.concept_id')
 	->from('ExampleConcept e')
 	->where('e.example_id = ? AND e.run_id = ?', array($id,$_SESSION['run_id']));
 	 
@@ -292,6 +292,8 @@ function getUserName($author_id)
 
 function countVotes($obj_id, $obj_type)
 {
+//	echo "<hr>obj_id: ". $obj_id;
+//	echo "<hr>obj_type: ".$obj_type;
 	// get all votes for this post: note that we can use SUM in SQL instead
 	// ********************************************************************* 
     $q = Doctrine_Query::create()
@@ -539,30 +541,26 @@ function analyzeTags($tags, $prefix="")
 		//var_dump($tag);
 		//echo "<br/>".$tag['conceptId'];
 		
-			$votesCount = countVotes($tag['concept_id'],4); // look for votes for obj_type = 4 example_concept
-			
-			$votesMinus =0 ;
-			$votesSumm = 0;
-			$votesPlus = 0;
+			$votesCount = countVotes($tag['id'],4); // look for votes for obj_type = 4 example_concept
 		
 		$tagsHtml .='
 		<li>
 			<div class="tag-name">'.$theConceptsF[$tag['concept_id']].'</div>
 			<div class="votes-container" style="float:right;">
-				<div  id="'.$prefix.'vote-loading-'.$tag['concept_id'].'"></div> 
-				<div  id="'.$prefix.'vote-minus-'.$tag['concept_id'].'" class="vote-minus-plus">
+				<div  id="'.$prefix.'vote-loading-'.$tag['id'].'"></div> 
+				<div  id="'.$prefix.'vote-minus-'.$tag['id'].'" class="vote-minus-plus">
 					'.$votesCount['votesMinus'].'
 				</div> 
 				<div class="vote-icon">
-					<a href="javascript:postVote(-1,'.$tag['concept_id'].',4,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_down.png" width="20px"></a>
+					<a href="javascript:postVote(-1,'.$tag['id'].',4,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_down.png" width="20px"></a>
 				</div>
-				<div  id="'.$prefix.'vote-total-'.$tag['concept_id'].'" class="vote-total">
+				<div  id="'.$prefix.'vote-total-'.$tag['id'].'" class="vote-total">
 					'.$votesCount['votesSumm'].'
 				</div>
 				<div class="vote-icon">
-					<a href="javascript:postVote(1,'.$tag['concept_id'].',4,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_up.png" width="20px"></a>
+					<a href="javascript:postVote(1,'.$tag['id'].',4,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_up.png" width="20px"></a>
 				</div>
-				<div  id="'.$prefix.'vote-plus-'.$tag['concept_id'].'" class="vote-minus-plus">
+				<div  id="'.$prefix.'vote-plus-'.$tag['id'].'" class="vote-minus-plus">
 					'.$votesCount['votesPlus'].'
 				</div> 
 			</div>

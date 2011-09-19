@@ -12,5 +12,7 @@
  */
 class Commentable extends BaseCommentable
 {
-
+    public static $COMMENT = 1;
+    public static $ANSWER = 2;
+    public static $EXAMPLE = 3;
 }

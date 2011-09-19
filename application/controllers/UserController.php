@@ -135,6 +135,7 @@ class UserController extends Zend_Controller_Action
                     $localUser = $localUser[0];
                 }
                 
+                // setup session 
                 $_SESSION['access'] = true;
             	$_SESSION['username'] = $localUser->username;
             	$_SESSION['profile'] = $localUser->user_type;

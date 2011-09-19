@@ -16,9 +16,9 @@
 
 //error_reporting(E_ALL | E_STRICT);
 set_time_limit(0);
+ini_set('memory_limit', '512M');
 class UploadHandler
 {
-
     private $options;
     
     function __construct($options=null) {
@@ -93,7 +93,7 @@ class UploadHandler
     }
 
     private function create_scaled_image($file_name, $options) {
-	@mkdir( $options['upload_dir'], 0755, true);
+	@mkdir( $options['upload_dir'], 0755, true); 
         $file_path = $this->options['upload_dir'].$file_name;
         $new_file_path = $options['upload_dir'].$file_name;
         list($img_width, $img_height) = @getimagesize($file_path);

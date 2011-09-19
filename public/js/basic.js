@@ -1,22 +1,4 @@
-/*
-var jsonUrl = 'http://placeweb/ajax/uploadfile';
-var mediaArr =  new Array();
 
-$.getJSON(jsonUrl,
-		function (d) {
-			mediaArr = d.GET;
-		} 
-	);
-
-*/
-
-
-function loadInitFunctions()
-{
-
-	//alert("DOM loaded");
-	//classactivity();
-}
 
 function loadClassactivity()
 {
@@ -46,17 +28,11 @@ function uploadFile(obj, dname) {
 	
 }
 
-function showAnswer()
-{
-	alert("Show Answer for the Question");
-}
-
 function postCancel()
 {
 	$("#reply-new-title").html('');
 	$("#reply-container").removeClass('div-show');
 	$("#reply-container").addClass('div-hide');
-	
 }
 	
 function postReply(postid)
@@ -71,10 +47,11 @@ function postReply(postid)
 	$("#parentType").val(1);
 }
 
-function postNewThread(parentType)
+function postNewThread(obj_id, parentType)
 {
 	marksCancel();
 	$("#postId").val("");
+	$("#obj_id").val(obj_id);
 	$("#parentType").val(parentType);
 	$("#reply-container").removeClass('div-hide');
 	$("#reply-container").addClass('div-show');

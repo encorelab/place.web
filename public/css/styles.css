@@ -243,7 +243,7 @@ li.header-li a{
 	float: left;
 	margin-right: 20px;
 	background-color: #dbdbdb;
-	padding: 7px 15px 6px 15px;
+	padding: 7px 15px 6px 8px;
 	height: 22px;
 }
 
@@ -432,11 +432,11 @@ body {
     border: 1px solid #000000;
     border-radius: 6px 6px 6px 6px;
     box-shadow: 0 2px 6px #000000;
-    text-align: center;
+    text-align: left;
     padding-top: 10px;
 	padding-bottom: 10px;
-	padding-left: 2px;
-	padding-right: 2px;
+	padding-left: 30px;
+	padding-right: 30px;
 }
 
 #global_header {

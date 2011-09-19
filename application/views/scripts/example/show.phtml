@@ -88,8 +88,8 @@ if($this->type==0 && !$error)
 	
 	<div><?php //echo $this->example[0]['content'];?></div>
 	
-	<!-- assessment form -->
-	<form name="assessment-form" method="post" action="/assessment/add">			
+	<!-- assessment comment form -->
+	<form name="assessment-form" method="post" action="/assessment/add?prefix=assessComm_">			
 		
 	<div id="posts-list">
 	<?php 
@@ -121,6 +121,14 @@ if($this->type==0 && !$error)
 		<input type="hidden" value="<?php echo $this->example[0]['id']; ?>" name="parent_id">
 		<input type="hidden" value="examples" name="parent_type">
 		<input type="hidden" value="<?php echo $notAssessedItems; ?>" name="assesment_list">
+
+		<input type="hidden" name="assessComm_activity_type_id" id="assessComm_activity_type_id" value="8"/>
+		<input type="hidden" name="assessComm_activity_on_user" id="assessComm_activity_on_user" value=""/>
+		<input type="hidden" name="assessComm_i1" id="assessComm_i1" value="<?php echo $this->example[0]['id']; ?>"/>
+		<input type="hidden" name="assessComm_i2" id="assessComm_i2" value=""/>
+		<input type="hidden" name="assessComm_t1" id="assessComm_t1" value="Example"/>
+		<input type="hidden" name="assessComm_t2" id="assessComm__t2" value="Comment"/>
+		
 		<div id="btn_submit_marks" class="div-show">
 			<input id="btn_submit_marks" type="button" value="Submit Marks" onclick="showAssessmentReview()">
 		</div>
@@ -136,7 +144,7 @@ if($this->type==0 && !$error)
 ?>
 
 	</form>
-	<!-- /assessment form -->
+	<!-- /assessment comment form  -->
 	
  
 		<div class="clear"></div>

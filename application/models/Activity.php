@@ -69,13 +69,14 @@ class Activity extends BaseActivity
     
     
     public function toStringVotedOnComment() {
-        $vote = Doctrine::getTable("Vote")->find($this->i1);
-        $comment = Doctrine::getTable("Comment")->find($this->i2);
-        $objectCommentedOn = Doctrine::getTable($comment->object)->find($comment->obj_id);
-        $url = $objectCommentedOn->getUrl();
-        
-        $str = $this->_genAuthorHtml()." voted on a <a href='$url'>comment</a>";
-        return "<div class='alert'>$str</div>";
+        // $vote = Doctrine::getTable("Vote")->find($this->i1);
+        // $comment = Doctrine::getTable("Comment")->find($this->i2);
+        // $objectCommentedOn = Doctrine::getTable($comment->object)->find($comment->obj_id);
+        // $url = $objectCommentedOn->getUrl();
+        // 
+        // $str = $this->_genAuthorHtml()." voted on a <a href='$url'>comment</a>";
+        // return "<div class='alert'>$str</div>";
+        return "";
     }
     public function toStringVotedOnAnswer() {
         $vote = Doctrine::getTable("Vote")->find($this->i1);

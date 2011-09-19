@@ -7,7 +7,6 @@ class UserController extends Zend_Controller_Action
     public function init()
     {
     	global $PLACEWEB_CONFIG;
-//    	print_r($PLACEWEB_CONFIG);
     	
 		if(isset($PLACEWEB_CONFIG['authentication']))
 		{
@@ -29,8 +28,13 @@ class UserController extends Zend_Controller_Action
     
     public function loginAction()
     {
-    	//require_once(APPLICATION_PATH.'/configs/config.php');
+    	global $PLACEWEB_CONFIG;
     	
+    	/**
+    	 * Antonio commented this, please set this in config.php
+    	 * $PLACEWEB_CONFIG['authentication'] = "rollCall";
+    	 * 
+    	 */  
         $this->authMethod = "rollCall";
     	
     	if($this->authMethod == "local")
@@ -66,7 +70,7 @@ class UserController extends Zend_Controller_Action
     {
     	global $PLACEWEB_CONFIG;
 
-    	print_r($this->params);
+    	//print_r($this->params);
     	
 		$q = Doctrine_Query::create()
 		->select('e.*')
@@ -104,10 +108,12 @@ class UserController extends Zend_Controller_Action
     
     private function rollCallAuthentication()
     {   
+    	global $PLACEWEB_CONFIG;
+    	
         $username = $this->params['username'];
         $password = $this->params['password'];
         
-        $authJson = @file_get_contents("http://rollcall.aardvark.encorelab.org/users/$username.json");
+        $authJson = @file_get_contents($PLACEWEB_CONFIG['rollCallUrl']."/users/$username.json");
         // if request was successful (ie user exists)
         if ($authJson){
             $auth = Zend_Json::decode($authJson);
@@ -128,7 +134,15 @@ class UserController extends Zend_Controller_Action
                     $localUser->date_created = date( 'Y-m-d H:i:s');
                     $localUser->username = $username;
                     $localUser->password = $password;
-                    $localUser->user_type = strtoupper($auth['user']['kind']);
+                    
+                    // change "Instructor" to "TEACHER"
+                    if($auth['user']['kind']=="Instructor")
+                    {
+                    	$localUser->user_type = "TEACHER";
+                    } else {
+                    	$localUser->user_type = strtoupper($auth['user']['kind']);
+                    }
+                    
                     $localUser->save();
 
                 }else{
@@ -142,6 +156,8 @@ class UserController extends Zend_Controller_Action
             	$_SESSION['run_id'] = 1;
             	$_SESSION['author_id'] = $localUser->id;
 
+            	//print_r($_SESSION);
+            	
                 header('Location: /myhome');
             	
             }else{

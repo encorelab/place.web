@@ -6,8 +6,12 @@ $PLACEWEB_CONFIG = Array();
 $PLACEWEB_CONFIG['debugMode'] = false;
 
 // Authentication mode: in development
-$PLACEWEB_CONFIG['authentication'] = "local";
-//$PLACEWEB_CONFIG['authentication'] = "rollCall";
+//$PLACEWEB_CONFIG['authentication'] = "local";
+$PLACEWEB_CONFIG['authentication'] = "rollCall";
+
+// Authentication URL:
+//$PLACEWEB_CONFIG['rollCallUrl'] = "http://rollcall.aardvark.encorelab.org";
+$PLACEWEB_CONFIG['rollCallUrl'] = "http://rollcall.proto.encorelab.org";
 
 // set ajax uploader
 //$PLACEWEB_CONFIG['fileuploader'] = 1; // anto uploader
@@ -21,7 +25,7 @@ $PLACEWEB_CONFIG['ffmpegPath'] = '/usr/local/bin/ffmpeg';
 //$PLACEWEB_CONFIG['uploadDir'] = "/var/www/place/content/";
 
 // Antonio Config
-// $PLACEWEB_CONFIG['uploadDir'] = "/var/www/mywebapps/PlaceWeb.GitHub/place.web/public/content/";
+//$PLACEWEB_CONFIG['uploadDir'] = "/var/www/mywebapps/PlaceWeb.GitHub/place.web/public/content/";
 
 // server config
 $PLACEWEB_CONFIG['uploadDir'] = "/var/www/place/public/content/";

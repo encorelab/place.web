@@ -110,7 +110,7 @@ if($this->type==0 && !$error)
 	</div>	<!--  /posts-list -->
 
 	<div id="newThread-container">
-		<input type="button" value="New Thread" onClick="postNewThread('3')"/>
+		<input type="button" value="New Thread" onClick="postNewThread(<?php echo $this->example[0]['id']; ?>,3)"/>
 	</div>
 	
 		<div class="clear"></div>
@@ -158,11 +158,11 @@ if($this->type==0 && !$error)
 			<br/>
 			<input type="submit" value="Submit"/>
 			<input type="button" value="Cancel" onClick="postCancel()"/>
-			<input type="hidden" name="obj_id" id="obj_id" value="<?php echo $this->example[0]['id']; ?>"/>
-			<input type="hidden" name="postId" id="postId" value=""/>
-			<input type="hidden" name="example_id" id="example_id" value="<?php echo $this->example[0]['id']; ?>"/>
-			<input type="hidden" name="parentType" id="parentType" value=""/>
-			<input type="hidden" name="replyPosted" id="replyPosted" value="1"/>
+			<input type="text" name="obj_id" id="obj_id" value="<?php echo $this->example[0]['id']; ?>"/>
+			<input type="text" name="postId" id="postId" value=""/>
+			<input type="text" name="example_id" id="example_id" value="<?php echo $this->example[0]['id']; ?>"/>
+			<input type="text" name="parentType" id="parentType" value=""/>
+			<input type="text" name="replyPosted" id="replyPosted" value="1"/>
 		</div>
 	</form>
 	<!--  end add comment form -->		
@@ -413,7 +413,7 @@ function getCommentById($id,$obj_type, $prefix="")
 	<li>
 		<div class="post-item">';
 	
-	// add assessment for if is a teacher
+	// add assessment form if is a teacher
 	if($_SESSION['profile']=="TEACHER")
 	{
 		

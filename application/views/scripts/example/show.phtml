@@ -409,7 +409,7 @@ function getCommentById($id,$obj_type, $prefix="")
 	
 	// add this post data
 	//Id:'.$id.'
-	$repliesHtml .=''.$id.'
+	$repliesHtml .='
 	<li>
 		<div class="post-item">';
 	
@@ -422,6 +422,10 @@ function getCommentById($id,$obj_type, $prefix="")
 	
 	//$repliesHtml .='notAssessedItems: '.$notAssessedItems;
 	
+	// prevent autor from votting
+	if($_SESSION['author_id']!=$post[0]['User']['id'])
+	{
+	// votes container 
 	$repliesHtml .='
 			<div class="votes-container" style="float:right;">
 				<div id="'.$prefix.'vote-loading-'.$id.'"></div> 
@@ -440,12 +444,17 @@ function getCommentById($id,$obj_type, $prefix="")
 				<div id="'.$prefix.'vote-plus-'.$id.'" class="vote-minus-plus">
 					'.$votesCount['votesPlus'].'
 				</div> 
-			</div>
-				
+			</div>';
+	} // end if
+	
+	// comment content
+	$repliesHtml .='				
 			<div class="post-content">'
 				.$post[0]['content'].'
-			</div>
+			</div>';
 	
+	// author name 			
+	$repliesHtml .='
 			<div class="post-author">	
 				Posted by : <a href="#">'.$post[0]['User']['username'].'</a>
 			</div>

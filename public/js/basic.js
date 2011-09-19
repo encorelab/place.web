@@ -51,7 +51,6 @@ function postReply(postid, author_id)
 function postNewThread(obj_id, parentType, author_id)
 {
 	marksCancel();
-	$
 	$("#activity_on_user").val(author_id);
 	$("#postId").val("");
 	$("#obj_id").val(obj_id);
@@ -124,6 +123,6 @@ function marksCancel()
 
 function marksPost()
 {
-	alert("post Marks");
-	$("#assessment-form").submit();
+	//alert("post Marks");
+	//$("#assessment-form").submit();
 }

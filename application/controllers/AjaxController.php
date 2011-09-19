@@ -117,15 +117,14 @@ class AjaxController extends Zend_Controller_Action
 
     public function uploadfileAction()
     {
-    	global $PLACEWEB_CONFIG;
+	global $PLACEWEB_CONFIG;
     	$this->_helper->layout->disableLayout();
     	$this->_helper->viewRenderer->setNoRender();	
-
     	$upload_handler = new UploadHandler();
-    	ob_end_clean();
+    	//ob_end_clean();
 
-	    ob_start();
- 
+
+	ob_start();
     	switch ($_SERVER['REQUEST_METHOD']) {
     	    case 'HEAD':
     	    case 'GET':
@@ -143,20 +142,20 @@ class AjaxController extends Zend_Controller_Action
 		->sendResponse();
     		return;	  
     	}
-    	
+   		
     	$content = ob_get_contents();
     	ob_end_clean();
-
-    	$this->getResponse()    	
-    	->setHeader('Pragma: no-cache')
-        	->setHeader('Cache-Control: private, no-cache')
-        	->setHeader('Content-Disposition: inline; filename="files.json"')
-        	->setHeader('X-Content-Type-Options: nosniff')
-    	->setHeader('Content-Type', 'text/plain')
+	
+    	$this->getResponse()->clearAllHeaders()    	
+    	->setHeader('Pragma', 'no-cache', true)
+        	->setHeader('Cache-Control', 'private, no-cache', true)
+        	//->setHeader('Content-Disposition', 'inline; filename="files.json"', true)
+        	->setHeader('X-Content-Type-Options', 'nosniff', true)
+    	->setHeader('Content-Type', 'application/json', true)
         	    ->appendBody($content)
         	->sendResponse(); 
-	
-    	ob_end_clean();
+	exit(0);
+    //	ob_end_clean();
     }
 }
 

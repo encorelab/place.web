@@ -110,7 +110,7 @@ if($this->type==0 && !$error)
 	</div>	<!--  /posts-list -->
 
 	<div id="newThread-container">
-		<input type="button" value="New Thread" onClick="postNewThread('3')"/>
+		<input type="button" value="New Thread" onClick="postNewThread(<?php echo $this->example[0]['id']; ?>,3,<?php echo $this->example[0]['author_id']; ?>)"/>
 	</div>
 	
 		<div class="clear"></div>
@@ -162,9 +162,11 @@ if($this->type==0 && !$error)
 			<input type="hidden" name="postId" id="postId" value=""/>
 			<input type="hidden" name="example_id" id="example_id" value="<?php echo $this->example[0]['id']; ?>"/>
 			<input type="hidden" name="parentType" id="parentType" value=""/>
+			<input type="hidden" name="activity_on_user" id="activity_on_user" value=""/>
 			<input type="hidden" name="replyPosted" id="replyPosted" value="1"/>
 		</div>
 	</form>
+	
 	<!--  end add comment form -->		
 
 	<!--  start add vote to comments -->
@@ -409,11 +411,11 @@ function getCommentById($id,$obj_type, $prefix="")
 	
 	// add this post data
 	//Id:'.$id.'
-	$repliesHtml .=''.$id.'
+	$repliesHtml .='
 	<li>
 		<div class="post-item">';
 	
-	// add assessment for if is a teacher
+	// add assessment form if is a teacher
 	if($_SESSION['profile']=="TEACHER")
 	{
 		
@@ -422,6 +424,10 @@ function getCommentById($id,$obj_type, $prefix="")
 	
 	//$repliesHtml .='notAssessedItems: '.$notAssessedItems;
 	
+	// prevent autor from votting
+	if($_SESSION['author_id']!=$post[0]['User']['id'])
+	{
+	// votes container 
 	$repliesHtml .='
 			<div class="votes-container" style="float:right;">
 				<div id="'.$prefix.'vote-loading-'.$id.'"></div> 
@@ -440,18 +446,23 @@ function getCommentById($id,$obj_type, $prefix="")
 				<div id="'.$prefix.'vote-plus-'.$id.'" class="vote-minus-plus">
 					'.$votesCount['votesPlus'].'
 				</div> 
-			</div>
-				
+			</div>';
+	} // end if
+	
+	// comment content
+	$repliesHtml .='				
 			<div class="post-content">'
 				.$post[0]['content'].'
-			</div>
+			</div>';
 	
+	// author name 			
+	$repliesHtml .='
 			<div class="post-author">	
 				Posted by : <a href="#">'.$post[0]['User']['username'].'</a>
 			</div>
 			
 			<div class="post-reply">	
-				<a href="javascript: postReply(\''.$id.'\')">Reply</a>
+				<a href="javascript: postReply('.$id.','.$post[0]['User']['id'].')">Reply</a>
 			</div>
 		</div>
 	</li>';

@@ -1,22 +1,4 @@
-/*
-var jsonUrl = 'http://placeweb/ajax/uploadfile';
-var mediaArr =  new Array();
 
-$.getJSON(jsonUrl,
-		function (d) {
-			mediaArr = d.GET;
-		} 
-	);
-
-*/
-
-
-function loadInitFunctions()
-{
-
-	//alert("DOM loaded");
-	//classactivity();
-}
 
 function loadClassactivity()
 {
@@ -46,35 +28,33 @@ function uploadFile(obj, dname) {
 	
 }
 
-function showAnswer()
-{
-	alert("Show Answer for the Question");
-}
-
 function postCancel()
 {
 	$("#reply-new-title").html('');
 	$("#reply-container").removeClass('div-show');
 	$("#reply-container").addClass('div-hide');
-	
 }
 	
-function postReply(postid)
+function postReply(postid, author_id)
 {
 	marksCancel();
 	$("#reply-new-title").html('Add a Reply');
 	$("#reply-container").removeClass('div-hide');
 	$("#reply-container").addClass('div-show');
 	
+	$("#activity_on_user").val(author_id);
 	$("#obj_id").val(postid);
 	$("#postId").val(postid);
 	$("#parentType").val(1);
 }
 
-function postNewThread(parentType)
+function postNewThread(obj_id, parentType, author_id)
 {
 	marksCancel();
+	$
+	$("#activity_on_user").val(author_id);
 	$("#postId").val("");
+	$("#obj_id").val(obj_id);
 	$("#parentType").val(parentType);
 	$("#reply-container").removeClass('div-hide');
 	$("#reply-container").addClass('div-show');

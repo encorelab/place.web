@@ -81,7 +81,8 @@ class CommentController extends Zend_Controller_Action
 		//echo "<br>activity Id: ".$activity->id;
 		// redirect to home
 		header('Location: /example/show?id='.$params['example_id']);
-		
+	
+        	
     } // end addcommentAction()
 
 	

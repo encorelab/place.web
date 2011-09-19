@@ -11,3 +11,4 @@ public/content/
 .DS_Store
 public/css/styles.css.save
 *.swp
+.project

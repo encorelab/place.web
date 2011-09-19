@@ -1,11 +1,9 @@
-
-
 .my-comment{
 	background: #F3F2F7;
 }
 
 #recent-class-activity{
-height: 250px;
+	height: 250px;
 }
 
 #btn_submit_marks{
@@ -82,9 +80,10 @@ border:1px solid #ccc;
 	display: block;
 	float: right;
 }
-.alert-close-btn:hover{
+/*.alert-close-btn:hover{
 	background-color: red;
-}
+}*/
+
 
 #login-form{
 	border: 2px solid #000000;
@@ -257,10 +256,8 @@ li.header-li a{
 	text-decoration: none;
 }
 
-li.header-li a:hover{
-    background: #ffffcc;
-        
-}
+/*li.header-li a:hover{
+    background: #ffffcc;*/
 
 #search {
 	display: inline;
@@ -405,13 +402,13 @@ body {
 	text-decoration: none;
 }
 
-#main_content a:link:hover, #main_content a:visited:hover, #main_content a:focus {
+/*#main_content a:link:hover, #main_content a:visited:hover, #main_content a:focus {
 	color: #FFFFFF;
 	font-family: Tahoma, Geneva, sans-serif;
 	font-weight: bold;
 	text-decoration: none;
 	background: #DBDBDB;
-}
+}*/
 
 .dashlet-box li {
 	background: none repeat scroll 0 0 #FFFFFF;
@@ -421,10 +418,10 @@ body {
 	overflow: auto;
 	float:left;
 }
-.dashlet-box li:hover {
+/*.dashlet-box li:hover {
     border: 1px solid #FFFFFF;
     background: none repeat scroll 0 0 #F5F5F5;
-}
+}*/
 
 #container {
 /*

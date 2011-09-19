@@ -1,47 +1,23 @@
 <?php
-//<h3>/application/views/scripts/index/index.phtml</h3>
 if(!isset($_SESSION['access']))
 {
 ?>
 	<div id="login-form">
 		<form action="/user/login" method="post">
-			<span class="label">Username: </span>
-			<select name="username" id="username">
-				<option value="teacher">teacher</option>
-				<option value="student1">student1</option>
-				<option value="student2">student2</option>
-			</select>
-			
-<!--
-<input type="text" value="" id="username" name="username"/>
-<br/><span class="label">Password: </span><input type="password" value="" id="password" name="password"/> 
-Log in as: 
+		    
+            <label id="username-label" for="username">Username: </label>
+            <input type="text" value="" id="username" name="username"/>
+            </br>
 
-
-<label id="username-label" for="username">Username: </label>
-<input type="text" value="" id="username" name="username"/>
-</br>
-<label id="password-label" for="password">Password: </label>
-<input type="password" value="" id="password" name="password"/>
-</br>
-<label for="profile">Log in as: </label>
-
-<select name="profile" id="profile">
-	<option value="TEACHER">Teacher</option>
-	<option value="STUDENT">Student</option>
-</select>
-
- -->
-			<br/><br/>
+            <label id="password-label" for="password">Password: </label>
+            <input type="password" value="" id="password" name="password"/>
+            <br/>
+            
 			<input type="submit" value="Login"/>
-
-			</br>
-			<input id="login-button" type="submit" value="Login"/>
 		</form>
 	</div>
 <?php 	
 } else {
 	header('Location: /myhome');
-//echo "<hr/>User is loged in";
 }
 ?>

@@ -40,6 +40,7 @@ class AssessmentController extends Zend_Controller_Action
 			$aReview->log = $params['review-log'];
 			$aReview->i1= $params['parent_id'];
 			$aReview->t1= $params['parent_type'];
+			
 			$aReview->save();
 			
 			//echo "<hr>Assessment Review Id: ".$aReview->id;

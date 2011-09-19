@@ -133,16 +133,23 @@ if($this->type==0 && !$error)
 	$answersHtml="";
 	foreach ($this->answer as $answer)
 	{
+		// check if this is my answer
+		if($_SESSION['author_id']==$answer['author_id'])
+		{
+			$myAnswerCss="my-answer";
+			$isMy=true;
+		} else {
+			$myAnswerCss="";
+			$isMy=false;
+		}
+	
 		$answersHtml.='
-		<div class="answer-item">
+		<div class="answer-item '.$myAnswerCss.'">
 		';
 		// assesment form
-		if($_SESSION["profile"]=="TEACHER")
+		if($_SESSION["profile"]=="TEACHER" || $isMy)
 		{
-
 			$answersHtml  .=''.checkHasAssessment($answer['author_id'], $answer['id'], 2); // obj_type = 2 answers in assessable
-
-			
 		} 
 
 		// content
@@ -281,12 +288,13 @@ if($this->type==0 && !$error)
 function checkHasAssessment($author_id, $obj_id, $obj_type)
 {
 	global $notAssessedItems;
-	
+
+	// checked ok!
 	$q = Doctrine_Query::create()
 	->select('a.id, a.mark')
 	->from('Assessment a')
-	->where('a.run_id = ? AND a.author_id = ? AND a.obj_id = ? AND a.obj_type = ?', 
-		array($_SESSION['run_id'], $_SESSION['author_id'], $obj_id, $obj_type));
+	->where('a.run_id = ? AND a.obj_id = ? AND a.obj_type = ?', 
+		array($_SESSION['run_id'], $obj_id, $obj_type));
 	 
 	$assessment = $q->fetchArray();
 	
@@ -296,7 +304,12 @@ function checkHasAssessment($author_id, $obj_id, $obj_type)
 		$notAssessedItems .= "".$obj_id.",";
 		//return "has no assessment";
 		//echo "<hr>checkHasAssessment: ".$notAssessedItems;
-		return renderAssessmentFormItem($obj_id);
+		if($_SESSION['profile']=="TEACHER")
+		{
+			return renderAssessmentFormItem($obj_id);
+		} else {
+			return "";
+		}
 		
 	} else {
 		return '<div class="assessment-mark">'.$assessment[0]['mark'].'</div>';

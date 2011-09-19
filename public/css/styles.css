@@ -1,4 +1,9 @@
 
+
+.my-comment{
+	background: #F3F2F7;
+}
+
 #recent-class-activity{
 height: 250px;
 }
@@ -33,10 +38,17 @@ height: 250px;
 	margin-right: 15px;
 }
 
+#answers-container{
+
+}
+
+.my-answer{
+	background: none repeat scroll 0 0 #F3F2F7;
+}
 .answer-item{
-    background: none repeat scroll 0 0 #CCCCCC;
-    border-bottom: 1px solid #CCCCCC;
+    border: 1px solid #CCCCCC;
     margin-bottom: 15px;
+    padding: 5px;
     width: 64%;
 }
 

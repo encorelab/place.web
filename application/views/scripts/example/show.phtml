@@ -101,7 +101,7 @@ if($this->type==0 && !$error)
 	// for each top level comment find its children
 	foreach ($myComments as $comment)
 	{
-		$discussionHtml .= getCommentById($comment['id'],3); // first level type=3
+		$discussionHtml .= getCommentById($comment['id']); // first level type=3
 		//echo "<br/>Comment Id: ".$comment['id'];
 	}
 	//*/
@@ -117,10 +117,7 @@ if($this->type==0 && !$error)
 <?php 
 	if($_SESSION['profile']=="TEACHER"){
 ?>
-		<input type="hidden" value="1" name="obj_type"> <!-- 1=comment -->
-		<input type="hidden" value="<?php echo $this->example[0]['id']; ?>" name="parent_id">
-		<input type="hidden" value="examples" name="parent_type">
-		<input type="hidden" value="<?php echo $notAssessedItems; ?>" name="assesment_list">
+
 
 		<input type="hidden" name="assessComm_activity_type_id" id="assessComm_activity_type_id" value="8"/>
 		<input type="hidden" name="assessComm_activity_on_user" id="assessComm_activity_on_user" value=""/>
@@ -135,6 +132,12 @@ if($this->type==0 && !$error)
 		<div id="assessment-review-container" class="dashlet-box div-hide">
 			<div class="dashlet-title">Assessment Review</div>
 			<textarea name="review-log" rows="" cols="" name="assessment_review"></textarea>
+			<input type="hidden" value="1" name="obj_type"> <!-- 1=comment -->
+			
+			<input type="hidden" value="<?php echo $this->example[0]['id']; ?>" name="parent_id">
+			<input type="hidden" value="examples" name="parent_type">
+			<input type="hidden" value="<?php echo $notAssessedItems; ?>" name="assesment_list">
+			
 			<br/>
 			<input type="submit" value="Confirm">
 			<input type="button" value="Cancel" onclick="marksCancel()">
@@ -342,17 +345,29 @@ function countVotes($obj_id, $obj_type)
 	
 } // end countVotes()
 
+// don't need the author
 function checkHasAssessment($author_id, $obj_id, $obj_type)
 {
+	/*
+	echo "<hr>author_id: ".$author_id;
+	echo "<br>sess: author_id: ".$_SESSION['author_id'];
+	echo "<br>obj_id: ".$obj_id;
+	echo "<br>obj_type: ".$obj_type;
+	*/
+	
 	global $notAssessedItems;
 	
+	// checked ok!
 	$q = Doctrine_Query::create()
 	->select('a.id, a.mark')
 	->from('Assessment a')
-	->where('a.run_id = ? AND a.author_id = ? AND a.obj_id = ? AND a.obj_type = ?', 
-		array($_SESSION['run_id'], $_SESSION['author_id'], $obj_id, $obj_type));
+	->where('a.run_id = ? AND a.obj_id = ? AND a.obj_type = ?', 
+		array($_SESSION['run_id'], $obj_id, $obj_type));
 	 
 	$assessment = $q->fetchArray();
+	
+	//echo "<br>";
+	//print_r($assessment);
 	
 	if(count($assessment)==0)
 	{
@@ -360,7 +375,12 @@ function checkHasAssessment($author_id, $obj_id, $obj_type)
 		$notAssessedItems .= "".$obj_id.",";
 		//return "has no assessment";
 		//echo "<hr>checkHasAssessment: ".$notAssessedItems;
-		return renderAssessmentFormItem($obj_id);
+		if($_SESSION['profile']=="TEACHER")
+		{
+			return renderAssessmentFormItem($obj_id);
+		} else {
+			return "";
+		}
 		
 	} else {
 		return '<div class="assessment-mark">'.$assessment[0]['mark'].'</div>';
@@ -384,7 +404,7 @@ function renderAssessmentFormItem($id)
 	return $assessmentForm;
 }
 
-function getCommentById($id,$obj_type, $prefix="")
+function getCommentById($id,$prefix="")
 {
 	global $notAssessedItems;
 	
@@ -394,17 +414,24 @@ function getCommentById($id,$obj_type, $prefix="")
 
 	// get comment and user data
 	$q = Doctrine_Query::create()
-			//->select ("c.*, u.username, u.id")
 		->select ("c.*, u.username, u.id")
 		->from("Comment c")
 		->innerJoin("c.User u")
-		->where('c.id = ? AND c.obj_type =? AND c.run_id = ?', array($id, $obj_type, $_SESSION['run_id']));
-		//->where('a.run_id = ? AND a.question_id = ?' ,array(1, 1))					
-		//->orderBy('c.id DESC'); // not needed, return only one entry
+		->where('c.id = ? ', $id);
 	
 	$post = $q->fetchArray();
 
 	$votesCount = countVotes($id,1); // look for votes only on obj_type = 1 comments
+	
+	// check if this is my comment
+	if($_SESSION['author_id']==$post[0]['User']['id'])
+	{
+		$myCommentCss="my-comment";
+		$isMyComment=true;
+	} else {
+		$myCommentCss="";
+		$isMyComment=false;
+	}
 	
 	$repliesHtml .= "
 	<ul>";
@@ -413,10 +440,11 @@ function getCommentById($id,$obj_type, $prefix="")
 	//Id:'.$id.'
 	$repliesHtml .='
 	<li>
-		<div class="post-item">';
+		<div class="post-item '.$myCommentCss.'">';
 	
-	// add assessment form if is a teacher
-	if($_SESSION['profile']=="TEACHER")
+	// add/check assessment if is a teacher || this is my post
+	//if($_SESSION['profile']=="TEACHER")
+	if($_SESSION['profile']=="TEACHER" || $isMyComment)
 	{
 		
 		$repliesHtml .=''.checkHasAssessment($post[0]['User']['id'], $id, 1); // obj_type = 1 comments in assessable
@@ -482,7 +510,6 @@ function getCommentById($id,$obj_type, $prefix="")
 	//print_r($commentReplies);
 	
 ///*
-	//if(($post[0]['parent_id']) != null)
 	if($tot>0)
 	{ 
 		$repliesHtml .= "
@@ -492,7 +519,7 @@ function getCommentById($id,$obj_type, $prefix="")
 		foreach ($commentReplies as $replies)
 		{
 			$repliesHtml .= '
-				<li>'.getCommentById($replies['id'],1).'</li>';
+				<li>'.getCommentById($replies['id']).'</li>';
 		
 			//$repliesHtml .= '<li>'.$replies['$id'].'</li>';
 		}

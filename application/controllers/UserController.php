@@ -139,7 +139,7 @@ class UserController extends Zend_Controller_Action
             	$_SESSION['username'] = $localUser->username;
             	$_SESSION['profile'] = $localUser->user_type;
             	$_SESSION['run_id'] = 1;
-            	$_SESSION['author_id'] = 0;
+            	$_SESSION['author_id'] = $localUser->id;
 
                 header('Location: /myhome');
             	

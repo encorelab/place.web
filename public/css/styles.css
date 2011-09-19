@@ -214,6 +214,9 @@ display:none;
 	display: inline;
 	display: block;
 	float: left;
+	position: absolute;
+	left: 100px;
+	top: 100px;
 	margin-right: 20px;
 	padding: 7px 15px 7px 0px;
 }	
@@ -235,6 +238,11 @@ li.header-li{
 li.header-li a{
 	color: black;
 	text-decoration: none;
+}
+
+li.header-li a:hover{
+    background: #ffffcc;
+        
 }
 
 #search {
@@ -452,10 +460,10 @@ body {
 
 #global_header img {
 	text-align: left;
-	float: left;
+	/*float: left;*/
 	width: 20%;
 	/*height: 20%;*/
-	margin-left: 36px;
+	margin-left: 0px;
 }
 
 #global_footer {

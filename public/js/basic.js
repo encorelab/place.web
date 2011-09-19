@@ -90,7 +90,7 @@ function postVote(vote, id, type, userid, prefix)
 	  
 	$("#"+prefix+"vote_value").val(vote);
 	$("#"+prefix+"obj_id").val(id);
-	$("#"+prefix+"obj_type").val(type);
+//	$("#"+prefix+"obj_type").val(type); 
 	$("#"+prefix+"activity_on_user").val(userid);
 	$("#"+prefix+"i2").val(id);
 	//$("#"+prefix+"-form").submit();

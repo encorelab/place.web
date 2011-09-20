@@ -26,7 +26,7 @@ class QuestionController extends Zend_Controller_Action
 		// Set user id = 1 to active
 		Doctrine_Query::create()
 		  ->update('Question e')
-		  ->set('e.status', '?', $params['status'])
+		  ->set('e.is_published', '?', $params['is_published'])
 		  ->where('e.run_id = ? AND e.author_id = ? AND e.id = ?' , array($_SESSION['run_id'], $_SESSION['author_id'], $params['question_id']))
 		  ->execute();
 		  
@@ -163,7 +163,7 @@ $q = Doctrine_Query::create()
     	// get concepts data from db
     	
     	// using fixed concepts array in config.php
-    	global $PLACEWEB_CONFIG, $_SESSION;
+    	global $PLACEWEB_CONFIG;
     	//require(APPLICATION_PATH.'/configs/config.php');
     	
 //    	print_r($PLACEWEB_CONFIG['fConcepts']);

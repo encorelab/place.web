@@ -83,13 +83,24 @@ if($this->type==0 && !$error)
 	<div id="updatestatus-container">
 		<form method="post" action="/question/updatestatus">
 			<input type="hidden" id="question_id"  name="question_id" value="<?php echo $this->question[0]['id']?>"/>
-			<span class="item-label">Status: </span>
+			<span class="item-label">Published: </span>
 			<span class="item-input">
-				<select name="status">
-					<option value="1"<?php if($this->question[0]['status']==1) { echo "selected"; }?>>Active</option>
-					<option value="0"<?php if($this->question[0]['status']==0) { echo "selected"; }?>>Inactive</option>
+				<select name="is_published">
+					<option value="1"<?php if($this->question[0]['is_published']==1) { echo "selected"; }?>>Yes</option>
+					<option value="0"<?php if($this->question[0]['is_published']==0) { echo "selected"; }?>>No</option>
 				</select>
-			</span> 
+			</span>
+			<?php
+			/* 
+			<span class="item-label">Published: </span>
+			<span class="item-input">
+				<select name="is_public">
+					<option value="1"<?php if($this->question[0]['is_public']==1) { echo "selected"; }?>>Yes</option>
+					<option value="0"<?php if($this->question[0]['is_public']==0) { echo "selected"; }?>>No</option>
+				</select>
+			 </span>
+			 */
+			 ?>
 		 <input type="submit" value="Update status">
 		</form>
 		<br/>

@@ -165,13 +165,13 @@ require(APPLICATION_PATH.'/models/ajaxfileuploader/upload.php');
 				</span> 
 			</div>
 			<div>
-				<span class="item-label">Status: </span>
-				<span class="item-input">
-					<select name="status">
-						<option value="1">Active</option>
-						<option value="0">Inactive</option>
-					</select>
-				</span> 
+			<span class="item-label">Published: </span>
+			<span class="item-input">
+				<select name="is_published">
+					<option value="1">Yes</option>
+					<option value="0">No</option>
+				</select>
+			</span>
 			</div>
 		</div>
 		<!-- Multiple Question -->
@@ -195,9 +195,6 @@ require(APPLICATION_PATH.'/models/ajaxfileuploader/upload.php');
 			<div class="dashlet-title">Tags</div>
 			<div>
  
-			<?php 
-			//echo PlaceWebTools::arrayToHtmlCheckBoxList($this->fConcepts, "concept_id_");
-			?>
 			</div>
 		</div>
 	</div>

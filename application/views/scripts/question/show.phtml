@@ -270,7 +270,7 @@ echo '
 		}
 	
 		$answersHtml.='
-		<div class="answer-item '.$myAnswerCss.'">
+		<div id="answer' . $answer['id'] . '" class="answer-item '.$myAnswerCss.'">
 		';
 		// assesment form
 		if($_SESSION["profile"]=="TEACHER" || $isMy)

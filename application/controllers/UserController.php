@@ -124,12 +124,24 @@ class UserController extends Zend_Controller_Action
                 // Fetch the User from local DB
                 $localUser = Doctrine::getTable('User')->findByDql("username = ?", $username);
                 
+                // get the rollcall runId from auth
+                $userRunId = 1;
+                if (isset($auth['user']['groups'])){
+                    $group = $auth['user']['groups'][0];
+                    $userRunId = $group['run_id'];
+                    $userGroupName = $group['name'];
+                }
+                
+                // get the Run based on rollcall runId
+                $run = Doctrine::getTable('Run')->findByDql("name = ?", array($userGroupName));
+                $run = $run[0];
+                
                 // Create the user if it doesn't exist in local DB
                 if (count($localUser) == 0){
                     echo "creating user";
                     
                     $localUser = new User();
-                    $localUser->run_id = 1;
+                    $localUser->run_id = $run->id;
                     $localUser->author_id = 0;
                     $localUser->date_created = date( 'Y-m-d H:i:s');
                     $localUser->username = $username;
@@ -153,7 +165,8 @@ class UserController extends Zend_Controller_Action
                 $_SESSION['access'] = true;
             	$_SESSION['username'] = $localUser->username;
             	$_SESSION['profile'] = $localUser->user_type;
-            	$_SESSION['run_id'] = 1;
+            	$_SESSION['run_id'] = $run->id;
+            	$_SESSION['user_display_name'] = $auth['user']['display_name'];
             	$_SESSION['author_id'] = $localUser->id;
 
             	//print_r($_SESSION);

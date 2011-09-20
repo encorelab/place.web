@@ -13,7 +13,7 @@ if(isset($_SESSION['access']))
 	<div id="header-bottom">
 		<div id="header">
 			<ul>
-				<li id="welcome">welcome back <span><?php echo $_SESSION['username']?></span></li>
+				<li id="welcome">welcome back <span><?php echo $_SESSION['user_display_name']?></span></li>
 				
 			</ul>
 		</div><!-- /header -->

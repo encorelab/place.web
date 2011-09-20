@@ -29,7 +29,31 @@ class QuestionController extends Zend_Controller_Action
 		  ->set('e.is_published', '?', $params['is_published'])
 		  ->where('e.run_id = ? AND e.author_id = ? AND e.id = ?' , array($_SESSION['run_id'], $_SESSION['author_id'], $params['question_id']))
 		  ->execute();
-		  
+
+		  if($params['is_published']==1)
+		  {
+			// insert activity log
+			$activity = new Activity();
+			$activity->run_id = $_SESSION['run_id'];
+			$activity->author_id = $_SESSION['author_id'];
+			//$question_comment->date_modified = date( 'Y-m-d H:i:s');
+			$activity->date_created = date( 'Y-m-d H:i:s');
+			$activity->activity_type_id = 12;
+			
+			$activity->i1 = $params['question_id'];
+			$activity->i2 = "";
+			$activity->i3 = "";
+			$activity->i4 = "";
+			$activity->i5 = "";
+			$activity->s1 = "";
+			$activity->s2 = "";
+			$activity->s3 = "";
+			$activity->t1 = "Questions";
+			$activity->t2 = "";
+			
+			$activity->save();
+		  }
+			
 		  header('Location: /question/show?id='.$params['question_id']);
 		        
     }
@@ -284,33 +308,37 @@ public function addanswerAction(){
 		$question->media_type = $params['media_type'];
 		$question->type = $params['question_type'];
 		$question->choices = $params['mc-list'];
-        // $question->status = $params['status'];
+
+        $question->is_published = $params['is_published'];
 
         $question->save();
         
         //echo "<hr>Question Id: ".$question->id;
         
-		// insert activity log
-		$activity = new Activity();
-		$activity->run_id = $_SESSION['run_id'];
-		$activity->author_id = $_SESSION['author_id'];
-		//$question_comment->date_modified = date( 'Y-m-d H:i:s');
-		$activity->date_created = date( 'Y-m-d H:i:s');
-		$activity->activity_type_id = 12;
-		//$activity->activity_on_user
-		
-		$activity->i1 = $question->id;
-		$activity->i2 = "";
-		$activity->i3 = "";
-		$activity->i4 = "";
-		$activity->i5 = "";
-		$activity->s1 = "";
-		$activity->s2 = "";
-		$activity->s3 = "";
-		$activity->t1 = "Questions";
-		$activity->t2 = "";
-
-		$activity->save();
+        if($params['is_published']==1)
+        {
+			// insert activity log
+			$activity = new Activity();
+			$activity->run_id = $_SESSION['run_id'];
+			$activity->author_id = $_SESSION['author_id'];
+			//$question_comment->date_modified = date( 'Y-m-d H:i:s');
+			$activity->date_created = date( 'Y-m-d H:i:s');
+			$activity->activity_type_id = 12;
+			//$activity->activity_on_user
+			
+			$activity->i1 = $question->id;
+			$activity->i2 = "";
+			$activity->i3 = "";
+			$activity->i4 = "";
+			$activity->i5 = "";
+			$activity->s1 = "";
+			$activity->s2 = "";
+			$activity->s3 = "";
+			$activity->t1 = "Questions";
+			$activity->t2 = "";
+	
+			$activity->save();
+        }
 		
 		//echo "<br>activity Id: ".$activity->id;
 		// redirect to home

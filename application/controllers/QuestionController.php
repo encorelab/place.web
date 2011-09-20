@@ -27,6 +27,8 @@ class QuestionController extends Zend_Controller_Action
 		Doctrine_Query::create()
 		  ->update('Question e')
 		  ->set('e.is_published', '?', $params['is_published'])
+		  ->set('e.content', '?', $params['content'])
+		  ->set('e.name', '?', $params['name'])
 		  ->where('e.run_id = ? AND e.author_id = ? AND e.id = ?' , array($_SESSION['run_id'], $_SESSION['author_id'], $params['question_id']))
 		  ->execute();
 
@@ -160,7 +162,7 @@ $q = Doctrine_Query::create()
     	} else {
     		// select all questions [list]
 			$k = Doctrine_Query::create()
-			->select('e.id, e.name')
+			->select('e.id, e.name, e.is_published')
 			->from('Question e')
 			->where('e.run_id = ?' , $_SESSION['run_id'])
 			->orderBy('e.id DESC');

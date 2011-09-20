@@ -40,7 +40,14 @@ if($this->type==0 && !$error)
 	foreach ($this->question as $question)
 	{
 		$questionsListHtml.= "		
-		<li><a href='/question/show?id=".$question['id']."'>".$question['name']."</a></li>";
+		<li><a href='/question/show?id=".$question['id']."'>".$question['name']."";
+		if($question['is_published']==0)
+		{
+			$questionsListHtml.= " [Not Published]";
+		}
+	
+		$questionsListHtml.= "</a></li>";
+	
 	}
 	$questionsListHtml.="
 	</ul>";
@@ -83,7 +90,12 @@ if($this->type==0 && !$error)
 	<div id="updatestatus-container">
 		<form method="post" action="/question/updatestatus">
 			<input type="hidden" id="question_id"  name="question_id" value="<?php echo $this->question[0]['id']?>"/>
-
+			<div>
+				<span class="item-label">Name: </span>
+				<span class="item-input"><input type="text" name="name" value = "<?php echo $this->question[0]['name']?>"/></span> 
+			</div>
+			<br/>
+			<div>
 			<span class="item-label">Published: </span>
 			<span class="item-input">
 				<select name="is_published">
@@ -91,6 +103,12 @@ if($this->type==0 && !$error)
 					<option value="0"<?php if($this->question[0]['is_published']==0) { echo "selected"; }?>>No</option>
 				</select>
 			</span>
+			</div>
+			<div>
+			<br/>
+			<textarea cols="25" name="content"><?php echo $this->question[0]['content'];?></textarea>
+			</div>
+			<br/>
 			<?php
 			/* 
 			<span class="item-label">Published: </span>
@@ -102,7 +120,7 @@ if($this->type==0 && !$error)
 			 </span>
 			 */
 			 ?>
-			 <input type="submit" value="Update status">
+			 <input type="submit" value="Update Question">
 		</form>
 		<br/>
 	</div>

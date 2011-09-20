@@ -49,7 +49,7 @@ function postReply(postid, author_id)
 	$("#postId").val(postid);
 	$("#parentType").val(1);
 	
-	var originalReplyMsg = $("#comment" + postid + " .post-content").html();
+	var originalReplyMsg = $("#comment" + postid).find("div.post-content").html();
 	var x = $("#reply-original-msg").offset().top - 50;
 	$("#reply-original-msg").hide().html(originalReplyMsg);
 	$('html, body').animate({

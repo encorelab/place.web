@@ -186,7 +186,7 @@ echo '
 	// for each top level comment find its children
 	foreach ($myComments as $comment)
 	{
-		$discussionHtml .= '<div id="comment' . $comment['id'] .'">' . getCommentById($comment['id']). '</div>'; // first level type=3
+		$discussionHtml .= getCommentById($comment['id']); // first level type=3
 		//echo "<br/>Comment Id: ".$comment['id'];
 	}
 	//*/
@@ -568,10 +568,12 @@ function getCommentById($id,$prefix="")
 	} // end if
 	
 	// comment content
-	$repliesHtml .='				
+	$repliesHtml .='<div id="comment' . $id  . '">				
 			<div class="post-content">'
 				.$post[0]['content'].'
-			</div>';
+			</div>
+			</div>
+			';
 	
 	// author name 			
 	$repliesHtml .='

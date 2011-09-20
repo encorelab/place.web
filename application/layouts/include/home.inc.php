@@ -36,12 +36,12 @@ if($_SESSION['profile']=="STUDENT")
 	<div id="home-col1" style="float:left;width:20%;">
 		<div id="comment-score" class="dashlet-box-simple">
 			<div class="dashlet-title">Comment Score</div>
-			<div>+25</div>
+			<div>0</div>
 		</div>
 
 		<div id="tag-score" class="dashlet-box-simple">
 			<div class="dashlet-title">Tag Score</div>
-			<div>+17</div>
+			<div>0</div>
 		</div>
 	</div><!-- /home-col1 -->
 <?php 

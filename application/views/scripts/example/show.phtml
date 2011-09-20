@@ -188,12 +188,12 @@ echo '
 	echo $discussionHtml;
 	?>
 	</div>	<!--  /posts-list -->
-
+<div class="clear"></div>
 	<div id="newThread-container">
 		<input type="button" value="New Thread" onClick="postNewThread(<?php echo $this->example[0]['id']; ?>,3,<?php echo $this->example[0]['author_id']; ?>)"/>
 	</div>
 	
-		<div class="clear"></div>
+	<div class="clear"></div>
 <?php 
 	if($_SESSION['profile']=="TEACHER"){
 ?>

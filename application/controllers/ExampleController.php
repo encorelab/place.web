@@ -138,11 +138,21 @@ class ExampleController extends Zend_Controller_Action
         $mysql="";
         
         $mysql="";
-    	foreach ($PLACEWEB_CONFIG['fConcepts'] as $cId => $cName)
+        
+	    	//get all Concepts in db for comparison: which ones are not added yet
+		$q = Doctrine_Query::create()
+			->select('e.id,  e.name')
+			->from('Concept e')
+			->where('e.run_id = ?', $_SESSION['run_id']);
+		
+		$theConcepts = $q->fetchArray();
+		
+		// adjust the concepts from db 
+		foreach($theConcepts as $concept)
 		{
-			if(isset($params['concept_id__'.$cId]))
+			if(isset($params['concept_id__'.$concept['id']]))
 			{
-				echo "<hr/>".$cName;
+				//echo "<hr/>".$cName;
 				$example_concept = new ExampleConcept();
 		        
 				$example_concept->run_id = $_SESSION['run_id'];
@@ -150,7 +160,7 @@ class ExampleController extends Zend_Controller_Action
 				//$example_concept->date_modified = date( 'Y-m-d H:i:s');
 				$example_concept->date_created = date( 'Y-m-d H:i:s');
 				$example_concept->example_id= $example->id;
-				$example_concept->concept_id= $cId;
+				$example_concept->concept_id= $concept['id'];
 				$example_concept->save();
 				echo "<br>Example_concept Id: ".$example_concept->id;
 			}

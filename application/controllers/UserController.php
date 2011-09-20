@@ -155,7 +155,8 @@ class UserController extends Zend_Controller_Action
                     	$localUser->user_type = strtoupper($auth['user']['kind']);
                     }
                     
-                    $localUser->save();
+                    //print_r($auth);
+                    	$localUser->save();
 
                 }else{
                     $localUser = $localUser[0];

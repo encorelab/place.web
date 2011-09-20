@@ -103,9 +103,12 @@ if($this->type==0 && !$error)
 			echo '<img src="/content/'.$this->question[0]['media_path'].'" title="'.$this->question[0]['name'].'" width="320px" />';
 		//echo $this->question[0]['media_content'];?></div>
 	</div>
-	<div><?php 
-		echo $this->question[0]['content'];?>
-		</div>
+	<div id="question-content">
+	<?php 
+	// replace this 
+		echo $this->question[0]['content'];
+	?>
+	</div>
 
 	
 	<?php 

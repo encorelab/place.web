@@ -1,9 +1,23 @@
+#question-content{
+	width: 60%;
+}
 .my-comment{
 	background: #F3F2F7;
 }
 
+#my-homework{
+	max-height: 250px;
+}
+
+#my-updates{
+	max-height: 250px;
+}
+#my-recent-activity{
+	max-height: 250px;
+}
+
 #recent-class-activity{
-	height: 250px;
+	max-height: 250px;
 }
 
 #btn_submit_marks{
@@ -126,9 +140,8 @@ display:none;
 }
 
 #newThread-container {
-    float: right;
-    margin-right: 50px;
-    margin-top: 50px;
+    float: left;
+    margin-top: 32px;
 }
 
 #discussion-container {
@@ -193,7 +206,7 @@ display:none;
 #posts-list {
     border: 1px dashed;
     float: left;
-    height: 450px;
+    max-height: 450px;
     overflow: auto;
     width: 62%;
  	padding-right: 15px;

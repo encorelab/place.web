@@ -170,7 +170,7 @@ require(APPLICATION_PATH.'/models/ajaxfileuploader/upload.php');
 			<div class="dashlet-title">Tags</div>
 			<div>
 			<?php 
-			echo PlaceWebTools::arrayToHtmlCheckBoxList($PLACEWEB_CONFIG['fConcepts'], "concept_id_");
+			echo PlaceWebTools::arrayToHtmlCheckBoxList(loadConcepts(), "concept_id_");
 			?>
 			</div>
 		</div>
@@ -202,3 +202,24 @@ require(APPLICATION_PATH.'/models/ajaxfileuploader/upload.php');
 
 </form>		
 </div>
+
+<?php 
+function loadConcepts()
+{
+	//get all Concepts in db for comparison: which ones are not added yet
+	$q = Doctrine_Query::create()
+		->select('e.id,  e.name')
+		->from('Concept e')
+		->where('e.run_id = ?', $_SESSION['run_id']);
+	
+	$theConcepts = $q->fetchArray();
+	
+	// adjust the concepts from db 
+	foreach($theConcepts as $concept)
+	{
+		$theConceptsF[$concept['id']] = $concept['name'];
+	}
+	
+	return $theConceptsF;
+}
+?>

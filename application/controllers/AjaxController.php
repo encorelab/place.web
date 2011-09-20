@@ -14,7 +14,6 @@ class AjaxController extends Zend_Controller_Action
     {
         $params = $this->getRequest()->getParams();
         
-        $this->view->student = Doctrine::getTable("User")->find($params['studentId']);
         $this->view->activities = Doctrine::getTable("Activity")
                                     ->findByDql("author_id = ?", $params['studentId']);
     }
@@ -81,8 +80,6 @@ class AjaxController extends Zend_Controller_Action
             ->andWhere('a.author_id != ?', $_SESSION['author_id'])
             ->andWhere('a.id NOT IN (select r.activity_id from resolved_user_alert r where r.author_id = '.$_SESSION['author_id'].')')
         	->orderBy('a.id DESC');
-    	
-        // echo $q->getSqlQuery();die();
     	
     	$activities = $q->execute();
     	

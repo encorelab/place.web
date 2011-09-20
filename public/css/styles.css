@@ -77,10 +77,10 @@ border:1px solid #ccc;
 }
 
 .alert-question{
-	background: red;
+	background: #adbbd2;
 }
 
-.alert-comment{
+.alert-comments	{
 	background: olive;
 }
 

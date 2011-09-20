@@ -339,6 +339,7 @@ class UploadHandler
             case '3g2':
             case '3gp':
             case 'divx':
+            case 'ogv':
                 $isVideo = true;
                 break;
             default:

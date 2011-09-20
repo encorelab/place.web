@@ -234,8 +234,7 @@ public function addanswerAction(){
         } else {
         	$mc_chocie = "";
         }
-                
-        
+
         $answer = new Answer(); 
                
 		$answer->run_id = $_SESSION['run_id'];
@@ -257,7 +256,7 @@ public function addanswerAction(){
 		//$question_comment->date_modified = date( 'Y-m-d H:i:s');
 		$activity->date_created = date( 'Y-m-d H:i:s');
 		$activity->activity_type_id = 13;
-		//$activity->activity_on_user
+		//$activity->activity_on_user //need question author_id here
 		
 		$activity->i1 = $answer->id;
 		$activity->i2 = $params['question_id'];

@@ -99,7 +99,6 @@ if($this->type==0 && !$error)
 	?>
 
 	<!-- start media container -->
-	<div class="dashlet-box-image">
 	<?php
 		// MIKE'S CODE TO MAKE THE UPLOAD VIEW WORK //////////////////////////// 
 		$mediaFile = current($this->question);
@@ -108,7 +107,7 @@ if($this->type==0 && !$error)
 		if (preg_match("/video/i", $mediaFile['media_type']))
 		{
 			echo '
-		<div style="height: 270px;">
+		<div>
 			<div id="jp_container_1" class="jp-video jp-video-270p">
                         <div class="jp-type-single">
                                 <div id="jquery_jplayer_1" class="jp-jplayer"></div>
@@ -180,17 +179,20 @@ if($this->type==0 && !$error)
                                     });
 		</script>
 			';
-		}	
-		// assuming images for now
-		//echo $this->example[0]['media_content'];
-		else { 
+			// ANTONIO ADDED THIS TO FIX ADD SOME SPACE AFTER 
+			/// WELL DONE MIKE!!
+			echo "<br/>";
+			
+		} else { 
 
 echo '
-		<img src="'.$mediaFile['media_content'].'" title="'.$this->question[0]['name'].'" width="320px" />';
+<div class="dashlet-box-image">	
+	<img src="'.$mediaFile['media_content'].'" title="'.$this->question[0]['name'].'" width="320px" />
+</div>';
 		}
 		//<img  height="240px" title="Drag and Drop a new Media File here..." alt="Drag and Drop a new Media File here..." src="/images/uploader.png" id="eloimg">
 		?>	
-</div>
+
 <!-- /media container -->
 	
 <div class="clear"></div>

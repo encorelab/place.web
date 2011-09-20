@@ -72,8 +72,10 @@ if($this->type==0 && !$error)
 			</ul>
 		</div>
 		<!-- /tags-container -->
-	</div>	
-
+	</div>
+	
+	<!-- start media container -->
+	<div class="dashlet-box-image">
 	<?php
 		// MIKE'S CODE TO MAKE THE UPLOAD VIEW WORK //////////////////////////// 
 		$mediaFile = current($this->example);
@@ -158,13 +160,16 @@ if($this->type==0 && !$error)
 		// assuming images for now
 		//echo $this->example[0]['media_content'];
 		else { 
-echo "	 <div class=\"dashlet-box-image\">";
+
 echo '
-		<img src="'.$mediaFile['media_content'].'" title="'.$this->example[0]['name'].'" width="320px" />
-	</div>';
+		<img src="'.$mediaFile['media_content'].'" title="'.$this->example[0]['name'].'" width="320px" />';
 		}
 		//<img  height="240px" title="Drag and Drop a new Media File here..." alt="Drag and Drop a new Media File here..." src="/images/uploader.png" id="eloimg">
 		?>	
+</div>
+<!-- /media container -->
+
+<div class="clear"></div>
 	
 	<div><?php //echo $this->example[0]['content'];?></div>
 	

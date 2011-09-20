@@ -444,14 +444,14 @@ function renderAssessmentFormItem($id)
 function getUserName($author_id)
 {
 	$q = Doctrine_Query::create()
-	->select('u.username')	
+	->select('u.display_name')	
 	->from('User u')
 	->where('u.id = ?', $author_id);
 	 
 	$user = $q->fetchArray();
 	
 	//print_r($user);
-	return $user[0]['username'];
+	return $user[0]['display_name'];
 	
 }
 

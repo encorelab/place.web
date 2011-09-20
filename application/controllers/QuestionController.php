@@ -54,7 +54,8 @@ class QuestionController extends Zend_Controller_Action
 			$activity->save();
 		  }
 			
-		  header('Location: /question/show?id='.$params['question_id']);
+		  //header('Location: /question/show?id='.$params['question_id']);
+		  header('Location: /myhome');
 		        
     }
     public function myjointestAction()

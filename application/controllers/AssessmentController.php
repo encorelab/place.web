@@ -40,6 +40,7 @@ class AssessmentController extends Zend_Controller_Action
 			$aReview->log = $params['review-log'];
 			$aReview->i1= $params['parent_id'];
 			$aReview->t1= $params['parent_type'];
+			
 			$aReview->save();
 			
 			//echo "<hr>Assessment Review Id: ".$aReview->id;
@@ -60,6 +61,7 @@ class AssessmentController extends Zend_Controller_Action
 					
 					$this->addAssessment($obj_id, $params['obj_type'], $mark, $aReview->id);
 					
+					// need to fix: insert an activity log for each assessment
 					//$this->addActivity();
 					
 				} // end if
@@ -90,39 +92,35 @@ class AssessmentController extends Zend_Controller_Action
     	
     } 
     
-    private function addActivity()
+    private function addActivity($assessment_id,$activity_type_id,$i1,$i2,$t1,$t2)
     {
-       /*
-        // create a new comment object
-
-        
-        echo "<hr>Assessment Id: ".$assessment->id;
-        
+/*
 		// insert activity log
 		$activity = new Activities();
 		$activity->run_id = $_SESSION['run_id'];
 		$activity->author_id = $_SESSION['author_id'];
 		$activity->date_created = date( 'Y-m-d H:i:s');
-		$activity->activity_type_id = 10; //assessed answer
-		$activity->i1 = $assessment->id;
-		$activity->i2 = $params['answer_id'];
-		$activity->i3 = $params['question_id'];
+		
+		$activity->activity_type_id = $activity_type_id; //assessed answer
+
+		$activity->i1 = $i1;
+		$activity->i2 = $i2;
+		$activity->i3 = "";
 		$activity->i4 = "";
 		$activity->i5 = "";
 		$activity->s1 = "";
 		$activity->s2 = "";
 		$activity->s3 = "";
-		$activity->t1 = "Answer";
-		$activity->t2 = "Question";
+		$activity->t1 = $t1;
+		$activity->t2 = $t2;
 		
 		$activity->save();
 		
 			echo "<br>activity Id: ".$activity->id;
-			
+		
+*/
 		// redirect to home
 		//header('Location: /question/show?id='.$params['question_id']);
-		 
-		 */
     } 
 	
 } // end class

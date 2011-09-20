@@ -76,7 +76,7 @@ if($_SESSION['profile']=="STUDENT")
 		<div id="course-actions">
 			<div class="dashlet-box"><a href="/example/addform">Create New Example</a></div>
 			<?php 
-			if($_SESSION['profile']=="INSTRUCTOR")
+			if($_SESSION['profile']=="TEACHER")
 			{
 			?>
 			<div class="dashlet-box"><a href="/question/addform">Create New Question</a></div>
@@ -87,7 +87,7 @@ if($_SESSION['profile']=="STUDENT")
 				<a href="/web">Launch Associative Web</a>
 			</div>
 			<?php 
-			if($_SESSION['profile']=="INSTRUCTOR")
+			if($_SESSION['profile']=="TEACHER")
 			{
 			?>
 			<div class="dashlet-box">

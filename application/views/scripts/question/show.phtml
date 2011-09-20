@@ -1,5 +1,8 @@
 <div id="question-container">
 <?php
+global $notAssessedItems;
+$notAssessedItems="";
+
 ///echo "<hr/>";
 $totAnswers = count($this->answer);
 
@@ -119,30 +122,34 @@ if($this->type==0 && !$error)
 	}
 	?>
 	
+	<!-- answers-container -->
+	<div id="answers-container">
+
+		<!-- assessment answer form -->
+		<form name="assessment-form" method="post" action="/assessment/add?prefix=assessAnsw_">			
+
 	<?php
 	//loop through the answers
 	$answersHtml="";
 	foreach ($this->answer as $answer)
 	{
+		// check if this is my answer
+		if($_SESSION['author_id']==$answer['author_id'])
+		{
+			$myAnswerCss="my-answer";
+			$isMy=true;
+		} else {
+			$myAnswerCss="";
+			$isMy=false;
+		}
+	
 		$answersHtml.='
-		<div class="answer-item">
+		<div class="answer-item '.$myAnswerCss.'">
 		';
 		// assesment form
-		if($_SESSION["profile"]=="TEACHER")
+		if($_SESSION["profile"]=="TEACHER" || $isMy)
 		{
-			// check if the answer has an assessment
-			
-			$answersHtml.='<div id="answer_'.$answer['id'].'" class="answer-assessment">
-			<form action="/assessment/add" method="post">
-			1 <input type="radio" name="mark_'.$answer['id'].'" value="1"/> |
-			2 <input type="radio" name="mark_'.$answer['id'].'" value="2"/> |
-			3 <input type="radio" name="mark_'.$answer['id'].'" value="3"/> |
-			4 <input type="radio" name="mark_'.$answer['id'].'" value="4"/>  
-			<input type="hidden" name="answer_id" value="'.$answer['id'].'">
-			<input type="hidden" name="obj_type" value="2">
-			<input type="submit" value="Save Assessment">
-			</form>
-			</div>';
+			$answersHtml  .=''.checkHasAssessment($answer['author_id'], $answer['id'], 2); // obj_type = 2 answers in assessable
 		} 
 
 		// content
@@ -165,7 +172,37 @@ if($this->type==0 && !$error)
 	} // end loop answers	
 	
 	echo $answersHtml;
+	?>
+	<div class="clear"></div>
+	<?php
+	// controls for submiting marks 
+	if($_SESSION['profile']=="TEACHER")
+	{
+	?>
+		<input type="hidden" value="2" name="obj_type"> <!-- 2=answer-->
+		<input type="hidden" value="<?php echo $this->question[0]['id']; ?>" name="parent_id">
+		<input type="hidden" value="question" name="parent_type">
+		<input type="hidden" value="<?php echo $notAssessedItems; ?>" name="assesment_list">
+		<div id="btn_submit_marks" class="div-show">
+			<input id="btn_submit_marks" type="button" value="Submit Marks" onclick="showAssessmentReview()">
+		</div>
+		<div id="assessment-review-container" class="dashlet-box div-hide">
+			<div class="dashlet-title">Assessment Review</div>
+			<textarea name="review-log" rows="" cols="" name="assessment_review"></textarea>
+			<br/>
+			<input type="submit" value="Confirm">
+			<input type="button" value="Cancel" onclick="marksCancel()">
+		</div>
+<?php 
+	} // end if teacher
+?>
+</div>
+<!-- /answers-container -->
+
+	</form>
+	<!-- /assessment answer form -->
 	
+	<?php 
 	if($_SESSION["profile"]=="STUDENT" && !isset($this->answer[0]))
 	{
 	?>
@@ -208,7 +245,7 @@ if($this->type==0 && !$error)
 		<input type="hidden" name="qe_vote_value" id="qe_vote_value" value=""/>
 		<input type="hidden" name="qe_activity_type_id" id="qe_activity_type_id" value="14"/>
 		<input type="hidden" name="qe_activity_on_user" id="qe_activity_on_user" value=""/>
-		<input type="text" name="qe_i1" id="qe_i1" value="<?php echo $this->question[0]['id']; ?>"/>
+		<input type="hidden" name="qe_i1" id="qe_i1" value="<?php echo $this->question[0]['id']; ?>"/>
 		<input type="hidden" name="qe_i2" id="qe_i2" value=""/>
 		<input type="hidden" name="qe_t1" id="qe_t1" value="Question"/>
 		<input type="hidden" name="qe_t2" id="qe_t2" value="QuestionConcept"/>
@@ -247,6 +284,55 @@ if($this->type==0 && !$error)
 
 
 <?php 
+
+function checkHasAssessment($author_id, $obj_id, $obj_type)
+{
+	global $notAssessedItems;
+
+	// checked ok!
+	$q = Doctrine_Query::create()
+	->select('a.id, a.mark')
+	->from('Assessment a')
+	->where('a.run_id = ? AND a.obj_id = ? AND a.obj_type = ?', 
+		array($_SESSION['run_id'], $obj_id, $obj_type));
+	 
+	$assessment = $q->fetchArray();
+	
+	if(count($assessment)==0)
+	{
+		// add this iterm to the assessment list
+		$notAssessedItems .= "".$obj_id.",";
+		//return "has no assessment";
+		//echo "<hr>checkHasAssessment: ".$notAssessedItems;
+		if($_SESSION['profile']=="TEACHER")
+		{
+			return renderAssessmentFormItem($obj_id);
+		} else {
+			return "";
+		}
+		
+	} else {
+		return '<div class="assessment-mark">'.$assessment[0]['mark'].'</div>';
+		
+	}
+	
+	//return $assessment;
+}
+
+function renderAssessmentFormItem($id)
+{
+	$assessmentForm = '
+	<div class="assessment-item">
+			<input type="radio" value="1" name="mark_'.$id.'">1  |
+			<input type="radio" value="2" name="mark_'.$id.'">2  |
+			<input type="radio" value="3" name="mark_'.$id.'">3  |
+			<input type="radio" value="4" name="mark_'.$id.'">4   
+			<input type="hidden" value="'.$id.'" name="obj_id_'.$id.'">
+	</div>
+	';
+	return $assessmentForm;
+}
+
 function getUserName($author_id)
 {
 	$q = Doctrine_Query::create()
@@ -264,7 +350,7 @@ function getUserName($author_id)
 function getConcepts($id)
 {
 	$q = Doctrine_Query::create()
-	->select('e.question_id,  e.concept_id')
+	->select('e.id, e.question_id,  e.concept_id')
 	->from('QuestionConcept e')
 	->where('e.question_id = ? AND e.run_id = ?', array($id,$_SESSION['run_id']));
 	 
@@ -363,30 +449,26 @@ function analyzeTags($tags, $prefix="")
 		//var_dump($tag);
 		//echo "<br/>".$tag['conceptId'];
 		
-			$votesCount = countVotes($tag['concept_id'],5); // look for votes for obj_type = 4 example_concept
-			
-			$votesMinus =0 ;
-			$votesSumm = 0;
-			$votesPlus = 0;
+			$votesCount = countVotes($tag['id'],5); // look for votes for obj_type = 5 question_concept
 		
 		$tagsHtml .='
 		<li>
 			<div class="tag-name">'.$theConceptsF[$tag['concept_id']].'</div>
 			<div class="votes-container" style="float:right;">
-				<div  id="'.$prefix.'vote-loading-'.$tag['concept_id'].'"></div> 
-				<div  id="'.$prefix.'vote-minus-'.$tag['concept_id'].'" class="vote-minus-plus">
+				<div  id="'.$prefix.'vote-loading-'.$tag['id'].'"></div> 
+				<div  id="'.$prefix.'vote-minus-'.$tag['id'].'" class="vote-minus-plus">
 					'.$votesCount['votesMinus'].'
 				</div> 
 				<div class="vote-icon">
-					<a href="javascript:postVote(-1,'.$tag['concept_id'].',5,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_down.png" width="20px"></a>
+					<a href="javascript:postVote(-1,'.$tag['id'].',5,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_down.png" width="20px"></a>
 				</div>
-				<div  id="'.$prefix.'vote-total-'.$tag['concept_id'].'" class="vote-total">
+				<div  id="'.$prefix.'vote-total-'.$tag['id'].'" class="vote-total">
 					'.$votesCount['votesSumm'].'
 				</div>
 				<div class="vote-icon">
-					<a href="javascript:postVote(1,'.$tag['concept_id'].',5,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_up.png" width="20px"></a>
+					<a href="javascript:postVote(1,'.$tag['id'].',5,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_up.png" width="20px"></a>
 				</div>
-				<div  id="'.$prefix.'vote-plus-'.$tag['concept_id'].'" class="vote-minus-plus">
+				<div  id="'.$prefix.'vote-plus-'.$tag['id'].'" class="vote-minus-plus">
 					'.$votesCount['votesPlus'].'
 				</div> 
 			</div>

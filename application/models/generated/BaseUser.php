@@ -15,6 +15,8 @@ Doctrine_Manager::getInstance()->bindComponent('User', 'main');
  * @property string $username
  * @property string $password
  * @property enum $user_type
+ * @property string $display_name
+ * @property string $group_name
  * @property Run $Run
  * @property Doctrine_Collection $Activity
  * @property Doctrine_Collection $Activity_4
@@ -119,6 +121,24 @@ abstract class BaseUser extends Doctrine_Record
              ),
              'primary' => false,
              'notnull' => true,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('display_name', 'string', 255, array(
+             'type' => 'string',
+             'length' => 255,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => true,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('group_name', 'string', 255, array(
+             'type' => 'string',
+             'length' => 255,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
              'autoincrement' => false,
              ));
     }

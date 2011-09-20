@@ -378,13 +378,14 @@ function getQuestion($id)
 function getUserName($author_id)
 {
 	$q = Doctrine_Query::create()
+	  ->select('u.display_name')
 	  ->from('User u')
 	  ->where('u.id = ?', $author_id);
 	 
 	$user = $q->fetchArray();
 	
 	//print_r($user);
-	return $user[0]['username'];
+	return $user[0]['u.display_name'];
 	
 }
 
@@ -395,7 +396,7 @@ function countVotes($obj_id, $obj_type)
 	// get all votes for this post: note that we can use SUM in SQL instead
 	// ********************************************************************* 
     $q = Doctrine_Query::create()
-	//->select ("v.id, v.vote_value, u.id, u.username") // use this if we want to show who and how someone voted
+	//->select ("v.id, v.vote_value, u.id, u.display_name") // use this if we want to show who and how someone voted
 	->select ("v.id, v.vote_value")
 	->from("Vote v")
 	//->innerJoin("v.User u")
@@ -499,7 +500,7 @@ function getCommentById($id,$prefix="")
 
 	// get comment and user data
 	$q = Doctrine_Query::create()
-		->select ("c.*, u.username, u.id")
+		->select ("c.*, u.display_name, u.id")
 		->from("Comment c")
 		->innerJoin("c.User u")
 		->where('c.id = ? ', $id);
@@ -571,7 +572,7 @@ function getCommentById($id,$prefix="")
 	// author name 			
 	$repliesHtml .='
 			<div class="post-author">	
-				Posted by : <a href="#">'.$post[0]['User']['username'].'</a>
+				Posted by : <a href="#">'.$post[0]['User']['display_name'].'</a>
 			</div>
 			
 			<div class="post-reply">	

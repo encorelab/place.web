@@ -179,7 +179,7 @@ require(APPLICATION_PATH.'/models/static/'.'PlaceWebTools.php');
 	
 	<!-- second line container -->
 	<div>
-		<div class="dashlet-box-simple" style="float:left;">
+		<div class="dashlet-box" style="float:left;">
 			<div class="dashlet-title">Content</div>
 			<div>
 				<textarea rows="10" cols="10" name="content" id="content"></textarea>

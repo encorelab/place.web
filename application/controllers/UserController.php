@@ -69,8 +69,6 @@ class UserController extends Zend_Controller_Action
     private function localAuthentication()
     {
     	global $PLACEWEB_CONFIG;
-
-    	//print_r($this->params);
     	
 		$q = Doctrine_Query::create()
 		->select('e.*')
@@ -79,31 +77,17 @@ class UserController extends Zend_Controller_Action
 		->orderBy('e.id DESC');
 		$user = $q->fetchArray();
 		print_r($user);
-		
+
     	$_SESSION['access'] = true;
     	$_SESSION['username'] = $user[0]['username']; 	// user.username
+    	$_SESSION['user_display_name'] = $user[0]['display_name']; 	// user.username
     	$_SESSION['profile'] = $user[0]['user_type']; 	// user.user_type
     	$_SESSION['run_id']=1; 		// user.run_id
     	$_SESSION['author_id'] = $user[0]['id']; // user.author_id
     	
     	header('Location: /myhome');
     	
-    	//echo "<hr/>";
-    	//echo "using local authentication ";;
-    	
-    	/*
-    	 * 1) check username and password in user's table
-    	 * 		if does not exist 
-    	 * 			show error to the user
-    	 * 			redirect to login page
-    	 * 		else
-    	 * 			set the following:
-    	 *     		$_SESSION['access'] = true;
-    	 *     		$_SESSION['username'] = "[the username]"; 	// user.username
-    	 * 			$_SESSION['profile'] = "[the profile]"; 	// user.user_type
-    	 * 			$_SESSION['run_id']="[the run_id]"; 		// user.run_id
-    	 * 			$_SESSION['author_id'] = [user.author_id]	// user.author_id
-    	 */
+
     } // end localAuthentication()
     
     private function rollCallAuthentication()
@@ -126,6 +110,7 @@ class UserController extends Zend_Controller_Action
                 
                 // get the rollcall runId from auth
                 $userRunId = 1;
+                $userGroupName = "";
                 if (isset($auth['user']['groups'])){
                     $group = $auth['user']['groups'][0];
                     $userRunId = $group['run_id'];
@@ -144,8 +129,12 @@ class UserController extends Zend_Controller_Action
                     $localUser->run_id = $run->id;
                     $localUser->author_id = 0;
                     $localUser->date_created = date( 'Y-m-d H:i:s');
+
+                    $localUser->display_name = $auth['user']['display_name'];
+                    $localUser->group_name=$userGroupName;
                     $localUser->username = $username;
-                    $localUser->password = $password;
+                    
+                    //$localUser->password = $password;
                     
                     // change "Instructor" to "TEACHER"
                     if($auth['user']['kind']=="Instructor")
@@ -169,9 +158,9 @@ class UserController extends Zend_Controller_Action
             	$_SESSION['run_id'] = $run->id;
             	$_SESSION['user_display_name'] = $auth['user']['display_name'];
             	$_SESSION['author_id'] = $localUser->id;
+            	$_SESSION['group_name'] = $localUser->group_name;
 
             	//print_r($_SESSION);
-            	
                 header('Location: /myhome');
             	
             }else{
@@ -183,4 +172,3 @@ class UserController extends Zend_Controller_Action
     } // end rollCallAuthentication()
     
 } // end class
-

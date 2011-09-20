@@ -263,6 +263,6 @@ class Activity extends BaseActivity
     
     
     private function _genAuthorHtml(){
-        return "<strong>".$this->_author->username."</strong>";
+        return "<strong>".$this->_author->display_name."</strong>";
     }
 }

@@ -15,7 +15,7 @@ $(document).ready(function(){
 <?php
 foreach($this->students as $student){
     $studentId = $student->id;
-    $studentName = $student->username;
+    $studentName = $student->display_name;
     
     echo "<p><input type='radio' name='students' value='$studentId' /> $studentName</p>";
 }

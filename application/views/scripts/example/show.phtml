@@ -186,7 +186,7 @@ echo '
 	// for each top level comment find its children
 	foreach ($myComments as $comment)
 	{
-		$discussionHtml .= getCommentById($comment['id']); // first level type=3
+		$discussionHtml .= '<div id="comment' . $comment['id'] .'">' . getCommentById($comment['id']). '</div>'; // first level type=3
 		//echo "<br/>Comment Id: ".$comment['id'];
 	}
 	//*/
@@ -239,7 +239,11 @@ echo '
  	
  	<!--  Start add comment form -->
 	<form method="post" action="/comment/add">
- 
+		<div id="orig-reply-container" class="dashlet-box div-hide" style="margin-top: 25px;
+    width: 607px;">
+                        <div id="reply-original-title" class="dashlet-title">Original Message</div>
+			<div id="reply-original-msg"></div>
+		</div>
 		<div id="reply-container" class="dashlet-box div-hide">
 			<div id="reply-new-title" class="dashlet-title"></div>
 			<textarea rows="5" cols="25" name="replyText" name="replyText"></textarea>

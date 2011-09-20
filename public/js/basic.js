@@ -41,11 +41,25 @@ function postReply(postid, author_id)
 	$("#reply-new-title").html('Add a Reply');
 	$("#reply-container").removeClass('div-hide');
 	$("#reply-container").addClass('div-show');
+
+	$("#orig-reply-container").removeClass('div-hide').addClass('div-show');
 	
 	$("#activity_on_user").val(author_id);
 	$("#obj_id").val(postid);
 	$("#postId").val(postid);
 	$("#parentType").val(1);
+	
+	var originalReplyMsg = $("#comment" + postid + " .post-content").html();
+	var x = $("#reply-original-msg").offset().top - 50;
+	$("#reply-original-msg").hide().html(originalReplyMsg);
+	$('html, body').animate({
+    		scrollTop: x 
+		},{
+		duration: 'slow',
+    		complete: function() {
+      			$("#reply-original-msg").fadeIn('slow');
+    		}
+		});
 }
 
 function postNewThread(obj_id, parentType, author_id)

@@ -86,6 +86,10 @@
                         return false;
                     }
                 }
+
+		// Prevent submission while uploading 
+                $("#saved").val(0);
+
                 if (data.context && data.dataType &&
                         data.dataType.substr(0, 6) === 'iframe') {
                     // Iframe Transport does not support progress events.
@@ -489,7 +493,7 @@
 	   /* update the form values with null */
 		$("#media_path").val('');
 		$("#thumb_path").val('');
-		$("#saved").val('');
+		$("#saved").val(1);
 		$("#media_content").val('');
 		$("#media_type").val('');
 		$("#is_video").val('0');

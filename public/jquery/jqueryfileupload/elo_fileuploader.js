@@ -1010,7 +1010,13 @@ $('input:checkbox').each(function(){
 		isTagged = true;
 	}) 
 	
-	if ($("#example-name").val().length < 3)
+	if ($("#saved").val() == 0)
+	{
+		$( "#error-dialog" ).dialog( "open" );
+                $( "#error-dialogue-text").html("<p>Please wait for the file uploading to complete...</p>");
+                return false;
+	}
+	else if ($("#example-name").val().length < 3)
 	{
 		$( "#error-dialog" ).dialog( "open" );
 		$( "#error-dialogue-text").html("<p>You must enter a name (with at least 3 characters) in the <strong>Name</strong> field for your example.</p>");		

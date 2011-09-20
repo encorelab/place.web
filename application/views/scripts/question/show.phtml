@@ -77,12 +77,13 @@ if($this->type==0 && !$error)
 	
 	<?php 
 	// update status 
-	if($_SESSION["profile"]=="TEACHER")
+	if($_SESSION["profile"]=="TEACHER" && $this->question[0]['is_published']==0)
 	{
 	?>
 	<div id="updatestatus-container">
 		<form method="post" action="/question/updatestatus">
 			<input type="hidden" id="question_id"  name="question_id" value="<?php echo $this->question[0]['id']?>"/>
+
 			<span class="item-label">Published: </span>
 			<span class="item-input">
 				<select name="is_published">
@@ -101,12 +102,12 @@ if($this->type==0 && !$error)
 			 </span>
 			 */
 			 ?>
-		 <input type="submit" value="Update status">
+			 <input type="submit" value="Update status">
 		</form>
 		<br/>
 	</div>
 	<?php
-	} // 
+	} // end if teacher
 	?>
 
 	<!-- start media container -->

@@ -332,33 +332,36 @@ echo '
 	if($_SESSION["profile"]=="STUDENT" && !isset($this->answer[0]))
 	{
 	?>
-	<p></p>
-	<form method="post" action="/question/addanswer">
-		<input type="hidden" id="question_id"  name="question_id" value="<?php echo $this->question[0]['id']?>"/>
-		<?php 
-		// add here the posible answers when the elo is a multiple choice
-		///*
-		if($this->question[0]['type'] == "MC" )
-		{
-			$anwersFormHtml = '
-			<div id="answers-container" style="width:30%; " class="dashlet-box-simple">
-			<div class="dashlet-title">Multiple Choice</div>
-			';
-			for($k=1;$k<=$this->question[0]['choices'];$k++)
+	<!-- submit answer form -->
+	<div id="answer-question-container">
+		<form method="post" action="/question/addanswer?prefix=answ_">
+			<input type="hidden" id="question_id"  name="question_id" value="<?php echo $this->question[0]['id']?>"/>
+			<?php 
+			// add here the posible answers when the elo is a multiple choice
+			///*
+			if($this->question[0]['type'] == "MC" )
 			{
-				$anwersFormHtml .= ' '.$this->PLACEWEB_CONFIG['questionChoices'][$k].'<input type="radio" name="mc_chocie" value="'.$this->PLACEWEB_CONFIG['questionChoices'][$k].'"/>&nbsp;&nbsp;';	
+				$anwersFormHtml = '
+				<div id="answers-container" style="width:30%; " class="dashlet-box-simple">
+				<div class="dashlet-title">Multiple Choice</div>
+				';
+				for($k=1;$k<=$this->question[0]['choices'];$k++)
+				{
+					$anwersFormHtml .= ' '.$this->PLACEWEB_CONFIG['questionChoices'][$k].'<input type="radio" name="mc_chocie" value="'.$this->PLACEWEB_CONFIG['questionChoices'][$k].'"/>&nbsp;&nbsp;';	
+				}
+				$anwersFormHtml .= '
+				
+				</div>
+				';
+				echo $anwersFormHtml;
 			}
-			$anwersFormHtml .= '
-			
-			</div>
-			';
-			echo $anwersFormHtml;
-		}
-		//*/
-		?>
-		<textarea name="content"></textarea>
-		<br/><input type="submit" value="Save Answer"> 
-	</form>
+			//*/
+			?>
+			<textarea name="content"></textarea>
+			<br/><input type="submit" value="Save Answer">
+		</form>
+		</div>
+		<!-- /submit answer form -->
 	
 	<?php 	
 	} // end if student

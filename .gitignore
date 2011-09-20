@@ -12,3 +12,5 @@ public/content/
 public/css/styles.css.save
 *.swp
 .project
+public/tinymce/jscripts/tiny_mce/plugins/tiny_mce_wiris/formulas/*.xml
+public/tinymce/jscripts/tiny_mce/plugins/tiny_mce_wiris/cache/*.png

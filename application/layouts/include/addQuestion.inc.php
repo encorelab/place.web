@@ -2,7 +2,7 @@
 require(APPLICATION_PATH.'/configs/config.php');
 require(APPLICATION_PATH.'/models/static/'.'PlaceWebTools.php');
 //require(APPLICATION_PATH.'/models/ajaxfileuploader/AjaxFileUploader.inc.php');
-require(APPLICATION_PATH.'/models/ajaxfileuploader/upload.php');
+//require(APPLICATION_PATH.'/models/ajaxfileuploader/upload.php');
 ?>
 <script type="text/javascript" src="/jquery/jqueryfileupload/elo_fileuploader.js" ></script>
 <h2>Add Question</h2>

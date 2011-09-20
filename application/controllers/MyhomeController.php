@@ -23,7 +23,7 @@ class MyhomeController extends Zend_Controller_Action
     
     public function classlistAction()
     {
-        $this->view->students = Doctrine::getTable("User")->findByDql("user_type = 'STUDENT'");
+        $this->view->students = Doctrine::getTable("User")->findByDql("user_type = 'STUDENT' AND run_id = ".$_SESSION["run_id"]);
     }
 }
 

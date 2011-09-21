@@ -23,7 +23,7 @@ if(isset($_SESSION['access']))
 				<ul>
 					<li class="header-li"><a href="/myhome">home</a></li>
 					<li class="header-li"><a href="/myhome/preferences">preferences</a></li>
-					<li id="search"><form action="#" method="post"><label for="search">search </label><input type="text"/></form></li>
+					<li id="search-li"><form action="#" method="post"><label for="search">search </label><input type="text" id="search" /></form></li>
 					<li class="header-li"><a href="/logout.php">sign out</a></li>
 				</ul>	
 			

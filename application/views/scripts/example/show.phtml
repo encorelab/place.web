@@ -558,13 +558,13 @@ function getCommentById($id,$prefix="")
 					'.$votesCount['votesMinus'].'
 				</div> 
 				<div class="vote-icon">
-					<a href="javascript:postVote(-1,'.$id.',1,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_down.png" width="20px"></a>
+					<a href="javascript:postVote(-1,'.$id.',1,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_down.png" width="12px"></a>
 				</div>
 				<div id="'.$prefix.'vote-total-'.$id.'" class="vote-total">
 					'.$votesCount['votesSumm'].'
 				</div> 
 				<div class="vote-icon">
-					<a href="javascript:postVote(1,'.$id.',1,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_up.png" width="20px"></a>
+					<a href="javascript:postVote(1,'.$id.',1,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_up.png" width="12px"></a>
 				</div>
 				<div id="'.$prefix.'vote-plus-'.$id.'" class="vote-minus-plus">
 					'.$votesCount['votesPlus'].'

@@ -4,7 +4,11 @@ class ExampleController extends Zend_Controller_Action
 
     public function init()
     {
-        /* Initialize action controller here */
+        /* check session var */
+    	if(!$_SESSION['access'])
+    	{
+    		header('Location: /');
+    	}
     }
 
     public function indexAction()

@@ -1,5 +1,5 @@
 #video-container{
-/* set here some css to fix the position of the video container */
+/* set here some css to fixed the position of the video container */
 }
 
 #question-content{
@@ -13,8 +13,18 @@
 	max-height: 250px;
 }
 
+#my-homework-feed{
+	max-height: 250px;
+	overflow: auto;
+}
+
 #my-updates{
 	max-height: 250px;
+}
+
+#my-updates-feed{
+	max-height: 250px;
+	overflow: auto;
 }
 
 #my-recent-activity{
@@ -28,6 +38,11 @@
 
 #recent-class-activity{
 	max-height: 250px;
+}
+
+#recent-class-activity-feed{
+	max-height: 250px;
+	overflow: auto;
 }
 
 #recent-class-activity .scrollable {
@@ -287,7 +302,7 @@ display:none;
 	display: inline-block;
 	list-style-type: none;
 	list-style-position: inside;
-	padding-left: 1px;
+	/* padding-left: 1px; */
 
 	width:100%;
 }

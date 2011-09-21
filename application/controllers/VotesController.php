@@ -134,17 +134,10 @@ class VotesController extends Zend_Controller_Action
 		$vote->run_id = $_SESSION['run_id'];
 		$vote->author_id = $_SESSION['author_id'];
 		$vote->date_created = date( 'Y-m-d H:i:s');
-	
 		$vote->obj_id = $obj_id; // the entity on which the vote is added (example_concept, question_concept)
 		$vote->obj_type = $obj_type; // be sure this is set in the page submiting data (hard-coded)
 		$vote->vote_value = $vote_value;
-
 		$vote->save();
-		
-        
-		//echo "<hr>Vote Id: ".$vote->id;
-		//print_r($vote);
-///*		  
 	        
 		// insert activity log
 		$activity = new Activity();
@@ -158,17 +151,19 @@ class VotesController extends Zend_Controller_Action
 		//because it may not be relevant the author_id of the one who created the relation 
 		$activity->activity_on_user = $activity_on_user;
 
-		$activity->i1 = $i1; // save here the id that provides the entry point, (example or question id) this needed for the feed
-		$activity->i2 = $i2; // save here the id of the entity on which the vote is added (comment, example_concept, question_concept) 
+		$activity->i1 = $i1; // the id that provides the entry point, (example or question id)
+		$activity->i2 = $i2; // the entity on which the vote is added (comment, example_concept, question_concept)
 		$activity->i3 = "";
 		$activity->i4 = "";
 		$activity->i5 = "";
-		$activity->s1 = "";
-		$activity->s2 = "";
+		
+		$activity->s1 = $t1;
+		$activity->s2 = $t2;
 		$activity->s3 = "";
+		
 		$activity->t1 = $t1;
 		$activity->t2 = $t2;
-	
+		
 		$activity->save();
 		
 		//echo "<br>activity Id: ".$activity->id;

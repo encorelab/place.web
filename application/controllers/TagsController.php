@@ -22,10 +22,14 @@ class TagsController extends Zend_Controller_Action
 		$params = $this->getRequest()->getParams();
 		
 		//print_r($params);
-///*
+
+		/*
+		 * $params['tag_type']
+		 * // 1 for example_concept, 2 for question_concept
+		 */
 		
 		// adding example_concept
-		if($params['tag_type']=="1") // 
+		if($params['tag_type']=="1") 
 		{
 			// add only if it does not exist::
 			$q = Doctrine_Query::create()
@@ -63,7 +67,7 @@ class TagsController extends Zend_Controller_Action
 			// adding question_concept
 		} else if($params['tag_type']=="2") {
 
-			// add only if it does not exist::
+			// add only if it does not exist: so check it in the db
 			$q = Doctrine_Query::create()
 			->select('e.id')
 			->from('QuestionConcept e')
@@ -92,14 +96,47 @@ class TagsController extends Zend_Controller_Action
 				
 				//echo "<br>question_concept Id: ".$question_concept->id;
 				
+				// add activity log
+				
 				header('Location: /question/show?id='.$params['qe_id']);
 			}
 			
 			
-		}
+		} // end if adding question_concept
 //*/
 		
 
-    } // end add
+    } // end addAction()
+	
+    // dump function in activity : this must be reused ;)
+    private function addActivity($activity_type_id, $i1, $i2, $i3, $s1, $s2, $s3, $t1, $t2)
+	{
+		// insert activity log
+		$activity = new Activity();
+		$activity->run_id = $_SESSION['run_id'];
+		$activity->author_id = $_SESSION['author_id'];
+		$activity->date_created = date( 'Y-m-d H:i:s');
+		
+		$activity->activity_type_id = $activity_type_id; 
+
+		$activity->i1 = $i1;
+		$activity->i2 = $i2;
+		$activity->i3 = $i3;
+		$activity->i4 = "";
+		$activity->i5 = "";
+		
+		$activity->s1 = $s1;
+		$activity->s2 = $s2;
+		$activity->s3 = $s3;
+		
+		$activity->t1 = $t1;
+		$activity->t2 = $t2;
+
+		
+		$activity->save();
+		
+		echo "<br>activity Id: ".$activity->id;
+		
+	} 
 }
 

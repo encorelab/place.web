@@ -589,13 +589,13 @@ function analyzeTags($tags, $prefix="")
 					'.$votesCount['votesMinus'].'
 				</div> 
 				<div class="vote-icon">
-					<a href="javascript:postVote(-1,'.$tag['id'].',5,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_down.png" width="20px"></a>
+					<a href="javascript:postVote(-1,'.$tag['id'].',5,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_down.png" width="12px"></a>
 				</div>
 				<div  id="'.$prefix.'vote-total-'.$tag['id'].'" class="vote-total">
 					'.$votesCount['votesSumm'].'
 				</div>
 				<div class="vote-icon">
-					<a href="javascript:postVote(1,'.$tag['id'].',5,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_up.png" width="20px"></a>
+					<a href="javascript:postVote(1,'.$tag['id'].',5,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_up.png" width="12px"></a>
 				</div>
 				<div  id="'.$prefix.'vote-plus-'.$tag['id'].'" class="vote-minus-plus">
 					'.$votesCount['votesPlus'].'

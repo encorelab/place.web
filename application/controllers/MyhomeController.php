@@ -51,9 +51,11 @@ class MyhomeController extends Zend_Controller_Action
         //return $votes[0]['vote_sum'];
     }
     
-    public function questionConceptCommentScore(){
+
+    
+    public function calculateTagScore(){
         // get all user's comments
-        $comments = Doctrine::getTable("QuestionConcenpt")
+        $comments = Doctrine::getTable("QuestionConcept")
                     ->findByDql("author_id = ? AND run_id = ?", array($_SESSION['author_id'], $_SESSION['run_id']));
         
         $commentIds = array();
@@ -73,12 +75,10 @@ class MyhomeController extends Zend_Controller_Action
                     ->andWhere("obj_type = ?", Votable::$QUESTION_CONCEPT)
                     ->execute();
                     
-        return $votes[0]['vote_sum'];
-    }
-    
-    public function exampleConceptCommentScore(){
-        // get all user's comments
-        $comments = Doctrine::getTable("ExampleConcenpt")
+        $questionConceptScore = $votes[0]['vote_sum'];
+        
+    	// get all user's comments
+        $comments = Doctrine::getTable("ExampleConcept")
                     ->findByDql("author_id = ? AND run_id = ?", array($_SESSION['author_id'], $_SESSION['run_id']));
         
 //        print_r($comments);
@@ -86,10 +86,6 @@ class MyhomeController extends Zend_Controller_Action
         $commentIds = array();
         foreach ($comments as $comment){
             $commentIds[] = $comment->id;
-        }
-        
-        if (count($comments) == 0){
-            return 0;
         }
         
         // sum up all the votes for the user comments found
@@ -100,20 +96,13 @@ class MyhomeController extends Zend_Controller_Action
                     ->andWhere("obj_type = ?", Votable::$EXAMPLE_CONCEPT)
                     ->execute();
 
-        if (count($votes) == 0){
-            return 0;
-        } else {
         
-        	return $votes[0]['vote_sum'];
-        }
+        $exampleConceptScore = $votes[0]['vote_sum'];
         
+        $this->view->tagScore=$questionConceptScore+$exampleConceptScore;
         
     }
         
-    public function calculateTagScore(){
-        
-    }
-
     public function preferencesAction()
     {
         

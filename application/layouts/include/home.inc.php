@@ -42,7 +42,7 @@ if($_SESSION['profile']=="STUDENT")
 
 		<div class="dashlet-box-simple">
 			<div class="dashlet-title">Tag Score</div>
-			<div class="comment-score"><?php echo $this->commentScore;?></div>
+			<div class="comment-score"><?php echo $this->tagScore;?></div>
 		</div>
 	</div><!-- /home-col1 -->
 <?php 

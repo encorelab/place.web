@@ -41,7 +41,7 @@ if($_SESSION['profile']=="STUDENT")
 
 		<div id="tag-score" class="dashlet-box-simple">
 			<div class="dashlet-title">Tag Score</div>
-			<div>0</div>
+			<div>E: <?php echo $this->exampleConceptCommentScore ?> | Q: <?php echo $this->questionConceptCommentScore ?></div>
 		</div>
 	</div><!-- /home-col1 -->
 <?php 

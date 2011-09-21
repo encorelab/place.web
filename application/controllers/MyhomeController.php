@@ -23,6 +23,8 @@ class MyhomeController extends Zend_Controller_Action
         $comments = Doctrine::getTable("Comment")
                     ->findByDql("author_id = ? AND run_id = ?", array($_SESSION['author_id'], $_SESSION['run_id']));
         
+		//print_r($comments);
+                    
         $commentIds = array();
         foreach ($comments as $comment){
             $commentIds[] = $comment->id;
@@ -39,10 +41,75 @@ class MyhomeController extends Zend_Controller_Action
                     ->whereIn("obj_id", $commentIds)
                     ->andWhere("obj_type = ?", Votable::$COMMENT)
                     ->execute();
+
+        if (count($votes) == 0){
+            return 0;
+        } else {
+        
+        	return $votes[0]['vote_sum'];
+        }
+        //return $votes[0]['vote_sum'];
+    }
+    
+    public function questionConceptCommentScore(){
+        // get all user's comments
+        $comments = Doctrine::getTable("QuestionConcenpt")
+                    ->findByDql("author_id = ? AND run_id = ?", array($_SESSION['author_id'], $_SESSION['run_id']));
+        
+        $commentIds = array();
+        foreach ($comments as $comment){
+            $commentIds[] = $comment->id;
+        }
+        
+        if (count($comments) == 0){
+            return 0;
+        }
+        
+        // sum up all the votes for the user comments found
+        $votes = Doctrine_Query::create()
+                    ->select("sum(vote_value) as vote_sum")
+                    ->from("Vote")
+                    ->whereIn("obj_id", $commentIds)
+                    ->andWhere("obj_type = ?", Votable::$QUESTION_CONCEPT)
+                    ->execute();
                     
         return $votes[0]['vote_sum'];
     }
     
+    public function exampleConceptCommentScore(){
+        // get all user's comments
+        $comments = Doctrine::getTable("ExampleConcenpt")
+                    ->findByDql("author_id = ? AND run_id = ?", array($_SESSION['author_id'], $_SESSION['run_id']));
+        
+//        print_r($comments);
+        
+        $commentIds = array();
+        foreach ($comments as $comment){
+            $commentIds[] = $comment->id;
+        }
+        
+        if (count($comments) == 0){
+            return 0;
+        }
+        
+        // sum up all the votes for the user comments found
+        $votes = Doctrine_Query::create()
+                    ->select("sum(vote_value) as vote_sum")
+                    ->from("Vote")
+                    ->whereIn("obj_id", $commentIds)
+                    ->andWhere("obj_type = ?", Votable::$EXAMPLE_CONCEPT)
+                    ->execute();
+
+        if (count($votes) == 0){
+            return 0;
+        } else {
+        
+        	return $votes[0]['vote_sum'];
+        }
+        
+        
+    }
+        
     public function calculateTagScore(){
         
     }

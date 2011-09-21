@@ -910,13 +910,13 @@ $('#fileupload').fileupload({
                                 
                                 if (isJPlayerReady)
                                 {
-                                    $('#jquery_jplayer_1').jPlayer("setMedia", { m4v: url }).jPlayer("play");
+                                    $('#jquery_jplayer_1').jPlayer("setMedia", { m4v: url }); //.jPlayer("play");
                                 }
                                 else
                                 {
                                     $('#jquery_jplayer_1').jPlayer({
                                         ready: function() { // The $.jPlayer.event.ready event
-                                           $(this).jPlayer("setMedia", { m4v: url }).jPlayer("play");
+                                           $(this).jPlayer("setMedia", { m4v: url }); //.jPlayer("play");
                                            isJPlayerReady = true;
                                     
                                         },
@@ -1010,7 +1010,7 @@ $('input:checkbox').each(function(){
 		isTagged = true;
 	}) 
 	
-	if ($("#saved").val() == 0)
+	if (0 && $("#saved").val() == 0)
 	{
 		$( "#error-dialog" ).dialog( "open" );
                 $( "#error-dialogue-text").html("<p>Please wait for the file uploading to complete...</p>");

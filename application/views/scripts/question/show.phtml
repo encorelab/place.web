@@ -191,7 +191,7 @@ if($this->type==0 && !$error)
 		<script>
 			$("#jquery_jplayer_1").jPlayer({
                                         ready: function() { // The $.jPlayer.event.ready event
-                                           $(this).jPlayer("setMedia", { m4v: "' . $mediaFile['media_content'] .  '" }).jPlayer("play");
+                                           $(this).jPlayer("setMedia", { m4v: "' . $mediaFile['media_content'] .  '" }); //.jPlayer("play");
                                         },
                                         ended: function() { // The $.jPlayer.event.ended event
                                             //$(this).jPlayer("play"); // Repeat the media

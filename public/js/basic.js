@@ -73,6 +73,16 @@ function postNewThread(obj_id, parentType, author_id)
 	$("#reply-container").removeClass('div-hide');
 	$("#reply-container").addClass('div-show');
 	$("#reply-new-title").html('Add New Thread');
+	var x = $("#reply-container").offset().top - 50;
+	$('html, body').animate({
+                scrollTop: x
+                },{
+                duration: 'slow',
+                complete: function() {
+                
+                }
+                });
+
 }
 
 function postVote(vote, id, type, userid, prefix)

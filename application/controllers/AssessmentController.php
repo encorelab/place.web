@@ -94,33 +94,7 @@ class AssessmentController extends Zend_Controller_Action
     
     private function addActivity($assessment_id,$activity_type_id,$i1,$i2,$t1,$t2)
     {
-/*
-		// insert activity log
-		$activity = new Activities();
-		$activity->run_id = $_SESSION['run_id'];
-		$activity->author_id = $_SESSION['author_id'];
-		$activity->date_created = date( 'Y-m-d H:i:s');
-		
-		$activity->activity_type_id = $activity_type_id; //assessed answer
 
-		$activity->i1 = $i1;
-		$activity->i2 = $i2;
-		$activity->i3 = "";
-		$activity->i4 = "";
-		$activity->i5 = "";
-		$activity->s1 = "";
-		$activity->s2 = "";
-		$activity->s3 = "";
-		$activity->t1 = $t1;
-		$activity->t2 = $t2;
-		
-		$activity->save();
-		
-			echo "<br>activity Id: ".$activity->id;
-		
-*/
-		// redirect to home
-		//header('Location: /question/show?id='.$params['question_id']);
     } 
 	
 } // end class

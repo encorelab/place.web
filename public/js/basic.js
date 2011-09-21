@@ -119,6 +119,7 @@ function postVote(vote, id, type, userid, prefix)
 		 		}})
 	    //.error(function() { alert("error"); })
 	    //.complete(function() { alert("complete");});
+
 }
 
 function addTag(id)

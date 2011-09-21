@@ -5,7 +5,11 @@ class CommentController extends Zend_Controller_Action
 
     public function init()
     {
-        /* Initialize action controller here */
+        /* check session var */
+    	if(!$_SESSION['access'])
+    	{
+    		header('Location: /');
+    	}
     }
 
     public function indexAction()
@@ -53,28 +57,27 @@ class CommentController extends Zend_Controller_Action
 		$activity->author_id = $_SESSION['author_id'];
 		//$comment_comment->date_modified = date( 'Y-m-d H:i:s');
 		$activity->date_created = date( 'Y-m-d H:i:s');
-		
-    	if($params['parentType']==3){
+
+// this are always used to store the entry point: example
+		$activity->i1 = $params['obj_id'];
+		$activity->s1 = "Example"; 
+
+		// comment on example
+	    	if($params['parentType']==3){
 			$activity->activity_type_id = 7;
-			$activity->t2 = "Example";
+			$activity->t1 = "Comment on Example";
 		}
 		
+		// comment on comment		
 		if($params['parentType']==1){
 			$activity->activity_type_id = 5;
-			$activity->t2 = "Comment";
+			$activity->t1 = "Comment on Comment";
+
+			$activity->i2 = $comment->id;
+			$activity->s2 = "Comment";
 		}
 		
-		//$activity->activity_on_user
-		
-		$activity->i1 = $comment->id;
-		$activity->i2 = $params['obj_id'];
-		$activity->i3 = "";
-		$activity->i4 = "";
-		$activity->i5 = "";
-		$activity->s1 = "";
-		$activity->s2 = "";
-		$activity->s3 = "";
-		$activity->t1 = "Comment";
+		$activity->activity_on_user=$params['activity_on_user'];
 		
 		$activity->save();
 		

@@ -4,7 +4,11 @@ class VotesController extends Zend_Controller_Action
 
     public function init()
     {
-        /* Initialize action controller here */
+        /* check session var */
+    	if(!$_SESSION['access'])
+    	{
+    		header('Location: /');
+    	}
     }
 
     public function indexAction()
@@ -99,8 +103,11 @@ class VotesController extends Zend_Controller_Action
 			$i1 = $params[$prefix.'i1'];
 			$i2 = $params[$prefix.'i2'];
 
+			$s1 = $params[$prefix.'s1'];
+			$s2 = $params[$prefix.'s2'];
+
 			$t1 = $params[$prefix.'t1'];
-			$t2 = $params[$prefix.'t2'];
+			//$t2 = $params[$prefix.'t2'];
 			
 			// check the votting status
 			$allowVote = $this->checkVoteStatus($_SESSION['run_id'], $_SESSION['author_id'], 
@@ -157,12 +164,12 @@ class VotesController extends Zend_Controller_Action
 		$activity->i4 = "";
 		$activity->i5 = "";
 		
-		$activity->s1 = $t1;
-		$activity->s2 = $t2;
+		$activity->s1 = $s1;
+		$activity->s2 = $s2;
 		$activity->s3 = "";
 		
 		$activity->t1 = $t1;
-		$activity->t2 = $t2;
+		//$activity->t2 = $t2;
 		
 		$activity->save();
 		

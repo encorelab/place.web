@@ -174,18 +174,19 @@ class ExampleController extends Zend_Controller_Action
 		$activity->date_created = date( 'Y-m-d H:i:s');
 		$activity->activity_type_id = 11;
 		//$activity->activity_on_user
-		
+
 		$activity->i1 = $example->id;
 		$activity->i2 = "";
 		$activity->i3 = "";
 		$activity->i4 = "";
 		$activity->i5 = "";
-		$activity->s1 = "";
+		
+		$activity->s1 = "Example";
 		$activity->s2 = "";
 		$activity->s3 = "";
-		$activity->t1 = "Examples";
-		$activity->t2 = "";
 		
+		$activity->t1 = "Example";
+		$activity->t2 = $t2;
 		
 		$activity->save();
 		echo "<br>activity Id: ".$activity->id;

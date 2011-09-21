@@ -41,15 +41,17 @@ class QuestionController extends Zend_Controller_Action
 			//$question_comment->date_modified = date( 'Y-m-d H:i:s');
 			$activity->date_created = date( 'Y-m-d H:i:s');
 			$activity->activity_type_id = 12;
-			
+
 			$activity->i1 = $params['question_id'];
 			$activity->i2 = "";
 			$activity->i3 = "";
 			$activity->i4 = "";
 			$activity->i5 = "";
-			$activity->s1 = "";
+			
+			$activity->s1 = "Questions";
 			$activity->s2 = "";
 			$activity->s3 = "";
+			
 			$activity->t1 = "Questions";
 			$activity->t2 = "";
 			

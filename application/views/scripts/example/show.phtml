@@ -193,17 +193,18 @@ echo '
 	echo $discussionHtml;
 	?>
 	</div>	<!--  /posts-list -->
-<div class="clear"></div>
+	
+	<div class="clear"></div>
+	
 	<div id="newThread-container">
 		<input type="button" value="New Thread" onClick="postNewThread(<?php echo $this->example[0]['id']; ?>,3,<?php echo $this->example[0]['author_id']; ?>)"/>
 	</div>
 	
 	<div class="clear"></div>
+	
 <?php 
 	if($_SESSION['profile']=="TEACHER"){
 ?>
-
-
 		<input type="hidden" name="assessComm_activity_type_id" id="assessComm_activity_type_id" value="8"/>
 		<input type="hidden" name="assessComm_activity_on_user" id="assessComm_activity_on_user" value=""/>
 		<input type="hidden" name="assessComm_i1" id="assessComm_i1" value="<?php echo $this->example[0]['id']; ?>"/>
@@ -261,7 +262,7 @@ echo '
 	
 	<!--  end add comment form -->		
 
-	<!--  start add vote to comments -->
+	<!--  start add vote on comments -->
 	<form id="comm_vote_form" method="post" action="/votes/add?prefix=comm_">
 		<input type="hidden" name="comm_obj_id" id="comm_obj_id" value=""/>
 		<input type="hidden" name="comm_obj_type" id="comm_obj_type" value="1"/>
@@ -273,7 +274,7 @@ echo '
 		<input type="hidden" name="comm_t1" id="comm_t1" value="Example"/>
 		<input type="hidden" name="comm_t2" id="comm_t2" value="Comment"/>
 	</form>
-	<!--  end add vote to comments -->	
+	<!--  end add vote on comments -->	
 	
 	<!--  start add vote on example_concept -->
 	<form id="qe_vote_form" method="post" action="/votes/add?prefix=qe_">
@@ -287,7 +288,7 @@ echo '
 		<input type="hidden" name="qe_t1" id="qe_t1" value="Example"/>
 		<input type="hidden" name="qe_t2" id="qe_t2" value="ExampleConcept"/>
 	</form>
-	<!--  end add vote to example_concept -->
+	<!--  end add vote on example_concept -->
 	
 	
 	<!--  start add example_concept -->

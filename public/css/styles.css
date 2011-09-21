@@ -21,6 +21,11 @@
 	max-height: 250px;
 }
 
+#my-recent-activity-feed{
+	max-height: 250px;
+	overflow: auto;
+}
+
 #recent-class-activity{
 	max-height: 250px;
 }
@@ -282,7 +287,7 @@ display:none;
 	display: inline-block;
 	list-style-type: none;
 	list-style-position: inside;
-	/* padding-left: 1px; */
+	padding-left: 1px;
 
 	width:100%;
 }

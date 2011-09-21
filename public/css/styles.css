@@ -407,12 +407,12 @@ display:none;
 
 li.header-li{
 	display: inline;
-	display: block;
-	float: left;
-	margin-right: 20px;
-	background-color: #dbdbdb;
-	padding: 7px 15px 7px 15px;
-	margin-left: 6px;
+    display: block;
+    float: left;
+    margin-right: 10;
+    background-color: #dbdbdb;
+    padding: 10px 15px 7px 15px;
+    margin-left: 24px;
 }
 
 li.header-li a{
@@ -425,12 +425,13 @@ li.header-li a{
 
 #search-li {
 	display: inline;
-	display: block;
-	float: left;
-	margin-right: 20px;
-	background-color: #dbdbdb;
-	padding: 7px 15px 6px 8px;
-	height: 22px;
+    display: block;
+    float: right;
+    margin-right: 3px;
+    margin-left: 19px;
+    background-color: #dbdbdb;
+    padding: 7px 15px 6px 8px;
+    height: 22px;
 }
 
 #project-name {

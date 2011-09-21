@@ -3,10 +3,10 @@ var servername = "http://<?php echo $_SERVER['SERVER_NAME']; ?>"
 
 $(document).ready(function () {
 //  $("#ajax-status").text("The DOM is now loaded and can be manipulated.");
-  $("#my-homework-feed").html("<img src='/images/loader.gif'>")
-  $("#my-updates-feed").html("<img src='/images/loader.gif'>")
-  $("#my-recent-activity-feed").html("<img src='/images/loader.gif'>")
-  $("#recent-class-activity-feed").html("<img src='/images/loader.gif'>")
+  $("#my-homework-feed").html("<img src='/images/loader.gif' alt='Loading Icon' />")
+  $("#my-updates-feed").html("<img src='/images/loader.gif' alt='Loading Icon' />")
+  $("#my-recent-activity-feed").html("<img src='/images/loader.gif' alt='Loading Icon' />")
+  $("#recent-class-activity-feed").html("<img src='/images/loader.gif' alt='Loading Icon' />")
 
 // ajax call for activities
   $("#my-homework-feed").load(servername+"/ajax/myhomework")
@@ -35,14 +35,14 @@ if($_SESSION['profile']=="STUDENT")
 {
 ?>
 	<div id="home-col1" style="float:left;width:20%;">
-		<div id="comment-score" class="dashlet-box-simple">
+		<div class="dashlet-box-simple">
 			<div class="dashlet-title">Comment Score</div>
-			<div><?php echo $this->commentScore ?></div>
+			<div class="comment-score"><?php echo $this->commentScore; ?></div>
 		</div>
 
-		<div id="tag-score" class="dashlet-box-simple">
+		<div class="dashlet-box-simple">
 			<div class="dashlet-title">Tag Score</div>
-			<div>E: <?php echo $this->exampleConceptCommentScore ?> | Q: <?php echo $this->questionConceptCommentScore ?></div>
+			<div class="comment-score"><?php echo $this->commentScore;?></div>
 		</div>
 	</div><!-- /home-col1 -->
 <?php 

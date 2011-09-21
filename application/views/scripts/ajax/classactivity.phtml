@@ -1,13 +1,13 @@
-<div class="dashlet-title">Recent Class Activity</div>
-
 <div>
     <ul class="ul-for-data">
 <?php 
 foreach ($this->activities as $activity)
 {
-	echo "<li>{$activity->getMessage()}<span class='alert-close-btn' activityId='{$activity->id}'>[x]</span></li>";
+	echo "<li>
+		{$activity->getMessage()}
+		<div class='alert-close-btn' activityId='{$activity->id}'>[x]</div>
+	</li>";
 }
 ?>
 	</ul>
-</div>	
-	
+</div>

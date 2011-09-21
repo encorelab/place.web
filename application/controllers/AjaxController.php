@@ -148,7 +148,7 @@ class AjaxController extends Zend_Controller_Action
         	->setHeader('Cache-Control', 'private, no-cache', true)
         	//->setHeader('Content-Disposition', 'inline; filename="files.json"', true)
         	->setHeader('X-Content-Type-Options', 'nosniff', true)
-    	->setHeader('Content-Type', 'application/json', true)
+    	->setHeader('Content-Type', 'text/plain', true)
         	    ->appendBody($content)
         	->sendResponse(); 
 	exit(0);

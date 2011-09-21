@@ -16,12 +16,17 @@
 #my-updates{
 	max-height: 250px;
 }
+
 #my-recent-activity{
 	max-height: 250px;
 }
 
 #recent-class-activity{
 	max-height: 250px;
+}
+
+#recent-class-activity .scrollable {
+	max-height: 220px;
 }
 
 #btn_submit_marks{
@@ -49,9 +54,23 @@
 	display: none;
 }
 
+.votes-container {
+	float: right;
+}
+
 .votes-container div {
 	float: left;
-	margin-right: 15px;
+	margin-right: 5px;
+}
+
+.votes-container div.vote-total {
+	background: #d6d6d6;
+	padding: 3px 6px;
+	margin: 0 12px 0 8px;
+}
+
+.votes-container div.vote-minus-plus {
+	padding: 3px 0;
 }
 
 #answers-container{
@@ -76,27 +95,54 @@ border:1px solid #ccc;
 	background: orange;
 }
 
+.alert-created{
+	background: #adbbd2;
+}
+
 .alert-question{
 	background: #adbbd2;
 }
 
+.alert-voted{
+	background: #d0d8e5;
+}
+
 .alert-comments	{
-	background: olive;
+	background: #f3f5f8;
+}
+
+.alert-reply	{
+	background: #f3f5f8;
 }
 
 .alert-answer{
-	background: yellow;
+	background: #f3f5f8;
 }
 
 .alert-ok{
 	background: green;
 }
 
+.alert-completed{
+	background: green;
+}
+
+.alert {
+	float: left;
+	width: 88%; /*allow room for [x] button*/
+	padding: 2px 1px 2px 2px;
+	margin: 2px 5px 2px 2px;
+}
+
 .alert-close-btn{
 	cursor: pointer;
 	font-size: small;
 	display: block;
-	float: right;
+	float: left;
+	width: 20px;
+	margin-right: 4px;
+	text-align: right;
+	padding-top: 2px;
 }
 /*.alert-close-btn:hover{
 	background-color: red;
@@ -166,8 +212,13 @@ display:none;
 	float:left;
 }
 
+
+#tags-container div.votes-container {
+	float:right;
+}
+
 #tags-container .tag-name{
-	width:60%;
+	width:45%; /*adjust up after making arrows smaller*/
 	margin-right:15px;
 }
 
@@ -187,18 +238,26 @@ display:none;
     width: 32px;
 }
 
+.post-meta {
+	width: 75%;
+}
 
 .post-reply {
-	
+	color: #133d7f;
+	float: right;
 }
 
 .post-author {
-	
+	float: left;
+}
+
+.post-author span {
+	font-size: 0.75em;
 }
 
 .post-item {
-	border: 1px solid #000;
-	padding:5px;
+	border-left: 1px solid #ccc;
+	padding-left: 5px;
 	min-height: 50px;
 }
 
@@ -208,17 +267,23 @@ display:none;
 
 
 #posts-list {
-    border: 1px dashed;
-    float: left;
+	border-top: 1px solid;
     max-height: 450px;
     overflow: auto;
-    width: 62%;
- 	padding-right: 15px;
+    text-align: left;
 }
 
+#posts-list ul {
+	/*padding-left: 0;*/
+	margin-left: 0;
+}
 
 #posts-list ul li {
 	display: inline-block;
+	list-style-type: none;
+	list-style-position: inside;
+	padding-left: 1px;
+
 	width:100%;
 }
 
@@ -234,7 +299,7 @@ display:none;
 
 #reply-container {
     margin-top: 25px;
-    width: 607px;
+    /*width: 607px;*/
 }
 
 
@@ -312,7 +377,7 @@ li.header-li a{
 }
 
 .dashlet-box-image {
-    background: none repeat scroll 0 0 #dbdbdb;
+    background: none repeat scroll 0 0 #F6F6F6;
     border: 1px solid #000000;
     border-radius: 6px 6px 6px 6px;
     box-shadow: 1px 1px 3px;
@@ -321,21 +386,31 @@ li.header-li a{
 	margin-right: 1em;
     margin-bottom: 1em;
     overflow: auto;
-    width: 320px;
     display:block;
+    padding: 0.5em;
+}
+
+.dashlet-box-image .image-holder {
+	text-align: center;
 }
 
 .dashlet-box {
-    background: none repeat scroll 0 0 #dbdbdb;
+    background: none repeat scroll 0 0 #F6F6F6;
     border: 1px solid #000000;
     border-radius: 6px 6px 6px 6px;
     box-shadow: 3px 3px 6px;
-    color: #333333;
+    color: #000;
     /*font-family: Tahoma, Geneva, sans-serif;*/
     margin-right: 1em;
     margin-bottom: 1em;
-    overflow: auto;
+    /*overflow: auto;*/ /*don't scroll the title of the box */
+    overflow: hidden;
     padding: 0.5em;
+}
+
+.scrollable  {
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 
 .dashlet-box ul li {
@@ -428,12 +503,11 @@ body {
 }*/
 
 .dashlet-box li {
-	background: none repeat scroll 0 0 #FFFFFF;
-	border: 1px solid #CCCCCC;
 	font-size: 0.8em;
 	/*margin-left: 2em;*/
 	overflow: auto;
 	float:left;
+	margin: 2px 0px;
 }
 /*.dashlet-box li:hover {
     border: 1px solid #FFFFFF;
@@ -533,3 +607,15 @@ body {
 	box-shadow: rgba(255,255,255,0.5) 0px 2px 6px;
 }
 
+
+/************ OVERRIDE JPLAYER *************/
+
+div.jp-controls-holder {
+	clear: none;
+	top: 8px;
+	padding-bottom: 14px;
+}
+
+div.jp-video-270p {
+	margin: 0 auto;
+}

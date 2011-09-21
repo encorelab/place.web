@@ -55,7 +55,7 @@ if($this->type==0 && !$error)
  */
 {
 ?>
-<h3><?php echo $this->example[0]['name']?></h3>
+
 
 	<div id="elo-tags" class="dashlet-box" style="width:30%; float:right;">
 		<div class="dashlet-title">Tags</div>
@@ -83,7 +83,8 @@ if($this->type==0 && !$error)
 		if (preg_match("/video/i", $mediaFile['media_type']))
 		{
 			echo '
-		<div">
+		<div class="dashlet-box-image">
+          <div class="dashlet-title">'.$this->example[0]['name'].'</div>
 			<div id="jp_container_1" class="jp-video jp-video-270p">
                         <div class="jp-type-single">
                                 <div id="jquery_jplayer_1" class="jp-jplayer"></div>
@@ -163,8 +164,10 @@ if($this->type==0 && !$error)
 			
 echo '
 <div class="dashlet-box-image">
-		<img src="'.$mediaFile['media_content'].'" title="'.$this->example[0]['name'].'" width="320px" />
+    <div class="dashlet-title">'.$this->example[0]['name'].'</div>
+	<div class="image-holder"><img src="'.$mediaFile['media_content'].'" title="'.$this->example[0]['name'].'" width="320px" /></div>
 </div>';
+
 		}
 		//<img  height="240px" title="Drag and Drop a new Media File here..." alt="Drag and Drop a new Media File here..." src="/images/uploader.png" id="eloimg">
 		?>	
@@ -193,6 +196,7 @@ echo '
 	echo $discussionHtml;
 	?>
 	</div>	<!--  /posts-list -->
+	
 <div class="clear"></div>
 	<div id="newThread-container">
 		<input type="button" value="New Thread" onClick="postNewThread(<?php echo $this->example[0]['id']; ?>,3,<?php echo $this->example[0]['author_id']; ?>)"/>
@@ -239,8 +243,7 @@ echo '
  	
  	<!--  Start add comment form -->
 	<form method="post" action="/comment/add">
-		<div id="orig-reply-container" class="dashlet-box div-hide" style="margin-top: 25px;
-    width: 607px;">
+		<div id="orig-reply-container" class="dashlet-box div-hide" style="margin-top: 25px;">
                         <div id="reply-original-title" class="dashlet-title">Original Message</div>
 			<div id="reply-original-msg"></div>
 		</div>
@@ -312,7 +315,7 @@ echo '
 -->
 	</form>
 	<!--  end add example_concept -->
-	
+	<!-- </div> --> <!-- closes both video and image containers -->
 <?php 
 
 } // end single view
@@ -577,12 +580,14 @@ function getCommentById($id,$prefix="")
 	
 	// author name 			
 	$repliesHtml .='
-			<div class="post-author">	
-				Posted by : <a href="#">'.$post[0]['User']['display_name'].'</a>
-			</div>
+	        <div class="post-meta">
+			  <div class="post-author">	
+				<span>Posted by:</span> <a href="#">'.$post[0]['User']['display_name'].'</a>
+			  </div>
 			
-			<div class="post-reply">	
-				<a href="javascript: postReply('.$id.','.$post[0]['User']['id'].')">Reply</a>
+			  <div class="post-reply">	
+				<a href="javascript: postReply('.$id.','.$post[0]['User']['id'].')">[Reply]</a>
+			  </div>
 			</div>
 		</div>
 	</li>';
@@ -684,7 +689,7 @@ function analyzeTags($tags, $prefix="")
 		$tagsHtml .='
 		<li>
 			<div class="tag-name">'.$theConceptsF[$tag['concept_id']].'</div>
-			<div class="votes-container" style="float:right;">
+			<div class="votes-container">
 				<div  id="'.$prefix.'vote-loading-'.$tag['id'].'"></div> 
 				<div  id="'.$prefix.'vote-minus-'.$tag['id'].'" class="vote-minus-plus">
 					'.$votesCount['votesMinus'].'

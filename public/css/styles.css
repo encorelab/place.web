@@ -3,54 +3,54 @@
 }
 
 #question-content{
-	width: 60%;
+    width: 60%;
 }
 .my-comment{
-	background: #F3F2F7;
+    background: #F3F2F7;
 }
 
 #my-homework{
-	max-height: 250px;
+    max-height: 250px;
 }
 
 #my-homework-feed{
-	max-height: 214px;
-	overflow: auto;
+    max-height: 214px;
+    overflow: auto;
 }
 
 #my-updates{
-	max-height: 250px;
+    max-height: 250px;
 }
 
 #my-updates-feed{
-	max-height: 214px;
-	overflow: auto;
+    max-height: 214px;
+    overflow: auto;
 }
 
 #my-recent-activity{
-	max-height: 250px;
+    max-height: 250px;
 }
 
 #my-recent-activity-feed{
-	max-height: 214px;
-	overflow: auto;
+    max-height: 214px;
+    overflow: auto;
 }
 
 #recent-class-activity{
-	max-height: 250px;
+    max-height: 250px;
 }
 
 #recent-class-activity-feed{
-	max-height: 214px;
-	overflow: auto;
+    max-height: 214px;
+    overflow: auto;
 }
 
 #recent-class-activity .scrollable {
-	max-height: 220px;
+    max-height: 220px;
 }
 
 #btn_submit_marks{
-	margin-top:25px;
+    margin-top:25px;
 }
 
 .assessment-mark{
@@ -67,30 +67,30 @@
 }
 
 .div-show {
-	display: block;
+    display: block;
 }
 
 .div-hide {
-	display: none;
+    display: none;
 }
 
 .votes-container {
-	float: right;
+    float: right;
 }
 
 .votes-container div {
-	float: left;
-	margin-right: 5px;
+    float: left;
+    margin-right: 5px;
 }
 
 .votes-container div.vote-total {
-	background: #d6d6d6;
-	padding: 3px 6px;
-	margin: 0 12px 0 8px;
+    background: #d6d6d6;
+    padding: 3px 6px;
+    margin: 0 12px 0 8px;
 }
 
 .votes-container div.vote-minus-plus {
-	padding: 3px 0;
+    padding: 3px 0;
 }
 
 #answers-container{
@@ -98,7 +98,7 @@
 }
 
 .my-answer{
-	background: none repeat scroll 0 0 #F3F2F7;
+    background: none repeat scroll 0 0 #F3F2F7;
 }
 .answer-item{
     border: 1px solid #CCCCCC;
@@ -112,153 +112,153 @@ border:1px solid #ccc;
 }
 
 .feed-row{
-	padding: 3px 2px 3px 6px;
-}	
+    padding: 3px 2px 3px 6px;
+}   
 
 .alert-created-example{
-	background: #adbbd2;
-	float: left;
-	width: 88%; /*allow room for [x] button*/
-	padding: 2px 1px 2px 2px;
-	margin: 2px 5px 2px 2px;
+    background: #adbbd2;
+    float: left;
+    width: 88%; /*allow room for [x] button*/
+    padding: 2px 1px 2px 2px;
+    margin: 2px 5px 2px 2px;
 }
 
 .alert-created-question{
-	background: #adbbd2;
-	float: left;
-	width: 88%; /*allow room for [x] button*/
-	padding: 2px 1px 2px 2px;
-	margin: 2px 5px 2px 2px;
+    background: #adbbd2;
+    float: left;
+    width: 88%; /*allow room for [x] button*/
+    padding: 2px 1px 2px 2px;
+    margin: 2px 5px 2px 2px;
 }
 
-.alert-comment-example	{
-	background: #f3f5f8;
-	float: left;
-	width: 88%; /*allow room for [x] button*/
-	padding: 2px 1px 2px 2px;
-	margin: 2px 5px 2px 2px;
+.alert-comment-example  {
+    background: #f3f5f8;
+    float: left;
+    width: 88%; /*allow room for [x] button*/
+    padding: 2px 1px 2px 2px;
+    margin: 2px 5px 2px 2px;
 }
 
-.alert-comment-comment	{
-	background: #f3f5f8;
-	float: left;
-	width: 88%; /*allow room for [x] button*/
-	padding: 2px 1px 2px 2px;
-	margin: 2px 5px 2px 2px;
+.alert-comment-comment  {
+    background: #f3f5f8;
+    float: left;
+    width: 88%; /*allow room for [x] button*/
+    padding: 2px 1px 2px 2px;
+    margin: 2px 5px 2px 2px;
 }
 
 .alert-voted-comment{
-	background: #d0d8e5;
-	float: left;
-	width: 88%; /*allow room for [x] button*/
-	padding: 2px 1px 2px 2px;
-	margin: 2px 5px 2px 2px;
+    background: #d0d8e5;
+    float: left;
+    width: 88%; /*allow room for [x] button*/
+    padding: 2px 1px 2px 2px;
+    margin: 2px 5px 2px 2px;
 }
 
 .alert-voted-example{
-	background: #d0d8e5;
-	float: left;
-	width: 88%; /*allow room for [x] button*/
-	padding: 2px 1px 2px 2px;
-	margin: 2px 5px 2px 2px;
+    background: #d0d8e5;
+    float: left;
+    width: 88%; /*allow room for [x] button*/
+    padding: 2px 1px 2px 2px;
+    margin: 2px 5px 2px 2px;
 }
 
 .alert-voted-question{
-	background: #d0d8e5;
-	float: left;
-	width: 88%; /*allow room for [x] button*/
-	padding: 2px 1px 2px 2px;
-	margin: 2px 5px 2px 2px;
+    background: #d0d8e5;
+    float: left;
+    width: 88%; /*allow room for [x] button*/
+    padding: 2px 1px 2px 2px;
+    margin: 2px 5px 2px 2px;
 }
 
 .alert-question-answered{
-	background: green;
-	float: left;
-	width: 88%; /*allow room for [x] button*/
-	padding: 2px 1px 2px 2px;
-	margin: 2px 5px 2px 2px;
+    background: green;
+    float: left;
+    width: 88%; /*allow room for [x] button*/
+    padding: 2px 1px 2px 2px;
+    margin: 2px 5px 2px 2px;
 }
 
 .alert-tagged-example{
-	background: #d0d8e5;
-	float: left;
-	width: 88%; /*allow room for [x] button*/
-	padding: 2px 1px 2px 2px;
-	margin: 2px 5px 2px 2px;
+    background: #d0d8e5;
+    float: left;
+    width: 88%; /*allow room for [x] button*/
+    padding: 2px 1px 2px 2px;
+    margin: 2px 5px 2px 2px;
 }
 
 .alert-tagged-question{
-	background: #d0d8e5;
-	float: left;
-	width: 88%; /*allow room for [x] button*/
-	padding: 2px 1px 2px 2px;
-	margin: 2px 5px 2px 2px;
+    background: #d0d8e5;
+    float: left;
+    width: 88%; /*allow room for [x] button*/
+    padding: 2px 1px 2px 2px;
+    margin: 2px 5px 2px 2px;
 }
 
 .alert-created{
-	background: #adbbd2;
-	float: left;
-	width: 88%; /*allow room for [x] button*/
-	padding: 2px 1px 2px 2px;
-	margin: 2px 5px 2px 2px;
+    background: #adbbd2;
+    float: left;
+    width: 88%; /*allow room for [x] button*/
+    padding: 2px 1px 2px 2px;
+    margin: 2px 5px 2px 2px;
 }
 
 .alert-completed{
-	background: green;
+    background: green;
 }
 
 .alert {
-	background: #d0d8e5;
-	float: left;
-	width: 88%; /*allow room for [x] button*/
-	padding: 2px 1px 2px 2px;
-	margin: 2px 5px 2px 2px;
+    background: #d0d8e5;
+    float: left;
+    width: 88%; /*allow room for [x] button*/
+    padding: 2px 1px 2px 2px;
+    margin: 2px 5px 2px 2px;
 }
 
 .alert-close-btn{
-	cursor: pointer;
-	font-size: small;
-	display: block;
-	float: left;
-	width: 20px;
-	margin-right: 4px;
-	text-align: right;
-	padding-top: 2px;
+    cursor: pointer;
+    font-size: small;
+    display: block;
+    float: left;
+    width: 20px;
+    margin-right: 4px;
+    text-align: right;
+    padding-top: 2px;
 }
 /*.alert-close-btn:hover{
-	background-color: red;
+    background-color: red;
 }*/
 
 
 #login-form{
-	border: 2px solid #000000;
-	padding:1em;
+    border: 2px solid #000000;
+    padding:1em;
 }
 /*
  /////////////////////// Start new styles added
 */
 
 #login-form form label {
-	float: left;
+    float: left;
     font-weight: bold;
     width: 120px;
 }
 
 #login-form #username {
-	margin-bottom: 5px;
+    margin-bottom: 5px;
     width: 150px;
 }
 
 #login-form #password {
-	margin-bottom: 5px;
+    margin-bottom: 5px;
     width: 150px;
 }
 
 #login-form #login-button {
-	width: 100px;
-	margin-top: 10px;
-	margin-bottom: 0;
-	margin-left: 120px;
+    width: 100px;
+    margin-top: 10px;
+    margin-bottom: 0;
+    margin-left: 120px;
 }
 
 .hide-container{
@@ -266,8 +266,8 @@ display:none;
 }
 
 #debugMode {
-	background: #ccc;
-	
+    background: #ccc;
+    
 
 }
 
@@ -291,24 +291,24 @@ display:none;
 }
 
 #tags-container div{
-	float:left;
+    float:left;
 }
 
 
 #tags-container div.votes-container {
-	float:right;
+    float:right;
 }
 
 #tags-container .tag-name{
-	width:45%; /*adjust up after making arrows smaller*/
-	margin-right:15px;
+    width:45%; /*adjust up after making arrows smaller*/
+    margin-right:15px;
 }
 
 #tags-container .tag-votes{
-	border: 1px solid #ccc;
-	padding: 5px;
-	float:right;
-	margin-right: 5px;
+    border: 1px solid #ccc;
+    padding: 5px;
+    float:right;
+    margin-right: 5px;
 }
 
 .post-item .tag-votes{
@@ -321,26 +321,26 @@ display:none;
 }
 
 .post-meta {
-	width: 75%;
+    width: 75%;
 }
 
 .post-reply {
-	color: #133d7f;
-	float: right;
+    color: #133d7f;
+    float: right;
 }
 
 .post-author {
-	float: left;
+    float: left;
 }
 
 .post-author span {
-	font-size: 0.75em;
+    font-size: 0.75em;
 }
 
 .post-item {
-	border-left: 1px solid #ccc;
-	padding-left: 5px;
-	min-height: 50px;
+    border-left: 1px solid #ccc;
+    padding-left: 5px;
+    min-height: 50px;
 }
 
 
@@ -349,28 +349,28 @@ display:none;
 
 
 #posts-list {
-	border-top: 1px solid;
+    border-top: 1px solid;
     max-height: 450px;
     overflow: auto;
     text-align: left;
 }
 
 #posts-list ul {
-	/*padding-left: 0;*/
-	margin-left: 0;
+    /*padding-left: 0;*/
+    margin-left: 0;
 }
 
 #posts-list ul li {
-	display: inline-block;
-	list-style-type: none;
-	list-style-position: inside;
-	/* padding-left: 1px; */
+    display: inline-block;
+    list-style-type: none;
+    list-style-position: inside;
+    /* padding-left: 1px; */
 
-	width:100%;
+    width:100%;
 }
 
 #posts-list ul {
-	padding-top: 0px;
+    padding-top: 0px;
 }
 
 #posts-list1 ul {
@@ -390,48 +390,48 @@ display:none;
 */
 
 #welcome {
-	background-color: #ffffff;
-	display: inline;
-	display: block;
-	float: left;
-	position: absolute;
-	left: 100px;
-	top: 100px;
-	margin-right: 20px;
-	padding: 7px 15px 7px 0px;
-}	
+    background-color: #ffffff;
+    display: inline;
+    display: block;
+    float: left;
+    position: absolute;
+    left: 100px;
+    top: 100px;
+    margin-right: 20px;
+    padding: 7px 15px 7px 0px;
+}   
 
 #welcome span{
-	color: #133d7f;
+    color: #133d7f;
 }
 
 li.header-li{
-	display: inline;
+    display: inline;
     display: block;
     float: left;
-    margin-right: 10;
+    margin-right: 0px;
     background-color: #dbdbdb;
     padding: 10px 15px 7px 15px;
-    margin-left: 24px;
+    margin-left: 23px;
 }
 
 li.header-li a{
-	color: black;
-	text-decoration: none;
+    color: black;
+    text-decoration: none;
 }
 
 /*li.header-li a:hover{
     background: #ffffcc;*/
 
 #search-li {
-	display: inline;
+    display: inline;
     display: block;
-    float: right;
-    margin-right: 3px;
-    margin-left: 19px;
+    float: left;
+    margin-right: 2px;
+    margin-left: 22px;
     background-color: #dbdbdb;
     padding: 7px 15px 6px 8px;
-    height: 22px;
+    height: 22px
 }
 
 #project-name {
@@ -451,7 +451,7 @@ li.header-li a{
 }
 
 #header-logout {
-	float:right
+    float:right
 }
 
 #header-search {
@@ -466,7 +466,7 @@ li.header-li a{
     box-shadow: 1px 1px 3px;
     color: #333333;
     /*font-family: Tahoma, Geneva, sans-serif;*/
-	margin-right: 1em;
+    margin-right: 1em;
     margin-bottom: 1em;
     overflow: auto;
     display:block;
@@ -474,7 +474,7 @@ li.header-li a{
 }
 
 .dashlet-box-image .image-holder {
-	text-align: center;
+    text-align: center;
 }
 
 .dashlet-box {
@@ -492,13 +492,13 @@ li.header-li a{
 }
 
 .scrollable  {
-	overflow-x: hidden;
-	overflow-y: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .dashlet-box ul li {
-	display: inline-block;
-	width:100%;
+    display: inline-block;
+    width:100%;
 }
 
 .dashlet-box-simple{
@@ -523,20 +523,20 @@ li.header-li a{
 
 /* overwriting look of some dashlet's that behave like buttons*/
 #course-actions div{
-	color: #FFFFFF;
-	text-align: center;
-	padding-left: 40px;
-	padding-right: 40px;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	background-color: #dd9e37;
+    color: #FFFFFF;
+    text-align: center;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #dd9e37;
 }
 
 #course-actions div a:link, #course-actions div a:visited {
-	color: #FFFFFF;
-	text-decoration: none;
-	font-size: 17pt;
-	font-weight: normal;
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 17pt;
+    font-weight: normal;
 }
 
 .ul-for-data {
@@ -546,22 +546,22 @@ li.header-li a{
 }
 
 .item-label{
-	width:60px;
-	font-size:1em;
+    width:60px;
+    font-size:1em;
 }
 
 .item-input{
-	font-size:1em;
+    font-size:1em;
 }
 
 /* /////////////////////////////////// */
 
 body {
-	margin: 0;
-	font-family: Tahoma, Verdana, Helvetica, sans-serif;
-	font-size: 1em;
-	color: #333333;
-	background: #333333;
+    margin: 0;
+    font-family: Tahoma, Verdana, Helvetica, sans-serif;
+    font-size: 1em;
+    color: #333333;
+    background: #333333;
 }
 
 .clear {
@@ -570,27 +570,27 @@ body {
 }
 
 #main_content a:link, #main_content a:visited {
-	color: #133D7F;
-	font-size: 0.75em;
-	/*font-family: Tahoma, Geneva, sans-serif;*/
-	font-weight: bold;
-	text-decoration: none;
+    color: #133D7F;
+    font-size: 0.75em;
+    /*font-family: Tahoma, Geneva, sans-serif;*/
+    font-weight: bold;
+    text-decoration: none;
 }
 
 /*#main_content a:link:hover, #main_content a:visited:hover, #main_content a:focus {
-	color: #FFFFFF;
-	font-family: Tahoma, Geneva, sans-serif;
-	font-weight: bold;
-	text-decoration: none;
-	background: #DBDBDB;
+    color: #FFFFFF;
+    font-family: Tahoma, Geneva, sans-serif;
+    font-weight: bold;
+    text-decoration: none;
+    background: #DBDBDB;
 }*/
 
 .dashlet-box li {
-	font-size: 1em;
-	/*margin-left: 2em;*/
-	overflow: auto;
-	float:left;
-	margin: 2px 0px;
+    font-size: 1em;
+    /*margin-left: 2em;*/
+    overflow: auto;
+    float:left;
+    margin: 2px 0px;
 }
 /*.dashlet-box li:hover {
     border: 1px solid #FFFFFF;
@@ -603,40 +603,40 @@ body {
     text-align: left;
     width: 1000px;
 */
-	    
+        
     margin-top: 2em;
     margin-bottom: 2em;
     margin-left: 4em;
     margin-right: 4em;
     text-align: left;
-	
+    
 }
 
 #global_header, #global_footer {
-	/*
-	background: none repeat scroll 0 0 #FFFFFF;
-	border: 1px solid #000000;
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px;
-	border-radius: 6px;
-	-webkit-box-shadow: rgba(255,255,255,0.5) 0px 2px 6px;
-	-moz-box-shadow: rgba(255,255,255,0.5) 0px 2px 6px;
-	box-shadow: rgba(255,255,255,0.5) 0px 2px 6px;
-	*/
-	
+    /*
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #000000;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: rgba(255,255,255,0.5) 0px 2px 6px;
+    -moz-box-shadow: rgba(255,255,255,0.5) 0px 2px 6px;
+    box-shadow: rgba(255,255,255,0.5) 0px 2px 6px;
+    */
+    
     background: none repeat scroll 0 0 #FFFFFF;
     border: 1px solid #000000;
     border-radius: 6px 6px 6px 6px;
     box-shadow: 0 2px 6px #000000;
     text-align: left;
     padding-top: 10px;
-	padding-bottom: 10px;
-	padding-left: 30px;
-	padding-right: 30px;
+    padding-bottom: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
 #global_header {
-	background-image: url("../images/background_top.png");
+    background-image: url("../images/background_top.png");
     background-position: center center;
     background-repeat: no-repeat;
     bottom: 0;
@@ -647,15 +647,15 @@ body {
 }
 
 #global_header img {
-	text-align: left;
-	/*float: left;*/
-	width: 20%;
-	/*height: 20%;*/
-	margin-left: 0px;
+    text-align: left;
+    /*float: left;*/
+    width: 20%;
+    /*height: 20%;*/
+    margin-left: 0px;
 }
 
 #global_footer {
-	background-image: url("../images/background_top.png");
+    background-image: url("../images/background_top.png");
     background-position: center center;
     background-repeat: no-repeat;
     bottom: 0;
@@ -666,39 +666,39 @@ body {
 }
 
 #header div{
-	float:left;
+    float:left;
 }
 
 #main_content {
-	overflow: auto;
-	border: 1px solid #000;
-	background: #FFF;
-	color: #333333;
-	/*font-family: Tahoma, Geneva, sans-serif;*/
-	margin-top: .5em;
-	margin-bottom: .5em;
-	margin-left: auto;
-	margin-right: auto;
-	/*width: 98%;*/
-	padding: 2em;
-/*	padding-bottom: 1.5em;*/
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px;
-	border-radius: 6px;
-	-webkit-box-shadow: rgba(255,255,255,0.5) 0px 2px 6px;
-	-moz-box-shadow: rgba(255,255,255,0.5) 0px 2px 6px;
-	box-shadow: rgba(255,255,255,0.5) 0px 2px 6px;
+    overflow: auto;
+    border: 1px solid #000;
+    background: #FFF;
+    color: #333333;
+    /*font-family: Tahoma, Geneva, sans-serif;*/
+    margin-top: .5em;
+    margin-bottom: .5em;
+    margin-left: auto;
+    margin-right: auto;
+    /*width: 98%;*/
+    padding: 2em;
+/*  padding-bottom: 1.5em;*/
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: rgba(255,255,255,0.5) 0px 2px 6px;
+    -moz-box-shadow: rgba(255,255,255,0.5) 0px 2px 6px;
+    box-shadow: rgba(255,255,255,0.5) 0px 2px 6px;
 }
 
 
 /************ OVERRIDE JPLAYER *************/
 
 div.jp-controls-holder {
-	clear: none;
-	top: 8px;
-	padding-bottom: 14px;
+    clear: none;
+    top: 8px;
+    padding-bottom: 14px;
 }
 
 div.jp-video-270p {
-	margin: 0 auto;
+    margin: 0 auto;
 }

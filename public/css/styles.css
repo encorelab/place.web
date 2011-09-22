@@ -140,6 +140,14 @@ border:1px solid #ccc;
     margin: 2px 5px 2px 2px;
 }
 
+.alert-example  {
+    background: #f3f5f8;
+    float: left;
+    width: 88%; /*allow room for [x] button*/
+    padding: 2px 1px 2px 2px;
+    margin: 2px 5px 2px 2px;
+}
+
 .alert-ok{
     background: #d0d8e5;
     float: left;
@@ -646,7 +654,7 @@ body {
     border: 1px solid #000000;
     border-radius: 6px 6px 6px 6px;
     box-shadow: 1px 1px 3px #000000;
-    text-align: center;
+    text-align: left;
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 30px;

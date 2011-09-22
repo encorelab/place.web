@@ -44,8 +44,10 @@ class CommentController extends Zend_Controller_Action
 		$comment->content = $params['replyText'];
 		
 		if($params['parentType']==1){
+			// this approcah has been depreciated: but adding it any way
 			$comment->parent_id = $params['postId'];
 		} 
+
 
         $comment->save();
         
@@ -58,26 +60,32 @@ class CommentController extends Zend_Controller_Action
 		//$comment_comment->date_modified = date( 'Y-m-d H:i:s');
 		$activity->date_created = date( 'Y-m-d H:i:s');
 
-// this are always used to store the entry point: example
+		// this are always used to store the entry point: example
 		$activity->i1 = $params['obj_id'];
-		$activity->s1 = "Example"; 
+		$activity->s1 = "Example"; // could be something else later
 
 		// comment on example
 	    	if($params['parentType']==3){
 			$activity->activity_type_id = 7;
 			$activity->t1 = "Comment on Example";
+
+			$activity->i2 = $comment->id;
+			$activity->s2 = "Comment";
+
+
 		}
 		
 		// comment on comment		
 		if($params['parentType']==1){
 			$activity->activity_type_id = 5;
-			$activity->t1 = "Comment on Comment";
-
-			$activity->i2 = $comment->id;
+			$activity->i2 = $params['postId']; // parent comment
 			$activity->s2 = "Comment";
+			$activity->i3 = $comment->id; // inserted comment
+			$activity->s3 = "Comment";
+			$activity->t1 = "Comment on Comment"; // reply 
 		}
 		
-		$activity->activity_on_user=$params['activity_on_user'];
+		$activity->activity_on_user=$params['activity_on_user']; //
 		
 		$activity->save();
 		

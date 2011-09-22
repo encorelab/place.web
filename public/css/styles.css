@@ -50,7 +50,8 @@
 }
 
 #btn_submit_marks{
-	margin-top:25px;
+    float: left;
+    margin-left: 1em;
 }
 
 .assessment-mark{
@@ -62,8 +63,8 @@
 }
 
 #assessment-review-container{
-    margin-top: 25px;
-    width: 607px;
+    margin-top: 3em;
+    width: 600px;
 }
 
 .div-show {
@@ -84,7 +85,7 @@
 }
 
 .votes-container div.vote-total {
-	background: #d6d6d6;
+	background: #F2EDEE;
 	padding: 3px 6px;
 	margin: 0 12px 0 8px;
 }
@@ -132,7 +133,7 @@ border:1px solid #ccc;
 }
 
 .alert-comment-example	{
-	background: #f3f5f8;
+	background: #E4E9F0;
 	float: left;
 	width: 88%; /*allow room for [x] button*/
 	padding: 2px 1px 2px 2px;
@@ -140,7 +141,7 @@ border:1px solid #ccc;
 }
 
 .alert-comment-comment	{
-	background: #f3f5f8;
+	background: #E4E9F0;
 	float: left;
 	width: 88%; /*allow room for [x] button*/
 	padding: 2px 1px 2px 2px;
@@ -273,7 +274,6 @@ display:none;
 
 #newThread-container {
     float: left;
-    margin-top: 32px;
 }
 
 #discussion-container {
@@ -300,7 +300,7 @@ display:none;
 }
 
 #tags-container .tag-name{
-	width:45%; /*adjust up after making arrows smaller*/
+	width:74%; /*adjust up after making arrows smaller*/
 	margin-right:15px;
 }
 
@@ -349,23 +349,23 @@ display:none;
 
 
 #posts-list {
-	border-top: 1px solid;
     max-height: 450px;
     overflow: auto;
     text-align: left;
 }
 
 #posts-list ul {
-	/*padding-left: 0;*/
-	margin-left: 0;
-}
+    margin-top: 0;
+/*    padding-left: 0; */
+    padding-left: 15px; 
+    padding-top: 2px;}
 
 #posts-list ul li {
 	display: inline-block;
 	list-style-type: none;
 	list-style-position: inside;
 	/* padding-left: 1px; */
-
+	margin-top: 2px;
 	width:100%;
 }
 
@@ -380,8 +380,8 @@ display:none;
 }
 
 #reply-container {
-    margin-top: 25px;
-    /*width: 607px;*/
+    margin-top: 3em;
+    width: 600px;
 }
 
 
@@ -390,6 +390,8 @@ display:none;
 */
 
 #welcome {
+	display: block;
+/*
 	background-color: #ffffff;
 	display: inline;
 	display: block;
@@ -399,20 +401,22 @@ display:none;
 	top: 100px;
 	margin-right: 20px;
 	padding: 7px 15px 7px 0px;
+*/
 }	
 
 #welcome span{
-	color: #133d7f;
+    color: #133D7F;
+    font-size: 1.1em;
+    font-weight: bold;
 }
 
 li.header-li{
 	display: inline;
 	display: block;
 	float: left;
-	margin-right: 20px;
 	background-color: #dbdbdb;
 	padding: 7px 15px 7px 15px;
-	margin-left: 6px;
+	margin-left: 20px;
 }
 
 li.header-li a{
@@ -427,7 +431,7 @@ li.header-li a{
 	display: inline;
 	display: block;
 	float: left;
-	margin-right: 20px;
+	margin-left: 20px;
 	background-color: #dbdbdb;
 	padding: 7px 15px 6px 8px;
 	height: 22px;
@@ -437,7 +441,7 @@ li.header-li a{
 	float:right;
 	font-size: 17pt;
 	color: #FFFFFF;
-	margin-right: 40px;
+/*	margin-right: 40px;*/
 	padding-left: 40px;
 	padding-right: 40px;
 	padding-top: 10px;
@@ -455,7 +459,7 @@ li.header-li a{
 
 #header-search {
     float: right;
-    margin-right: 20px;
+/*    margin-right: 20px;*/
 }
 
 .dashlet-box-image {
@@ -463,12 +467,10 @@ li.header-li a{
     border: 1px solid #000000;
     border-radius: 6px 6px 6px 6px;
     box-shadow: 1px 1px 3px;
-    color: #333333;
-    /*font-family: Tahoma, Geneva, sans-serif;*/
-	margin-right: 1em;
+    color: #000000;
     margin-bottom: 1em;
-    overflow: auto;
-    display:block;
+    margin-right: 1em;
+    overflow: hidden;
     padding: 0.5em;
 }
 
@@ -480,12 +482,10 @@ li.header-li a{
     background: none repeat scroll 0 0 #F6F6F6;
     border: 1px solid #000000;
     border-radius: 6px 6px 6px 6px;
-    box-shadow: 3px 3px 6px;
-    color: #000;
-    /*font-family: Tahoma, Geneva, sans-serif;*/
-    margin-right: 1em;
+    box-shadow: 1px 1px 3px;
+    color: #000000;
     margin-bottom: 1em;
-    /*overflow: auto;*/ /*don't scroll the title of the box */
+    margin-right: 1em;
     overflow: hidden;
     padding: 0.5em;
 }
@@ -503,10 +503,8 @@ li.header-li a{
 .dashlet-box-simple{
     border: 1px solid #000000;
     color: #333333;
-    /*font-family: Tahoma, Geneva, sans-serif;*/
-    margin-right: 1em;
     margin-bottom: 1em;
-    overflow: auto;
+    margin-right: 1em;
     padding: 0.5em;
 }
 
@@ -587,7 +585,6 @@ body {
 .dashlet-box li {
 	font-size: 1em;
 	/*margin-left: 2em;*/
-	overflow: auto;
 	float:left;
 	margin: 2px 0px;
 }
@@ -597,37 +594,19 @@ body {
 }*/
 
 #container {
-/*
-    margin: 0.5em;
+    margin: 1em auto;
+    max-width: 1110px;
+    min-width: 910px;
     text-align: left;
-    width: 1000px;
-*/
-	    
-    margin-top: 2em;
-    margin-bottom: 2em;
-    margin-left: 4em;
-    margin-right: 4em;
-    text-align: left;
-	
 }
 
 #global_header, #global_footer {
-	/*
-	background: none repeat scroll 0 0 #FFFFFF;
-	border: 1px solid #000000;
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px;
-	border-radius: 6px;
-	-webkit-box-shadow: rgba(255,255,255,0.5) 0px 2px 6px;
-	-moz-box-shadow: rgba(255,255,255,0.5) 0px 2px 6px;
-	box-shadow: rgba(255,255,255,0.5) 0px 2px 6px;
-	*/
-	
+
     background: none repeat scroll 0 0 #FFFFFF;
     border: 1px solid #000000;
     border-radius: 6px 6px 6px 6px;
-    box-shadow: 0 2px 6px #000000;
-    text-align: left;
+    box-shadow: 1px 1px 3px #000000;
+    text-align: center;
     padding-top: 10px;
 	padding-bottom: 10px;
 	padding-left: 30px;
@@ -679,7 +658,7 @@ body {
 	margin-left: auto;
 	margin-right: auto;
 	/*width: 98%;*/
-	padding: 2em;
+	padding: 1em;
 /*	padding-bottom: 1.5em;*/
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
@@ -700,4 +679,23 @@ div.jp-controls-holder {
 
 div.jp-video-270p {
 	margin: 0 auto;
+}
+
+#elo-tags{
+    float: right;
+    margin-left: 20px;
+    width: 30%;
+}
+
+.comment-score{
+	font-size: 1.3em;
+	padding: 0.4em;
+	text-align: center;
+
+}
+
+#orig-reply-container
+{
+	margin-top:2.5em;
+	width:600px;
 }

@@ -5,7 +5,11 @@ class QuestionController extends Zend_Controller_Action
 
     public function init()
     {
-        /* Initialize action controller here */
+        /* check session var */
+    	if(!$_SESSION['access'])
+    	{
+    		header('Location: /');
+    	}
     }
 
     public function indexAction()
@@ -260,16 +264,16 @@ public function addanswerAction(){
 		$activity->activity_type_id = 13;
 		//$activity->activity_on_user //need question author_id here
 		
-		$activity->i1 = $answer->id;
-		$activity->i2 = $params['question_id'];
-		$activity->i3 = "";
-		$activity->i4 = "";
-		$activity->i5 = "";
-		$activity->s1 = "";
-		$activity->s2 = "";
-		$activity->s3 = "";
-		$activity->t1 = "Answer";
-		$activity->t2 = "Question";
+		$activity->i1 = $params['question_id'];
+		$activity->i2 = $answer->id;
+		//$activity->i3 = "";
+		//$activity->i4 = "";
+		//$activity->i5 = "";
+		$activity->s1 = "Question";
+		$activity->s2 = "Answer";
+		//$activity->s3 = "";
+		$activity->t1 = "Answered a Question";
+		//$activity->t2 = "";
 
 		$activity->save();
 		

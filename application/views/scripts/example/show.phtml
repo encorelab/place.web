@@ -57,7 +57,7 @@ if($this->type==0 && !$error)
 ?>
 
 
-	<div id="elo-tags" class="dashlet-box" style="width:30%; float:right;">
+	<div id="elo-tags" class="dashlet-box">
 		<div class="dashlet-title">Tags</div>
 		
 		<!-- start  tags-container -->
@@ -165,17 +165,20 @@ if($this->type==0 && !$error)
 echo '
 <div class="dashlet-box-image">
     <div class="dashlet-title">'.$this->example[0]['name'].'</div>
-	<div class="image-holder"><img src="'.$mediaFile['media_content'].'" title="'.$this->example[0]['name'].'" width="320px" /></div>
+	<div class="image-holder"><img src="/content/'.$this->example[0]['media_path'].'" title="'.$this->example[0]['name'].'" width="320px" /></div>
 </div>';
 
 		}
 		//<img  height="240px" title="Drag and Drop a new Media File here..." alt="Drag and Drop a new Media File here..." src="/images/uploader.png" id="eloimg">
-		?>	
+	
 
-<div class="clear"></div>
 	
-	<div><?php //echo $this->example[0]['content'];?></div>
-	
+		//<div>$this->example[0]['content']</div>
+		?>	
+<!--
+	<div class="clear"></div>
+--> 
+
 	<!-- assessment comment form -->
 	<form name="assessment-form" method="post" action="/assessment/add?prefix=assessComm_">			
 		
@@ -196,15 +199,13 @@ echo '
 	echo $discussionHtml;
 	?>
 	</div>	<!--  /posts-list -->
-	
+<!--	
 	<div class="clear"></div>
-	
+-->
 	<div id="newThread-container">
 		<input type="button" value="New Thread" onClick="postNewThread(<?php echo $this->example[0]['id']; ?>,3,<?php echo $this->example[0]['author_id']; ?>)"/>
 	</div>
-	
-	<div class="clear"></div>
-	
+
 <?php 
 	if($_SESSION['profile']=="TEACHER"){
 ?>
@@ -212,8 +213,10 @@ echo '
 		<input type="hidden" name="assessComm_activity_on_user" id="assessComm_activity_on_user" value=""/>
 		<input type="hidden" name="assessComm_i1" id="assessComm_i1" value="<?php echo $this->example[0]['id']; ?>"/>
 		<input type="hidden" name="assessComm_i2" id="assessComm_i2" value=""/>
-		<input type="hidden" name="assessComm_t1" id="assessComm_t1" value="Example"/>
-		<input type="hidden" name="assessComm_t2" id="assessComm__t2" value="Comment"/>
+		<input type="hidden" name="assessComm_s1" id="assessComm_s1" value="Example"/>
+		<input type="hidden" name="assessComm_s2" id="assessComm_s2" value="Comment"/>
+		<input type="hidden" name="assessComm_s3" id="assessComm_s3" value="Assessment"/>
+		<input type="hidden" name="assessComm_t1" id="assessComm_t1" value="Assessment on Comment"/>
 		
 		<div id="btn_submit_marks" class="div-show">
 			<input id="btn_submit_marks" type="button" value="Submit Marks" onclick="showAssessmentReview()">
@@ -237,13 +240,10 @@ echo '
 
 	</form>
 	<!-- /assessment comment form  -->
-	
- 
-		<div class="clear"></div>
  	
  	<!--  Start add comment form -->
 	<form method="post" action="/comment/add">
-		<div id="orig-reply-container" class="dashlet-box div-hide" style="margin-top: 25px;">
+		<div id="orig-reply-container" class="dashlet-box div-hide">
                         <div id="reply-original-title" class="dashlet-title">Original Message</div>
 			<div id="reply-original-msg"></div>
 		</div>
@@ -296,28 +296,22 @@ echo '
 	
 	
 	<!--  start add example_concept -->
-	<form id="qe_tag_form" method="post" action="/tags/add?prefix=qe_">
-	<input type="hidden" name="qe_id" id="qe_id" value="<?php echo $this->example[0]['id']; ?>"/>
-	<input type="hidden" name="concept_id" id="concept_id" value=""/>
-	<input type="hidden" name="tag_type" id="tag_type" value="1"/> <?php // 1 for example, 2 for questions?>
-	
-<?php 
-/**
- * we need new types of activity for this
- */
-?>
-<!-- 
-		<input type="hidden" name="ex_activity_type_id" id="ex_activity_type_id" value=""/> 
-		<input type="hidden" name="ex_activity_on_user" id="ex_activity_on_user" value=""/> 
-	
-		<input type="hidden" name="ex_i1" id="ex_i1" value="<?php //echo $this->example[0]['id']; ?>"/>
-		<input type="hidden" name="ex_i2" id="ex_i2" value=""/>
-		<input type="hidden" name="ex_t1" id="ex_t1" value="Example"/>
-		<input type="hidden" name="ex_t2" id="ex_t2" value="ExampleConcept"/>
--->
+	<form id="qe_tag_form" method="post" action="/tags/add?prefix=taggqe_">
+		<input type="hidden" name="qe_id" id="qe_id" value="<?php echo $this->example[0]['id']; ?>"/>
+		<input type="hidden" name="concept_id" id="concept_id" value=""/>
+		<input type="hidden" name="tag_type" id="tag_type" value="1"/> <?php // 1 for example, 2 for questions?>
+		
+		<input type="hidden" name="taggqe_activity_type_id" id="taggqe_activity_type_id" value="17"/>
+		<input type="hidden" name="taggqe_activity_on_user" id="taggqe_activity_on_user" value=""/>
+		<input type="hidden" name="taggqe_s1" id="taggqe_s1" value="Example"/>
+		<input type="hidden" name="taggqe_s2" id="taggqe_s2" value="Concept"/>
+		<input type="hidden" name="taggqe_s3" id="taggqe_s3" value="ExampleConcept"/>
+		<input type="hidden" name="taggqe_t1" id="taggqe_t1" value="Tagg Example with a Concept"/>
+		
 	</form>
 	<!--  end add example_concept -->
-	<!-- </div> --> <!-- closes both video and image containers -->
+
+<!-- </div> --> <!-- closes both video and image containers -->
 <?php 
 
 } // end single view
@@ -472,7 +466,7 @@ function checkHasAssessment($author_id, $obj_id, $obj_type)
 		//echo "<hr>checkHasAssessment: ".$notAssessedItems;
 		if($_SESSION['profile']=="TEACHER")
 		{
-			return renderAssessmentFormItem($obj_id);
+			return renderAssessmentFormItem($obj_id,$author_id);
 		} else {
 			return "";
 		}
@@ -485,7 +479,7 @@ function checkHasAssessment($author_id, $obj_id, $obj_type)
 	//return $assessment;
 }
 
-function renderAssessmentFormItem($id)
+function renderAssessmentFormItem($id,$author_id,$prefix="")
 {
 	$assessmentForm = '
 	<div class="assessment-item">
@@ -494,6 +488,7 @@ function renderAssessmentFormItem($id)
 			<input type="radio" value="3" name="mark_'.$id.'">3  |
 			<input type="radio" value="4" name="mark_'.$id.'">4   
 			<input type="hidden" value="'.$id.'" name="obj_id_'.$id.'">
+			<input type="hidden" value="'.$author_id.'" name="author_id_'.$id.'">
 	</div>
 	';
 	return $assessmentForm;
@@ -534,8 +529,8 @@ function getCommentById($id,$prefix="")
 	// add this post data
 	//Id:'.$id.'
 	$repliesHtml .='
-	<li>
-		<div class="post-item '.$myCommentCss.'">';
+	<li class="'.$myCommentCss.'">
+		<div class="post-item">';
 	
 	// add/check assessment if is a teacher || this is my post
 	//if($_SESSION['profile']=="TEACHER")
@@ -697,13 +692,13 @@ function analyzeTags($tags, $prefix="")
 					'.$votesCount['votesMinus'].'
 				</div> 
 				<div class="vote-icon">
-					<a href="javascript:postVote(-1,'.$tag['id'].',4,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_down.png" width="20px"></a>
+					<a href="javascript:postVote(-1,'.$tag['id'].',4,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_down.png" width="12px"></a>
 				</div>
 				<div  id="'.$prefix.'vote-total-'.$tag['id'].'" class="vote-total">
 					'.$votesCount['votesSumm'].'
 				</div>
 				<div class="vote-icon">
-					<a href="javascript:postVote(1,'.$tag['id'].',4,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_up.png" width="20px"></a>
+					<a href="javascript:postVote(1,'.$tag['id'].',4,'.$_SESSION['author_id'].',\''.$prefix.'\');"><img src="/images/icon_arrow_up.png" width="12px"></a>
 				</div>
 				<div  id="'.$prefix.'vote-plus-'.$tag['id'].'" class="vote-minus-plus">
 					'.$votesCount['votesPlus'].'
@@ -720,8 +715,6 @@ function analyzeTags($tags, $prefix="")
 	//print_r($notIncludedConcepts);
 	
 	$notIncludedConceptsHtml = "
-	<li> &nbsp; 
-	</li>
 	";
 	
 	// not included tags

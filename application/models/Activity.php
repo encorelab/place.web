@@ -82,16 +82,19 @@ class Activity extends BaseActivity
     
 
     public function toStringVotedOnComment() {
-        $vote = Doctrine::getTable("Vote")->find($this->i1);
+        //$vote = Doctrine::getTable("Vote")->find($this->i3);
         $comment = Doctrine::getTable("Comment")->find($this->i2);
+        //$example = Doctrine::getTable("Example")->find($this->i1);
         
         // $commentable = Doctrine::getTable('Commentable')->find(Commentable::COMMENT);
         // $objectCommentedOn = Doctrine::getTable($commentable->object)->find($comment->obj_id);
         // $url = $objectCommentedOn->getUrl();
-        $verb = $vote->vote_value > 0 ? "up" : "down";
+        //$verb = $vote->vote_value > 0 ? "up" : "down";
         
-        $str = $this->_genAuthorHtml()." voted $verb a <a href=''>comment</a> **needs fix**";
-        return "<div class='alert'>$str</div>";
+        //$str = $this->_genAuthorHtml()." voted $verb a <a href=''>comment</a> **needs fix**";
+        $str = $this->_genAuthorHtml()." voted on a <a href='/example/show?id=".$this->i1."'>comment</a>"; // temp fixed by Anto
+        
+        return "<div class='alert-voted-comment'>$str</div>";
     }
     
     public function toStringVotedOnAnswer() {
@@ -100,7 +103,7 @@ class Activity extends BaseActivity
         $url = $answer->getUrl();
         
         $str = $this->_genAuthorHtml()." voted on an <a href='$url'>answer</a>";
-        return "<div class='alert'>$str</div>";
+        return "<div class='alert-votted'>$str</div>";
     }
     
     //tested
@@ -108,14 +111,20 @@ class Activity extends BaseActivity
         return "Error: This activity should never happen!!";
     }
     public function toStringCommentedOnComment() {
-        $comment1 = Doctrine::getTable("Comment")->find($this->i1);
-        $comment2 = Doctrine::getTable("Comment")->find($this->i2);
         
-        $url = $comment2->getUrl();
+    	$example = Doctrine::getTable("Example")->find($this->i1);
+    	$comment1 = Doctrine::getTable("Comment")->find($this->i2);
+        $comment2 = Doctrine::getTable("Comment")->find($this->i3);
         
-        $str = $this->_genAuthorHtml()." replied to a <a href='$url'>comment</a> **needs fix**";
-        return "<div class='alert'>$str</div>";
+        $url = $comment1->getUrl();
+        
+       //$str = $this->_genAuthorHtml()." replied to a <a href='$url'>comment</a> **needs fix**";
+       $str = $this->_genAuthorHtml()." replied to a <strong>comment</strong>";
+        
+       return "<div class='alert-comment-comment'>$str</div>";
     }
+    
+    // this is not used yet
     public function toStringCommentedOnAnswer() {
         $comment = Doctrine::getTable("Comment")->find($this->i1);
         $answer = Doctrine::getTable("Answer")->find($this->i2);
@@ -127,14 +136,14 @@ class Activity extends BaseActivity
         return "<div class='alert'>$str</div>";
     }
     public function toStringCommentedOnExample() {
-        $comment = Doctrine::getTable("Comment")->find($this->i1);
-        $example = Doctrine::getTable("Example")->find($this->i2);
+        $comment = Doctrine::getTable("Comment")->find($this->i2);
+        $example = Doctrine::getTable("Example")->find($this->i1);
         
         $exampleUrl = $example->getUrl();
         $exampleName = $example->name;
 
         $str = $this->_genAuthorHtml()." commented on example <a href='$exampleUrl'>$exampleName</a>";
-        return "<div class='alert-comments'>$str</div>";
+        return "<div class='alert-comment-example'>$str</div>";
     }
     
     public function toStringAssessedComment() {
@@ -157,7 +166,7 @@ class Activity extends BaseActivity
         $exampleName = $example->name;
         
         $str = $this->_genAuthorHtml()." created example <a href='$exampleUrl'>$exampleName</a>";
-        return "<div class='alert-example'>$str</div>";
+        return "<div class='alert-created-example'>$str</div>";
     }
     
     //tested
@@ -166,7 +175,7 @@ class Activity extends BaseActivity
         $url = $question->getUrl();
         
         $str = $this->_genAuthorHtml()." created a question(<a href='$url'>".$question->name."</a>)";
-        return "<div class='alert-comments'>$str</div>";
+        return "<div class='alert-created-question'>$str</div>";
     }
     
     //tested
@@ -202,7 +211,7 @@ class Activity extends BaseActivity
         $verb = $vote->vote_value > 0 ? 'agrees' : 'disagrees';
         
         $str = $this->_genAuthorHtml()." $verb that <a href='$exampleUrl'>$exampleName</a> relates to '$conceptName'";
-        return "<div class='alert-example'>$str</div>";
+        return "<div class='alert-voted-example'>$str</div>";
     }
     
     //tested
@@ -243,7 +252,7 @@ class Activity extends BaseActivity
         
         $str = $this->_genAuthorHtml()." tagged question <a href='$questionUrl'>$questionName</a> with '$conceptName'";
         
-        return "<div class='alert-example'>$str</div>";
+        return "<div class='alert-tagged-question'>$str</div>";
     }
     public function toStringTaggedExampleWithConcept(){
         $example = Doctrine::getTable('Example')->find($this->i1);

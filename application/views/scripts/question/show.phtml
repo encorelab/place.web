@@ -65,7 +65,7 @@ if($this->type==0 && !$error)
 <h3><?php echo $this->question[0]['name']?></h3>
 
 	<!-- start  tags-container -->
-	<div id="elo-tags" class="dashlet-box" style="width:30%; float:right;">
+	<div id="elo-tags" class="dashlet-box">
 		<div class="dashlet-title">Tags</div>
 		<div id="tags-container">
 		<?php //print_r($myContentArray[0]['tags']);?>
@@ -309,6 +309,8 @@ echo '
 		<input type="hidden" value="<?php echo $this->question[0]['id']; ?>" name="parent_id">
 		<input type="hidden" value="question" name="parent_type">
 		<input type="hidden" value="<?php echo $notAssessedItems; ?>" name="assesment_list">
+		<input type="hidden" value="activity_type_id" name="activity_type_id">
+		
 		<div id="btn_submit_marks" class="div-show">
 			<input id="btn_submit_marks" type="button" value="Submit Marks" onclick="showAssessmentReview()">
 		</div>
@@ -376,16 +378,25 @@ echo '
 		<input type="hidden" name="qe_activity_on_user" id="qe_activity_on_user" value=""/>
 		<input type="hidden" name="qe_i1" id="qe_i1" value="<?php echo $this->question[0]['id']; ?>"/>
 		<input type="hidden" name="qe_i2" id="qe_i2" value=""/>
-		<input type="hidden" name="qe_t1" id="qe_t1" value="Question"/>
-		<input type="hidden" name="qe_t2" id="qe_t2" value="QuestionConcept"/>
+		<input type="hidden" name="qe_s1" id="qe_s1" value="Question"/>
+		<input type="hidden" name="qe_s2" id="qe_s2" value="QuestionConcept"/>
+		<input type="hidden" name="qe_t1" id="qe_t1" value="Voted on QuestionConcept"/>
 	</form>
 	<!--  end add vote to example_concept -->
 	
 	<!--  start add question_concept -->
-	<form id="qe_tag_form" method="post" action="/tags/add?prefix=qe_">
+	<form id="qe_tag_form" method="post" action="/tags/add?prefix=taggqe_">
 	<input type="hidden" name="qe_id" id="qe_id" value="<?php echo $this->question[0]['id']; ?>"/>
 	<input type="hidden" name="concept_id" id="concept_id" value=""/>
 	<input type="hidden" name="tag_type" id="tag_type" value="2"/> <?php // 1 for example, 2 for questions?>
+	
+	<input type="hidden" name="taggqe_activity_type_id" id="taggqe_activity_type_id" value="16"/>
+	<input type="hidden" name="taggqe_activity_on_user" id="taggqe_activity_on_user" value=""/>
+	<input type="hidden" name="taggqe_s1" id="taggqe_s1" value="Question"/>
+	<input type="hidden" name="taggqe_s2" id="taggqe_s2" value="Concept"/>
+	<input type="hidden" name="taggqe_s3" id="taggqe_s3" value="QuestionConcept"/>
+	<input type="hidden" name="taggqe_t1" id="taggqe_t1" value="Tagg Example with a Concept"/>
+		
 	
 <?php 
 /**
@@ -424,8 +435,10 @@ function checkHasAssessment($author_id, $obj_id, $obj_type)
 	->from('Assessment a')
 	->where('a.run_id = ? AND a.obj_id = ? AND a.obj_type = ?', 
 		array($_SESSION['run_id'], $obj_id, $obj_type));
-	 
+
 	$assessment = $q->fetchArray();
+	//echo '<hr>';
+	//echo print_r($assessment);
 	
 	if(count($assessment)==0)
 	{
@@ -435,7 +448,8 @@ function checkHasAssessment($author_id, $obj_id, $obj_type)
 		//echo "<hr>checkHasAssessment: ".$notAssessedItems;
 		if($_SESSION['profile']=="TEACHER")
 		{
-			return renderAssessmentFormItem($obj_id);
+			return renderAssessmentFormItem($obj_id,$author_id);
+			//$author_id
 		} else {
 			return "";
 		}
@@ -448,7 +462,7 @@ function checkHasAssessment($author_id, $obj_id, $obj_type)
 	//return $assessment;
 }
 
-function renderAssessmentFormItem($id)
+function renderAssessmentFormItem($id,$author_id)
 {
 	$assessmentForm = '
 	<div class="assessment-item">
@@ -457,6 +471,7 @@ function renderAssessmentFormItem($id)
 			<input type="radio" value="3" name="mark_'.$id.'">3  |
 			<input type="radio" value="4" name="mark_'.$id.'">4   
 			<input type="hidden" value="'.$id.'" name="obj_id_'.$id.'">
+			<input type="hidden" value="'.$author_id.'" name="author_id_'.$id.'">
 	</div>
 	';
 	return $assessmentForm;

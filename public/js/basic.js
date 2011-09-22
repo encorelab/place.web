@@ -67,9 +67,11 @@ function postNewThread(obj_id, parentType, author_id)
 	marksCancel();
 	$("#orig-reply-container").removeClass('div-show').addClass('div-hide');
 	$("#activity_on_user").val(author_id);
+
 	$("#postId").val("");
 	$("#obj_id").val(obj_id);
 	$("#parentType").val(parentType);
+
 	$("#reply-container").removeClass('div-hide');
 	$("#reply-container").addClass('div-show');
 	$("#reply-new-title").html('Add New Thread');

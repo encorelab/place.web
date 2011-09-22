@@ -31,8 +31,13 @@ function setupAlertCloseButtons(section){
 
 <div id="home-columns">
 <?php
+	$col2Width="50%";
+	$col3Width="50%";
+	
 if($_SESSION['profile']=="STUDENT")
 {
+	$col2Width="40%";
+	$col3Width="40%";
 ?>
 	<div id="home-col1" style="float:left;width:20%;">
 		<div class="dashlet-box-simple">
@@ -49,16 +54,17 @@ if($_SESSION['profile']=="STUDENT")
 } // end if student
 ?>
 	
-	<div id="home-col2" style="float:left;width:40%;">
+	<div id="home-col2" style="float:left;width:<?php echo $col2Width;?>;">
 <?php 
 if($_SESSION['profile']=="STUDENT")
 {
 ?>
+<!-- 
 	    <div id="my-homework" class="dashlet-box">
 			<div class="dashlet-title">My Homework</div>
 			<div id="my-homework-feed"></div>
-	        
 	    </div>
+ -->
 <?php 
 } // end if student
 ?>	    
@@ -74,7 +80,7 @@ if($_SESSION['profile']=="STUDENT")
 		</div>	
 	</div><!-- /home-col2 -->
 	
-	<div id="home-col3" style="float:left;width:40%;">
+	<div id="home-col3" style="float:left;width:<?php echo $col3Width;?>;">
 		<div id="recent-class-activity" class="dashlet-box">
 			<div class="dashlet-title">Recent Class Activity</div>
 			<div id="recent-class-activity-feed"></div>

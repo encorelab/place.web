@@ -45,7 +45,8 @@ class AjaxController extends Zend_Controller_Action
         	->where('a.run_id = ?' , $_SESSION['run_id'])
         	->andWhere('a.activity_on_user = ?', $_SESSION['author_id'])
             ->andWhere('a.author_id != ?', $_SESSION['author_id'])
-            ->andWhere('a.id NOT IN (select r.activity_id from resolved_user_alert r where r.author_id = '.$_SESSION['author_id'].')')
+            ->andWhere('a.id NOT IN (select r.activity_id from resolved_user_alert r where r.author_id = '
+							.$_SESSION['author_id'].' AND run_id = '.$_SESSION['run_id'].')')
         	->orderBy('a.id DESC');
 
     	$activities = $q->execute();		
@@ -61,7 +62,8 @@ class AjaxController extends Zend_Controller_Action
         	->addComponent('a', 'Activity a')
         	->where('a.run_id = ?' , $_SESSION['run_id'])
         	->andWhere('a.author_id = ?', $_SESSION['author_id'])
-        	->andWhere('a.id NOT IN (select r.activity_id from resolved_user_alert r where r.author_id = '.$_SESSION['author_id'].')')
+        	->andWhere('a.id NOT IN (select r.activity_id from resolved_user_alert r where r.author_id = '
+							.$_SESSION['author_id'].' AND run_id = '.$_SESSION['run_id'].')')
         	->orderBy('a.id DESC');
     	
     	$activities = $q->execute();
@@ -78,7 +80,8 @@ class AjaxController extends Zend_Controller_Action
         	->where('a.run_id = ?' , $_SESSION['run_id'])
         	->andWhere('(a.activity_on_user != ? OR a.activity_on_user is null)', $_SESSION['author_id'])
             ->andWhere('a.author_id != ?', $_SESSION['author_id'])
-            ->andWhere('a.id NOT IN (select r.activity_id from resolved_user_alert r where r.author_id = '.$_SESSION['author_id'].')')
+            ->andWhere('a.id NOT IN (select r.activity_id from resolved_user_alert r where r.author_id = '
+							.$_SESSION['author_id'].' AND run_id = '.$_SESSION['run_id'].')')
         	->orderBy('a.id DESC');
     	
     	$activities = $q->execute();

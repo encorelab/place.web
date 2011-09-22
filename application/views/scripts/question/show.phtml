@@ -224,17 +224,15 @@ echo '
 		//<img  height="240px" title="Drag and Drop a new Media File here..." alt="Drag and Drop a new Media File here..." src="/images/uploader.png" id="eloimg">
 		?>	
 	</div> 
-
-<!-- /media container -->
+	<!-- /media container -->
 	
-<div class="clear"></div>
+	<div class="clear"></div>
 	
 	<div id="question-content">
 	<?php 
 		echo $this->question[0]['content'];
 	?>
 	</div>
-
 	
 	<?php 
 	if($_SESSION["profile"]=="TEACHER")
@@ -311,7 +309,7 @@ echo '
 		<input type="hidden" value="<?php echo $this->question[0]['id']; ?>" name="parent_id">
 		<input type="hidden" value="question" name="parent_type">
 		<input type="hidden" value="<?php echo $notAssessedItems; ?>" name="assesment_list">
-		<input type="hidden" value="activity_type_id" name="activity_type_id">
+		<input type="hidden" value="2" name="assessAnsw_activity_type_id">
 		
 		<div id="btn_submit_marks" class="div-show">
 			<input id="btn_submit_marks" type="button" value="Submit Marks" onclick="showAssessmentReview()">

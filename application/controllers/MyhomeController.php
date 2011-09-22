@@ -5,7 +5,11 @@ class MyhomeController extends Zend_Controller_Action
 
     public function init()
     {
-		
+        /* check session var */
+    	if(!$_SESSION['access'])
+    	{
+    		header('Location: /');
+    	}
     }
 
     public function indexAction()

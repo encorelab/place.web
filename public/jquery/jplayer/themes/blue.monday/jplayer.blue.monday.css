@@ -34,14 +34,14 @@ div.jp-audio {
 	width:420px;
 }
 div.jp-video-270p {
-	width:480px;
+	width:460px;
 }
 div.jp-video-360p {
 	width:640px;
 }
 div.jp-video-full {
 	/* Rules for IE6 (full-screen) */
-	width:480px;
+	width:460px;
 	height:270px;
 	/* Rules for IE7 (full-screen) - Otherwise the relative container causes other page items that are not position:static (default) to appear over the video/gui. */
 	position:static !important; position:relative

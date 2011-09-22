@@ -1010,7 +1010,7 @@ $('input:checkbox').each(function(){
 		isTagged = true;
 	}) 
 	
-	if (0 && $("#saved").val() == 0)
+	if ($("#saved").val() == 0)
 	{
 		$( "#error-dialog" ).dialog( "open" );
                 $( "#error-dialogue-text").html("<p>Please wait for the file uploading to complete...</p>");

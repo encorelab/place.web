@@ -28,10 +28,7 @@ class AssessmentController extends Zend_Controller_Action
     	global $PLACEWEB_CONFIG, $_SESSION;
     	
         $params = $this->getRequest()->getParams();
-
         
-        //print_r($params);
-///*
         // insert assessment review
         
         if (isset($params['parent_id']) && $params['parent_id']!="")
@@ -40,12 +37,12 @@ class AssessmentController extends Zend_Controller_Action
         	
         	$activity_type_id = $params[$prefix.'activity_type_id'];
         	
-        	$i1=$params[$prefix.'i1'];
+        	$i1=$params['parent_id'];
+        	
         	$s1=$params[$prefix.'s1'];
         	$s2=$params[$prefix.'s2'];
         	$s3=$params[$prefix.'s3'];
         	$t1=$params[$prefix.'t1'];
-        	
         	
         	// create a new Assessment Review
 	        $aReview = new AssessmentReviews();
@@ -143,8 +140,7 @@ class AssessmentController extends Zend_Controller_Action
 		$activity->t1 = $t1;
 		//$activity->t2 = $t2;
 		$activity->save();
-		
-		//echo "<br>activity Id: ".$activity->id;
+			//echo "<br>activity Id: ".$activity->id;
 
     } 
 	

@@ -181,8 +181,8 @@ class Activity extends BaseActivity
     
     //tested
     public function toStringAnsweredQuestion(){
-        $answer = Doctrine::getTable('Answer')->find($this->i1);
-        $question = Doctrine::getTable('Question')->find($this->i2);
+        $answer = Doctrine::getTable('Answer')->find($this->i2);
+        $question = Doctrine::getTable('Question')->find($this->i1);
         
         $questionUrl = $question->getUrl();
         $questionName = $question->name;

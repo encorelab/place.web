@@ -647,9 +647,10 @@ body {
 }*/
 
 #container {
-    margin: 1em auto;
-/*    max-width: 1110px;*/
-/*    min-width: 910px;*/
+	margin-bottom: 2em;
+    margin-left: 4em;
+    margin-right: 4em;
+    margin-top: 2em;
     text-align: left;
 }
 

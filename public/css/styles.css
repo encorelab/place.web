@@ -648,8 +648,8 @@ body {
 
 #container {
     margin: 1em auto;
-    max-width: 1110px;
-    min-width: 910px;
+/*    max-width: 1110px;*/
+/*    min-width: 910px;*/
     text-align: left;
 }
 

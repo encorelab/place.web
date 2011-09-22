@@ -140,15 +140,7 @@ border:1px solid #ccc;
 	margin: 2px 5px 2px 2px;
 }
 
-.alert-comment-comment	{
-	background: #E4E9F0;
-	float: left;
-	width: 88%; /*allow room for [x] button*/
-	padding: 2px 1px 2px 2px;
-	margin: 2px 5px 2px 2px;
-}
-
-.alert-comment-example  {
+.alert-comment-answer  {
     background: #f3f5f8;
     float: left;
     width: 88%; /*allow room for [x] button*/
@@ -186,6 +178,18 @@ border:1px solid #ccc;
     width: 88%; /*allow room for [x] button*/
     padding: 2px 1px 2px 2px;
     margin: 2px 5px 2px 2px;
+}
+
+.alert-voted-question-concept {
+	
+}
+
+.alert-voted-answer-concept {
+	
+}
+
+.alert-voted-example-concept {
+	
 }
 
 .alert-question-answered{

@@ -434,10 +434,10 @@ li.header-li{
     display: inline;
     display: block;
     float: left;
-    margin-right: 0px;
+    margin-right: 20px;
     background-color: #dbdbdb;
     padding: 10px 15px 7px 15px;
-    margin-left: 23px;
+    margin-left: 3px;
 }
 
 li.header-li a{
@@ -452,8 +452,8 @@ li.header-li a{
     display: inline;
     display: block;
     float: left;
-    margin-right: 2px;
-    margin-left: 22px;
+    margin-right: 20px;
+    margin-left: 4px;
     background-color: #dbdbdb;
     padding: 7px 15px 6px 8px;
     height: 22px

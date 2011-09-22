@@ -434,7 +434,6 @@ display:none;
 }
 
 li.header-li{
-/*
     background-color: #ffffff;
     display: inline;
     display: block;
@@ -444,11 +443,10 @@ li.header-li{
     top: 100px;
     margin-right: 20px;
     padding: 7px 15px 7px 0px;
-*/
 }   
 
  
-li.header-li{
+/*li.header-li{
     display: inline;
     display: block;
     float: left;
@@ -457,7 +455,7 @@ li.header-li{
     padding: 10px 15px 7px 15px;
     margin-left: 23px;
 
-}
+}*/
 
 li.header-li a{
     color: black;
@@ -478,7 +476,6 @@ li.header-li a{
 }
 
 #project-name {
-/*
 	float:right;
 	font-size: 17pt;
 	color: #FFFFFF;
@@ -487,7 +484,7 @@ li.header-li a{
 	padding-top: 10px;
 	padding-bottom: 10px;
 	background-color: #dd9e37;
-*/
+/*
     display: inline;
     display: block;
     float: left;
@@ -506,7 +503,7 @@ li.header-li a{
     padding-right: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
-    background-color: #dd9e37;
+    background-color: #dd9e37;*/
 }
 
 #header {

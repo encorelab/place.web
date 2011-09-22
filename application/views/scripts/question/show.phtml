@@ -62,8 +62,6 @@ if($this->type==0 && !$error)
  */
 {
 ?>
-<h3><?php echo $this->question[0]['name']?></h3>
-
 	<!-- start  tags-container -->
 	<div id="elo-tags" class="dashlet-box">
 		<div class="dashlet-title">Tags</div>
@@ -81,7 +79,10 @@ if($this->type==0 && !$error)
 		</div>
 	</div>
 	<!-- /tags-container -->
-	
+
+	<!-- media container -->
+	<div class="dashlet-box">
+		<div class="dashlet-title"><?php echo $this->question[0]['name']?></div>
 	<?php 
 	// update status 
 	if($_SESSION["profile"]=="TEACHER" && $this->question[0]['is_published']==0)
@@ -128,7 +129,7 @@ if($this->type==0 && !$error)
 	} // end if teacher
 	?>
 
-	<!-- start media container -->
+	
 	<?php
 		// MIKE'S CODE TO MAKE THE UPLOAD VIEW WORK //////////////////////////// 
 		$mediaFile = current($this->question);
@@ -216,12 +217,13 @@ if($this->type==0 && !$error)
 		} else { 
 
 echo '
-<div class="dashlet-box-image">	
+	
 	<img src="'.$mediaFile['media_content'].'" title="'.$this->question[0]['name'].'" width="320" />
-</div>';
+';
 		}
 		//<img  height="240px" title="Drag and Drop a new Media File here..." alt="Drag and Drop a new Media File here..." src="/images/uploader.png" id="eloimg">
 		?>	
+	</div> 
 
 <!-- /media container -->
 	

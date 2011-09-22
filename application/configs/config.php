@@ -25,10 +25,10 @@ $PLACEWEB_CONFIG['ffmpegPath'] = '/usr/local/bin/ffmpeg';
 //$PLACEWEB_CONFIG['uploadDir'] = "/var/www/place/content/";
 
 // Antonio Config
-$PLACEWEB_CONFIG['uploadDir'] = "/var/www/mywebapps/PlaceWeb.GitHub/place.web/public/content/";
+//$PLACEWEB_CONFIG['uploadDir'] = "/var/www/mywebapps/PlaceWeb.GitHub/place.web/public/content/";
 
 // server config
-//$PLACEWEB_CONFIG['uploadDir'] = "/var/www/place/public/content/";
+$PLACEWEB_CONFIG['uploadDir'] = "/var/www/place/public/content/";
 
 $PLACEWEB_CONFIG['uploadWebDir'] = "/content/";
 

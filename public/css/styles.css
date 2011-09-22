@@ -400,7 +400,6 @@ display:none;
 
 #welcome {
 	display: block;
-/*
 	background-color: #ffffff;
 	display: inline;
 	display: block;
@@ -410,7 +409,6 @@ display:none;
 	top: 100px;
 	margin-right: 20px;
 	padding: 7px 15px 7px 0px;
-*/
 }	
 
 #welcome span{

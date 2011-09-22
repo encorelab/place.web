@@ -59,12 +59,13 @@ if($_SESSION['profile']=="STUDENT")
 if($_SESSION['profile']=="STUDENT")
 {
 ?>
-<!-- 
+<!--
+--> 
 	    <div id="my-homework" class="dashlet-box">
 			<div class="dashlet-title">My Homework</div>
 			<div id="my-homework-feed"></div>
 	    </div>
- -->
+ 
 <?php 
 } // end if student
 ?>	    

@@ -11,7 +11,7 @@ foreach ($this->unansweredQuestions as $question)
 foreach($this->answeredQuestions as $question)
 {
     $answer = $question['Answer'][0];
-    $url = $answer->getUrl();
+    $url = $question->getUrl();
     echo "<li><div class='alert-ok'>You've answered <a href='$url'>".$question->name."</a></div></li>"; 
 }
 ?>

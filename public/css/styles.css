@@ -557,10 +557,6 @@ body {
 
 #main_content a:link, #main_content a:visited {
     color: #133D7F;
-    font-size: 0.75em;
-    /*font-family: Tahoma, Geneva, sans-serif;*/
-    font-weight: bold;
-    text-decoration: none;
 }
 
 /*#main_content a:link:hover, #main_content a:visited:hover, #main_content a:focus {

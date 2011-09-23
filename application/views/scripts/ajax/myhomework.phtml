@@ -5,14 +5,14 @@
 foreach ($this->unansweredQuestions as $question)
 {
     $url = $question->getUrl();
-    echo "<li><div class='alert-question'>Please answer <a href='$url'>".$question->name."</a></div></li>";
+    echo "<li><div class='alert'>Please answer <a href='$url'>".$question->name."</a></div></li>";
 }
 
 foreach($this->answeredQuestions as $question)
 {
     $answer = $question['Answer'][0];
     $url = $question->getUrl();
-    echo "<li><div class='alert-ok'>You've answered <a href='$url'>".$question->name."</a></div></li>"; 
+    echo "<li><div class='alert'>You've answered <a href='$url'>".$question->name."</a></div></li>"; 
 }
 ?>
 	</ul>

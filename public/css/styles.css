@@ -124,8 +124,13 @@ border:1px solid #ccc;
     padding: 7px 0;
 	text-indent: 30px;
 	font-size: small;
+	color: #414B53;
 	background: white;
 	border-top: 1px solid lightGrey;
+}
+
+.alert strong {
+	font-size: 12px;
 }
 
 .alert-created-example{
@@ -503,7 +508,7 @@ li.header-li a{
 
 .dashlet-title {
     border-bottom: 1px solid;
-    color: #333333;
+    color: #414B53;
     font-size: 1em;
     font-weight: bold;
 	padding: 5px 10px;
@@ -560,8 +565,16 @@ body {
     height: 0px;
 }
 
-#main_content a:link, #main_content a:visited {
-    color: #133D7F;
+#main_content a:link, 
+#main_content a:visited {
+    color: #414B53;
+	font-weight: bold;
+	font-size: 12px;
+	text-decoration: none;
+}
+
+#main_content a:hover{
+	text-decoration: underline;
 }
 
 /*#main_content a:link:hover, #main_content a:visited:hover, #main_content a:focus {

@@ -123,6 +123,7 @@ border:1px solid #ccc;
     width: 100%;
     padding: 2px 0 2px 0;
 	text-indent: 30px;
+	font-size: small;
 }
 
 .alert-created-example{
@@ -218,7 +219,6 @@ border:1px solid #ccc;
 	display: block;
     width: 20px;
     cursor: pointer;
-    font-size: small;
 }
 .alert-close-btn img {
 	position:absolute;

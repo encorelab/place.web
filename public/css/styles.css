@@ -205,15 +205,39 @@ border:1px solid #ccc;
 }
 
 .alert-voted-question-concept {
-	
+	background: #d0d8e5;
+    float: left;
+    width: 88%; /*allow room for [x] button*/
+    padding: 2px 1px 2px 2px;
+    margin: 2px 5px 2px 2px;
 }
 
 .alert-voted-answer-concept {
+	background: #d0d8e5;
+    float: left;
+    width: 88%; /*allow room for [x] button*/
+    padding: 2px 1px 2px 2px;
+    margin: 2px 5px 2px 2px;
+}
+
+.alert-assessed-comment {
 	
 }
 
-.alert-voted-example-concept {
+.alert-assessed-example {
 	
+}
+
+.alert-assessed-answer {
+	
+}
+
+.alert-voted-example-concept { 
+	background: #d0d8e5;
+    float: left;
+    width: 88%; /*allow room for [x] button*/
+    padding: 2px 1px 2px 2px;
+    margin: 2px 5px 2px 2px;
 }
 
 .alert-question-answered{

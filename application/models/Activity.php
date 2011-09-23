@@ -148,15 +148,28 @@ class Activity extends BaseActivity
     }
     
     public function toStringAssessedComment() {
-        return "assessed a comment **should not be public**";
+		$str = $this->_genAuthorHtml()." assessed a comment";
+        return "<div class='alert-assessed-comment'>$str</div>";
     }
     
     public function toStringAssessedExample() {
-        return "assessed an example **should not be public**";
+		$example = Doctrine::getTable("Example")->find($this->i1);
+		
+		$exampleUrl = $example->getUrl();
+        $exampleName = $example->name;
+
+        $str = $this->_genAuthorHtml()." assessed the example <a href='$exampleUrl'>$exampleName</a>";
+        return "<div class='alert-assessed-example'>$str</div>";
     }
     
     public function toStringAssessedAnswer() {
-        return "assessed an answer **should not be public**";
+        $answer = Doctrine::getTable("Answer")->find($this->i1);
+
+		$answerUrl = $answer->getUrl();
+        $answerName = $answer->name;
+
+        $str = $this->_genAuthorHtml()." assessed the <a href='$answerUrl'>$answerName</a>";
+        return "<div class='alert-assessed-answer'>$str</div>";
     }
     
     //tested

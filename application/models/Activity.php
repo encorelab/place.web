@@ -87,7 +87,7 @@ class Activity extends BaseActivity
 		// temp fixed by Anto, needs fix to work with arbitrary objects commented on
         $str = $this->_genAuthorHtml()." voted on a <a href='/example/show?id=".$this->i1."'>comment</a>"; 
         
-        return "<div class='alert-voted-comment'>$str</div>";
+        return "<div class='alert alert-voted-comment'>$str</div>";
     }
     
     public function toStringVotedOnAnswer() {
@@ -96,7 +96,7 @@ class Activity extends BaseActivity
         $url = $answer->getUrl();
         
         $str = $this->_genAuthorHtml()." voted on an <a href='$url'>answer</a>";
-        return "<div class='alert-votted'>$str</div>";
+        return "<div class='alert alert-votted'>$str</div>";
     }
     
     //tested
@@ -112,7 +112,7 @@ class Activity extends BaseActivity
 		$exampleUrl = $example->getUrl();
 		$str = $this->_genAuthorHtml()." replied to a comment in <a href='$exampleUrl'>$exampleName</a>";
 
-		return "<div class='alert-comment-comment'>$str</div>";
+		return "<div class='alert alert-comment-comment'>$str</div>";
     }
     
     // this is not used yet
@@ -124,7 +124,7 @@ class Activity extends BaseActivity
         $answerName = $answer->name;
         
         $str = $this->_genAuthorHtml()." commented on an answer(<a href='$url'>$answerName</a>)";
-        return "<div class='alert-comment-answer'>$str</div>";
+        return "<div class='alert alert-comment-answer'>$str</div>";
     }
     public function toStringCommentedOnExample() {
         $comment = Doctrine::getTable("Comment")->find($this->i2);
@@ -134,7 +134,7 @@ class Activity extends BaseActivity
         $exampleName = $example->name;
 
         $str = $this->_genAuthorHtml()." commented on example <a href='$exampleUrl'>$exampleName</a>";
-        return "<div class='alert-comment-example'>$str</div>";
+        return "<div class='alert alert-comment-example'>$str</div>";
     }
     
     public function toStringAssessedComment() {
@@ -147,7 +147,7 @@ class Activity extends BaseActivity
 		$commentOnName = $commentOn->name;
 		
 		$str = $this->_genAuthorHtml()." assessed a comment made on <a href='$commentOnUrl'>$commentOnName</a>";
-        return "<div class='alert-assessed-comment'>$str</div>";
+        return "<div class='alert alert-assessed-comment'>$str</div>";
     }
     
     public function toStringAssessedExample() {
@@ -157,7 +157,7 @@ class Activity extends BaseActivity
         $exampleName = $example->name;
 
         $str = $this->_genAuthorHtml()." assessed the example <a href='$exampleUrl'>$exampleName</a>";
-        return "<div class='alert-assessed-example'>$str</div>";
+        return "<div class='alert alert-assessed-example'>$str</div>";
     }
     
     public function toStringAssessedAnswer() {
@@ -167,7 +167,7 @@ class Activity extends BaseActivity
         $answerName = $answer->name;
 
         $str = $this->_genAuthorHtml()." assessed the <a href='$answerUrl'>$answerName</a>";
-        return "<div class='alert-assessed-answer'>$str</div>";
+        return "<div class='alert alert-assessed-answer'>$str</div>";
     }
     
     //tested
@@ -178,7 +178,7 @@ class Activity extends BaseActivity
         $exampleName = $example->name;
         
         $str = $this->_genAuthorHtml()." created example <a href='$exampleUrl'>$exampleName</a>";
-        return "<div class='alert-created-example'>$str</div>";
+        return "<div class='alert alert-created-example'>$str</div>";
     }
     
     //tested
@@ -187,7 +187,7 @@ class Activity extends BaseActivity
         $url = $question->getUrl();
         
         $str = $this->_genAuthorHtml()." created a question(<a href='$url'>".$question->name."</a>)";
-        return "<div class='alert-created-question'>$str</div>";
+        return "<div class='alert alert-created-question'>$str</div>";
     }
     
     //tested
@@ -199,7 +199,7 @@ class Activity extends BaseActivity
         $questionName = $question->name;
         
         $str = $this->_genAuthorHtml()." answered question <a href='$questionUrl'>$questionName</a>";
-        return "<div class='alert-question-answered'>$str</div>";
+        return "<div class='alert alert-question-answered'>$str</div>";
     }
     
     
@@ -223,7 +223,7 @@ class Activity extends BaseActivity
         $verb = $vote->vote_value > 0 ? 'agrees' : 'disagrees';
         
         $str = $this->_genAuthorHtml()." $verb that <a href='$exampleUrl'>$exampleName</a> relates to '$conceptName'";
-        return "<div class='alert-voted-example'>$str</div>";
+        return "<div class='alert alert-voted-example'>$str</div>";
     }
     
     //tested
@@ -247,7 +247,7 @@ class Activity extends BaseActivity
         $verb = $vote->vote_value > 0 ? 'agrees' : 'disagrees';
         
         $str = $this->_genAuthorHtml()." $verb that <a href='$questionUrl'>$questionName</a> relates to '$conceptName'";
-        return "<div class='alert-vote-question-concept'>$str</div>";
+        return "<div class='alert alert-vote-question-concept'>$str</div>";
     }
     //tested
     public function toStringVotedOnExampleQuestion(){
@@ -264,7 +264,7 @@ class Activity extends BaseActivity
         
         $str = $this->_genAuthorHtml()." tagged question <a href='$questionUrl'>$questionName</a> with '$conceptName'";
         
-        return "<div class='alert-tagged-question'>$str</div>";
+        return "<div class='alert alert-tagged-question'>$str</div>";
     }
     public function toStringTaggedExampleWithConcept(){
         $example = Doctrine::getTable('Example')->find($this->i1);
@@ -277,7 +277,7 @@ class Activity extends BaseActivity
         
         $str = $this->_genAuthorHtml()." tagged example <a href='$exampleUrl'>$exampleName</a> with '$conceptName'";
         
-        return "<div class='alert-tagged-example'>$str</div>";
+        return "<div class='alert alert-tagged-example'>$str</div>";
     }    
     
     

@@ -116,108 +116,65 @@ border:1px solid #ccc;
     padding: 3px 2px 3px 6px;
 }   
 
+
+/* ALERT STYLES */
+.alert {
+    float: left;
+    width: 100%;
+    padding: 2px 0 2px 0;
+	text-indent: 30px;
+}
+
 .alert-created-example{
     background: #adbbd2;
-    float: left;
-    width: 88%; /*allow room for [x] button*/
-    padding: 2px 1px 2px 2px;
-    margin: 2px 5px 2px 2px;
 }
 
 .alert-created-question{
     background: #adbbd2;
-    float: left;
-    width: 88%; /*allow room for [x] button*/
-    padding: 2px 1px 2px 2px;
-    margin: 2px 5px 2px 2px;
 }
 
 .alert-question{
     background: #adbbd2;
-    float: left;
-    width: 88%; /*allow room for [x] button*/
-    padding: 2px 1px 2px 2px;
-    margin: 2px 5px 2px 2px;
 }
 
 .alert-example  {
     background: #f3f5f8;
-    float: left;
-    width: 88%; /*allow room for [x] button*/
-    padding: 2px 1px 2px 2px;
-    margin: 2px 5px 2px 2px;
 }
 
 .alert-ok{
     background: #d0d8e5;
-    float: left;
-    width: 88%; /*allow room for [x] button*/
-    padding: 2px 1px 2px 2px;
-    margin: 2px 5px 2px 2px;
 }
 
 .alert-comment-example	{
 	background: #E4E9F0;
-	float: left;
-	width: 88%; /*allow room for [x] button*/
-	padding: 2px 1px 2px 2px;
-	margin: 2px 5px 2px 2px;
 }
 
 .alert-comment-answer  {
     background: #f3f5f8;
-    float: left;
-    width: 88%; /*allow room for [x] button*/
-    padding: 2px 1px 2px 2px;
-    margin: 2px 5px 2px 2px;
 }
 
 .alert-comment-comment  {
     background: #f3f5f8;
-    float: left;
-    width: 88%; /*allow room for [x] button*/
-    padding: 2px 1px 2px 2px;
-    margin: 2px 5px 2px 2px;
 }
 
 .alert-voted-comment{
     background: #d0d8e5;
-    float: left;
-    width: 88%; /*allow room for [x] button*/
-    padding: 2px 1px 2px 2px;
-    margin: 2px 5px 2px 2px;
 }
 
 .alert-voted-example{
     background: #d0d8e5;
-    float: left;
-    width: 88%; /*allow room for [x] button*/
-    padding: 2px 1px 2px 2px;
-    margin: 2px 5px 2px 2px;
 }
 
 .alert-voted-question{
     background: #d0d8e5;
-    float: left;
-    width: 88%; /*allow room for [x] button*/
-    padding: 2px 1px 2px 2px;
-    margin: 2px 5px 2px 2px;
 }
 
 .alert-voted-question-concept {
 	background: #d0d8e5;
-    float: left;
-    width: 88%; /*allow room for [x] button*/
-    padding: 2px 1px 2px 2px;
-    margin: 2px 5px 2px 2px;
 }
 
 .alert-voted-answer-concept {
-	background: #d0d8e5;
-    float: left;
-    width: 88%; /*allow room for [x] button*/
-    padding: 2px 1px 2px 2px;
-    margin: 2px 5px 2px 2px;
+	background: #d0d8e5;    
 }
 
 .alert-assessed-comment {
@@ -234,70 +191,40 @@ border:1px solid #ccc;
 
 .alert-voted-example-concept { 
 	background: #d0d8e5;
-    float: left;
-    width: 88%; /*allow room for [x] button*/
-    padding: 2px 1px 2px 2px;
-    margin: 2px 5px 2px 2px;
 }
 
 .alert-question-answered{
     background: #d0d8e5;
-    float: left;
-    width: 88%; /*allow room for [x] button*/
-    padding: 2px 1px 2px 2px;
-    margin: 2px 5px 2px 2px;
 }
 
 .alert-tagged-example{
     background: #d0d8e5;
-    float: left;
-    width: 88%; /*allow room for [x] button*/
-    padding: 2px 1px 2px 2px;
-    margin: 2px 5px 2px 2px;
 }
 
 .alert-tagged-question{
-    background: #d0d8e5;
-    float: left;
-    width: 88%; /*allow room for [x] button*/
-    padding: 2px 1px 2px 2px;
-    margin: 2px 5px 2px 2px;
+    background: #d0d8e5;    
 }
 
 .alert-created{
     background: #adbbd2;
-    float: left;
-    width: 88%; /*allow room for [x] button*/
-    padding: 2px 1px 2px 2px;
-    margin: 2px 5px 2px 2px;
 }
 
 .alert-completed{
     background: green;
 }
 
-.alert {
-    background: #d0d8e5;
-    float: left;
-    width: 88%; /*allow room for [x] button*/
-    padding: 2px 1px 2px 2px;
-    margin: 2px 5px 2px 2px;
-}
-
 .alert-close-btn{
+	position: relative;
+	display: block;
+    width: 20px;
     cursor: pointer;
     font-size: small;
-    display: block;
-    float: left;
-    width: 20px;
-    margin-right: 4px;
-    text-align: right;
-    padding-top: 2px;
 }
-/*.alert-close-btn:hover{
-    background-color: red;
-}*/
-
+.alert-close-btn img {
+	position:absolute;
+	top: 5px;
+	left: 4px;
+}
 
 #login-form{
     border: 2px solid #000000;
@@ -650,7 +577,7 @@ body {
     /*margin-left: 2em;*/
     overflow: auto;
     float:left;
-    margin: 2px 0px;
+/*    margin: 2px 0px;*/
 
 }
 /*.dashlet-box li:hover {

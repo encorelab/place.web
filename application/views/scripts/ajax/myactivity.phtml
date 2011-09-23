@@ -3,7 +3,7 @@
 <?php 
 foreach ($this->activities as $activity)
 {
-	echo "<li>".$activity->getMessage()."<span class='alert-close-btn' activityId='{$activity->id}'>[x]</span></li>";
+	echo "<li><span class='alert-close-btn' activityId='{$activity->id}'><img src='/images/icon_close.png' /></span>".$activity->getMessage()."</li>";
 }
 ?>
 	</ul>

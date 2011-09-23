@@ -82,19 +82,9 @@ class Activity extends BaseActivity
     
 
     public function toStringVotedOnComment() {
-        //$vote = Doctrine::getTable("Vote")->find($this->i3);
         $comment = Doctrine::getTable("Comment")->find($this->i2);
-        //$example = Doctrine::getTable("Example")->find($this->i1);
-        
-        // $commentable = Doctrine::getTable('Commentable')->find(Commentable::COMMENT);
-        // $objectCommentedOn = Doctrine::getTable($commentable->object)->find($comment->obj_id);
-        // $url = $objectCommentedOn->getUrl();
-        //$verb = $vote->vote_value > 0 ? "up" : "down";
-        
-        //$str = $this->_genAuthorHtml()." voted $verb a <a href=''>comment</a> **needs fix**";
 
-
-		// temp fixed by Anto
+		// temp fixed by Anto, needs fix to work with arbitrary objects commented on
         $str = $this->_genAuthorHtml()." voted on a <a href='/example/show?id=".$this->i1."'>comment</a>"; 
         
         return "<div class='alert-voted-comment'>$str</div>";
@@ -148,7 +138,15 @@ class Activity extends BaseActivity
     }
     
     public function toStringAssessedComment() {
-		$str = $this->_genAuthorHtml()." assessed a comment";
+		// example, comment, assessment
+		$commentOn = Doctrine::getTable($this->s1)->find($this->i1);
+		$comment = Doctrine::getTable("Comment")->find($this->i2);
+		$assessment = Doctrine::getTable("Assessment")->find($this->i3);
+		
+		$commentOnUrl = $commentOn->getUrl();
+		$commentOnName = $commentOn->name;
+		
+		$str = $this->_genAuthorHtml()." assessed a comment made on <a href='$commentOnUrl'>$commentOnName</a>";
         return "<div class='alert-assessed-comment'>$str</div>";
     }
     

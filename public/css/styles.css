@@ -121,9 +121,11 @@ border:1px solid #ccc;
 .alert {
     float: left;
     width: 100%;
-    padding: 2px 0 2px 0;
+    padding: 7px 0;
 	text-indent: 30px;
 	font-size: small;
+	background: white;
+	border-top: 1px solid lightGrey;
 }
 
 .alert-created-example{
@@ -222,9 +224,12 @@ border:1px solid #ccc;
 }
 .alert-close-btn img {
 	position:absolute;
-	top: 3px;
-	left: 3px;
+	top: 9px;
+	left: 5px;
 }
+
+
+
 
 #login-form{
     border: 2px solid #000000;
@@ -468,7 +473,7 @@ li.header-li a{
 }
 
 .dashlet-box {
-    background: none repeat scroll 0 0 #F6F6F6;
+    background: none repeat scroll 0 0 #DBDBDB;
     border: 1px solid #000000;
     border-radius: 6px 6px 6px 6px;
     box-shadow: 1px 1px 3px;
@@ -476,7 +481,6 @@ li.header-li a{
     margin-bottom: 1em;
     margin-right: 1em;
     overflow: hidden;
-    padding: 0.5em;
 }
 
 .scrollable  {
@@ -502,8 +506,7 @@ li.header-li a{
     color: #333333;
     font-size: 1em;
     font-weight: bold;
-    margin-bottom: 0.5em;
-    padding-bottom: 5px;
+	padding: 5px 10px;
     text-align: left;
 }
 

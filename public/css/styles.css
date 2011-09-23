@@ -11,7 +11,8 @@
 }
 
 #my-homework{
-    height: 200px;
+	min-height: 100px;
+    max-height: 250px;
 }
 
 #my-homework-feed{
@@ -232,8 +233,8 @@ border:1px solid #ccc;
 }
 .alert-close-btn img {
 	position:absolute;
-	top: 9px;
-	left: 5px;
+	top: 10px;
+	left: 10px;
 }
 
 

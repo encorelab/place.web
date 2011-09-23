@@ -11,7 +11,7 @@
 }
 
 #my-homework{
-    max-height: 250px;
+    height: 200px;
 }
 
 #my-homework-feed{
@@ -20,6 +20,7 @@
 }
 
 #my-updates{
+	min-height: 100px;
     max-height: 250px;
 }
 
@@ -29,6 +30,7 @@
 }
 
 #my-recent-activity{
+	min-height: 100px;
     max-height: 250px;
 }
 
@@ -38,6 +40,7 @@
 }
 
 #recent-class-activity{
+	min-height: 100px;
     max-height: 250px;
 }
 
@@ -554,7 +557,7 @@ li.header-li a{
 
 body {
     margin: 0;
-    font-family: Tahoma, Verdana, Helvetica, sans-serif;
+    font-family: 'MS Sans Serif', Tahoma, Verdana, Helvetica, sans-serif;
     font-size: 1em;
     color: #333333;
     background: #333333;

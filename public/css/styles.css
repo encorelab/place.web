@@ -503,7 +503,6 @@ li.header-li a{
 }
 
 .dashlet-box-simple{
-    border: 1px solid #000000;
     color: #333333;
     margin-bottom: 1em;
     margin-right: 1em;
@@ -730,7 +729,7 @@ div.jp-video-270p {
 	font-size: 1.3em;
 	padding: 0.4em;
 	text-align: center;
-
+	color: #ADBBD2;
 }
 
 #orig-reply-container

@@ -5,12 +5,13 @@ class QuestionController extends Zend_Controller_Action
 
     public function init()
     {
-        /* check session var */
-    	if(!$_SESSION['access'])
+            /* check session var */
+    	if(!isset($_SESSION['access']))
     	{
     		header('Location: /');
+    		exit;
     	}
-    }
+	}
 
     public function indexAction()
     {
@@ -332,18 +333,10 @@ public function addanswerAction(){
 			//$question_comment->date_modified = date( 'Y-m-d H:i:s');
 			$activity->date_created = date( 'Y-m-d H:i:s');
 			$activity->activity_type_id = 12;
-			//$activity->activity_on_user
 			
 			$activity->i1 = $question->id;
-			$activity->i2 = "";
-			$activity->i3 = "";
-			$activity->i4 = "";
-			$activity->i5 = "";
-			$activity->s1 = "";
-			$activity->s2 = "";
-			$activity->s3 = "";
-			$activity->t1 = "Questions";
-			$activity->t2 = "";
+			$activity->s1 = "Question"; // fixed!
+			$activity->t1 = "Question Added"; // fixed!
 	
 			$activity->save();
         }

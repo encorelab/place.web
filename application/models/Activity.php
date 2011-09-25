@@ -255,8 +255,13 @@ class Activity extends BaseActivity
     }
     public function toStringTaggedQuestionWithConcept(){
         $question = Doctrine::getTable('Question')->find($this->i1);
-        $questionConcept = Doctrine::getTable('QuestionConcept')->find($this->i2);
-        $concept = Doctrine::getTable('Concept')->find($questionConcept->concept_id);
+        //$questionConcept = Doctrine::getTable('QuestionConcept')->find($this->i2);
+        // anto fixed
+        $questionConcept = Doctrine::getTable('QuestionConcept')->find($this->i3);
+        
+        //$concept = Doctrine::getTable('Concept')->find($questionConcept->concept_id);
+        // anto fixed
+        $concept = Doctrine::getTable('Concept')->find($this->i2);
         
         $questionUrl = $question->getUrl();
         $questionName = $question->name;
@@ -268,8 +273,13 @@ class Activity extends BaseActivity
     }
     public function toStringTaggedExampleWithConcept(){
         $example = Doctrine::getTable('Example')->find($this->i1);
-        $exampleConcept = Doctrine::getTable('ExampleConcept')->find($this->i2);
-        $concept = Doctrine::getTable('Concept')->find($exampleConcept->concept_id);
+        //$exampleConcept = Doctrine::getTable('ExampleConcept')->find($this->i2);
+        // anto fixed
+        $exampleConcept = Doctrine::getTable('ExampleConcept')->find($this->i3);
+        
+        //$concept = Doctrine::getTable('Concept')->find($exampleConcept->concept_id);
+        // anto fixed
+        $concept = Doctrine::getTable('Concept')->find($this->i2);
         
         $exampleUrl = $example->getUrl();
         $exampleName = $example->name;

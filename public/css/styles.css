@@ -737,3 +737,10 @@ div.jp-video-270p {
 	margin-top:1em;
 	width:600px;
 }
+
+.answer-mc{
+    background: none repeat scroll 0 0 #FFF;
+    border: 1px dashed #000000;
+    float: right;
+    padding: 0.5em 1em 0.5em 1em;
+}

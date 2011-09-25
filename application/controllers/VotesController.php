@@ -4,12 +4,13 @@ class VotesController extends Zend_Controller_Action
 
     public function init()
     {
-        /* check session var */
-    	if(!$_SESSION['access'])
+            /* check session var */
+    	if(!isset($_SESSION['access']))
     	{
     		header('Location: /');
+    		exit;
     	}
-    }
+	}
 
     public function indexAction()
     {

@@ -5,12 +5,13 @@ class AssessmentController extends Zend_Controller_Action
 
     public function init()
     {
-        /* check session var */
-    	if(!$_SESSION['access'])
+            /* check session var */
+    	if(!isset($_SESSION['access']))
     	{
     		header('Location: /');
+    		exit;
     	}
-    }
+	}
 
     public function indexAction()
     {
@@ -64,7 +65,7 @@ class AssessmentController extends Zend_Controller_Action
 			
 		foreach ($assessList as $elementId)
 		{
-			// check if a mark was send for this element (e.g. comment, answer id) 
+			// check if a mark was sent for this element (e.g. comment, answer id) 
 			// if not, the element will remain without assessment: save practice ;)
 			if(isset($params['mark_'.$elementId]) && $elementId!="")
 			{
@@ -74,7 +75,7 @@ class AssessmentController extends Zend_Controller_Action
 				$mark = $params['mark_'.$elementId];
 				$activity_on_user=$params['author_id_'.$elementId];
 				
-				$assessment_id=$this->addAssessment($obj_id, $params['obj_type'], $mark, $aReview->id);
+				$assessment_id = $this->addAssessment($obj_id, $params['obj_type'], $mark, $aReview->id);
 				$i3=$assessment_id;
 				
 				//echo "<hr>assessment_id:".$assessment_id;

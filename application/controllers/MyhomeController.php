@@ -73,14 +73,18 @@ class MyhomeController extends Zend_Controller_Action
         }
         
         // sum up all the votes for the user comments found
-        $votes = Doctrine_Query::create()
+        $votes1 = Doctrine_Query::create()
                     ->select("sum(vote_value) as vote_sum")
                     ->from("Vote")
                     ->whereIn("obj_id", $questionConceptIds)
                     ->andWhere("obj_type = ?", Votable::$QUESTION_CONCEPT)
                     ->execute();
-                    
-        $questionConceptScore = $votes[0]['vote_sum'];
+
+        if (count($votes1) == 0){
+            $questionConceptScore = 0;
+        } else {
+        	$questionConceptScore = $votes1[0]['vote_sum'];
+        }
         
     	// get all user's ExampleConcept
         $exampleConcepts = Doctrine::getTable("ExampleConcept")
@@ -96,15 +100,18 @@ class MyhomeController extends Zend_Controller_Action
         }
         
         // sum up all the votes for the user comments found
-        $votes = Doctrine_Query::create()
+        $votes2 = Doctrine_Query::create()
                     ->select("sum(vote_value) as vote_sum")
                     ->from("Vote")
                     ->whereIn("obj_id", $exampleConceptIds)
                     ->andWhere("obj_type = ?", Votable::$EXAMPLE_CONCEPT)
                     ->execute();
 
-        
-        $exampleConceptScore = $votes[0]['vote_sum'];
+        if (count($votes2) == 0){
+            $exampleConceptScore = 0;
+        } else {
+        	$exampleConceptScore = $votes2[0]['vote_sum'];
+        }
         
         
         // test each score

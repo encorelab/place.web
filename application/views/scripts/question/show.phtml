@@ -29,9 +29,9 @@ if($this->type==-2)
 }
 
 /*
- * multiple view
+ * multiple view :: prevents student from seeing unpublished questions 
  */
-if($this->type==0 && !$error)
+if($this->type==0 && !$error && $_SESSION['profile']=="TEACHER")
 {
 	$questionsListHtml="
 	<h2>Questions</h2>
@@ -66,7 +66,6 @@ if($this->type==0 && !$error)
 	<div id="elo-tags" class="dashlet-box">
 		<div class="dashlet-title">Tags</div>
 		<div id="tags-container">
-		<?php //print_r($myContentArray[0]['tags']);?>
 			<ul class="ul-for-data">
 			<?php
 			$Myconcepts=getConcepts($this->question[0]['id']);
@@ -81,55 +80,8 @@ if($this->type==0 && !$error)
 	<!-- /tags-container -->
 
 	<!-- media container -->
-	<div class="dashlet-box">
+	<div class="dashlet-box-image">
 		<div class="dashlet-title"><?php echo $this->question[0]['name']?></div>
-	<?php 
-	// update status 
-	if($_SESSION["profile"]=="TEACHER" && $this->question[0]['is_published']==0)
-	{
-	?>
-	<div id="updatestatus-container">
-		<form method="post" action="/question/updatestatus">
-			<input type="hidden" id="question_id"  name="question_id" value="<?php echo $this->question[0]['id']?>"/>
-			<div>
-				<span class="item-label">Name: </span>
-				<span class="item-input"><input type="text" name="name" value = "<?php echo $this->question[0]['name']?>"/></span> 
-			</div>
-			<br/>
-			<div>
-			<span class="item-label">Published: </span>
-			<span class="item-input">
-				<select name="is_published">
-					<option value="1"<?php if($this->question[0]['is_published']==1) { echo "selected"; }?>>Yes</option>
-					<option value="0"<?php if($this->question[0]['is_published']==0) { echo "selected"; }?>>No</option>
-				</select>
-			</span>
-			</div>
-			<div>
-			<br/>
-			<textarea cols="25" name="content"><?php echo $this->question[0]['content'];?></textarea>
-			</div>
-			<br/>
-			<?php
-			/* 
-			<span class="item-label">Published: </span>
-			<span class="item-input">
-				<select name="is_public">
-					<option value="1"<?php if($this->question[0]['is_public']==1) { echo "selected"; }?>>Yes</option>
-					<option value="0"<?php if($this->question[0]['is_public']==0) { echo "selected"; }?>>No</option>
-				</select>
-			 </span>
-			 */
-			 ?>
-			 <input type="submit" value="Update Question">
-		</form>
-		<br/>
-	</div>
-	<?php
-	} // end if teacher
-	?>
-
-	
 	<?php
 		// MIKE'S CODE TO MAKE THE UPLOAD VIEW WORK //////////////////////////// 
 		$mediaFile = current($this->question);
@@ -210,24 +162,20 @@ if($this->type==0 && !$error)
                                     });
 		</script>
 			';
-			// ANTONIO ADDED THIS TO FIX ADD SOME SPACE AFTER 
-			/// WELL DONE MIKE!!
 			echo "<br/>";
 			
 		} else { 
 
-echo '
-	
-	<img src="'.$mediaFile['media_content'].'" title="'.$this->question[0]['name'].'" width="320" />
-';
+			echo '
+			<div class="image-holder">
+				<img src="'.$mediaFile['media_content'].'" alt="'.$this->question[0]['name'].'" width="350" />
+			</div>';
 		}
 		//<img  height="240px" title="Drag and Drop a new Media File here..." alt="Drag and Drop a new Media File here..." src="/images/uploader.png" id="eloimg">
 		?>	
 	</div> 
 	<!-- /media container -->
-	
-	<div class="clear"></div>
-	
+
 	<div id="question-content">
 	<?php 
 		echo $this->question[0]['content'];
@@ -235,24 +183,76 @@ echo '
 	</div>
 	
 	<?php 
+	// update status 
+	if($_SESSION["profile"]=="TEACHER" && $this->question[0]['is_published']==0)
+	{
+	?>
+	<div id="updatestatus-container">
+		<form method="post" action="/question/updatestatus">
+			<input type="hidden" id="question_id"  name="question_id" value="<?php echo $this->question[0]['id']?>"/>
+			<div>
+				<span class="item-label">Name: </span>
+				<span class="item-input"><input type="text" name="name" value = "<?php echo $this->question[0]['name']?>"/></span> 
+			</div>
+			<br/>
+			<div>
+			<span class="item-label">Published: </span>
+			<span class="item-input">
+				<select name="is_published">
+					<option value="1"<?php if($this->question[0]['is_published']==1) { echo "selected"; }?>>Yes</option>
+					<option value="0"<?php if($this->question[0]['is_published']==0) { echo "selected"; }?>>No</option>
+				</select>
+			</span>
+			</div>
+			<div>
+			<br/>
+			<textarea cols="25" name="content"><?php echo $this->question[0]['content'];?></textarea>
+			</div>
+			<br/>
+			<?php
+			/* 
+			<span class="item-label">Published: </span>
+			<span class="item-input">
+				<select name="is_public">
+					<option value="1"<?php if($this->question[0]['is_public']==1) { echo "selected"; }?>>Yes</option>
+					<option value="0"<?php if($this->question[0]['is_public']==0) { echo "selected"; }?>>No</option>
+				</select>
+			 </span>
+			 */
+			 ?>
+			 <input type="submit" value="Update Question">
+		</form>
+		<br/>
+	</div>
+	<?php
+	} // end if teacher && question not published
+	?>
+	
+<!-- 
+	<div class="clear"></div>
+-->
+
+	<?php 
+	$answerIsEmptyMsg="";
+	
 	if($_SESSION["profile"]=="TEACHER")
 	{
-		echo "<h3>Answers</h3>";
+		$answerTitle = '<div class="dashlet-title">Answers</div>';
 		if($totAnswers==0)
 		{
-			echo "<p>There are no answers</p>";	
+			$answerIsEmptyMsg = '<div class="no-results">There are no answers</div>';	
 		}
 		
 	} else if($_SESSION["profile"]=="STUDENT") {
-		echo "<h3>My Answer</h3>";
+		$answerTitle = 'My Answer';
 	}
 	?>
 	
 	<!-- answers-container -->
 	<div id="answers-container">
 
-		<!-- assessment answer form -->
-		<form name="assessment-form" method="post" action="/assessment/add?prefix=assessAnsw_">			
+		<!-- /assessment answer form -->
+		<form name="assessment-form" method="post" action="/assessment/add?prefix=assessAnsw_">
 
 	<?php
 	//loop through the answers
@@ -268,41 +268,48 @@ echo '
 			$myAnswerCss="";
 			$isMy=false;
 		}
-	
-		$answersHtml.='
-		<div id="answer' . $answer['id'] . '" class="answer-item '.$myAnswerCss.'">
+
+	// start answer item
+	$answersHtml.='
+	<div id="answer' . $answer['id'] . '" class="answer-item '.$myAnswerCss.'">
 		';
-		// assesment form
+
+		// answer MC
+		if($this->question[0]['type'] == "MC" )
+		{
+			$answersHtml.= '<div class="answer-mc">'.$answer['mc_chocie'].'</div>';
+		}
+	
+		// assesment form or grade if not graded
 		if($_SESSION["profile"]=="TEACHER" || $isMy)
 		{
 			$answersHtml  .=''.checkHasAssessment($answer['author_id'], $answer['id'], 2); // obj_type = 2 answers in assessable
 		} 
-
 		// content
 		if(isset($this->answer[0]['content']))
 		{
 			$answersHtml.='<div class="answer-content">'.$answer['content'].'</div>'; 
 		}
-		// answer
-		if($this->question[0]['type'] == "MC" )
-		{
-			$answersHtml.= '<div class="answer-mc">Multiple Choice: '.$answer['mc_chocie'].'</div>';
-		}
 		
 		// user name
-		$answersHtml .='<div class="answer-username">'.getUserName($answer['author_id']).'</div>';
+		$answersHtml .='
+		<div class="answer-user_name">
+			<span>Answered by:</span>
+			<a href="#">'.getUserName($answer['author_id']).'</a>
+		</div>';
 		
-		$answersHtml.='
-		</div>
+	// end answer item
+	$answersHtml.='
+	</div>
 		';
+
 	} // end loop answers	
-	
+
 	echo $answersHtml;
 	?>
-	<div class="clear"></div>
 	<?php
 	// controls for submiting marks 
-	if($_SESSION['profile']=="TEACHER")
+	if($_SESSION['profile']=="TEACHER" && $this->question[0]['is_published']==1)
 	{
 	?>
 		<input type="hidden" value="2" name="obj_type"> <!-- 2=answer-->
@@ -314,10 +321,17 @@ echo '
 		<input type="hidden" name="assessAnsw_s2" value="Answer" >
 		<input type="hidden" name="assessAnsw_s3" value="Assessment" >
 		<input type="hidden" name="assessAnsw_t1" value="Assessment on Answer" >
-        	        			
+<?php 
+// show "Submit Marks" button only if there are answers to be assessed 
+if($notAssessedItems!="")
+{
+?>        	        			
 		<div id="btn_submit_marks" class="div-show">
 			<input id="btn_submit_marks" type="button" value="Submit Marks" onclick="showAssessmentReview()">
 		</div>
+<?php 
+} // end if there are answers to be assessed
+?>
 		<div id="assessment-review-container" class="dashlet-box div-hide">
 			<div class="dashlet-title">Assessment Review</div>
 			<textarea name="review-log" rows="" cols="" name="assessment_review"></textarea>
@@ -328,11 +342,11 @@ echo '
 <?php 
 	} // end if teacher
 ?>
-</div>
-<!-- /answers-container -->
-
 	</form>
 	<!-- /assessment answer form -->
+</div>
+<!-- /answers-container -->
+	
 	
 	<?php 
 	if($_SESSION["profile"]=="STUDENT" && !isset($this->answer[0]))
@@ -341,8 +355,7 @@ echo '
 	<!-- submit answer form -->
 	<div id="answer-question-container">
 		<form method="post" action="/question/addanswer?prefix=answ_">
-			<input type="hidden" id="question_id"  name="question_id" value="<?php echo $this->question[0]['id']?>"/>
-			<?php 
+		<?php 
 			// add here the posible answers when the elo is a multiple choice
 			///*
 			if($this->question[0]['type'] == "MC" )
@@ -363,10 +376,16 @@ echo '
 			}
 			//*/
 			?>
+		<div  class="dashlet-box html-editor">
+			<div class="dashlet-title"><?php echo $answerTitle ?></div>
+	
+
+			<input type="hidden" id="question_id"  name="question_id" value="<?php echo $this->question[0]['id']?>"/>
 			<textarea name="content"></textarea>
 			<br/><input type="submit" value="Save Answer">
+			</div>
 		</form>
-		</div>
+	</div>
 		<!-- /submit answer form -->
 	
 	<?php 	
@@ -399,7 +418,7 @@ echo '
 	<input type="hidden" name="taggqe_s1" id="taggqe_s1" value="Question"/>
 	<input type="hidden" name="taggqe_s2" id="taggqe_s2" value="Concept"/>
 	<input type="hidden" name="taggqe_s3" id="taggqe_s3" value="QuestionConcept"/>
-	<input type="hidden" name="taggqe_t1" id="taggqe_t1" value="Tagg Example with a Concept"/>
+	<input type="hidden" name="taggqe_t1" id="taggqe_t1" value="Tagg Question with a Concept"/>
 		
 	
 <?php 
@@ -629,11 +648,6 @@ function analyzeTags($tags, $prefix="")
 
 	//print_r($currentConcepts);
 	//print_r($notIncludedConcepts);
-	
-	$notIncludedConceptsHtml = "
-	<li> &nbsp; 
-	</li>
-	";
 	
 	// not included tags
 	foreach ($notIncludedConcepts as $diffTagId => $diffTagVal)

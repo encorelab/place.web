@@ -6,9 +6,10 @@ class TagsController extends Zend_Controller_Action
     public function init()
     {
         /* check session var */
-    	if(!$_SESSION['access'])
+    	if(!isset($_SESSION['access']))
     	{
     		header('Location: /');
+    		exit;
     	}
     }
 
@@ -64,8 +65,7 @@ class TagsController extends Zend_Controller_Action
 				$example_concept->save();
 				
 				//echo "<br>Example_concept Id: ".$example_concept->id;
-				
-				
+
 				// add activity log
 				$prefix=$params['prefix'];
 				$activity_type_id = $params[$prefix.'activity_type_id']; 
@@ -73,8 +73,8 @@ class TagsController extends Zend_Controller_Action
 				$i2 = $params['concept_id'];
 				$i3 = $example_concept->id;
 				$s1 = $params[$prefix.'s1'];
-				$s2 = $params[$prefix.'s1'];
-				$s3 = $params[$prefix.'s1'];
+				$s2 = $params[$prefix.'s2'];
+				$s3 = $params[$prefix.'s3'];
 				$t1 = $params[$prefix.'t1'];
 				$t2 = "";
 				
@@ -124,10 +124,10 @@ class TagsController extends Zend_Controller_Action
 				$i2 = $params['concept_id'];
 				$i3 = $question_concept->id;
 				$s1 = $params[$prefix.'s1'];
-				$s2 = $params[$prefix.'s1'];
-				$s3 = $params[$prefix.'s1'];
+				$s2 = $params[$prefix.'s2'];
+				$s3 = $params[$prefix.'s3'];
 				$t1 = $params[$prefix.'t1'];
-				$t2 = "";
+				$t2 = null;
 				
 				$this->addActivity($activity_type_id, $i1, $i2, $i3, $s1, $s2, $s3, $t1, $t2);
 				

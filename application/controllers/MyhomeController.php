@@ -46,10 +46,9 @@ class MyhomeController extends Zend_Controller_Action
                     ->andWhere("obj_type = ?", Votable::$COMMENT)
                     ->execute();
 
-        if (count($votes) == 0){
+        if (count($votes) == 0 || $votes[0]['vote_sum']==0){
             return 0;
         } else {
-        
         	return $votes[0]['vote_sum'];
         }
         //return $votes[0]['vote_sum'];
@@ -120,8 +119,10 @@ class MyhomeController extends Zend_Controller_Action
         
         $this->view->tagExampleScore=$exampleConceptScore;
         $this->view->tagQuestionScore=$questionConceptScore;
+        $tagScoreTot = $questionConceptScore+$exampleConceptScore;
         
-        $this->view->tagScore=$questionConceptScore+$exampleConceptScore;
+        //$this->view->tagScore = $tagScoreTot;
+        return $tagScoreTot;
         
     }
         

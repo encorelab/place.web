@@ -566,7 +566,25 @@ function getCommentById($id,$prefix="")
 					'.$votesCount['votesPlus'].'
 				</div> 
 			</div>';
-	} // end if
+	} else {
+		
+		// show the author the votes only
+	// votes container 
+	$repliesHtml .='
+			<div class="votes-container" style="float:right;">
+				<div id="'.$prefix.'vote-loading-'.$id.'"></div> 
+				<div id="'.$prefix.'vote-minus-'.$id.'" class="vote-minus-plus">
+					'.$votesCount['votesMinus'].'
+				</div> 
+				<div id="'.$prefix.'vote-total-'.$id.'" class="vote-total">
+					'.$votesCount['votesSumm'].'
+				</div> 
+				<div id="'.$prefix.'vote-plus-'.$id.'" class="vote-minus-plus">
+					'.$votesCount['votesPlus'].'
+				</div> 
+			</div>';
+	
+	}// end if
 	
 	// comment content
 	$repliesHtml .='<div id="comment' . $id  . '">				

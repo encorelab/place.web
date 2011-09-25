@@ -165,7 +165,7 @@ class Activity extends BaseActivity
 		$question = Doctrine::getTable("Question")->find($answer->question_id);
 		
 		$questionUrl = $question->getUrl();
-        $questionName = $quesetion->name;
+        $questionName = $question->name;
 
         $str = $this->_genAuthorHtml()." assessed the answer <a href='$questionUrl'>$questionName</a>";
         return "<div class='alert alert-assessed-answer'>$str</div>";

@@ -120,8 +120,10 @@ class MyhomeController extends Zend_Controller_Action
         
         $this->view->tagExampleScore=$exampleConceptScore;
         $this->view->tagQuestionScore=$questionConceptScore;
+        $tagScoreTot = $questionConceptScore+$exampleConceptScore;
         
-        $this->view->tagScore=$questionConceptScore+$exampleConceptScore;
+        //$this->view->tagScore = $tagScoreTot;
+        return $tagScoreTot;
         
     }
         

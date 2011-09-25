@@ -58,16 +58,17 @@ class MyhomeController extends Zend_Controller_Action
 
     
     public function calculateTagScore(){
-        // get all user's comments
-        $comments = Doctrine::getTable("QuestionConcept")
+        // get all user's QuestionConcept
+        $questionConcepts = Doctrine::getTable("QuestionConcept")
                     ->findByDql("author_id = ? AND run_id = ?", array($_SESSION['author_id'], $_SESSION['run_id']));
         
-        $commentIds = array();
-        foreach ($comments as $comment){
-            $commentIds[] = $comment->id;
+        $questionConceptIds = array();
+        
+        foreach ($questionConcepts as $questionConcept){
+            $questionConceptIds[] = $questionConcept->id;
         }
         
-        if (count($comments) == 0){
+        if (count($questionConcepts) == 0){
             return 0;
         }
         
@@ -75,33 +76,43 @@ class MyhomeController extends Zend_Controller_Action
         $votes = Doctrine_Query::create()
                     ->select("sum(vote_value) as vote_sum")
                     ->from("Vote")
-                    ->whereIn("obj_id", $commentIds)
+                    ->whereIn("obj_id", $questionConceptIds)
                     ->andWhere("obj_type = ?", Votable::$QUESTION_CONCEPT)
                     ->execute();
                     
         $questionConceptScore = $votes[0]['vote_sum'];
         
-    	// get all user's comments
-        $comments = Doctrine::getTable("ExampleConcept")
+    	// get all user's ExampleConcept
+        $exampleConcepts = Doctrine::getTable("ExampleConcept")
                     ->findByDql("author_id = ? AND run_id = ?", array($_SESSION['author_id'], $_SESSION['run_id']));
         
 //        print_r($comments);
         
-        $commentIds = array();
-        foreach ($comments as $comment){
-            $commentIds[] = $comment->id;
+
+        $exampleConceptIds = array();
+        
+        foreach ($exampleConcepts as $exampleConcept){
+            $exampleConceptIds[] = $exampleConcept->id;
         }
         
         // sum up all the votes for the user comments found
         $votes = Doctrine_Query::create()
                     ->select("sum(vote_value) as vote_sum")
                     ->from("Vote")
-                    ->whereIn("obj_id", $commentIds)
+                    ->whereIn("obj_id", $exampleConceptIds)
                     ->andWhere("obj_type = ?", Votable::$EXAMPLE_CONCEPT)
                     ->execute();
 
         
         $exampleConceptScore = $votes[0]['vote_sum'];
+        
+        
+        // test each score
+       // echo "<hr>example_concept score: ". $exampleConceptScore;
+       // echo "<hr>question_concept score: ". $questionConceptScore;
+        
+        $this->view->tagExampleScore=$exampleConceptScore;
+        $this->view->tagQuestionScore=$questionConceptScore;
         
         $this->view->tagScore=$questionConceptScore+$exampleConceptScore;
         

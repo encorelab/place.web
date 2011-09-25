@@ -166,7 +166,7 @@ class Activity extends BaseActivity
 		$answerUrl = $answer->getUrl();
         $answerName = $answer->name;
 
-        $str = $this->_genAuthorHtml()." assessed the <a href='$answerUrl'>$answerName</a>";
+        $str = $this->_genAuthorHtml()." assessed the answer <a href='$answerUrl'>$answerName</a>";
         return "<div class='alert alert-assessed-answer'>$str</div>";
     }
     

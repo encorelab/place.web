@@ -13,7 +13,7 @@ foreach($this->answeredQuestions as $question)
     $answer = $question['Answer'][0];
     $url = $question->getUrl();
     echo "<li>
-			<span class='alert-close-btn' activityId='{$activity->id}'><img src='/images/icon_ok.png' /></span>
+			<span class='alert-close-btn'><img src='/images/icon_ok.png' /></span>
 			<div class='alert'>You've answered <a href='$url'>".$question->name."</a></div>
 		</li>"; 
 }

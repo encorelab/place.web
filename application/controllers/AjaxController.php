@@ -73,6 +73,14 @@ class AjaxController extends Zend_Controller_Action
 
     public function classactivityAction()
     {
+		$studentRepressedActivityTypes = array(
+			ActivityType::$ASSESSED_COMMENT, 
+			ActivityType::$ASSESSED_EXAMPLE, 
+			ActivityType::$ASSESSED_ANSWER,
+			ActivityType::$CREATED_QUESTION,
+			ActivityType::$ANSWERED_QUESTION
+		);
+		
         $q = new Doctrine_RawSql();
         $q	->select('{a.*}')
         	->from('Activity a')
@@ -84,6 +92,10 @@ class AjaxController extends Zend_Controller_Action
 							.$_SESSION['author_id'].' AND run_id = '.$_SESSION['run_id'].')')
         	->orderBy('a.id DESC');
     	
+		if ($_SESSION['profile'] == 'STUDENT'){
+			$q->andWhereNotIn('a.activity_type_id', $studentRepressedActivityTypes);
+		}
+
     	$activities = $q->execute();
     	
         $this->view->activities = $activities;

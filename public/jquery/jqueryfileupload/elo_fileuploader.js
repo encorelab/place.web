@@ -1032,11 +1032,11 @@ function checkQuestion() {
                 $( "#error-dialogue-text").html("<p>You must add to something (at least 5 characters) to the <strong>Content</strong> field for your question.</p>");
                 return false;
         }
-
-	
-
-
-	$("#addQuestion").submit();
+	else 
+		{
+		
+				$("#addQuestion").submit();
+		}
 }
 
 function checkExample() {
@@ -1068,16 +1068,16 @@ function checkExample() {
 		return false;
 	}
 	else if (thisContent.length < (5+7))
-        {
+    {
                 $( "#error-dialog" ).dialog( "open" );
                 $( "#error-dialogue-text").html("<p>You must add to something (at least 5 characters) to the <strong>Content</strong> field for your example.</p>");
                 return false;
-        }
-	/*
-		
+        } 
+	else 
+	{
+		$("#addExmple").submit();
+	}
 	
-	*/
-	$("#addExmple").submit();
 }
 
 

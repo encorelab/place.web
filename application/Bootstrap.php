@@ -13,45 +13,46 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     }
     
     protected function _initDoctrine()  
-      {
-         $manager = Doctrine_Manager::getInstance();
-          
-            // configure Doctrine
-            $manager->setAttribute(Doctrine_Core::ATTR_AUTO_ACCESSOR_OVERRIDE, true);			// forces Doctrine to load the model classes (non-base)
-            $manager->setAttribute(Doctrine_Core::ATTR_AUTOLOAD_TABLE_CLASSES, true);			// forces Doctrine to load the table classes
-            $manager->setAttribute(Doctrine_Core::ATTR_MODEL_LOADING, Doctrine_Core::MODEL_LOADING_CONSERVATIVE);		// loads data models lazyly 
-            $manager->setAttribute(Doctrine_Core::ATTR_USE_NATIVE_ENUM, true);					// uses the native ENUM type in DB, not a varchar
-            $manager->setAttribute(Doctrine_Core::ATTR_IDXNAME_FORMAT, '%s_idx');				// uses that format for creating indexes during migration          
+    {
+       $manager = Doctrine_Manager::getInstance();
+        
+          // configure Doctrine
+          $manager->setAttribute(Doctrine_Core::ATTR_AUTO_ACCESSOR_OVERRIDE, true);			// forces Doctrine to load the model classes (non-base)
+          $manager->setAttribute(Doctrine_Core::ATTR_AUTOLOAD_TABLE_CLASSES, true);			// forces Doctrine to load the table classes
+          $manager->setAttribute(Doctrine_Core::ATTR_MODEL_LOADING, Doctrine_Core::MODEL_LOADING_CONSERVATIVE);		// loads data models lazyly 
+          $manager->setAttribute(Doctrine_Core::ATTR_USE_NATIVE_ENUM, true);					// uses the native ENUM type in DB, not a varchar
+          $manager->setAttribute(Doctrine_Core::ATTR_IDXNAME_FORMAT, '%s_idx');				// uses that format for creating indexes during migration          
 
-         $config = $this->getOption('doctrine');
-         $conn = Doctrine_Manager::connection($config['dsn'], 'main');
-          
-          Doctrine_Core::loadModels(MODELS_PATH);
-          
-         return $conn;
-      }
+       $config = $this->getOption('doctrine');
+       $conn = Doctrine_Manager::connection($config['dsn'], 'main');
+        
+        Doctrine_Core::loadModels(MODELS_PATH);
+        
+       return $conn;
+    }
 
-      protected function _initRoutes()
-      {
-        $front = Zend_Controller_Front::getInstance();
-        $router = $front->getRouter();
-        $restRoute = new Zend_Rest_Route($front, array(), array('api'));
-        $router->addRoute('api', $restRoute);  
-      }
+    protected function _initRoutes()
+    {
+      $front = Zend_Controller_Front::getInstance();
+      $router = $front->getRouter();
+      $restRoute = new Zend_Rest_Route($front, array(), array('api'));
+      $router->addRoute('api', $restRoute);  
+    }
 
-      protected function _initCache()
-      {
-        // $this->bootstrap('cachemanager');
-        // $manager = $this->getResource('cachemanager');
-        // $memoryCache = $manager->getCache('memory');
-        // Zend_Locale::setCache($memoryCache);
-        // Zend_Translate::setCache($memoryCache);      
-      }
+    protected function _initCache()
+    {
+      // $this->bootstrap('cachemanager');
+      // $manager = $this->getResource('cachemanager');
+      // $memoryCache = $manager->getCache('memory');
+      // Zend_Locale::setCache($memoryCache);
+      // Zend_Translate::setCache($memoryCache);      
+    }
 
-      protected function _initSession()
-      {
-      	 Zend_Session::start();
-      }
-      
+    protected function _initSession()
+	{
+		$config = $this->getOption("resources");
+		Zend_Session::setOptions(array('save_path' => $config['session']['save_path']));
+		Zend_Session::start();
+    }
 }
 

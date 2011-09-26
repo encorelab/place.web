@@ -2,7 +2,7 @@
 class UserController extends Zend_Controller_Action
 {
 	private $params = array(); 		// parameters 
-	private $authMethod = "";	// authentication method
+	private $authMethod = "";		// authentication method
 
     public function init()
     {
@@ -11,14 +11,10 @@ class UserController extends Zend_Controller_Action
 		if(isset($PLACEWEB_CONFIG['authentication']))
 		{
 			$this->authMethod = $PLACEWEB_CONFIG['authentication'];
-			//echo "<hr/>";
-	    	//print_r($this->authMethod);
 		}
     	
     	$params = $this->getRequest()->getParams();
     	$this->params = $params;
-	    	//echo "<hr/>";
-	    	//print_r($this->params); 
     }
 
     public function indexAction()
@@ -47,13 +43,14 @@ class UserController extends Zend_Controller_Action
     	} else {
     		echo "<p>No authentication method.</p>";
     	}
-    	
-
     } // end loginAction()
     
     public function logoutAction()
     {
-
+		Zend_Session::destroy();
+		
+		return $this->_helper->redirector('index', 'index');
+		
     } // end logoutAction()
 
     public function addAction()
@@ -144,13 +141,12 @@ class UserController extends Zend_Controller_Action
                     	$localUser->user_type = strtoupper($auth['user']['kind']);
                     }
                     
-                    //print_r($auth);
-                    	$localUser->save();
+                    $localUser->save();
 
                 }else{
                     $localUser = $localUser[0];
                 }
-                
+
                 // setup session 
                 $_SESSION['access'] = true;
             	$_SESSION['username'] = $localUser->username;
@@ -159,8 +155,7 @@ class UserController extends Zend_Controller_Action
             	$_SESSION['user_display_name'] = $auth['user']['display_name'];
             	$_SESSION['author_id'] = $localUser->id;
             	$_SESSION['group_name'] = $localUser->group_name;
-
-            	//print_r($_SESSION);
+					
                 header('Location: /myhome');
             	
             }else{

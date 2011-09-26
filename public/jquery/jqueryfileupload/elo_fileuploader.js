@@ -1001,11 +1001,48 @@ $('#fileupload').fileupload({
 
 });
 
+
+function checkQuestion() {
+
+	var questionType = $("#question_type").val();
+	var multipleResponse = $("#mc-list").val();
+	var thisContent = tinyMCE.get('content').getContent();
+
+	if ($("#saved").val() == 0)
+        {
+                $( "#error-dialog" ).dialog( "open" );
+                $( "#error-dialogue-text").html("<p>Please wait for the file uploading to complete...</p>");
+                return false;
+        }
+	else if ($("#question-name").val().length < 3)
+        {
+                $( "#error-dialog" ).dialog( "open" );
+                $( "#error-dialogue-text").html("<p>You must enter a name (with at least 3 characters) in the <strong>Name</strong> field for your question.</p>");
+                return false;
+        }
+	else if (questionType == 'MC' && multipleResponse == 0)
+        {
+                $( "#error-dialog" ).dialog( "open" );
+                $( "#error-dialogue-text").html("<p>Please select an alphabetic value from the <strong>Mutiple Choices</strong> field for your question.</p>");
+                return false;
+        }
+	else if (thisContent.length < (5+7))
+        {
+                $( "#error-dialog" ).dialog( "open" );
+                $( "#error-dialogue-text").html("<p>You must add to something (at least 5 characters) to the <strong>Content</strong> field for your question.</p>");
+                return false;
+        }
+		
+	$("#addQuestion").submit();
+	
+}
+
 function checkExample() {
 
 	var isTagged = false;
+	var thisContent = tinyMCE.get('content').getContent();
 
-$('input:checkbox').each(function(){
+	$('input:checkbox').each(function(){
 	if ($(this).attr('checked'))
 		isTagged = true;
 	}) 
@@ -1028,11 +1065,13 @@ $('input:checkbox').each(function(){
 		$( "#error-dialogue-text").html("<p>You must select at least <strong>one</strong> Tag.</p>");		
 		return false;
 	}
-	/*
-		
-	
-	*/
-	$("#addExmple").submit();
+	else if (thisContent.length < (5+7))
+    {
+                $( "#error-dialog" ).dialog( "open" );
+                $( "#error-dialogue-text").html("<p>You must add to something (at least 5 characters) to the <strong>Content</strong> field for your example.</p>");
+                return false;
+    } 
+		$("#addExmple").submit();
 }
 
 

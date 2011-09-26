@@ -1,3 +1,21 @@
+<script>
+$(document).ready(function () {
+    'use strict';
+
+$( "#error-dialog" ).dialog({
+                        autoOpen: false,
+                        show: "",
+                        hide: "",
+                        resizable: false,
+                        modal: true,
+                        buttons: {
+                                Ok: function() {
+                                        $( this ).dialog( "close" );
+                                }
+                        }
+                });
+});
+</script>
 <div id="example-container">
 <?php 
 global $notAssessedItems;
@@ -241,17 +259,21 @@ echo '
 	</form>
 	<!-- /assessment comment form  -->
  	<div class="clear"></div>
+	<div id="error-dialog" title="Submission Error">
+        	<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+        	<span id="error-dialogue-text"></span>
+	</div>
  	<!--  Start add comment form -->
-	<form method="post" action="/comment/add">
+	<form method="post" id="add-reply" action="/comment/add">
 		<div id="orig-reply-container" class="dashlet-box div-hide">
                         <div id="reply-original-title" class="dashlet-title">Original Message</div>
 			<div id="reply-original-msg"></div>
 		</div>
 		<div id="reply-container" class="dashlet-box div-hide">
 			<div id="reply-new-title" class="dashlet-title"></div>
-			<textarea rows="5" cols="25" name="replyText" name="replyText"></textarea>
+			<textarea rows="5" cols="25" id="replyText" name="replyText"></textarea>
 			<br/>
-			<input type="submit" value="Submit"/>
+			<input type="button" onClick="checkReply()" value="Submit"/>
 			<input type="button" value="Cancel" onClick="postCancel()"/>
 			<input type="hidden" name="i1" id="i1" value="<?php echo $this->example[0]['id']; ?>"/>
 			<input type="hidden" name="obj_id" id="obj_id" value=""/>
@@ -566,7 +588,25 @@ function getCommentById($id,$prefix="")
 					'.$votesCount['votesPlus'].'
 				</div> 
 			</div>';
-	} // end if
+	} else {
+		
+		// show the author the votes only
+	// votes container 
+	$repliesHtml .='
+			<div class="votes-container" style="float:right;">
+				<div id="'.$prefix.'vote-loading-'.$id.'"></div> 
+				<div id="'.$prefix.'vote-minus-'.$id.'" class="vote-minus-plus">
+					'.$votesCount['votesMinus'].'
+				</div> 
+				<div id="'.$prefix.'vote-total-'.$id.'" class="vote-total">
+					'.$votesCount['votesSumm'].'
+				</div> 
+				<div id="'.$prefix.'vote-plus-'.$id.'" class="vote-minus-plus">
+					'.$votesCount['votesPlus'].'
+				</div> 
+			</div>';
+	
+	}// end if
 	
 	// comment content
 	$repliesHtml .='<div id="comment' . $id  . '">				

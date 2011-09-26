@@ -161,12 +161,12 @@ class Activity extends BaseActivity
     }
     
     public function toStringAssessedAnswer() {
-        $answer = Doctrine::getTable("Answer")->find($this->i1);
+		$question = Doctrine::getTable("Question")->find($this->i1);
+		
+		$questionUrl = $question->getUrl();
+        $questionName = $question->name;
 
-		$answerUrl = $answer->getUrl();
-        $answerName = $answer->name;
-
-        $str = $this->_genAuthorHtml()." assessed the answer <a href='$answerUrl'>$answerName</a>";
+        $str = $this->_genAuthorHtml()." assessed the answer <a href='$questionUrl'>$questionName</a>";
         return "<div class='alert alert-assessed-answer'>$str</div>";
     }
     

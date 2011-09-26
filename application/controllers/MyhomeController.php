@@ -5,11 +5,7 @@ class MyhomeController extends Zend_Controller_Action
 
     public function init()
     {
-        /* check session var */
-    	if(!$_SESSION['access'])
-    	{
-    		header('Location: /');
-    	}
+		Placeweb_Authorizer::authorize();
     }
 
     public function indexAction()
@@ -26,9 +22,7 @@ class MyhomeController extends Zend_Controller_Action
         // get all user's comments
         $comments = Doctrine::getTable("Comment")
                     ->findByDql("author_id = ? AND run_id = ?", array($_SESSION['author_id'], $_SESSION['run_id']));
-        
-		//print_r($comments);
-                    
+                            
         $commentIds = array();
         foreach ($comments as $comment){
             $commentIds[] = $comment->id;
@@ -46,10 +40,9 @@ class MyhomeController extends Zend_Controller_Action
                     ->andWhere("obj_type = ?", Votable::$COMMENT)
                     ->execute();
 
-        if (count($votes) == 0){
+        if (count($votes) == 0 || $votes[0]['vote_sum']==0){
             return 0;
         } else {
-        
         	return $votes[0]['vote_sum'];
         }
         //return $votes[0]['vote_sum'];
@@ -66,28 +59,30 @@ class MyhomeController extends Zend_Controller_Action
         
         foreach ($questionConcepts as $questionConcept){
             $questionConceptIds[] = $questionConcept->id;
+            //echo "<hr>".$questionConcept->id;
         }
         
-        if (count($questionConcepts) == 0){
-            return 0;
-        }
+        $questionConceptScore = 0;
         
-        // sum up all the votes for the user comments found
-        $votes = Doctrine_Query::create()
-                    ->select("sum(vote_value) as vote_sum")
-                    ->from("Vote")
-                    ->whereIn("obj_id", $questionConceptIds)
-                    ->andWhere("obj_type = ?", Votable::$QUESTION_CONCEPT)
-                    ->execute();
-                    
-        $questionConceptScore = $votes[0]['vote_sum'];
+       	// Anto fixed this. note that if $questionConceptIds[]is empty, the query selects sums all the votes, this if prevents this
+        if (count($questionConcepts) != 0){
+
+        	// sum up all the votes for the user comments found
+	        $votes1 = Doctrine_Query::create()
+	                    ->select("sum(vote_value) as vote_sum")
+	                    ->from("Vote")
+	                    ->whereIn("obj_id", $questionConceptIds)
+	                    ->andWhere("obj_type = ?", Votable::$QUESTION_CONCEPT)
+	                    ->execute();
+	
+	        if (count($votes1) != 0){
+	        	$questionConceptScore = $votes1[0]['vote_sum'];
+	        }
+        }
         
     	// get all user's ExampleConcept
         $exampleConcepts = Doctrine::getTable("ExampleConcept")
                     ->findByDql("author_id = ? AND run_id = ?", array($_SESSION['author_id'], $_SESSION['run_id']));
-        
-//        print_r($comments);
-        
 
         $exampleConceptIds = array();
         
@@ -95,17 +90,23 @@ class MyhomeController extends Zend_Controller_Action
             $exampleConceptIds[] = $exampleConcept->id;
         }
         
-        // sum up all the votes for the user comments found
-        $votes = Doctrine_Query::create()
+        $exampleConceptScore = 0;
+        
+        if (count($exampleConceptIds) != 0)
+        {
+        
+	        // sum up all the votes for the user comments found
+    	    $votes2 = Doctrine_Query::create()
                     ->select("sum(vote_value) as vote_sum")
                     ->from("Vote")
                     ->whereIn("obj_id", $exampleConceptIds)
                     ->andWhere("obj_type = ?", Votable::$EXAMPLE_CONCEPT)
                     ->execute();
 
-        
-        $exampleConceptScore = $votes[0]['vote_sum'];
-        
+	        if (count($votes2) != 0){
+	        	$exampleConceptScore = $votes2[0]['vote_sum'];
+	        }
+        }
         
         // test each score
        // echo "<hr>example_concept score: ". $exampleConceptScore;
@@ -113,8 +114,10 @@ class MyhomeController extends Zend_Controller_Action
         
         $this->view->tagExampleScore=$exampleConceptScore;
         $this->view->tagQuestionScore=$questionConceptScore;
+        $tagScoreTot = $questionConceptScore+$exampleConceptScore;
         
-        $this->view->tagScore=$questionConceptScore+$exampleConceptScore;
+        //$this->view->tagScore = $tagScoreTot;
+        return $tagScoreTot;
         
     }
         
@@ -125,6 +128,7 @@ class MyhomeController extends Zend_Controller_Action
     
     public function classlistAction()
     {
+		Placeweb_Authorizer::authorize("TEACHER");
         $this->view->students = Doctrine::getTable("User")->findByDql("user_type = 'STUDENT' AND run_id = ".$_SESSION["run_id"]);
     }
 

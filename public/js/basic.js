@@ -34,6 +34,21 @@ function postCancel()
 	$("#reply-container").removeClass('div-show');
 	$("#reply-container").addClass('div-hide');
 }
+
+function checkReply() {
+
+        var thisContent = tinyMCE.get('replyText').getContent();
+
+        if (thisContent.length < (5+7))
+        {
+                $( "#error-dialog" ).dialog( "open" );
+                $( "#error-dialogue-text").html("<p>You must add to something (at least 5 characters) for your thread entry.</p>");
+                return false;
+        }
+
+
+        $("#add-reply").submit();
+}
 	
 function postReply(postid, author_id)
 {
@@ -153,4 +168,28 @@ function marksPost()
 {
 	//alert("post Marks");
 	//$("#assessment-form").submit();
+}
+
+function saveAnswer() {
+	var thisContent = tinyMCE.get('content').getContent();
+
+        if (thisContent.length < (5+7))
+        {
+                $( "#error-dialog" ).dialog( "open" );
+                $( "#error-dialogue-text").html("<p>You must add to something (at least 5 characters) to the <strong>My Answer</strong> field.</p>");
+                return false;
+        }
+
+	$("#saveAnswerForm").submit();	
+}
+
+function disableEnterKey(e)
+{
+     var key;     
+     if(window.event)
+          key = window.event.keyCode; //IE
+     else
+          key = e.which; //firefox     
+
+     return (key != 13);
 }

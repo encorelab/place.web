@@ -146,7 +146,7 @@ require(APPLICATION_PATH.'/models/static/'.'PlaceWebTools.php');
 		
 	</div><!-- /home-col1 -->
 
-<form action="/example/add" method="post" id="addExmple" name="addExmple" onSubmit="return checkExample()">
+<form action="/example/add" method="post" id="addExmple" name="addExmple">
 	<div id="home-col2" style="float:left;">
 		<div class="dashlet-box-simple">
 			<div>

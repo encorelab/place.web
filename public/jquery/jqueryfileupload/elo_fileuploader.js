@@ -1032,11 +1032,9 @@ function checkQuestion() {
                 $( "#error-dialogue-text").html("<p>You must add to something (at least 5 characters) to the <strong>Content</strong> field for your question.</p>");
                 return false;
         }
-	else 
-		{
 		
-				$("#addQuestion").submit();
-		}
+	$("#addQuestion").submit();
+	
 }
 
 function checkExample() {
@@ -1072,12 +1070,8 @@ function checkExample() {
                 $( "#error-dialog" ).dialog( "open" );
                 $( "#error-dialogue-text").html("<p>You must add to something (at least 5 characters) to the <strong>Content</strong> field for your example.</p>");
                 return false;
-        } 
-	else 
-	{
+    } 
 		$("#addExmple").submit();
-	}
-	
 }
 
 

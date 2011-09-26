@@ -1,26 +1,20 @@
 <?php
-
 class QuestionController extends Zend_Controller_Action
 {
 
     public function init()
     {
-            /* check session var */
-    	if(!isset($_SESSION['access']))
-    	{
-    		header('Location: /');
-    		exit;
-    	}
+		Placeweb_Authorizer::authorize();
 	}
 
     public function indexAction()
     {
-        // action body
-        
     }
     
     public function updatestatusAction()
     {
+		Placeweb_Authorizer::authorize("TEACHER");
+		
     	$params = $this->getRequest()->getParams();
     	print_r($params);
     	
@@ -82,7 +76,6 @@ class QuestionController extends Zend_Controller_Action
     
     public function showAction()
     {
-    	
     	global $PLACEWEB_CONFIG;
     	// pass the config as a view.
     	$this->view->PLACEWEB_CONFIG=$PLACEWEB_CONFIG;
@@ -194,6 +187,8 @@ $q = Doctrine_Query::create()
     }
     
     public function addformAction(){
+		Placeweb_Authorizer::authorize("TEACHER");
+		
     	// get concepts data from db
     	
     	// using fixed concepts array in config.php

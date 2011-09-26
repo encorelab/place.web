@@ -5,18 +5,11 @@ class TagsController extends Zend_Controller_Action
 
     public function init()
     {
-        /* check session var */
-    	if(!isset($_SESSION['access']))
-    	{
-    		header('Location: /');
-    		exit;
-    	}
+		Placeweb_Authorizer::authorize();
     }
 
     public function indexAction()
     {
-        
-    	//echo "<hr>";
     }
 
 	public function addAction()

@@ -12,21 +12,18 @@ view: /application/views/scripts/myhome/index.phtml
 //echo '<h1>$_SESSION</h1>';
 //print_r($_SESSION);
 
-if(!$_SESSION['access'])
-{
-	header('Location: /logout.php');
-} else {
+// if(!$_SESSION['access'])
+// {
+	// header('Location: /logout.php');
+// } else {
 	//header('Location: /');
 	//require_once('')
 	//echo "Login Ok. go to home";
 
 
 	// the content of home.inc.php are now in this file (view)
-	require(APPLICATION_PATH.'/layouts/include/'.'home.inc.php');
+require(APPLICATION_PATH.'/layouts/include/'.'home.inc.php');
 
-?>
-
-<?php
-} // end if
+// } // end if
 ?>
 

@@ -5,11 +5,7 @@ class MyhomeController extends Zend_Controller_Action
 
     public function init()
     {
-        /* check session var */
-    	if(!$_SESSION['access'])
-    	{
-    		header('Location: /');
-    	}
+		Placeweb_Authorizer::authorize();
     }
 
     public function indexAction()
@@ -26,9 +22,7 @@ class MyhomeController extends Zend_Controller_Action
         // get all user's comments
         $comments = Doctrine::getTable("Comment")
                     ->findByDql("author_id = ? AND run_id = ?", array($_SESSION['author_id'], $_SESSION['run_id']));
-        
-		//print_r($comments);
-                    
+                            
         $commentIds = array();
         foreach ($comments as $comment){
             $commentIds[] = $comment->id;
@@ -88,9 +82,6 @@ class MyhomeController extends Zend_Controller_Action
     	// get all user's ExampleConcept
         $exampleConcepts = Doctrine::getTable("ExampleConcept")
                     ->findByDql("author_id = ? AND run_id = ?", array($_SESSION['author_id'], $_SESSION['run_id']));
-        
-//        print_r($comments);
-        
 
         $exampleConceptIds = array();
         
@@ -133,6 +124,7 @@ class MyhomeController extends Zend_Controller_Action
     
     public function classlistAction()
     {
+		Placeweb_Authorizer::authorize("TEACHER");
         $this->view->students = Doctrine::getTable("User")->findByDql("user_type = 'STUDENT' AND run_id = ".$_SESSION["run_id"]);
     }
 

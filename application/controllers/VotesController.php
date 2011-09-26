@@ -4,25 +4,16 @@ class VotesController extends Zend_Controller_Action
 
     public function init()
     {
-            /* check session var */
-    	if(!isset($_SESSION['access']))
-    	{
-    		header('Location: /');
-    		exit;
-    	}
+		Placeweb_Authorizer::authorize();
 	}
 
     public function indexAction()
     {
-        // action body
-        
     }
     
+	// called through ajax
     public function showAction()
-    {
-	// this will be called throught ajax
-
-    	
+    {    	
     } // end showAction()
         
 

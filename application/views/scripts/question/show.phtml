@@ -1,3 +1,21 @@
+<script>
+$(document).ready(function () {
+    'use strict';
+
+$( "#error-dialog" ).dialog({
+                        autoOpen: false,
+                        show: "",
+                        hide: "",
+                        resizable: false,
+                        modal: true,
+                        buttons: {
+                                Ok: function() {
+                                        $( this ).dialog( "close" );
+                                }
+                        }
+                });
+});
+</script>
 <div id="question-container">
 <?php
 global $notAssessedItems;
@@ -346,6 +364,10 @@ if($notAssessedItems!="")
 	<!-- /assessment answer form -->
 </div>
 <!-- /answers-container -->
+	<div id="error-dialog" title="Submission Error">
+                <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+                <span id="error-dialogue-text"></span>
+        </div>
 	
 	
 	<?php 
@@ -354,7 +376,7 @@ if($notAssessedItems!="")
 	?>
 	<!-- submit answer form -->
 	<div id="answer-question-container">
-		<form method="post" action="/question/addanswer?prefix=answ_">
+		<form method="post" id="saveAnswerForm" action="/question/addanswer?prefix=answ_">
 		<?php 
 			// add here the posible answers when the elo is a multiple choice
 			///*
@@ -382,7 +404,7 @@ if($notAssessedItems!="")
 
 			<input type="hidden" id="question_id"  name="question_id" value="<?php echo $this->question[0]['id']?>"/>
 			<textarea name="content"></textarea>
-			<br/><input type="submit" value="Save Answer">
+			<br/><input type="button" onClick="saveAnswer()" value="Save Answer">
 			</div>
 		</form>
 	</div>

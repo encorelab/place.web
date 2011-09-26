@@ -1006,6 +1006,7 @@ function checkQuestion() {
 
 	var questionType = $("#question_type").val();
 	var multipleResponse = $("#mc-list").val();
+	var thisContent = tinyMCE.get('content').getContent();
 
 	if ($("#saved").val() == 0)
         {
@@ -1025,6 +1026,12 @@ function checkQuestion() {
                 $( "#error-dialogue-text").html("<p>Please select an alphabetic value from the <strong>Mutiple Choices</strong> field for your question.</p>");
                 return false;
         }
+	else if (thisContent.length < (5+7))
+        {
+                $( "#error-dialog" ).dialog( "open" );
+                $( "#error-dialogue-text").html("<p>You must add to something (at least 5 characters) the <strong>Content</strong> field for your question.</p>");
+                return false;
+        }
 
 	
 
@@ -1035,6 +1042,7 @@ function checkQuestion() {
 function checkExample() {
 
 	var isTagged = false;
+	var thisContent = tinyMCE.get('content').getContent();
 
 	$('input:checkbox').each(function(){
 	if ($(this).attr('checked'))
@@ -1059,6 +1067,12 @@ function checkExample() {
 		$( "#error-dialogue-text").html("<p>You must select at least <strong>one</strong> Tag.</p>");		
 		return false;
 	}
+	else if (thisContent.length < (5+7))
+        {
+                $( "#error-dialog" ).dialog( "open" );
+                $( "#error-dialogue-text").html("<p>You must add to something (at least 5 characters) the <strong>Content</strong> field for your example.</p>");
+                return false;
+        }
 	/*
 		
 	

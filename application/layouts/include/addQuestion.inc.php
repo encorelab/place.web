@@ -153,7 +153,7 @@ require(APPLICATION_PATH.'/models/static/'.'PlaceWebTools.php');
 			<div class="dashlet-title"> Basic Info</div>
 			<div>
 				<span class="item-label">Name: </span>
-				<span class="item-input"><input type="text" name="name"/></span> 
+				<span class="item-input"><input type="text" id="question-name" name="name"/></span> 
 			</div>
 			<div>
 				<span class="item-label">Type: </span>
@@ -210,7 +210,7 @@ require(APPLICATION_PATH.'/models/static/'.'PlaceWebTools.php');
 			<div>
 				<textarea rows="10" cols="10" name="content" id="content"></textarea>
 				<div style="text-align:center; margin-top:25px;">
-					<input type="submit" value="Add Question"/>
+					<input type="button" onClick="checkQuestion()" value="Add Question"/>
 					<input type="reset" value="Cancel"/>
 				</div>   
 			</div>

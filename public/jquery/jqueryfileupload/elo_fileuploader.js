@@ -1001,11 +1001,42 @@ $('#fileupload').fileupload({
 
 });
 
+
+function checkQuestion() {
+
+	var questionType = $("#question_type").val();
+	var multipleResponse = $("#mc-list").val();
+
+	if ($("#saved").val() == 0)
+        {
+                $( "#error-dialog" ).dialog( "open" );
+                $( "#error-dialogue-text").html("<p>Please wait for the file uploading to complete...</p>");
+                return false;
+        }
+	else if ($("#question-name").val().length < 3)
+        {
+                $( "#error-dialog" ).dialog( "open" );
+                $( "#error-dialogue-text").html("<p>You must enter a name (with at least 3 characters) in the <strong>Name</strong> field for your question.</p>");
+                return false;
+        }
+	else if (questionType == 'MC' && multipleResponse == 0)
+        {
+                $( "#error-dialog" ).dialog( "open" );
+                $( "#error-dialogue-text").html("<p>Please select an alphabetic value from the <strong>Mutiple Choices</strong> field for your question.</p>");
+                return false;
+        }
+
+	
+
+
+	$("#addQuestion").submit();
+}
+
 function checkExample() {
 
 	var isTagged = false;
 
-$('input:checkbox').each(function(){
+	$('input:checkbox').each(function(){
 	if ($(this).attr('checked'))
 		isTagged = true;
 	}) 

@@ -42,7 +42,7 @@ function checkReply() {
         if (thisContent.length < (5+7))
         {
                 $( "#error-dialog" ).dialog( "open" );
-                $( "#error-dialogue-text").html("<p>You must add to something (at least 5 characters) for your reply.</p>");
+                $( "#error-dialogue-text").html("<p>You must add to something (at least 5 characters) for your thread entry.</p>");
                 return false;
         }
 
@@ -181,4 +181,15 @@ function saveAnswer() {
         }
 
 	$("#saveAnswerForm").submit();	
+}
+
+function disableEnterKey(e)
+{
+     var key;     
+     if(window.event)
+          key = window.event.keyCode; //IE
+     else
+          key = e.which; //firefox     
+
+     return (key != 13);
 }

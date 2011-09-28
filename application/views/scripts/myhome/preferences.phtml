@@ -1,3 +1,59 @@
 <h3>Preferences</h3>
 <?php
+if($this->showPreferencesForm)
+{
+?>
+<script type="text/javascript" src="/jquery/jqueryfileupload/elo_fileuploader.js" ></script>
+<div id="error-dialog" title="Submission Error">
+	<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+ 	<span id="error-dialogue-text"></span>
+</div>
+<div id="change-password-container">
+	<div class="dashlet-title">Change my password</div>
+	<form action="/myhome/preferences" method="post" name="my-preferences" id="my-preferences">
+	<table>
+		<tr>
+			<td>User Name:</td>
+			<td><input type="text" name="userName" id="userName" value="<?php echo $_SESSION['username']; ?>" disabled="disabled" /></td>
+		</tr>
+		<tr>
+			<td>Current Password:</td>
+			<td>
+				<input type="password" name="current-passw" id="current-passw" value=""/>
+				<div id="current-passw-alert"></div>
+			</td>
+		</tr>
+		<tr>
+			<td>New Password:</td>
+			<td><input type="password" name="new-passw1" id="new-passw1" value=""/></td>
+		</tr>
+		<tr>
+			<td>Re-type new Password:</td>
+			<td><input type="password" name="new-passw2" id="new-passw2" value=""/></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>
+				<input type="hidden" id="validate" name="validate" value="0">
+				<input type="button" onClick="validateNewPassword()" value="Submit">
+				<input type="button" onClick="cancelPreferences()" value="Cancel">
+			</td>
+		</tr>
+	</table>
+	
+	</form>
+</div>
+<?php
+} else if($this->showPasswChangeStatus) {
+
+echo '<br/>Your password has been successfully changed.
+<br/> Please login using your new password.
+<br/><br/>
+<input type="button" value="Continue" onClick="logout()">'; 
+
+} else {
+	echo "<br/>
+	An error occurred when changing your password. 
+<br/> Please report this error to the website administrator.";
+}
 ?>

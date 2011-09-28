@@ -193,3 +193,41 @@ function disableEnterKey(e)
 
      return (key != 13);
 }
+
+function validateNewPassword() {
+
+	var passwMatch = false;
+	
+	if ($("#current-passw").val() == "")
+	{
+		$("#error-dialog" ).dialog( "open" );
+                $("#error-dialogue-text").html("<p>You must provide your current password.</p>");
+                //$("#current-passw-alert").html("<p>input your password</p>");
+                //$("#current-passw").focus();
+                return false;
+	} else if ($("#new-passw1").val() == "")	{
+		$( "#error-dialog" ).dialog( "open" );
+		$("#error-dialogue-text").html("<p>Your new password can not be empty.</p>");
+		return false;
+	} else if ($("#new-passw1").val().length < (5))	{
+		$( "#error-dialog" ).dialog( "open" );
+		$( "#error-dialogue-text").html("<p>Your new password must have at least 5 characters.</p>");
+		return false;
+	} else if ($("#new-passw1").val() != $("#new-passw2").val()) {
+		$("#error-dialog").dialog( "open" );
+		$("#error-dialogue-text").html("<p>Your new passsword doesn't match.</p>");
+        return false;
+	} else if ($("#new-passw1").val() == $("#new-passw2").val()) {
+		$("#validate").val('1');
+		$("#my-preferences").submit();
+	}
+	
+}
+
+function cancelPreferences() {
+	location="/myhome";
+}
+
+function logout() {
+	location="/user/logout";
+}

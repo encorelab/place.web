@@ -98,9 +98,16 @@ class UserController extends Zend_Controller_Action
         // if request was successful (ie user exists)
         if ($authJson){
             $auth = Zend_Json::decode($authJson);
-            $realPassword = $auth['user']['account']['password'];
+
+            $realPasswordSha1="";
             
-            if ($realPassword == $password){
+            	//$realPassword = $auth['user']['account']['password'];
+            // authenticate using encrypted-password
+           	$realPasswordSha1 = $auth['user']['account']['encrypted_password'];
+ 
+            
+            //if ($realPassword == $password){
+            if ($realPasswordSha1 == sha1($password)) {
                 // OK to login
                 // Fetch the User from local DB
                 $localUser = Doctrine::getTable('User')->findByDql("username = ?", $username);

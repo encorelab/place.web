@@ -539,7 +539,7 @@ function getCommentById($id,$prefix="")
 	// check if this is my comment
 	if($_SESSION['author_id']==$post[0]['User']['id'])
 	{
-		$myCommentCss="my-comment";
+		$myCommentCss=" my-comment";
 		$isMyComment=true;
 	} else {
 		$myCommentCss="";
@@ -552,8 +552,8 @@ function getCommentById($id,$prefix="")
 	// add this post data
 	//Id:'.$id.'
 	$repliesHtml .='
-	<li class="'.$myCommentCss.'">
-		<div class="post-item">';
+	<li class="post-item'.$myCommentCss.'">
+		<div>';
 	
 	// add/check assessment if is a teacher || this is my post
 	//if($_SESSION['profile']=="TEACHER")

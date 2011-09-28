@@ -1,3 +1,11 @@
+#change-password-container{
+	border: 1px dashed #CCCCCC;
+}
+
+#reply-original-msg{
+	padding: 0 0.5em;
+}
+
 #video-container{
 /* set here some css to fixed the position of the video container */
 }
@@ -6,7 +14,6 @@
     width: 60%;
 }
 .my-comment{
-    border-left: 1px solid #ccc;
     background: #F3F2F7;
 }
 
@@ -244,9 +251,6 @@ border:1px solid #ccc;
     border: 2px solid #000000;
     padding:1em;
 }
-/*
- /////////////////////// Start new styles added
-*/
 
 #login-form form label {
     float: left;
@@ -300,7 +304,7 @@ display:none;
 }
 
 #tags-container div{
-    float:left;
+    /*float:left;*/
 }
 
 
@@ -308,9 +312,16 @@ display:none;
     float:right;
 }
 
+.tag-add {
+    float: right;
+    margin-right: 40px;
+}
+
 #tags-container .tag-name{
-    width:45%; /*adjust up after making arrows smaller*/
-    margin-right:15px;
+    float: left;
+    max-width: 65%;
+    padding-bottom: 2px;
+    padding-left: 5px;
 }
 
 #tags-container .tag-votes{
@@ -347,8 +358,9 @@ display:none;
 }
 
 .post-item {
+	border-left: 1px solid #CCCCCC;
     padding-left: 5px;
-    min-height: 50px;
+    min-height: 60px;
 }
 
 
@@ -361,6 +373,8 @@ display:none;
     overflow: auto;
     text-align: left;
     margin-bottom: 10px;
+    padding-right: 10px; /* this removes the horizontal scroll*/
+    padding-left: 10px; /* this removes the horizontal scroll*/
 }
 
 #posts-list ul {
@@ -368,7 +382,8 @@ display:none;
     margin-top: 0;
 /*    padding-left: 0; */
     padding-left: 15px; 
-    padding-top: 2px;}
+    padding-top: 2px;
+}
 
 #posts-list ul li {
 	display: inline-block;
@@ -387,16 +402,11 @@ display:none;
 }
 
 
-/*
- /////////////////////// End new styles added
-*/
-
 #welcome {
     background-color: #ffffff;
     display: inline;
     display: block;
     float: left;
-    position: absolute;
     left: 100px;
     top: 100px;
     margin-right: 20px;
@@ -498,8 +508,9 @@ li.header-li a{
 }
 
 .dashlet-box ul li {
+    border-bottom: 1px solid #CCCCCC;
     display: inline-block;
-    width:100%;
+    width: 100%;
 }
 
 .dashlet-box-simple{
@@ -516,6 +527,7 @@ li.header-li a{
     font-weight: bold;
 	padding: 5px 10px;
     text-align: left;
+	margin-bottom: 10px;
 }
 
 /* overwriting look of some dashlet's that behave like buttons*/

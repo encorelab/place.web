@@ -1,6 +1,9 @@
 <?php
 $PLACEWEB_CONFIG = Array();
 
+// home node title
+$PLACEWEB_CONFIG['homeNodeTitle'] = "Physics Learning Across <br/>Contexts and Environments";
+
 // debug mode
 //$PLACEWEB_CONFIG['debugMode'] = true; 
 $PLACEWEB_CONFIG['debugMode'] = false;
@@ -11,7 +14,7 @@ $PLACEWEB_CONFIG['authentication'] = "rollCall";
 
 // Authentication URL:
 $PLACEWEB_CONFIG['rollCallUrl'] = "http://rollcall.aardvark.encorelab.org";
-// $PLACEWEB_CONFIG['rollCallUrl'] = "http://rollcall.proto.encorelab.org";
+//$PLACEWEB_CONFIG['rollCallUrl'] = "http://rollcall.proto.encorelab.org";
 
 // set ajax uploader
 //$PLACEWEB_CONFIG['fileuploader'] = 1; // anto uploader

@@ -1,5 +1,38 @@
-<h3>Coming Soon</h3>
-<?php
-//print_r($this->fConcepts);
+<script>
+$(document).ready(function () {
+	  init();
+})
+</script>
 
-?>
+<!-- CSS Files -->
+<link type="text/css" href="/js/viz/css/base.css" rel="stylesheet" />
+<link type="text/css" href="/js/viz/css/Hypertree.css" rel="stylesheet" />
+
+<!--[if IE]><script language="javascript" type="text/javascript" src="../../Extras/excanvas.js"></script><![endif]-->
+
+<!-- JIT Library File -->
+<script language="javascript" type="text/javascript" src="/js/viz/jit.js"></script>
+
+<!-- Example File -->
+<script language="javascript" type="text/javascript" src="/web/getd3json"></script>
+<div id="log"></div>
+<div id="web-container">
+
+	<div id="left-container">
+        <div class="text">
+            This visualization shows the relationships between ELOs.<br /><br />
+            Clicking on a node should move the tree and center that node.<br /><br />
+            The centered node's children are displayed in a relations list in the right column.
+        </div>
+		<div id="id-list"></div>
+	</div>
+
+	<div id="center-container">
+	    <div id="infovis"></div>    
+	</div>
+
+	<div id="right-container">
+		<div id="inner-details"></div>
+	</div>
+
+</div>

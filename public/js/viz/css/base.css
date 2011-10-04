@@ -1,10 +1,5 @@
-html, body {
-    margin:0;
-    padding:0;
-    font-family: "Lucida Grande", Verdana;
-    font-size: 0.9em;
-    text-align: center;
-    background-color:#F2F2F2;
+#web-container{
+
 }
 
 input, select {
@@ -21,24 +16,17 @@ h4 {
     text-decoration:none;
     font-weight:normal;
     color:#133D7F;
+    margin:0px;
 }
 
 a {
     color:#133D7F;
 }
 
-#container {
-    width: 1200px;
-    height: 600px;
-    margin:0 auto;
-    position:relative;
-}
-
 #left-container, 
 #right-container, 
 #center-container {
     height:600px;
-    position:absolute;
     top:0;
 }
 
@@ -54,32 +42,32 @@ a {
 
 #left-container {
     left:0;
-    background-image:url('col2.png');
+    background-image:url('/js/viz/css/col2.png');
     background-position:center right;
     border-left:1px solid #ddd;
-    
+    float:left;
 }
 
 #right-container {
     right:0;
-    background-image:url('col1.png');
+    background-image:url('/js/viz/css/col1.png');
     background-position:center left;
     border-right:1px solid #ddd;
+    float:right;
 }
 
 #right-container h4{
-    text-indent:8px;
+/*    text-indent:8px;*/
 }
 
 #center-container {
-    width:800px;
-    left:200px;
     background-color: #FFFFFF;
     color:#ccc;
+    float:left;
 }
 
 .text {
-    margin: 7px;
+    margin:0 7px;
 }
 
 #inner-details {
@@ -89,17 +77,18 @@ a {
 }
 
 #log {
-    position:fixed;
+/*    position:fixed;*/
     top:10px;
     font-size:1.0em;
     font-weight:bold;
     color:#DBDBDB;
+    text-align: center;
 }
 
 
 #infovis {
     position:relative;
-    width:600px;
+    width:750px;
     height:600px;
     margin:auto;
     overflow:hidden;

@@ -1,6 +1,6 @@
 function loadWeb()
 {
-	$('#web-container-home').show(500);
+	$('#web-container-home').show(700);
 	$("#web-container-mask").removeClass('div-hide');
 	//$("#web-container-mask").html("<img src='/images/loader.gif' alt='Loading Icon' />");
 	$('#webiframe').attr("src","/web");
@@ -9,7 +9,7 @@ function loadWeb()
 
 function closeWeb()
 {
-	$('#web-container-home').hide(500);
+	$('#web-container-home').hide(1000);
 	$('#webiframe').attr("src","");
 	$("#web-container-mask").html("");
 	$("#web-container-mask").addClass('div-hide');

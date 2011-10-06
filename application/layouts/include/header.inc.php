@@ -12,23 +12,19 @@ if(isset($_SESSION['access']))
 	</div>
 	<div id="header-bottom">
 		<div id="header">
-			<ul>
-				<li id="welcome">welcome back <span><?php echo $_SESSION['user_display_name']?></span></li>
-				
-			</ul>
+			<div id="welcome">welcome back <span><?php echo $_SESSION['user_display_name']?></span></div>
 		</div><!-- /header -->
-		
-		<div id="header-search">
-			
+		<div id="header-links-container">
+			<div id="header-links">	
 				<ul>
 					<li class="header-li"><a href="/myhome">home</a></li>
 					<li class="header-li"><a href="#" onClick="loadWeb()">web</a></li>
 					<li class="header-li"><a href="/myhome/preferences">preferences</a></li>
 					<li id="search-li"><form action="#" method="post"><label for="search">search </label><input type="text" id="search" /></form></li>
 					<li class="header-li"><a href="/user/logout">sign out</a></li>
-				</ul>	
-			
-		</div><!-- /header-search -->
+				</ul>
+			</div>	
+		</div><!-- /header-links-container -->
 	</div>
 <?php 
 } else {

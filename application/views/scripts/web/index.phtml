@@ -73,8 +73,10 @@ if($this->vizType==1)
 	<script language="javascript" type="text/javascript" src="/web/getd3json?vizEx=<?php echo $this->vizEx?>&vizQu=<?php echo $this->vizQu?>&vizMy=<?php echo $this->vizMy?>&vizCon=<?php echo $this->vizCon?>&conceptId=<?php echo $this->conceptId?>"></script>
 	<div id="web-controls">
 		<form action="<?php $_SERVER['PHP_SELF']?>" method="get">
-		<input <?php if($this->vizType==1) {echo ' checked="checked"';} ?> type="radio" name="vizType" value="1" /> Viz 1 | 
-		<input <?php if($this->vizType==2) {echo ' checked="checked"';} ?> type="radio" name="vizType" value="2" /> Viz 2 
+		<select name="vizType">
+			<option value="1" <?php if($this->vizType==1) {echo ' selected="selected"';} ?>>Viz 1</option>
+			<option value="2" <?php if($this->vizType==2) {echo ' selected="selected"';} ?>>Viz 2</option>
+		</select>
 		<input <?php if($this->vizEx==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizEx" value="1"> Show Examples |
 		<input <?php if($this->vizQu==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizQu" value="1"> Show Questions |
 		<input <?php if($this->vizMy==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizMy" value="1"> My Contributions |

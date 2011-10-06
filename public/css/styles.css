@@ -1,3 +1,38 @@
+#webiframe{
+	border: 0;
+}
+
+#web-title{
+
+}
+#web-close-btn{
+    float: right;
+    padding-right: 0.5em;
+    padding-top: 0.5em;
+    text-align: right;
+}
+
+#web-container-home{
+    margin-top: 0;
+    margin-left: 2em;
+    overflow: auto;
+    position: fixed;
+    z-index: 100;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 2px 3px rgba(255, 255, 255, 0.5);
+}
+
+#web-container-mask{
+    background: none repeat scroll 0 0 #000000;
+    height: 100%;
+    opacity: 0.4;
+    position: fixed;
+    width: 100%;
+    z-index: 90;
+}
+
 #change-password-container{
 	border: 1px dashed #CCCCCC;
 }

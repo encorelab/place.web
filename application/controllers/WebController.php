@@ -21,7 +21,7 @@ class WebController extends Zend_Controller_Action
 		// set default viz
 		if(!isset($this->params['vizType']))
 		{
-			$this->view->vizType = 1;
+			$this->view->vizType = 2;
 		}
 		
 		if(isset($this->params['vizType']) && $this->params['vizType']==1)
@@ -176,6 +176,8 @@ class WebController extends Zend_Controller_Action
     	$d3Data->id= "home_0001";
     	$d3Data->type = "home";
 		$d3Data->data=array(
+			'$type' => "star",
+			'$color' => "#ccc",
 			"elo" => "Home",
 			"relation" => "test-home",
 			"ref_id" => ""
@@ -206,8 +208,10 @@ class WebController extends Zend_Controller_Action
 			$myD3->name=$concept->name;
 			$myD3->type="concept";
 			$myD3->data=array(
+				'$type' => "circle",
+				'$color' => "#DBB109",
 				"elo" => "Concept",
-				"relation" => "",
+				"relation" => "rel concept",
 				"ref_id" => $concept->id
 			);
 	
@@ -258,6 +262,9 @@ class WebController extends Zend_Controller_Action
 					$exTagSum->name = $ex_con_votes['votesMinus']. ' ['.$ex_con_votes['votesSumm'].'] '.$ex_con_votes['votesPlus'];
 					$exTagSum->type="Tag";
 					$exTagSum->data=array(
+						'$type' => "square",
+						'$color' => "#DBDAD3",
+						'$dim' => "4",
 						"elo" => "ex_con_tag",
 						"relation" => "",
 						"ref_id" => $exConcept['Example']['id']
@@ -270,6 +277,8 @@ class WebController extends Zend_Controller_Action
 					$myD3ex->name = ''.$exConcept['Example']['name'];
 					$myD3ex->type="Example";
 					$myD3ex->data=array(
+						'$type' => "triangle",
+						'$color' => "#80B376",
 						"elo" => "Example",
 						"relation" => "",
 						"ref_id" => $exConcept['Example']['id']
@@ -319,6 +328,9 @@ class WebController extends Zend_Controller_Action
 					$quTagSum->name = $qu_con_votes['votesMinus']. ' ['.$qu_con_votes['votesSumm'].'] '.$qu_con_votes['votesPlus'];
 					$quTagSum->type="Tag";
 					$quTagSum->data=array(
+						'$type' => "square",
+						'$color' => "#DBDAD3",
+						'$dim' => "4",
 						"elo" => "qu_con_tag",
 						"relation" => "",
 						"ref_id" => $quConcept['Question']['id']
@@ -331,6 +343,8 @@ class WebController extends Zend_Controller_Action
 					$myD3qu->name = ''.$quConcept['Question']['name'];
 					$myD3qu->type="Question";
 					$myD3qu->data=array(
+						'$type' => "triangle",
+						'$color' => "#D40015",
 						"elo" => "Question",
 						"relation" => "",
 						"ref_id" => $quConcept['Question']['id']

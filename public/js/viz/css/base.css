@@ -1,5 +1,29 @@
+#viz-loader{
+    margin-left: 50%;
+    margin-top: 30%;
+}
+
 #web-container{
 
+}
+
+#web-controls
+{
+}
+
+#viz-container{
+    background: none repeat scroll 0 0 #FFFFFF;
+    overflow: auto;
+    padding: 0 0.5em;
+    text-align: left;
+}
+
+body {
+    background: none repeat scroll 0 0 #FFFFFF;
+    color: #333333;
+    font-family: 'MS Sans Serif',Tahoma,Verdana,Helvetica,sans-serif;
+    font-size: 1em;
+    margin: 0;
 }
 
 input, select {
@@ -82,7 +106,7 @@ a {
     font-size:1.0em;
     font-weight:bold;
     color:#DBDBDB;
-    text-align: center;
+    text-align: left;
 }
 
 

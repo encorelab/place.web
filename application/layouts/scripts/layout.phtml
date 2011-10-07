@@ -36,9 +36,20 @@ echo $this->doctype() ?>-->
 	require(APPLICATION_PATH.'/layouts/include/'.'tinymce.head.inc.php');
 ?>
 
-
 </head>
+
 <body> 	
+<div id="web-container-mask" class="div-hide"></div>
+<div id="web-container-home" class="div-hide">
+	<div id="web-close-btn">
+	<a href="#" class="ui-dialog-titlebar-close ui-corner-all" onClick="closeWeb()">
+	<span class="ui-icon ui-icon-closethick"></span></a>
+	</div>
+	
+	<div id="web-title" class="dashlet-title">Associative Web</div>
+	<div class="clear"></div>
+	<iframe id="webiframe" width="1000px" height="670px"></iframe>
+</div>
 <div id="container">
 	<?php 
 	require(APPLICATION_PATH.'/layouts/include/'.'header.inc.php');

@@ -5,7 +5,7 @@ var labelType, useGradients, nativeTextSupport, animate;
       iStuff = ua.match(/iPhone/i) || ua.match(/iPad/i),
       typeOfCanvas = typeof HTMLCanvasElement,
       nativeCanvasSupport = (typeOfCanvas == 'object' || typeOfCanvas == 'function'),
-      textSupport = nativeCanvasSupport 
+      textSupport = nativeCanvasSupport
         && (typeof document.createElement('canvas').getContext('2d').fillText == 'function');
   //I'm setting this based on the fact that ExCanvas provides text support for IE
   //and that as of today iPhone/iPad current text support is lame
@@ -18,7 +18,7 @@ var labelType, useGradients, nativeTextSupport, animate;
 var Log = {
   elem: false,
   write: function(text){
-    if (!this.elem) 
+    if (!this.elem)
       this.elem = document.getElementById('log');
     this.elem.innerHTML = text;
     this.elem.style.left = (500 - this.elem.offsetWidth / 2) + 'px';
@@ -43,7 +43,7 @@ function init(){
       //Change node and edge styles such as
       //color, width and dimensions.
       Node: {
-          dim: 9,
+          dim: 15,
           color: "#DD9E37"
       },
       Edge: {
@@ -89,7 +89,7 @@ function init(){
           Log.write("done");
           
           //Build the right column relations list.
-          //This is done by collecting the information (stored in the data property) 
+          //This is done by collecting the information (stored in the data property)
           //for all the nodes adjacent to the centered node.
           var node = ht.graph.getClosestNodeToOrigin("current");
           var html = "<h4>" + node.name + "</h4><b>Connections:</b>";
@@ -141,16 +141,19 @@ function init1(){
         },
         //Set Node and Edge styles.
         Node: {
-            color: '#ddeeff'
+            //color: '#ddeeff'
+        	dim: 6,
+        	color: '#ccc'
+        		
         },
         
         Edge: {
           color: '#C17878',
-          lineWidth:1.5
+          lineWidth:0.7
         },
         
            onBeforeCompute: function(node){
-        	//   alert("hola anto: " + node.name);
+         // alert("hola anto: " + node.name);
             Log.write("centering " + node.name + "...");
             //Add the relation list in the right column.
             //This list is taken from the data property of each JSON node.
@@ -172,19 +175,19 @@ function init1(){
         },
         
         onAfterCompute: function(){
-        	
+        
        
             //Log.write("done");
             
             //Build the right column relations list.
-            //This is done by collecting the information (stored in the data property) 
+            //This is done by collecting the information (stored in the data property)
             //for all the nodes adjacent to the centered node.
           ////////
-        	
-        	/*
-        	var node = rgraph.graph.getClosestNodeToOrigin("current");
-        	//var node = rgraph.graph.getAttributeNS("current");
-        	
+        
+         /*
+         var node = rgraph.graph.getClosestNodeToOrigin("current");
+         //var node = rgraph.graph.getAttributeNS("current");
+        
             var html = "<h4>" + node.name + "</h4><b>Connections:</b>"
             
             html += "<ul>";
@@ -215,7 +218,7 @@ function init1(){
 
             if (node._depth <= 1) {
                 style.fontSize = "0.8em";
-                style.color = "#ccc";
+                style.color = "#000";
             
             } else if(node._depth == 2){
                 style.fontSize = "0.7em";

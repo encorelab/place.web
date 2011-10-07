@@ -180,7 +180,8 @@ class WebController extends Zend_Controller_Action
 			'$color' => "#ccc",
 			"elo" => "Home",
 			"relation" => "test-home",
-			"ref_id" => ""
+			"ref_id" => "",
+			"author" => "Instructor"
 		);
     	
 		if($this->params['conceptId']!=0)
@@ -212,7 +213,8 @@ class WebController extends Zend_Controller_Action
 				'$color' => "#DBB109",
 				"elo" => "Concept",
 				"relation" => "rel concept",
-				"ref_id" => $concept->id
+				"ref_id" => $concept->id,
+				"author" => "Instructor"
 			);
 	
 			///////////////////////////////////
@@ -221,17 +223,19 @@ class WebController extends Zend_Controller_Action
         	if($this->params['vizMy']==1)
 			{
 				$q = Doctrine_Query::create()
-				->select ("ec.id, e.id, e.name")
+				->select ("ec.id, e.id, e.name, u.display_name")
 				->from("ExampleConcept ec")
 				->innerJoin("ec.Example e")
+				->innerJoin("e.User u")
 				->where('ec.run_id = ? AND ec.concept_id = ? AND e.author_id = ?', 
 				array($_SESSION['run_id'], $concept->id, $_SESSION['author_id']));
 				
 			} else {
 				$q = Doctrine_Query::create()
-				->select ("ec.id, e.id, e.name")
+				->select ("ec.id, e.id, e.name, u.display_name")
 				->from("ExampleConcept ec")
 				->innerJoin("ec.Example e")
+				->innerJoin("e.User u")
 				->where('ec.run_id = ? AND ec.concept_id = ?', array($_SESSION['run_id'],$concept->id));
 			}
 
@@ -262,12 +266,14 @@ class WebController extends Zend_Controller_Action
 					$exTagSum->name = $ex_con_votes['votesMinus']. ' ['.$ex_con_votes['votesSumm'].'] '.$ex_con_votes['votesPlus'];
 					$exTagSum->type="Tag";
 					$exTagSum->data=array(
-						'$type' => "square",
+						'$type' => "none",
 						'$color' => "#DBDAD3",
 						'$dim' => "4",
 						"elo" => "ex_con_tag",
 						"relation" => "",
-						"ref_id" => $exConcept['Example']['id']
+						"ref_id" => $exConcept['Example']['id'],
+						"author" => ""
+
 					);
 				
 					//echo "<hr>adding example... ".$exConcept['Example']['name'];
@@ -281,7 +287,8 @@ class WebController extends Zend_Controller_Action
 						'$color' => "#80B376",
 						"elo" => "Example",
 						"relation" => "",
-						"ref_id" => $exConcept['Example']['id']
+						"ref_id" => $exConcept['Example']['id'],
+						"author" => $exConcept['Example']['User']['display_name']
 					);
 					
 					// add example(s) as children to the current tag node

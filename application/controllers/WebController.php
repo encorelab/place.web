@@ -358,8 +358,15 @@ class WebController extends Zend_Controller_Action
 		print_r($d3Data);
 		echo "</pre>";
 		*/
-        
-		return json_encode($d3Data);
+        if($this->params['conceptId']!=0)
+        {
+        	// return concept as home node
+        	return json_encode($myD3);
+        } else {
+        	// return home node with concept as children
+        	return json_encode($d3Data);
+        }
+		
 //		print_r($this->conceptIds);
 		
     } // end fnc

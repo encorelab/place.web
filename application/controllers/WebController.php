@@ -177,7 +177,7 @@ class WebController extends Zend_Controller_Action
     	$d3Data->type = "home";
 		$d3Data->data=array(
 			'$type' => "star",
-			'$color' => "#ccc",
+			'$color' => "#475DFF",
 			"elo" => "Home",
 			"relation" => "test-home",
 			"ref_id" => "",
@@ -335,12 +335,14 @@ class WebController extends Zend_Controller_Action
 					$quTagSum->name = $qu_con_votes['votesMinus']. ' ['.$qu_con_votes['votesSumm'].'] '.$qu_con_votes['votesPlus'];
 					$quTagSum->type="Tag";
 					$quTagSum->data=array(
-						'$type' => "square",
+						'$type' => "none",
 						'$color' => "#DBDAD3",
 						'$dim' => "4",
 						"elo" => "qu_con_tag",
 						"relation" => "",
-						"ref_id" => $quConcept['Question']['id']
+						"ref_id" => $quConcept['Question']['id'],
+						"author" => "Instructor"
+
 					);
 					
 					//echo "<hr>adding question... ".$quConcept['Question']['name'];
@@ -354,7 +356,8 @@ class WebController extends Zend_Controller_Action
 						'$color' => "#D40015",
 						"elo" => "Question",
 						"relation" => "",
-						"ref_id" => $quConcept['Question']['id']
+						"ref_id" => $quConcept['Question']['id'],
+						"author" => "Instructor"
 					);
 					
 					// add question(s) as children to the current tag node

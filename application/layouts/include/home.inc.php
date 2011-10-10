@@ -98,7 +98,7 @@ if($_SESSION['profile']=="STUDENT")
 			<?php } // end if teacher?>
 			
 			<div class="dashlet-box">
-				<a href="/web">Launch Associative Web</a>
+				<a href="#" onClick="loadWeb()">Launch Associative Web</a>
 			</div>
 			<?php 
 			if($_SESSION['profile']=="TEACHER")

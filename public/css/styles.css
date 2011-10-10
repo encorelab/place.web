@@ -19,7 +19,8 @@
     box-shadow: 0 2px 3px rgba(255, 255, 255, 0.5);
     margin: 1em;
     overflow: auto;
-    position: relative;
+    position: fixed;
+    width: 97%;
     z-index: 100;
 }
 

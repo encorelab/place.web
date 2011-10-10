@@ -163,10 +163,15 @@ function init1(){
           offsetX: 10,  
           offsetY: 10,  
           onShow: function(tip, node) {
-		tip.innerHTML = "<strong>" + node.name + "</strong>";
-		if(node.data.author!="") {
-			tip.innerHTML += "<br/>Created by: " + node.data.author;
-		}
+        	  
+    	  if(node.data.votes=="") {
+        	  tip.innerHTML = "<strong>" + node.name + "</strong>";
+               		if(node.data.author!="") {
+      			tip.innerHTML += "<br/>Created by: " + node.data.author;
+        		} 
+	      	  } else {
+    			  tip.innerHTML = "Votes: " + node.data.votes;
+      		  }
 	  }
 	},
         
@@ -174,10 +179,23 @@ function init1(){
             Log.write("centering " + node.name + "...");
 
             //Make right column relations list.  
-            var html = "<h4>" + node.name + "</h4><b>Connections:</b>";
+            var html = "";
+		if(node.data.elo=="Example")
+		{
+	            html = "[Example]<h4><a href='/example/show?id="+ node.data.ref_id +"' target='_top'>" + node.name + "</a></h4>";
+
+		} else if (node.data.elo=="Question") {
+
+	            html = "[Question]<h4><a href='/question/show?id="+ node.data.ref_id +"' target='_top'>" + node.name + "</a></h4>";
+
+		} else {
+			html = "<h4>" + node.name + "</h4>";
+		}
+		
 
             // add data from relation att
-            html += node.data.relation;
+            //html += node.data.relation; // still working on this ;)
+
 
             //Add the relation list in the right column.
             //This list is taken from the data property of each JSON node.
@@ -246,7 +264,7 @@ function init1(){
     //append information about the root relations in the right column
     //Make right column relations list.  
     $jit.id('inner-details').innerHTML = "<h4>" + rgraph.graph.getNode(rgraph.root).name + "</h4>";
-    $jit.id('inner-details').innerHTML += "<b>Connections:</b>";
-    $jit.id('inner-details').innerHTML += rgraph.graph.getNode(rgraph.root).data.relation;
+//    $jit.id('inner-details').innerHTML += "<b>Connections:</b>";
+//    $jit.id('inner-details').innerHTML += rgraph.graph.getNode(rgraph.root).data.relation;
 
 }

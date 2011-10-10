@@ -13,6 +13,10 @@ class WebController extends Zend_Controller_Action
 
     public function indexAction()
     {
+	// set default values for viz
+	$this->view->vizEx = 1;	 // show examples
+	$this->view->vizQu = 1; // show questions
+	$this->view->vizMy = 0; // show my contributions
     	
     	$this->_helper->layout()->disableLayout();
     	
@@ -31,35 +35,29 @@ class WebController extends Zend_Controller_Action
 			$this->view->vizType = 2;
 		}
 
-    	if(isset($this->params['vizEx']) && $this->params['vizEx']==1)
+    		if(isset($this->params['vizEx']) && $this->params['vizEx']==1)
 		{
 			$this->view->vizEx = 1;
-		} else {
-			$this->view->vizEx = 0;
 		}
 
-        if(isset($this->params['vizQu']) && $this->params['vizQu']==1)
+	        if(isset($this->params['vizQu']) && $this->params['vizQu']==1)
 		{
 			$this->view->vizQu = 1;
-		} else {
-			$this->view->vizQu = 0;
 		}
 		
-        if(isset($this->params['vizMy']) && $this->params['vizMy']==1)
+	        if(isset($this->params['vizMy']) && $this->params['vizMy']==1)
 		{
 			$this->view->vizMy = 1;
-		} else {
-			$this->view->vizMy = 0;
 		}
 		
-        if(isset($this->params['vizCon']) && $this->params['vizCon']==1)
+	        if(isset($this->params['vizCon']) && $this->params['vizCon']==1)
 		{
 			$this->view->vizCon = 1;
 		} else {
 			$this->view->vizCon = 0;
 		}
 		
-        if(isset($this->params['conceptId']) && $this->params['conceptId']!="")
+	        if(isset($this->params['conceptId']) && $this->params['conceptId']!="")
 		{
 			$this->view->conceptId = $this->params['conceptId'];
 		} else {
@@ -153,7 +151,8 @@ class WebController extends Zend_Controller_Action
 			$myD3->data=array(
 				"elo" => "Concept",
 				"relation" => "",
-				"ref_id" => $concept->id
+				//"ref_id" => $concept->id
+				"ref_id" => ""
 			);
 	
 			
@@ -181,7 +180,8 @@ class WebController extends Zend_Controller_Action
 			"elo" => "Home",
 			"relation" => "test-home",
 			"ref_id" => "",
-			"author" => "Instructor"
+			"author" => "Instructor",
+			"votes" => ""
 		);
     	
 		if($this->params['conceptId']!=0)
@@ -213,8 +213,10 @@ class WebController extends Zend_Controller_Action
 				'$color' => "#DBB109",
 				"elo" => "Concept",
 				"relation" => "rel concept",
-				"ref_id" => $concept->id,
-				"author" => "Instructor"
+				//"ref_id" => $concept->id,
+				"ref_id" => "",
+				"author" => "Instructor",
+				"votes" => ""
 			);
 	
 			///////////////////////////////////
@@ -263,7 +265,7 @@ class WebController extends Zend_Controller_Action
 					$exTagSum = new EloD3();
 					//$exTagSum->id = "EX_CON_TAG_".$exConcept['Example']['id']; // use the id of the example. this will not be unique ;)
 					$exTagSum->id = "EX_CON_TAG_".$exConcept['id']; // this is unique
-					$exTagSum->name = $ex_con_votes['votesMinus']. ' ['.$ex_con_votes['votesSumm'].'] '.$ex_con_votes['votesPlus'];
+					$exTagSum->name = '['.$ex_con_votes['votesSumm'].']';
 					$exTagSum->type="Tag";
 					$exTagSum->data=array(
 						'$type' => "none",
@@ -271,9 +273,10 @@ class WebController extends Zend_Controller_Action
 						'$dim' => "4",
 						"elo" => "ex_con_tag",
 						"relation" => "",
-						"ref_id" => $exConcept['Example']['id'],
-						"author" => ""
-
+						//"ref_id" => $exConcept['Example']['id'],
+						"ref_id" => "",
+						"author" => "",
+						"votes" => $ex_con_votes['votesMinus']. ' ['.$ex_con_votes['votesSumm'].'] '.$ex_con_votes['votesPlus']
 					);
 				
 					//echo "<hr>adding example... ".$exConcept['Example']['name'];
@@ -288,7 +291,8 @@ class WebController extends Zend_Controller_Action
 						"elo" => "Example",
 						"relation" => "",
 						"ref_id" => $exConcept['Example']['id'],
-						"author" => $exConcept['Example']['User']['display_name']
+						"author" => $exConcept['Example']['User']['display_name'],
+						"votes" => ""
 					);
 					
 					// add example(s) as children to the current tag node
@@ -332,7 +336,7 @@ class WebController extends Zend_Controller_Action
 					$quTagSum = new EloD3();
 					//$quTagSum->id = "EX_CON_TAG_".$exConcept['Example']['id']; // use the id of the example. this will not be unique ;)
 					$quTagSum->id = "QU_CON_TAG_".$quConcept['id']; // this is unique
-					$quTagSum->name = $qu_con_votes['votesMinus']. ' ['.$qu_con_votes['votesSumm'].'] '.$qu_con_votes['votesPlus'];
+					$quTagSum->name = '['.$qu_con_votes['votesSumm'].']';
 					$quTagSum->type="Tag";
 					$quTagSum->data=array(
 						'$type' => "none",
@@ -340,8 +344,10 @@ class WebController extends Zend_Controller_Action
 						'$dim' => "4",
 						"elo" => "qu_con_tag",
 						"relation" => "",
-						"ref_id" => $quConcept['Question']['id'],
-						"author" => "Instructor"
+						//"ref_id" => $quConcept['Question']['id'],
+						"ref_id" => "",
+						"author" => "Instructor",
+						"votes" => $qu_con_votes['votesMinus']. ' ['.$qu_con_votes['votesSumm'].'] '.$qu_con_votes['votesPlus']
 
 					);
 					
@@ -357,7 +363,8 @@ class WebController extends Zend_Controller_Action
 						"elo" => "Question",
 						"relation" => "",
 						"ref_id" => $quConcept['Question']['id'],
-						"author" => "Instructor"
+						"author" => "Instructor",
+						"votes" => ""
 					);
 					
 					// add question(s) as children to the current tag node

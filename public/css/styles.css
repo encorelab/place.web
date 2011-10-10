@@ -13,15 +13,14 @@
 }
 
 #web-container-home{
-    margin-top: 0;
-    margin-left: 5em;
-    overflow: auto;
-    position: fixed;
-    z-index: 100;
     background: none repeat scroll 0 0 #FFFFFF;
     border: 1px solid #000000;
     border-radius: 3px 3px 3px 3px;
     box-shadow: 0 2px 3px rgba(255, 255, 255, 0.5);
+    margin: 1em;
+    overflow: auto;
+    position: relative;
+    z-index: 100;
 }
 
 #web-container-mask{
@@ -648,7 +647,7 @@ body {
 }*/
 
 #container {
-    margin: 1em 1em auto;
+    margin: 1em;
     text-align: left;
     min-width: 1100px;
 

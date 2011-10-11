@@ -43,7 +43,8 @@ function init(){
       //Change node and edge styles such as
       //color, width and dimensions.
       Node: {
-          dim: 15,
+       	  overridable: true,
+          dim: 10,
           color: "#DD9E37"
       },
       Edge: {
@@ -129,7 +130,9 @@ function init1(){
         //concentric circles.
         background: {
           CanvasStyles: {
-            strokeStyle: '#555'
+		lineWidth: 1,
+		strokeStyle: '#E6E8FA',
+		alpha: 1
           }
         },
         //Add navigation capabilities:
@@ -137,34 +140,73 @@ function init1(){
         Navigation: {
           enable: true,
           panning: true,
-          zooming: 10
+          zooming: 15
         },
         //Set Node and Edge styles.
         Node: {
             //color: '#ddeeff'
-        	dim: 6,
+        	overridable: true,
+        	dim: 7,
         	color: '#ccc'
         		
         },
         
         Edge: {
-          color: '#C17878',
-          lineWidth:0.7
+          color: '#717370',
+          lineWidth: '0.3',
+          type: 'line'
         },
+
+	Tips: {  
+          enable: true,  
+          type: 'HTML',  
+          offsetX: 10,  
+          offsetY: 10,  
+          onShow: function(tip, node) {
+        	  
+    	  if(node.data.votes=="") {
+        	  tip.innerHTML = "<strong>" + node.name + "</strong>";
+               		if(node.data.author!="") {
+      			tip.innerHTML += "<br/>Created by: " + node.data.author;
+        		} 
+	      	  } else {
+    			  tip.innerHTML = "Votes: " + node.data.votes;
+      		  }
+	  }
+	},
         
-           onBeforeCompute: function(node){
-         // alert("hola anto: " + node.name);
+        onBeforeCompute: function(node){
             Log.write("centering " + node.name + "...");
+
+            //Make right column relations list.  
+            var html = "";
+		if(node.data.elo=="Example")
+		{
+	            html = "[Example]<h4><a href='/example/show?id="+ node.data.ref_id +"' target='_top'>" + node.name + "</a></h4>";
+
+		} else if (node.data.elo=="Question") {
+
+	            html = "[Question]<h4><a href='/question/show?id="+ node.data.ref_id +"' target='_top'>" + node.name + "</a></h4>";
+
+		} else {
+			html = "<h4>" + node.name + "</h4>";
+		}
+		
+
+            // add data from relation att
+            //html += node.data.relation; // still working on this ;)
+
+
             //Add the relation list in the right column.
             //This list is taken from the data property of each JSON node.
-            $jit.id('inner-details').innerHTML = node.data.relation;
+            $jit.id('inner-details').innerHTML = html;
         },
-        
+
         //Add the name of the node in the correponding label
         //and a click handler to move the graph.
         //This method is called once, on label creation.
         onCreateLabel: function(domElement, node){
-            domElement.innerHTML = node.name;
+            domElement.innerHTML = ""+node.name;
             domElement.onclick = function(){
                 rgraph.onClick(node.id, {
                     onComplete: function() {
@@ -175,38 +217,7 @@ function init1(){
         },
         
         onAfterCompute: function(){
-        
-       
-            //Log.write("done");
-            
-            //Build the right column relations list.
-            //This is done by collecting the information (stored in the data property)
-            //for all the nodes adjacent to the centered node.
-          ////////
-        
-         /*
-         var node = rgraph.graph.getClosestNodeToOrigin("current");
-         //var node = rgraph.graph.getAttributeNS("current");
-        
-            var html = "<h4>" + node.name + "</h4><b>Connections:</b>"
-            
-            html += "<ul>";
-            node.eachAdjacency(function(adj){
-                var child = adj.nodeTo;
-                if (child.data) {
-                    var rel = (child.data.band == node.name) ? child.data.relation : node.data.relation;
-                    //html += "<li>" + child.name + " " + "<div class=\"relation\">(relation: " + rel + ")</div></li>";
-                    html += "<li>" + child.name + " " + "</li>";
-                    
-                }
-            });
-            html += "</ul>";
-            
-            //$("#inner-details").html("hola anto");
-           // $jit.id('inner-details').innerHTML = html;
-            
-            ///////
-            */
+
             
         },
         //Change some label dom properties.
@@ -223,7 +234,11 @@ function init1(){
             } else if(node._depth == 2){
                 style.fontSize = "0.7em";
                 style.color = "#494949";
-            
+
+            } else if(node._depth == 3){
+                style.fontSize = "0.6em";
+                style.color = "#494949";
+
             } else {
                 style.display = 'none';
             }
@@ -247,5 +262,9 @@ function init1(){
     });
     //end
     //append information about the root relations in the right column
-    $jit.id('inner-details').innerHTML = rgraph.graph.getNode(rgraph.root).data.relation;
+    //Make right column relations list.  
+    $jit.id('inner-details').innerHTML = "<h4>" + rgraph.graph.getNode(rgraph.root).name + "</h4>";
+//    $jit.id('inner-details').innerHTML += "<b>Connections:</b>";
+//    $jit.id('inner-details').innerHTML += rgraph.graph.getNode(rgraph.root).data.relation;
+
 }

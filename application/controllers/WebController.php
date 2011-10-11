@@ -13,6 +13,10 @@ class WebController extends Zend_Controller_Action
 
     public function indexAction()
     {
+	// set default values for viz
+	$this->view->vizEx = 1;	 // show examples
+	$this->view->vizQu = 1; // show questions
+	$this->view->vizMy = 0; // show my contributions
     	
     	$this->_helper->layout()->disableLayout();
     	
@@ -21,7 +25,7 @@ class WebController extends Zend_Controller_Action
 		// set default viz
 		if(!isset($this->params['vizType']))
 		{
-			$this->view->vizType = 1;
+			$this->view->vizType = 2;
 		}
 		
 		if(isset($this->params['vizType']) && $this->params['vizType']==1)
@@ -31,35 +35,29 @@ class WebController extends Zend_Controller_Action
 			$this->view->vizType = 2;
 		}
 
-    	if(isset($this->params['vizEx']) && $this->params['vizEx']==1)
+    		if(isset($this->params['vizEx']) && $this->params['vizEx']==1)
 		{
 			$this->view->vizEx = 1;
-		} else {
-			$this->view->vizEx = 0;
 		}
 
-        if(isset($this->params['vizQu']) && $this->params['vizQu']==1)
+	        if(isset($this->params['vizQu']) && $this->params['vizQu']==1)
 		{
 			$this->view->vizQu = 1;
-		} else {
-			$this->view->vizQu = 0;
 		}
 		
-        if(isset($this->params['vizMy']) && $this->params['vizMy']==1)
+	        if(isset($this->params['vizMy']) && $this->params['vizMy']==1)
 		{
 			$this->view->vizMy = 1;
-		} else {
-			$this->view->vizMy = 0;
 		}
 		
-        if(isset($this->params['vizCon']) && $this->params['vizCon']==1)
+	        if(isset($this->params['vizCon']) && $this->params['vizCon']==1)
 		{
 			$this->view->vizCon = 1;
 		} else {
 			$this->view->vizCon = 0;
 		}
 		
-        if(isset($this->params['conceptId']) && $this->params['conceptId']!="")
+	        if(isset($this->params['conceptId']) && $this->params['conceptId']!="")
 		{
 			$this->view->conceptId = $this->params['conceptId'];
 		} else {
@@ -153,7 +151,8 @@ class WebController extends Zend_Controller_Action
 			$myD3->data=array(
 				"elo" => "Concept",
 				"relation" => "",
-				"ref_id" => $concept->id
+				//"ref_id" => $concept->id
+				"ref_id" => ""
 			);
 	
 			
@@ -176,9 +175,13 @@ class WebController extends Zend_Controller_Action
     	$d3Data->id= "home_0001";
     	$d3Data->type = "home";
 		$d3Data->data=array(
+			'$type' => "star",
+			'$color' => "#475DFF",
 			"elo" => "Home",
 			"relation" => "test-home",
-			"ref_id" => ""
+			"ref_id" => "",
+			"author" => "Instructor",
+			"votes" => ""
 		);
     	
 		if($this->params['conceptId']!=0)
@@ -206,9 +209,14 @@ class WebController extends Zend_Controller_Action
 			$myD3->name=$concept->name;
 			$myD3->type="concept";
 			$myD3->data=array(
+				'$type' => "circle",
+				'$color' => "#DBB109",
 				"elo" => "Concept",
-				"relation" => "",
-				"ref_id" => $concept->id
+				"relation" => "rel concept",
+				//"ref_id" => $concept->id,
+				"ref_id" => "",
+				"author" => "Instructor",
+				"votes" => ""
 			);
 	
 			///////////////////////////////////
@@ -217,17 +225,19 @@ class WebController extends Zend_Controller_Action
         	if($this->params['vizMy']==1)
 			{
 				$q = Doctrine_Query::create()
-				->select ("ec.id, e.id, e.name")
+				->select ("ec.id, e.id, e.name, u.display_name")
 				->from("ExampleConcept ec")
 				->innerJoin("ec.Example e")
+				->innerJoin("e.User u")
 				->where('ec.run_id = ? AND ec.concept_id = ? AND e.author_id = ?', 
 				array($_SESSION['run_id'], $concept->id, $_SESSION['author_id']));
 				
 			} else {
 				$q = Doctrine_Query::create()
-				->select ("ec.id, e.id, e.name")
+				->select ("ec.id, e.id, e.name, u.display_name")
 				->from("ExampleConcept ec")
 				->innerJoin("ec.Example e")
+				->innerJoin("e.User u")
 				->where('ec.run_id = ? AND ec.concept_id = ?', array($_SESSION['run_id'],$concept->id));
 			}
 
@@ -255,12 +265,18 @@ class WebController extends Zend_Controller_Action
 					$exTagSum = new EloD3();
 					//$exTagSum->id = "EX_CON_TAG_".$exConcept['Example']['id']; // use the id of the example. this will not be unique ;)
 					$exTagSum->id = "EX_CON_TAG_".$exConcept['id']; // this is unique
-					$exTagSum->name = $ex_con_votes['votesMinus']. ' ['.$ex_con_votes['votesSumm'].'] '.$ex_con_votes['votesPlus'];
+					$exTagSum->name = '['.$ex_con_votes['votesSumm'].']';
 					$exTagSum->type="Tag";
 					$exTagSum->data=array(
+						'$type' => "none",
+						'$color' => "#DBDAD3",
+						'$dim' => "4",
 						"elo" => "ex_con_tag",
 						"relation" => "",
-						"ref_id" => $exConcept['Example']['id']
+						//"ref_id" => $exConcept['Example']['id'],
+						"ref_id" => "",
+						"author" => "",
+						"votes" => $ex_con_votes['votesMinus']. ' ['.$ex_con_votes['votesSumm'].'] '.$ex_con_votes['votesPlus']
 					);
 				
 					//echo "<hr>adding example... ".$exConcept['Example']['name'];
@@ -270,9 +286,13 @@ class WebController extends Zend_Controller_Action
 					$myD3ex->name = ''.$exConcept['Example']['name'];
 					$myD3ex->type="Example";
 					$myD3ex->data=array(
+						'$type' => "triangle",
+						'$color' => "#80B376",
 						"elo" => "Example",
 						"relation" => "",
-						"ref_id" => $exConcept['Example']['id']
+						"ref_id" => $exConcept['Example']['id'],
+						"author" => $exConcept['Example']['User']['display_name'],
+						"votes" => ""
 					);
 					
 					// add example(s) as children to the current tag node
@@ -316,12 +336,19 @@ class WebController extends Zend_Controller_Action
 					$quTagSum = new EloD3();
 					//$quTagSum->id = "EX_CON_TAG_".$exConcept['Example']['id']; // use the id of the example. this will not be unique ;)
 					$quTagSum->id = "QU_CON_TAG_".$quConcept['id']; // this is unique
-					$quTagSum->name = $qu_con_votes['votesMinus']. ' ['.$qu_con_votes['votesSumm'].'] '.$qu_con_votes['votesPlus'];
+					$quTagSum->name = '['.$qu_con_votes['votesSumm'].']';
 					$quTagSum->type="Tag";
 					$quTagSum->data=array(
+						'$type' => "none",
+						'$color' => "#DBDAD3",
+						'$dim' => "4",
 						"elo" => "qu_con_tag",
 						"relation" => "",
-						"ref_id" => $quConcept['Question']['id']
+						//"ref_id" => $quConcept['Question']['id'],
+						"ref_id" => "",
+						"author" => "Instructor",
+						"votes" => $qu_con_votes['votesMinus']. ' ['.$qu_con_votes['votesSumm'].'] '.$qu_con_votes['votesPlus']
+
 					);
 					
 					//echo "<hr>adding question... ".$quConcept['Question']['name'];
@@ -331,9 +358,13 @@ class WebController extends Zend_Controller_Action
 					$myD3qu->name = ''.$quConcept['Question']['name'];
 					$myD3qu->type="Question";
 					$myD3qu->data=array(
+						'$type' => "triangle",
+						'$color' => "#D40015",
 						"elo" => "Question",
 						"relation" => "",
-						"ref_id" => $quConcept['Question']['id']
+						"ref_id" => $quConcept['Question']['id'],
+						"author" => "Instructor",
+						"votes" => ""
 					);
 					
 					// add question(s) as children to the current tag node
@@ -358,8 +389,15 @@ class WebController extends Zend_Controller_Action
 		print_r($d3Data);
 		echo "</pre>";
 		*/
-        
-		return json_encode($d3Data);
+        if($this->params['conceptId']!=0)
+        {
+        	// return concept as home node
+        	return json_encode($myD3);
+        } else {
+        	// return home node with concept as children
+        	return json_encode($d3Data);
+        }
+		
 //		print_r($this->conceptIds);
 		
     } // end fnc

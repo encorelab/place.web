@@ -14,9 +14,6 @@ class WebController extends Zend_Controller_Action
     public function indexAction()
     {
 	// set default values for viz
-	$this->view->vizEx = 1;	 // show examples
-	$this->view->vizQu = 1; // show questions
-	$this->view->vizMy = 0; // show my contributions
     	
     	$this->_helper->layout()->disableLayout();
     	
@@ -35,19 +32,19 @@ class WebController extends Zend_Controller_Action
 			$this->view->vizType = 2;
 		}
 
-    		if(isset($this->params['vizEx']) && $this->params['vizEx']==1)
+    		if(isset($this->params['vizEx']))
 		{
-			$this->view->vizEx = 1;
+			$this->view->vizEx = $this->params['vizEx'];
 		}
 
-	        if(isset($this->params['vizQu']) && $this->params['vizQu']==1)
+	        if(isset($this->params['vizQu']))
 		{
-			$this->view->vizQu = 1;
+			$this->view->vizQu = $this->params['vizQu'];
 		}
 		
-	        if(isset($this->params['vizMy']) && $this->params['vizMy']==1)
+	        if(isset($this->params['vizMy']))
 		{
-			$this->view->vizMy = 1;
+			$this->view->vizMy = $this->params['vizMy'];
 		}
 		
 	        if(isset($this->params['vizCon']) && $this->params['vizCon']==1)

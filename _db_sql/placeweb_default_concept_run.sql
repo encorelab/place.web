@@ -1,8 +1,8 @@
-INSERT INTO `run` (`id`, `name`) VALUES
+INSERT INTO `placeweb`.`run` (`id`, `name`) VALUES
 (3, 'SPH3UE-test');
 
 
-INSERT INTO `concept` (`id`, `run_id`, `author_id`, `date_modified`, `date_created`, `name`) VALUES
+INSERT INTO `placeweb`.`concept` (`id`, `run_id`, `author_id`, `date_modified`, `date_created`, `name`) VALUES
 (30, 3, 1, '2011-09-27 21:24:46', NULL, 'Vectors'),
 (31, 3, 1, '2011-09-27 21:24:46', NULL, 'Newton 1st Law'),
 (32, 3, 1, '2011-09-27 21:24:46', NULL, 'Newton 2nd Law'),
@@ -17,6 +17,3 @@ INSERT INTO `concept` (`id`, `run_id`, `author_id`, `date_modified`, `date_creat
 (41, 3, 1, '2011-09-27 21:24:46', NULL, 'Kinetic Energy'),
 (42, 3, 1, '2011-09-27 21:24:46', NULL, 'Potential Energy'),
 (43, 3, 1, '2011-09-27 21:24:46', NULL, 'Conservation of Energy');
-
--- --------------------------------------------------------
-

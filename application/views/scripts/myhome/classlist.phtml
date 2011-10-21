@@ -3,14 +3,16 @@ $(document).ready(function(){
     $("input[name='students']").change(function(){
         var studentId = $("input[name='students']:checked").val()
         $("#studentProfile").load('/ajax/student-profile', {'studentId':studentId})
+		$("#studentScoreCard").load('/ajax/student-score-card', {'studentId':studentId})
+
     })
 })
 </script>
 
-<h2>Class List</h2>
+<h2>Class Management</h2>
 
 <div id="home-columns">
-    <div id="home-col1" style="float:left;width:20%;">
+    <div id="home-col1" style="float:left;width:10%;">
         <h3>Students</h3>
 <?php
 foreach($this->students as $student){
@@ -23,8 +25,14 @@ foreach($this->students as $student){
 
     </div>
 
-    <div id="home-col2" style="float:right;width:75%;">
+    <div id="home-col2" style="float:left;width:60%;margin-top: 15px;">
         <div id='studentProfile'>
+            
+        </div>
+    </div>
+
+	<div id="home-col2" style="float:left;width:20%;margin-top: 15px;">
+        <div id='studentScoreCard'>
             
         </div>
     </div>

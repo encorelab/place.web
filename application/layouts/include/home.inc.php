@@ -2,19 +2,32 @@
 var servername = "http://<?php echo $_SERVER['SERVER_NAME']; ?>"
 
 $(document).ready(function () {
-//  $("#ajax-status").text("The DOM is now loaded and can be manipulated.");
+  //  $("#ajax-status").text("The DOM is now loaded and can be manipulated.");
   $("#my-homework-feed").html("<img src='/images/loader.gif' alt='Loading Icon' />")
   $("#my-updates-feed").html("<img src='/images/loader.gif' alt='Loading Icon' />")
   $("#my-recent-activity-feed").html("<img src='/images/loader.gif' alt='Loading Icon' />")
   $("#recent-class-activity-feed").html("<img src='/images/loader.gif' alt='Loading Icon' />")
 
-// ajax call for activities
+  // ajax call for activities
   $("#my-homework-feed").load(servername+"/ajax/myhomework")
-  $("#my-updates-feed").load(servername+"/ajax/myupdates", function(){setupAlertCloseButtons('#my-updates-feed')})
-  $("#my-recent-activity-feed").load(servername+"/ajax/myactivity", function(){setupAlertCloseButtons('#my-recent-activity-feed')})
-  $("#recent-class-activity-feed").load(servername+"/ajax/classactivity", function(){setupAlertCloseButtons('#recent-class-activity-feed')})
+  $("#my-updates-feed").load(servername+"/ajax/myupdates?limit=5", function(){setupAlertCloseButtons('#my-updates-feed')})
+  $("#my-recent-activity-feed").load(servername+"/ajax/myactivity?limit=5", function(){setupAlertCloseButtons('#my-recent-activity-feed')})
+  $("#recent-class-activity-feed").load(servername+"/ajax/classactivity?limit=5", function(){setupAlertCloseButtons('#recent-class-activity-feed')})
+
 })
 
+
+function refreshMyUpdates(){
+	$("#my-updates-feed").load(servername+"/ajax/myupdates", function(){setupAlertCloseButtons('#my-updates-feed')})
+}
+
+function refreshMyActivity(){
+	$("#my-recent-activity-feed").load(servername+"/ajax/myactivity", function(){setupAlertCloseButtons('#my-recent-activity-feed')})
+}
+
+function refreshClassActivity(){
+	$("#recent-class-activity-feed").load(servername+"/ajax/classactivity", function(){setupAlertCloseButtons('#recent-class-activity-feed')})
+}
 
 function setupAlertCloseButtons(section){
     
@@ -94,7 +107,8 @@ if($_SESSION['profile']=="STUDENT")
 			{
 			?>
 			<div class="dashlet-box"><a href="/question/addform">Create New Question</a></div>
-			<div class="dashlet-box"><a href="/myhome/classlist">See Class List</a></div>
+			<div class="dashlet-box"><a href="/myhome/classlist">Class Management</a></div>
+			<div class="dashlet-box"><a href="/myhome/curriculum-journal">Curriculum Journal</a></div>
 			<?php } // end if teacher?>
 			
 			<div class="dashlet-box">

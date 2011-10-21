@@ -29,6 +29,7 @@ CREATE  TABLE IF NOT EXISTS `placeweb`.`user` (
   `author_id` INT NULL ,
   `date_modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP ,
   `date_created` TIMESTAMP NULL ,
+  `last_login` DATETIME NULL,
   `username` VARCHAR(255) NOT NULL ,
   `password` VARCHAR(255) NULL ,
   `user_type` ENUM('STUDENT', 'TEACHER','ADMIN') NOT NULL ,

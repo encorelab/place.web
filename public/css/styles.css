@@ -204,11 +204,11 @@ border:1px solid #ccc;
 }
 
 .alert-comment-answer  {
-    background: #f3f5f8;
+    background: #E4E9F0;
 }
 
 .alert-comment-comment  {
-    background: #f3f5f8;
+    background: #E4E9F0;
 }
 
 .alert-voted-comment{
@@ -787,4 +787,19 @@ div.jp-video-270p {
     border: 1px dashed #000000;
     float: right;
     padding: 0.5em 1em 0.5em 1em;
+}
+
+#logs thead {
+	font-size: 14px;
+}
+
+#logs td {
+	font-size: 12px;
+}
+
+#studentScoreCard td {
+	font-size: 12px;
+	color: #414B53;
+	border-bottom: 1px solid lightgrey;
+	padding: 5px;
 }

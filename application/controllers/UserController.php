@@ -19,7 +19,7 @@ class UserController extends Zend_Controller_Action
 
     public function indexAction()
     {
-
+		
     }
     
     public function loginAction()
@@ -30,9 +30,7 @@ class UserController extends Zend_Controller_Action
     	 * Antonio commented this, please set this in config.php
     	 * $PLACEWEB_CONFIG['authentication'] = "rollCall";
     	 * 
-    	 */  
-        $this->authMethod = "rollCall";
-    	
+    	 */
     	if($this->authMethod == "local")
     	{
     		$this->localAuthentication();
@@ -67,24 +65,24 @@ class UserController extends Zend_Controller_Action
     {
     	global $PLACEWEB_CONFIG;
     	
-		$q = Doctrine_Query::create()
-		->select('e.*')
-		->from('User e')
-		->where('e.run_id = ? AND e.username = ?' , array(1, $this->params['username']))
-		->orderBy('e.id DESC');
-		$user = $q->fetchArray();
-		print_r($user);
-
-    	$_SESSION['access'] = true;
-    	$_SESSION['username'] = $user[0]['username']; 	// user.username
-    	$_SESSION['user_display_name'] = $user[0]['display_name']; 	// user.username
-    	$_SESSION['profile'] = $user[0]['user_type']; 	// user.user_type
-    	$_SESSION['run_id']=1; 		// user.run_id
-    	$_SESSION['author_id'] = $user[0]['id']; // user.author_id
-    	
-    	header('Location: /myhome');
-    	
-
+        $username = $this->params['username'];
+        $password = $this->params['password'];
+		
+		$localUser = Doctrine::getTable('User')->findByDql("username = ?", $username);
+		$localUser = $localUser[0];
+		
+		$localUser->last_login = date( 'Y-m-d H:i:s');
+		$localUser->save();
+		
+        $_SESSION['access'] = true;
+    	$_SESSION['username'] = $localUser->username;
+    	$_SESSION['profile'] = $localUser->user_type;
+    	$_SESSION['run_id'] = 1;
+    	$_SESSION['user_display_name'] = $localUser->display_name;
+    	$_SESSION['author_id'] = $localUser->id;
+    	$_SESSION['group_name'] = $localUser->group_name;
+			
+        header('Location: /myhome');
     } // end localAuthentication()
     
     private function rollCallAuthentication()
@@ -153,6 +151,9 @@ class UserController extends Zend_Controller_Action
                 }else{
                     $localUser = $localUser[0];
                 }
+
+				$localUser->last_login = date( 'Y-m-d H:i:s');
+				$localUser->save();
 
                 // setup session 
                 $_SESSION['access'] = true;

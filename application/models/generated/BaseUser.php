@@ -90,6 +90,14 @@ abstract class BaseUser extends Doctrine_Record
              'notnull' => false,
              'autoincrement' => false,
              ));
+		$this->hasColumn('last_login', 'timestamp', null, array(
+             'type' => 'timestamp',
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             ));
         $this->hasColumn('username', 'string', 255, array(
              'type' => 'string',
              'length' => 255,

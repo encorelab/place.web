@@ -1,0 +1,38 @@
+
+
+<script type='text/javascript'>
+$(document).ready(function(){
+	$("#logs").dataTable();
+})
+</script>
+
+<h2>Curriculum Journal</h2>
+
+<div id="home-columns">
+    <div id="home-col2" style="float:right;width:80%;">
+       	<table id='logs' CELLPADDING="2" CELLSPACING="2" width='100%'>
+			<thead>
+				<th>Comments</th>
+				<th>Date</th>
+			</thead>
+<?php
+foreach ($this->logs as $log){
+	echo "<tr>";
+	echo "<td width='80%'>".$log->log."</td>";
+	echo "<td width='20%'>".date("l F jS", strtotime($log->date_created))."</td>";
+	echo "</tr>";
+}
+?>
+		</table>
+		
+    	<div style="width: 100%;">
+			<h3>Add a Comment</h3>			
+			<form action='save-journal-entry' method='POST'>
+				<textarea cols='50' rows='5' name='comment'>
+				
+				</textarea>
+				<input type='submit' value='Add Comment' label='Add Comment' />
+			</form>
+		</div>
+	</div>
+</div>

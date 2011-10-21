@@ -35,11 +35,6 @@ $PLACEWEB_CONFIG['uploadDir'] = "/var/www/place/public/content/";
 
 $PLACEWEB_CONFIG['uploadWebDir'] = "/content/";
 
-// Authentication mode: in development
-$PLACEWEB_CONFIG['authentication'] = "local";
-//$PLACEWEB_CONFIG['authentication'] = "rollCall";
-
-
 //////////////////////////////////////////////////////////////////
 
 $PLACEWEB_CONFIG['questionChoices'] = array(

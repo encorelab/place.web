@@ -30,9 +30,7 @@ class UserController extends Zend_Controller_Action
     	 * Antonio commented this, please set this in config.php
     	 * $PLACEWEB_CONFIG['authentication'] = "rollCall";
     	 * 
-    	 */  
-        $this->authMethod = "local";
-    	
+    	 */
     	if($this->authMethod == "local")
     	{
     		$this->localAuthentication();

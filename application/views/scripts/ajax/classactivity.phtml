@@ -8,6 +8,11 @@ foreach ($this->activities as $activity)
 		{$activity->getMessage()}
 		</li>";
 }
+
+
+if (isset($this->limit) && $this->limit >= $this->activities->count()){
+	echo "<li style='text-align: center;'><a href='#' onclick='refreshClassActivity(); return false;'>show all</a></li>";
+}
 ?>
 	</ul>
 </div>

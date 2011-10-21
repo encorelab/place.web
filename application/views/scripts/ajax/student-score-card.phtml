@@ -5,31 +5,31 @@
 		<table width="100%">
 			<tr>
 				<td>Examples Submitted</td>
-				<td><b><?= $this->numExamples ?></b></td>
+				<td><b><?php echo $this->numExamples ?></b></td>
 			</tr>
 			<tr>
 				<td>Votes Cast</td>
-				<td><b><?= $this->numVotes."<br/>".$this->numUpVotes." UP + ".$this->numDownVotes." DN"?></b></td>
+				<td><b><?php echo $this->numVotes."<br/>".$this->numUpVotes." UP + ".$this->numDownVotes." DN"?></b></td>
 			</tr>
 			<tr>
 				<td>Comments made</td>
-				<td><b><?= $this->numComments?></b></td>
+				<td><b><?php echo $this->numComments?></b></td>
 			</tr>
 			<tr>
 				<td>Comment Score</td>
-				<td><b><?= $this->commentScore ?></b></td>
+				<td><b><?php echo $this->commentScore ?></b></td>
 			</tr>
 			<tr>
 				<td>Tag Score</td>
-				<td><b><?= $this->tagScore ?></b></td>
+				<td><b><?php echo $this->tagScore ?></b></td>
 			</tr>
 			<tr>
 				<td>Last Logged In</td>
-				<td><b><?= date("l F jS", strtotime($this->lastLogin)) ?></b></td>
+				<td><b><?php echo date("l F jS", strtotime($this->lastLogin)) ?></b></td>
 			</tr>
 			<tr>
 				<td>Answers made</td>
-				<td><b><?= $this->numAnswers ?></b></td>
+				<td><b><?php echo $this->numAnswers ?></b></td>
 			</tr>
 		</table>
     </div>

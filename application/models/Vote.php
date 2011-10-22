@@ -12,6 +12,11 @@
  */
 class Vote extends BaseVote
 {
+	/**
+	 * param $author_id if null, then comment score for the whole run is returned. 
+	 * 					if a valid user id is given, comment score of that user is calculated
+	 *
+	 */
 	public static function calculateCommentScore($author_id=null){
 
 		$comments = array();
@@ -50,23 +55,40 @@ class Vote extends BaseVote
     }
     
 
-    
-    public static function calculateTagScore(){
-        // get all user's QuestionConcept
-        $questionConcepts = Doctrine::getTable("QuestionConcept")
-                    ->findByDql("author_id = ? AND run_id = ?", array($_SESSION['author_id'], $_SESSION['run_id']));
+    /**
+	 * param $author_id if null, then tag score for the whole run is returned. 
+	 * 					if a valid user id is given, tag score of that user is calculated
+	 *
+	 */
+    public static function calculateTagScore($author_id=null){
+		$questionConcepts = array();
+		$exampleConcepts = array();
+		if ($author_id != null){
+			// get all user's comments
+	        $questionConcepts = Doctrine::getTable("QuestionConcept")
+	                    ->findByDql("author_id = ? AND run_id = ?", array($author_id, $_SESSION['run_id']));
+	
+			$exampleConcepts = Doctrine::getTable("ExampleConcept")
+			                    ->findByDql("author_id = ? AND run_id = ?", array($author_id, $_SESSION['run_id']));
+		}else{
+			// get all comments
+	        $questionConcepts = Doctrine::getTable("QuestionConcept")
+	                    ->findByDql("run_id = ?", $_SESSION['run_id']);
+	
+			$exampleConcepts = 	Doctrine::getTable("ExampleConcept")
+						->findByDql("run_id = ?", $_SESSION['run_id']);
+		}
         
-        $questionConceptIds = array();
-        
-        foreach ($questionConcepts as $questionConcept){
-            $questionConceptIds[] = $questionConcept->id;
-            //echo "<hr>".$questionConcept->id;
-        }
-        
+
+
         $questionConceptScore = 0;
-        
-       	// Anto fixed this. note that if $questionConceptIds[]is empty, the query selects sums all the votes, this if prevents this
         if (count($questionConcepts) != 0){
+			// aggregate question concept ids
+	        $questionConceptIds = array();
+	        foreach ($questionConcepts as $questionConcept){
+	            $questionConceptIds[] = $questionConcept->id;
+	            //echo "<hr>".$questionConcept->id;
+	        }
 
         	// sum up all the votes for the user comments found
 	        $votes1 = Doctrine_Query::create()
@@ -81,21 +103,16 @@ class Vote extends BaseVote
 	        }
         }
         
-    	// get all user's ExampleConcept
-        $exampleConcepts = Doctrine::getTable("ExampleConcept")
-                    ->findByDql("author_id = ? AND run_id = ?", array($_SESSION['author_id'], $_SESSION['run_id']));
 
-        $exampleConceptIds = array();
-        
-        foreach ($exampleConcepts as $exampleConcept){
-            $exampleConceptIds[] = $exampleConcept->id;
-        }
-        
+
         $exampleConceptScore = 0;
-        
-        if (count($exampleConceptIds) != 0)
-        {
-        
+        if (count($exampleConcepts) != 0){
+        	// aggregate example concept ids
+			$exampleConceptIds = array();
+	        foreach ($exampleConcepts as $exampleConcept){
+	            $exampleConceptIds[] = $exampleConcept->id;
+	        }
+	
 	        // sum up all the votes for the user comments found
     	    $votes2 = Doctrine_Query::create()
                     ->select("sum(vote_value) as vote_sum")

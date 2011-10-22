@@ -25,8 +25,8 @@ class ActivityType extends BaseActivityType
     public static $CREATED_EXAMPLE = 11;
     public static $CREATED_QUESTION = 12;
     public static $ANSWERED_QUESTION = 13;
-    public static $VOTED_ON_QUESTION_CONCEPT = 14;
-    public static $VOTED_ON_EXAMPLE_QUESTION = 15;
+    public static $VOTED_ON_QUESTION_CONCEPT = 14; // unused
+    public static $VOTED_ON_EXAMPLE_QUESTION = 15; // unused
     public static $TAGGED_QUESTION_WITH_CONCEPT = 16;
     public static $TAGGED_EXAMPLE_WITH_CONCEPT = 17;
 }

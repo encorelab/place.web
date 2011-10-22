@@ -21,7 +21,7 @@
 			</tr>
 			<tr>
 				<td>Tag Score</td>
-				<td><b><?php echo $this->tagScore ?></b></td>
+				<td><b><?php echo $this->tagScore."<br/>Examples: ".$this->tagExampleScore." Questions: ".$this->tagQuestionScore ?></b></td>
 			</tr>
 			<tr>
 				<td>Last Logged In</td>
@@ -31,6 +31,24 @@
 				<td>Answers made</td>
 				<td><b><?php echo $this->numAnswers ?></b></td>
 			</tr>
+			<tr>
+				<td>Comment Marked</td>
+				<td><b><?php echo $this->numCommentsAssessed ?></b></td>
+			</tr>
+			<tr>
+				<td>Average Comment Mark</td>
+				<td><b><?php echo $this->avgCommentsMark ?></b></td>
+			</tr>
+			<tr>
+				<td>Answers Marked</td>
+				<td><b><?php echo $this->numAnswersAssessed ?></b></td>
+			</tr>
+			<tr>
+				<td>Average Answer Mark</td>
+				<td><b><?php echo $this->avgAnswersMark ?></b></td>
+			</tr>
+			
+			
 		</table>
     </div>
 </div>

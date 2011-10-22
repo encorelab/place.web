@@ -80,7 +80,14 @@ class MyhomeController extends Zend_Controller_Action
     public function classlistAction()
     {
 		Placeweb_Authorizer::authorize("TEACHER");
-        $this->view->students = Doctrine::getTable("User")->findByDql("user_type = 'STUDENT' AND run_id = ".$_SESSION["run_id"]);
+		
+        $this->view->students = Doctrine_Query::create()
+								->select('*')
+								->from('User u')
+								->where("user_type = 'STUDENT'")
+								->andWhere('run_id = ?', $_SESSION["run_id"])
+								->orderBy('substr(username from 2) asc')
+								->execute();
     }
 
 	public function curriculumJournalAction(){

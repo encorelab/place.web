@@ -116,6 +116,10 @@ abstract class BaseComment extends Doctrine_Record
         $this->hasMany('Comment', array(
              'local' => 'id',
              'foreign' => 'parent_id'));
+		
+		$this->hasMany('Assessment', array(
+             'local' => 'id',
+             'foreign' => 'obj_id'));
 
         $this->hasOne('Run', array(
              'local' => 'run_id',

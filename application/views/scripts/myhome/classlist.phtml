@@ -12,12 +12,12 @@ $(document).ready(function(){
 <h2>Class Management</h2>
 
 <div id="home-columns">
-    <div id="home-col1" style="float:left;width:10%;">
+    <div id="home-col1" style="float:left;width:15%;">
         <h3>Students</h3>
 <?php
 foreach($this->students as $student){
     $studentId = $student->id;
-    $studentName = $student->display_name;
+    $studentName = ucfirst(substr($student->username,0,1)).'. '.ucfirst(substr($student->username,1));
     
     echo "<p><input type='radio' name='students' value='$studentId' /> $studentName</p>";
 }

@@ -128,5 +128,9 @@ abstract class BaseAnswer extends Doctrine_Record
         $this->hasMany('AnswerConcept', array(
              'local' => 'id',
              'foreign' => 'answer_id'));
+		
+		$this->hasMany('Assessment', array(
+             'local' => 'id',
+             'foreign' => 'obj_id'));
     }
 }

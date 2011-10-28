@@ -1,10 +1,13 @@
 <!-- TinyMCE -->
+<script type="text/javascript" src="/swampy_browser/sb.js"></script>
+
 <script type="text/javascript" src="/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
 <script type="text/javascript">
 	tinyMCE.init({
 		// General options
 		mode : "textareas",
 		theme : "advanced",
+		file_browser_callback : "openSwampyBrowser", /* you need this line for SwampyBrowser */
 		
 		// reduced plugin set for performance
 		plugins : "tiny_mce_wiris,lists,table,advhr,advimage,advlink,emotions,inlinepopups,insertdatetime,media,searchreplace,contextmenu,paste,directionality,noneditable,xhtmlxtras,wordcount",

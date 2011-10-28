@@ -163,7 +163,8 @@ class UserController extends Zend_Controller_Action
             	$_SESSION['user_display_name'] = $auth['user']['display_name'];
             	$_SESSION['author_id'] = $localUser->id;
             	$_SESSION['group_name'] = $localUser->group_name;
-					
+		setcookie("author_id", $localUser->id, 0, '/swampy_browser/');
+
                 header('Location: /myhome');
             	
             }else{

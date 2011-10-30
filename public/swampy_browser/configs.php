@@ -1,7 +1,10 @@
 <?php
 //print_r($_COOKIE['author_id']);
 //session_start();
-include('/var/www/mywebapps/PlaceWeb.GitHub/place.web.agamba/application/configs/config.php');
+//include('/var/www/mywebapps/PlaceWeb.GitHub/place.web.agamba/application/configs/config.php');
+include('/var/www/place/application/configs/config.php');
+
+
 
 
 /**

@@ -1074,5 +1074,47 @@ function checkExample() {
 		$("#addExmple").submit();
 }
 
+function checkExampleUpdate() {
+	var thisContent = tinyMCE.get('content').getContent();
+	var publish = false;
+	var is_published=$('#is_published option:selected').val();
+	
+	function validateUpdate()
+	{
+		if ($("#saved").val() == 0)
+		{
+			$( "#error-dialog" ).dialog( "open" );
+	                $( "#error-dialogue-text").html("<p>Please wait for the file uploading to complete...</p>");
+	                return false;
+		}
+		else if ($("#example-name").val().length < 3)
+		{
+			$( "#error-dialog" ).dialog( "open" );
+			$( "#error-dialogue-text").html("<p>You must enter a name (with at least 3 characters) in the <strong>Name</strong> field for your example.</p>");		
+			return false;
+		}
+		else if (thisContent.length < (5+7))
+	    {
+	                $( "#error-dialog" ).dialog( "open" );
+	                $( "#error-dialogue-text").html("<p>You must add to something (at least 5 characters) to the <strong>Content</strong> field for your example.</p>");
+	                return false;
+	    } 
+	}
+	
+	if (is_published=="1") {
+		publish = confirm("You are about to publish this example.\nAre you sure you want to continue?");
+		if (publish)
+		{
+			validateUpdate();
+		} else {
+			return false;
+		}
+	} else {
+		validateUpdate();
+	}
+	$("#addExmple").submit();
+	
+}
+
 
 

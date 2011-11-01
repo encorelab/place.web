@@ -1,3 +1,19 @@
+function closeConceptList()
+{
+	//$('#concept-select-list').hide(1000);
+	$("#concept-select-list").addClass('div-hide');
+	$('#concept-select-link').html('<a href="#" onClick="showConceptList()"><img src="/images/icon_list_arrow_rigth.png" alt="Show Concepts"/></a>');
+
+}
+
+function showConceptList()
+{
+	//$('#concept-select-list').show(700);
+	$("#concept-select-list").removeClass('div-hide');
+	$('#concept-select-link').html('<a href="#" onClick="closeConceptList()"><img src="/images/icon_list_arrow_down.png" alt="Show Concepts"/></a>');
+	
+}
+
 function loadWeb()
 {
 	$('#web-container-home').show(700);

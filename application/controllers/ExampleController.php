@@ -33,7 +33,9 @@ class ExampleController extends Zend_Controller_Action
 			->where('e.run_id = ? AND e.id = ?' , array($_SESSION['run_id'], $params['id']))
 			->orderBy('e.id DESC');
 			$example = $q->fetchArray();
+			
 			//print_r($example);
+			
 			if(!isset($example[0]['id']))
 			{
 				$type=-1; // the example does not exist
@@ -44,7 +46,7 @@ class ExampleController extends Zend_Controller_Action
     	} else {
     		// select all examples [list]
 			$k = Doctrine_Query::create()
-			->select('e.id, e.name')
+			->select('e.id, e.name, e.is_published')
 			->from('Example e')
 			->where('e.run_id = ?' , $_SESSION['run_id'])
 			->orderBy('e.id DESC');
@@ -94,9 +96,9 @@ class ExampleController extends Zend_Controller_Action
         $params = $this->getRequest()->getParams();
 
         // set a defaut name if not set
-        if(isset($params['name']) && $params['name']!="")
+        if(isset($params['example-name']) && $params['example-name']!="")
         {
-        	$name = $params['name'];
+        	$name = $params['example-name'];
         } else {
         	$name = "[ ... ]";
         }
@@ -112,7 +114,9 @@ class ExampleController extends Zend_Controller_Action
 		$example->media_path = $params['media_path'];
 		$example->media_type = $params['media_type'];
 		$example->type = $params['type'];
-        $example->save();
+		$example->is_published = $params['is_published'];
+//		$example->is_public = $params['is_public'];
+	    $example->save();
         
         $this->view->newExample = $example;
 
@@ -172,7 +176,7 @@ class ExampleController extends Zend_Controller_Action
 		} // end for
 
 		// redirect to home
-		header('Location: /myhome');
+		header('Location: /example/show?id='.$example->id);
 
     } // end fnc
     
@@ -218,6 +222,85 @@ class ExampleController extends Zend_Controller_Action
 		//echo "<br>activity Id: ".$activity->id;
 		
 	} 
+	
+    public function updateAction()
+    {
+		//Placeweb_Authorizer::authorize("TEACHER");
+		
+    	$params = $this->getRequest()->getParams();
+    	//print_r($params);
+    	
+		// Update example 
+		Doctrine_Query::create()
+		  ->update('Example e')
+		  ->set('e.name', '?', $params['example-name'])
+		  ->set('e.type', '?', $params['type'])
+		  ->set('e.is_published', '?', $params['is_published'])
+		  ->set('e.content', '?', $params['content'])
+		  ->set('e.media_path', '?', $params['media_path'])
+		  ->set('e.media_content', '?', $params['media_content'])
+		  ->set('e.media_type', '?', $params['media_type'])
+		  ->where('e.run_id = ? AND e.author_id = ? AND e.id = ?' , array($_SESSION['run_id'], $_SESSION['author_id'], $params['example_id']))
+		  ->execute();
+
+		  // get first comment id for this example: !
+			$qLastComment = Doctrine_Query::create()
+			->select('c.*')
+			->from('Comment c')
+			->where('c.run_id = ? AND c.obj_id = ? AND c.obj_type = ?',
+				array($_SESSION['run_id'], $params['example_id'], 3)) 
+				// Find comment on an example; obj_type = 3
+			->orderBy('c.id DESC');
+			$lastComment = $qLastComment->fetchArray();
+			print_r($lastComment);
+		  
+		   // get id from last id
+		  $comment_id = 0;
+		  if(isset($lastComment[0]))
+		  {
+		  	$comment_id = $lastComment[0]['id'];
+		  }
+		
+		// Update first comment 
+		Doctrine_Query::create()
+		  ->update('Comment c')
+		  ->set('c.content', '?', $params['content'])
+		  ->where('c.run_id = ? AND c.author_id = ? AND c.id = ?' ,
+		  		array($_SESSION['run_id'], $_SESSION['author_id'], $comment_id))
+		  ->execute();
+		  
+		  /*
+		  if($params['is_published']==1)
+		  {
+			// insert activity log
+			$activity = new Activity();
+			$activity->run_id = $_SESSION['run_id'];
+			$activity->author_id = $_SESSION['author_id'];
+			//$question_comment->date_modified = date( 'Y-m-d H:i:s');
+			$activity->date_created = date( 'Y-m-d H:i:s');
+			$activity->activity_type_id = 12;
+
+			$activity->i1 = $params['question_id'];
+			$activity->i2 = "";
+			$activity->i3 = "";
+			$activity->i4 = "";
+			$activity->i5 = "";
+			
+			$activity->s1 = "Questions";
+			$activity->s2 = "";
+			$activity->s3 = "";
+			
+			$activity->t1 = "Questions";
+			$activity->t2 = "";
+			
+			$activity->save();
+		  }
+		  */
+			
+		  //header('Location: /question/show?id='.$params['question_id']);
+		  header('Location: /example/show?id='.$params['example_id']);
+		        
+    }
 
 } // end class
 

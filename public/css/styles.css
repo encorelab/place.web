@@ -1,3 +1,18 @@
+#fileupload{
+	margin-bottom: 1em;
+}
+
+#concept-select-list{
+    margin-left: 512px;
+    margin-top: 27px;
+    position: fixed;
+    z-index: 90;
+}
+
+#web-controls div{
+	float:left;
+}
+
 #webiframe{
 	border: 0;
 }
@@ -109,8 +124,8 @@
 }
 
 #assessment-review-container{
+	float: left;
     margin-top: 3em;
-    width: 600px;
 }
 
 .div-show {
@@ -432,8 +447,9 @@ display:none;
 }
 
 #reply-container {
+	float: left;
     margin-top: 1em;
-    width: 600px;
+
 }
 
 
@@ -509,15 +525,14 @@ li.header-li a{
     border: 1px solid #000000;
     border-radius: 6px 6px 6px 6px;
     box-shadow: 1px 1px 3px;
-
     color: #333333;
     /*font-family: Tahoma, Geneva, sans-serif;*/
     margin-right: 1em;
-
     margin-bottom: 1em;
     margin-right: 1em;
     overflow: hidden;
     padding: 0.5em;
+    text-align: center;
 }
 
 .dashlet-box-image .image-holder {
@@ -779,7 +794,7 @@ div.jp-video-270p {
 #orig-reply-container
 {
 	margin-top:1em;
-	width:600px;
+	float:left;
 }
 
 .answer-mc{

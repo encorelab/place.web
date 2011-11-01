@@ -44,8 +44,6 @@ if($this->type==-2)
 	$error=false;
 }
 
-
-
 /*
  * multiple view
  */
@@ -58,40 +56,51 @@ if($this->type==0 && !$error)
 	foreach ($this->example as $example)
 	{
 		$examplesListHtml.= "		
-		<li><a href='/example/show?id=".$example['id']."'>".$example['name']."</a></li>";
+		<li><a href='/example/show?id=".$example['id']."'>".$example['name']."";
+		if($example['is_published']==0)
+		{
+			$examplesListHtml.= " [Not Published]";
+		}
+		$examplesListHtml.="</a></li>";
 	}
 	$examplesListHtml.="
 	</ul>";
 	
 	echo $examplesListHtml;
 
-
-} else if($this->type==1 && !$error) 
-
 /*
- * start single view
+ * edit view
  */
-{
+} else if (isset($this->example[0]) && $this->example[0]['is_published']==0)  {
+	
+	// check if the owner or an instructor is loged in
+	if($this->example[0]['author_id']==$_SESSION['author_id'] || $_SESSION['profile']=="TEACHER")
+	{
+		echo entitityShowTagsHtml($this->example[0]);
+		echo entitityAddTagForm($this->example[0]);
+		echo entitityVoteOnTagForm($this->example[0]);
+	
+		// set example data 
+		$this->view->example = $this->example[0];
+	
+		//echo "Re use here insert form";
+		include_once(APPLICATION_PATH.'/layouts/include/addExample.inc.php');
+			
+	} else {
+		echo "<p>This Example has not been published</p>";
+	}
+	
+ 
+/*
+ *  single view
+ */
+} else if($this->type==1 && !$error) {
+	echo entitityShowTagsHtml($this->example[0]);
+	echo entitityAddTagForm($this->example[0]);
+	echo entitityVoteOnTagForm($this->example[0]);
+
 ?>
 
-
-	<div id="elo-tags" class="dashlet-box">
-		<div class="dashlet-title">Tags</div>
-		
-		<!-- start  tags-container -->
-		<div id="tags-container">
-			<ul class="ul-for-data">
-			<?php
-			$Myconcepts=getConcepts($this->example[0]['id']);
-			
-			//print_r($Myconcepts);
-			echo analyzeTags($Myconcepts);
-			?>
-			</ul>
-		</div>
-		<!-- /tags-container -->
-	</div>
-	
 	<!-- start media container -->
 	<?php
 		// MIKE'S CODE TO MAKE THE UPLOAD VIEW WORK //////////////////////////// 
@@ -185,14 +194,8 @@ echo '
     <div class="dashlet-title">'.$this->example[0]['name'].'</div>
 	<div class="image-holder"><img src="/content/'.$this->example[0]['media_path'].'" title="'.$this->example[0]['name'].'" width="320px" /></div>
 </div>';
-
 		}
-		//<img  height="240px" title="Drag and Drop a new Media File here..." alt="Drag and Drop a new Media File here..." src="/images/uploader.png" id="eloimg">
-	
-
-	
-		//<div>$this->example[0]['content']</div>
-		?>	
+?>	
 <!--
 	<div class="clear"></div>
 --> 
@@ -239,6 +242,7 @@ echo '
 		<div id="btn_submit_marks" class="div-show">
 			<input id="btn_submit_marks" type="button" value="Submit Marks" onclick="showAssessmentReview()">
 		</div>
+		<div class="clear"></div>
 		<div id="assessment-review-container" class="dashlet-box div-hide">
 			<div class="dashlet-title">Assessment Review</div>
 			<textarea name="review-log" rows="" cols="" name="assessment_review"></textarea>
@@ -258,6 +262,7 @@ echo '
 
 	</form>
 	<!-- /assessment comment form  -->
+
  	<div class="clear"></div>
 	<div id="error-dialog" title="Submission Error">
         	<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
@@ -271,17 +276,19 @@ echo '
 		</div>
 		<div id="reply-container" class="dashlet-box div-hide">
 			<div id="reply-new-title" class="dashlet-title"></div>
-			<textarea rows="5" cols="25" id="replyText" name="replyText"></textarea>
-			<br/>
-			<input type="button" onClick="checkReply()" value="Submit"/>
-			<input type="button" value="Cancel" onClick="postCancel()"/>
-			<input type="hidden" name="i1" id="i1" value="<?php echo $this->example[0]['id']; ?>"/>
-			<input type="hidden" name="obj_id" id="obj_id" value=""/>
-			<input type="hidden" name="postId" id="postId" value=""/>
-			<input type="hidden" name="example_id" id="example_id" value="<?php echo $this->example[0]['id']; ?>"/>
-			<input type="hidden" name="parentType" id="parentType" value=""/>
-			<input type="hidden" name="activity_on_user" id="activity_on_user" value=""/>
-			<input type="hidden" name="replyPosted" id="replyPosted" value="1"/>
+			<div>
+				<textarea rows="5" cols="25" id="replyText" name="replyText"></textarea>
+				<br/>
+				<input type="button" onClick="checkReply()" value="Submit"/>
+				<input type="button" value="Cancel" onClick="postCancel()"/>
+				<input type="hidden" name="i1" id="i1" value="<?php echo $this->example[0]['id']; ?>"/>
+				<input type="hidden" name="obj_id" id="obj_id" value=""/>
+				<input type="hidden" name="postId" id="postId" value=""/>
+				<input type="hidden" name="example_id" id="example_id" value="<?php echo $this->example[0]['id']; ?>"/>
+				<input type="hidden" name="parentType" id="parentType" value=""/>
+				<input type="hidden" name="activity_on_user" id="activity_on_user" value=""/>
+				<input type="hidden" name="replyPosted" id="replyPosted" value="1"/>
+			</div>
 		</div>
 	</form>
 
@@ -302,37 +309,16 @@ echo '
 	</form>
 	<!--  end add vote on comments -->	
 	
-	<!--  start add vote on example_concept -->
-	<form id="qe_vote_form" method="post" action="/votes/add?prefix=qe_">
-		<input type="hidden" name="qe_obj_id" id="qe_obj_id" value=""/>
-		<input type="hidden" name="qe_obj_type" id="qe_obj_type" value="4"/>
-		<input type="hidden" name="qe_vote_value" id="qe_vote_value" value=""/>
-		<input type="hidden" name="qe_activity_type_id" id="qe_activity_type_id" value="4"/>
-		<input type="hidden" name="qe_activity_on_user" id="qe_activity_on_user" value=""/>
-		<input type="hidden" name="qe_i1" id="qe_i1" value="<?php echo $this->example[0]['id']; ?>"/>
-		<input type="hidden" name="qe_i2" id="qe_i2" value=""/>
-		<input type="hidden" name="qe_s1" id="qe_s1" value="Example"/>
-		<input type="hidden" name="qe_s2" id="qe_s2" value="ExampleConcept"/>
-		<input type="hidden" name="qe_t1" id="qe_t1" value="Voted on ExampleConcept"/>
-	</form>
-	<!--  end add vote on example_concept -->
+<?php
+//print_r($this->example[0]);
+
+
+	echo entitityVoteOnTagForm($this->example[0]);
+
+////
+?>	
 	
-	
-	<!--  start add example_concept -->
-	<form id="qe_tag_form" method="post" action="/tags/add?prefix=taggqe_">
-		<input type="hidden" name="qe_id" id="qe_id" value="<?php echo $this->example[0]['id']; ?>"/>
-		<input type="hidden" name="concept_id" id="concept_id" value=""/>
-		<input type="hidden" name="tag_type" id="tag_type" value="1"/> <?php // 1 for example, 2 for questions?>
-		
-		<input type="hidden" name="taggqe_activity_type_id" id="taggqe_activity_type_id" value="17"/>
-		<input type="hidden" name="taggqe_activity_on_user" id="taggqe_activity_on_user" value=""/>
-		<input type="hidden" name="taggqe_s1" id="taggqe_s1" value="Example"/>
-		<input type="hidden" name="taggqe_s2" id="taggqe_s2" value="Concept"/>
-		<input type="hidden" name="taggqe_s3" id="taggqe_s3" value="ExampleConcept"/>
-		<input type="hidden" name="taggqe_t1" id="taggqe_t1" value="Tagged Example with a Concept"/>
-		
-	</form>
-	<!--  end add example_concept -->
+
 
 <!-- </div> --> <!-- closes both video and image containers -->
 <?php 
@@ -348,10 +334,14 @@ echo '
 
 <?php 
 //////////////////////////////////////////
+// some functions specific for this view
+//////////////////////////////////////////
+
 /**
  * 
  * gets first level comments ids
- * @param unknown_type $id
+ * @param int $id the entity id
+ * @param int $obj_type the type id: the commentable entity id
  */
 function getCommentsIds($id, $obj_type)
 {
@@ -773,5 +763,75 @@ function analyzeTags($tags, $prefix="")
 	return $tagsHtml.$notIncludedConceptsHtml;
 
 } // end fnc
+
+function entitityShowTagsHtml($data)
+{
+	$Myconcepts=getConcepts($data['id']);
+
+	//print_r($Myconcepts);
+	$tagsHtmlLiData = analyzeTags($Myconcepts);
+
+	$tagsHtmlContainer = '
+
+
+	<div id="elo-tags" class="dashlet-box">
+		<div class="dashlet-title">Tags</div>
+		
+		<!-- start  tags-container -->
+		<div id="tags-container">
+			<ul class="ul-for-data">'.
+			$tagsHtmlLiData.'
+			</ul>
+		</div>
+		<!-- /tags-container -->
+	</div>
+';
+
+	return $tagsHtmlContainer;
+}
+
+function entitityAddTagForm($data) {
+
+	$html ='
+	<!--  start add tag -->
+	<form id="qe_tag_form" method="post" action="/tags/add?prefix=taggqe_">
+		<input type="hidden" name="qe_id" id="qe_id" value="'.$data['id'].'"/>
+		<input type="hidden" name="concept_id" id="concept_id" value=""/>
+		<input type="hidden" name="tag_type" id="tag_type" value="1"/> <?php // 1 for example, 2 for questions?>
+		
+		<input type="hidden" name="taggqe_activity_type_id" id="taggqe_activity_type_id" value="17"/>
+		<input type="hidden" name="taggqe_activity_on_user" id="taggqe_activity_on_user" value=""/>
+		<input type="hidden" name="taggqe_s1" id="taggqe_s1" value="Example"/>
+		<input type="hidden" name="taggqe_s2" id="taggqe_s2" value="Concept"/>
+		<input type="hidden" name="taggqe_s3" id="taggqe_s3" value="ExampleConcept"/>
+		<input type="hidden" name="taggqe_t1" id="taggqe_t1" value="Tagged Example with a Concept"/>
+		
+	</form>
+	<!--  end add tag -->
+';
+	return $html;
+}
+
+function entitityVoteOnTagForm($data) 
+{
+	$html='
+	<!--  start add vote on example_concept -->
+	<form id="qe_vote_form" method="post" action="/votes/add?prefix=qe_">
+		<input type="hidden" name="qe_obj_id" id="qe_obj_id" value=""/>
+		<input type="hidden" name="qe_obj_type" id="qe_obj_type" value="4"/>
+		<input type="hidden" name="qe_vote_value" id="qe_vote_value" value=""/>
+		<input type="hidden" name="qe_activity_type_id" id="qe_activity_type_id" value="4"/>
+		<input type="hidden" name="qe_activity_on_user" id="qe_activity_on_user" value=""/>
+		<input type="hidden" name="qe_i1" id="qe_i1" value="'.$data['id'].'"/>
+		<input type="hidden" name="qe_i2" id="qe_i2" value=""/>
+		<input type="hidden" name="qe_s1" id="qe_s1" value="Example"/>
+		<input type="hidden" name="qe_s2" id="qe_s2" value="ExampleConcept"/>
+		<input type="hidden" name="qe_t1" id="qe_t1" value="Voted on ExampleConcept"/>
+	</form>
+	<!--  end add vote on example_concept -->
+';
+
+return $html;
+}
 
 ?>

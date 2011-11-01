@@ -12,6 +12,7 @@ Doctrine_Manager::getInstance()->bindComponent('User', 'main');
  * @property integer $author_id
  * @property timestamp $date_modified
  * @property timestamp $date_created
+ * @property timestamp $last_login
  * @property string $username
  * @property string $password
  * @property enum $user_type
@@ -90,7 +91,7 @@ abstract class BaseUser extends Doctrine_Record
              'notnull' => false,
              'autoincrement' => false,
              ));
-		$this->hasColumn('last_login', 'timestamp', null, array(
+        $this->hasColumn('last_login', 'timestamp', null, array(
              'type' => 'timestamp',
              'fixed' => false,
              'unsigned' => false,

@@ -1,15 +1,6 @@
-<div>
-    <ul class="ul-for-data">
 <?php 
 foreach ($this->activities as $activity)
 {
 	echo "<li><span class='alert-close-btn' activityId='{$activity->id}'><img src='/images/icon_close.png' /></span>".$activity->getMessage()."</li>";
 }
-
-if (isset($this->limit)){
-	echo "<li style='text-align: center;'><a href='#' onclick='refreshMyUpdates(); return false;'>show all</a></li>";
-}
 ?>
-	</ul>
-</div>	
-	

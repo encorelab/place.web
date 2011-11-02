@@ -1,18 +1,6 @@
-<div>
-    <ul class="ul-for-data">
 <?php 
 foreach ($this->activities as $activity)
 {
-	echo "<li>
-		<span class='alert-close-btn' activityId='{$activity->id}'><img src='/images/icon_close.png' /></span>
-		{$activity->getMessage()}
-		</li>";
-}
-
-
-if (isset($this->limit) && $this->limit >= $this->activities->count()){
-	echo "<li style='text-align: center;'><a href='#' onclick='refreshClassActivity(); return false;'>show all</a></li>";
+	echo "<li><span class='alert-close-btn' activityId='{$activity->id}'><img src='/images/icon_close.png' /></span>".$activity->getMessage()."</li>";
 }
 ?>
-	</ul>
-</div>

@@ -2,35 +2,61 @@
 var servername = "http://<?php echo $_SERVER['SERVER_NAME']; ?>"
 
 $(document).ready(function () {
-  //  $("#ajax-status").text("The DOM is now loaded and can be manipulated.");
   $("#my-homework-feed").html("<img src='/images/loader.gif' alt='Loading Icon' />")
-  $("#my-updates-feed").html("<img src='/images/loader.gif' alt='Loading Icon' />")
-  $("#my-recent-activity-feed").html("<img src='/images/loader.gif' alt='Loading Icon' />")
-  $("#recent-class-activity-feed").html("<img src='/images/loader.gif' alt='Loading Icon' />")
 
   // ajax call for activities
   $("#my-homework-feed").load(servername+"/ajax/myhomework")
-  $("#my-updates-feed").load(servername+"/ajax/myupdates?limit=5", function(){setupAlertCloseButtons('#my-updates-feed')})
-  $("#my-recent-activity-feed").load(servername+"/ajax/myactivity?limit=5", function(){setupAlertCloseButtons('#my-recent-activity-feed')})
-  $("#recent-class-activity-feed").load(servername+"/ajax/classactivity?limit=5", function(){setupAlertCloseButtons('#recent-class-activity-feed')})
+  // $("#my-updates-feed").load(servername+"/ajax/myupdates?limit=5", function(){setupAlertCloseButtons('#my-updates-feed')})
+  //$("#my-recent-activity-feed").load(servername+"/ajax/myactivity?limit=5", function(){setupAlertCloseButtons('#my-recent-activity-feed')})
+  refreshMyUpdates()
+  refreshMyActivity()
+  refreshClassActivity()
+  // $("#recent-class-activity-feed").load(servername+"/ajax/classactivity?limit=5", function(){setupAlertCloseButtons('#recent-class-activity-feed')})
 
 })
 
 
-function refreshMyUpdates(){
-	$("#my-updates-feed").load(servername+"/ajax/myupdates", function(){setupAlertCloseButtons('#my-updates-feed')})
+function refreshMyUpdates(link){
+	return refreshFeed('my-updates-feed', 'myupdates', link)
 }
 
-function refreshMyActivity(){
-	$("#my-recent-activity-feed").load(servername+"/ajax/myactivity", function(){setupAlertCloseButtons('#my-recent-activity-feed')})
+function refreshMyActivity(link){
+	return refreshFeed('my-recent-activity-feed', 'myactivity', link)
 }
 
-function refreshClassActivity(){
-	$("#recent-class-activity-feed").load(servername+"/ajax/classactivity", function(){setupAlertCloseButtons('#recent-class-activity-feed')})
+function refreshClassActivity(link){
+	return refreshFeed('recent-class-activity-feed', 'classactivity', link);
+}
+
+function refreshFeed(feedId, feedUrl, link){
+	var from = 0
+	var step = 5
+	var feed = $('#'+feedId)
+	
+	if (link != undefined){
+		var list = feed.find('.ul-for-data')
+		
+		from = list.attr('from')
+		list.attr('from', from+step)
+	}
+	
+	if (from == 0){
+		feed.find("img").remove()
+	}
+	
+	$.get('/ajax/'+feedUrl, {from: from, step: step}, function(data){
+		if (data.trim() == ''){
+			feed.find('a').remove();
+		}
+		feed.find(".ul-for-data").append(data)
+		setupAlertCloseButtons("#"+feedId)
+	})
+	
+	return false
 }
 
 function setupAlertCloseButtons(section){
-    
+    console.log('setting up close btn')
     // activity close buttons
     $(section+" .alert-close-btn").click(function(){
         var activityId = $(this).attr('activityId')
@@ -84,21 +110,35 @@ if($_SESSION['profile']=="STUDENT")
 ?>	    
 		<div id="my-updates" class="dashlet-box">
 			<div class="dashlet-title">My Updates</div>
-			<div id="my-updates-feed"></div>
+			<div id="my-updates-feed">
+				<img src='/images/loader.gif' alt='Loading Icon' />
+			    <ul class="ul-for-data" from="6">
+				</ul>
+				<a style='padding: 10px 180px;' href='#' onclick='return refreshMyUpdates(this);'>more...</a>
+			</div>
 
 		</div>
 
 		<div id="my-recent-activity" class="dashlet-box">
 			<div class="dashlet-title">My Recent Activity</div>
-			<div id="my-recent-activity-feed"></div>
+			<div id="my-recent-activity-feed">
+				<img src='/images/loader.gif' alt='Loading Icon' />
+			    <ul class="ul-for-data" from="6">
+				</ul>
+				<a style='padding: 10px 180px;' href='#' onclick='return refreshMyActivity(this);'>more...</a>
+			</div>
 		</div>	
 	</div><!-- /home-col2 -->
 	
 	<div id="home-col3" style="float:left;width:<?php echo $col3Width;?>;">
 		<div id="recent-class-activity" class="dashlet-box">
 			<div class="dashlet-title">Recent Class Activity</div>
-			<div id="recent-class-activity-feed"></div>
-
+			<div id="recent-class-activity-feed">
+				<img src='/images/loader.gif' alt='Loading Icon' />
+			    <ul class="ul-for-data" from="6">
+				</ul>
+				<a style='padding: 10px 180px;' href='#' onclick='return refreshClassActivity(this);'>more...</a>
+			</div>
 		</div>	
 		<div id="course-actions">
 			<div class="dashlet-box"><a href="/example/addform">Create New Example</a></div>

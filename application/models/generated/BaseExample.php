@@ -164,5 +164,9 @@ abstract class BaseExample extends Doctrine_Record
         $this->hasMany('ExampleConcept', array(
              'local' => 'id',
              'foreign' => 'example_id'));
+        
+		$this->hasMany('Assessment', array(
+             'local' => 'id',
+             'foreign' => 'obj_id'));
     }
 }

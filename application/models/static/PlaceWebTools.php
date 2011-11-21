@@ -54,7 +54,7 @@ class PlaceWebTools
 		{
 	
 			$html .= '
-				<li><input type="checkbox" name="'.$namePrefix.'_'.$val.'" value="'.$name.'"/>'.$name.'</li>';
+				<li><input class="tag-checkbox" type="checkbox" name="'.$namePrefix.'_'.$val.'" value="'.$name.'"/>'.$name.'</li>';
 		}
 	
 		$html.='

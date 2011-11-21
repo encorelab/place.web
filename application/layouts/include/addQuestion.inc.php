@@ -3,6 +3,13 @@ require(APPLICATION_PATH.'/configs/config.php');
 require(APPLICATION_PATH.'/models/static/'.'PlaceWebTools.php');
 //require(APPLICATION_PATH.'/models/ajaxfileuploader/AjaxFileUploader.inc.php');
 //require(APPLICATION_PATH.'/models/ajaxfileuploader/upload.php');
+// set default values
+$editMode = false;
+$modeTitleLabel = "Add ";
+$modeFormAction = "/example/add";
+$actionButtonLabel = "Add ";
+$checkJsFunction = "checkExample()";
+
 ?>
 <script type="text/javascript" src="/jquery/jqueryfileupload/elo_fileuploader.js" ></script>
 <h2>Add Question</h2>
@@ -65,7 +72,7 @@ require(APPLICATION_PATH.'/models/static/'.'PlaceWebTools.php');
 		
 			
 		<div class="dashlet-box-image" id="image-preview">
-			<div><img id="eloimg" src="/images/uploader.png" width="320" height="240" alt="Drag and Drop a new Media File here..." title="Drag and Drop a new Media File here..."></div>
+			<div><img id="eloimg" src="/images/uploader.png" width="320" alt="Drag and Drop a new Media File here..." title="Drag and Drop a new Media File here..."></div>
 		</div>
 		<form action="/ajax/uploadfile/" method="POST" enctype="multipart/form-data">
 
@@ -169,10 +176,20 @@ require(APPLICATION_PATH.'/models/static/'.'PlaceWebTools.php');
 			<span class="item-input">
 				<select name="is_published">
 					<option value="1">Yes</option>
-					<option value="0">No</option>
+					<option value="0" selected="selected">No</option>
 				</select>
 			</span>
 			</div>
+			<div>
+			<span class="item-label">Allow Multiple Answers: </span>
+			<span class="item-input">
+				<select name="allow_multipe_answer">
+					<option value="1">Yes</option>
+					<option value="0" selected="selected">No</option>
+				</select>
+			</span>
+			</div>
+
 		</div>
 		<!-- Multiple Question -->
 		<div id="mc-container" class="hide-container" style="float:left;">
@@ -189,17 +206,26 @@ require(APPLICATION_PATH.'/models/static/'.'PlaceWebTools.php');
 			</div>
 		</div>
 	</div><!-- /home-col2 -->
-<!-- 
+<?php
+	if (!$editMode)
+	{
+?>
 	<div id="home-col3" style="float:left;">
 		<div class="dashlet-box-simple">
 			<div class="dashlet-title">Tags</div>
 			<div>
- 
+			<?php 
+			echo PlaceWebTools::arrayToHtmlCheckBoxList(loadConcepts(), "concept_id_");
+			?>
+			<div>
+				<input type="checkbox" onclick="toggleChecked(this.checked)"> Select / Deselect All
+			</div>
 			</div>
 		</div>
-	</div>
-	-->
-	<!-- /home-col3 -->
+	</div><!-- /home-col3 -->
+<?php
+	} // end if not edit mode
+?>	
 	
 	<div class="clear"></div>
 	
@@ -242,3 +268,23 @@ $('#question_type').change(function() {
 
 });
 </script>
+<?php 
+function loadConcepts()
+{
+	//get all Concepts in db for comparison: which ones are not added yet
+	$q = Doctrine_Query::create()
+		->select('e.id,  e.name')
+		->from('Concept e')
+		->where('e.run_id = ?', $_SESSION['run_id']);
+	
+	$theConcepts = $q->fetchArray();
+	
+	// adjust the concepts from db 
+	foreach($theConcepts as $concept)
+	{
+		$theConceptsF[$concept['id']] = $concept['name'];
+	}
+	
+	return $theConceptsF;
+}
+?>

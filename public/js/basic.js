@@ -1,3 +1,15 @@
+function toggleChecked(status) {
+	$(".tag-checkbox").each( function() {
+		$(this).attr("checked",status);
+	})
+}
+
+function toggleChecked(status) {
+	$(".tag-checkbox").each( function() {
+		$(this).attr("checked",status);
+	})
+}
+
 function closeConceptList()
 {
 	//$('#concept-select-list').hide(1000);
@@ -146,29 +158,30 @@ function postVote(vote, id, type, userid, prefix)
 //	$("#"+prefix+"obj_type").val(type); 
 	$("#"+prefix+"activity_on_user").val(userid);
 	$("#"+prefix+"i2").val(id);
-	//$("#"+prefix+"-form").submit();
+//	$("#"+prefix+"vote_form").submit();
 
+	///*
 	var jqxhr = $.post($("#"+prefix+"vote_form").attr('action'), $("#"+prefix+"vote_form").serialize())
 	    .success(function(data) { 
 			// test this
 			//$("#test-data").html(data);
 		 	//alert(data);
 		 	if(data==1)
-		 		{
-		 			alert("You have already voted");
-		 		} else if (data == "invalid"){
-		 			alert("Invalid parameters")
-		 		} else {
-		 			var obj = jQuery.parseJSON(data);
+		 	{
+		 		alert("You are not allowed to vote UP");
+	 		} else if (data==-1) {
+	 			alert("You are not allowed to vote DOWN");
+	 		} else {
+	 			var obj = jQuery.parseJSON(data);
 
-		 			// update voting  
-		 			  $("#"+prefix+"vote-minus-"+obj.voteOnId).html(obj.votesMinus);
-		 			  $("#"+prefix+"vote-total-"+obj.voteOnId).html(obj.votesSumm);
-		 			  $("#"+prefix+"vote-plus-"+obj.voteOnId).html(obj.votesPlus);
+	 			// update voting  
+	 			  $("#"+prefix+"vote-minus-"+obj.voteOnId).html(obj.votesMinus);
+	 			  $("#"+prefix+"vote-total-"+obj.voteOnId).html(obj.votesSumm);
+	 			  $("#"+prefix+"vote-plus-"+obj.voteOnId).html(obj.votesPlus);
 		 		}})
 	    //.error(function() { alert("error"); })
 	    //.complete(function() { alert("complete");});
-
+	 //*/
 }
 
 function addTag(id)

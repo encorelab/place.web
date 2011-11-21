@@ -73,15 +73,10 @@ class VotesController extends Zend_Controller_Action
 		
     	// disableLayout
     	$this->_helper->layout()->disableLayout();
-    	
-    	//echo "<hr/>checking if user has voted";
-		// prevent double votting
-		$allowVote = false;
 		
 		//echo "prefix: ".$params['prefix'];
 		
 		if(isset($params['prefix']) && $params['prefix']!="" && isset($params[$params['prefix'].'obj_id']))
-		//if(isset($params['vote_obj_id']))
 		{
 			// set all the internal variables 
 			$prefix = $params['prefix'];
@@ -99,78 +94,94 @@ class VotesController extends Zend_Controller_Action
 			$s2 = $params[$prefix.'s2'];
 
 			$t1 = $params[$prefix.'t1'];
-			//$t2 = $params[$prefix.'t2'];
 			
-			// check the votting status
-			$allowVote = $this->checkVoteStatus($_SESSION['run_id'], $_SESSION['author_id'], 
-			$obj_id, $obj_type);
-			
-			//$allowVote=false;
-			
-			if(!$allowVote)
+			if(isset($params['hasAnswer']) && $params['hasAnswer']!="")
 			{
-				//echo "<script>alert('You have already voted');</script>";
-				$this->view->error=1; // you already votted
+				$hasAnswer = $params['hasAnswer'];
+			} else {
+				$hasAnswer="";
 			}
+			
+			
+			//$t2 = $params[$prefix.'t2'];
 
+			// check the votting status
+				// don't allow multiple votes: disabled for now
+				//$allowVote = $this->checkVoteStatus($_SESSION['run_id'], $_SESSION['author_id'], $obj_id, $obj_type);
+			
+			/*
+			 * allow multiple votes, checks min/max range
+			 * 	0 	= allowed to vote; value = 0 is the only one that reports no error and casts the requested vote
+			 * -1	= allowed to vote down
+			 *  1	= allowed to vote up
+			 * -2	= not allowed to vote: a defaut value to prevent any incorrect/not-allowed value
+			 */
+			$allowVote = $this->checkVoteStatus1($_SESSION['run_id'], $_SESSION['author_id'], $obj_id, $obj_type, $vote_value);
+			
+			// pass vote control value to the view
+			$this->view->error="".$allowVote; 
+
+/*
+ 			if($this->error==-1)
+			{
+				echo "<script>alert('You are not allowed to vote DOWN');</script>";
+			} else if($allowVote==1) {
+				echo "<script>alert('You are not allowed to vote UP');</script>";
+			} else if($allowVote==-2) {
+				//echo "<script>alert('You are NOT allowed to vote this time');</script>";
+			} else if($allowVote==0) {
+				//echo "<script>alert('Thanks for voting');</script>";
+			}
+ */
 			//print_r($params);
-		} else {
-			//echo "Waiting for votes";
 		}
 		
-		// this values have been hard-coded in the table commentable
-		//if($params['vote_obj_id']==1)
-		if($allowVote)
+		if($allowVote==0)
 		{
     		//echo "<hr/>adding vote";
-			
-	        //if($params['saved'])
-	        
 	        //print_r($params);
 
-
-	    $vote = new Vote();           
-		$vote->run_id = $_SESSION['run_id'];
-		$vote->author_id = $_SESSION['author_id'];
-		$vote->date_created = date( 'Y-m-d H:i:s');
-		$vote->obj_id = $obj_id; // the entity on which the vote is added (example_concept, question_concept)
-		$vote->obj_type = $obj_type; // be sure this is set in the page submiting data (hard-coded)
-		$vote->vote_value = $vote_value;
-		$vote->save();
-	        
-		// insert activity log
-		$activity = new Activity();
-		$activity->run_id = $_SESSION['run_id'];
-		$activity->author_id = $_SESSION['author_id'];
-		//$question_comment->date_modified = date( 'Y-m-d H:i:s');
-		$activity->date_created = date( 'Y-m-d H:i:s');
-		$activity->activity_type_id = $activity_type_id;
-		
-		//note that this may not apply to actions conducted on example_concept or question_concept
-		//because it may not be relevant the author_id of the one who created the relation 
-		$activity->activity_on_user = $activity_on_user;
-
-		$activity->i1 = $i1; // the id that provides the entry point, (example or question id)
-		$activity->i2 = $i2; // the entity on which the vote is added (comment, example_concept, question_concept)
-		$activity->i3 = "";
-		$activity->i4 = "";
-		$activity->i5 = "";
-		
-		$activity->s1 = $s1;
-		$activity->s2 = $s2;
-		$activity->s3 = "";
-		
-		$activity->t1 = $t1;
-		//$activity->t2 = $t2;
-		
-		$activity->save();
-		
-		//echo "<br>activity Id: ".$activity->id;
-//*/
+		    $vote = new Vote();           
+			$vote->run_id = $_SESSION['run_id'];
+			$vote->author_id = $_SESSION['author_id'];
+			$vote->date_created = date( 'Y-m-d H:i:s');
+			$vote->obj_id = $obj_id; // the entity on which the vote is added (example_concept, question_concept)
+			$vote->obj_type = $obj_type; // be sure this is set in the page submiting data (hard-coded)
+			$vote->vote_value = $vote_value;
+			$vote->save();
+		        
+			// insert activity log
+			$activity = new Activity();
+			$activity->run_id = $_SESSION['run_id'];
+			$activity->author_id = $_SESSION['author_id'];
+			//$question_comment->date_modified = date( 'Y-m-d H:i:s');
+			$activity->date_created = date( 'Y-m-d H:i:s');
+			$activity->activity_type_id = $activity_type_id;
+			
+			//note that this may not apply to actions conducted on example_concept or question_concept
+			//because it may not be relevant the author_id of the user creating the relation 
+			$activity->activity_on_user = $activity_on_user;
+	
+			$activity->i1 = $i1; // the id that provides the entry point, (example or question id)
+			$activity->i2 = $i2; // the entity on which the vote is added (comment, example_concept, question_concept)
+			$activity->i3 = "";
+			$activity->i4 = "";
+			$activity->i5 = "";
+			
+			$activity->s1 = $s1;
+			$activity->s2 = $s2;
+			$activity->s3 = "";
+			
+			$activity->t1 = $t1;
+			//$activity->t2 = $t2;
+			
+			$activity->save();
+			
+			//echo "<br>activity Id: ".$activity->id;
+	//*/
 	     	
-		// redirect 
-			//header('Location: '.$_SERVER['HTTP_REFERER']);
-		$this->view->json = $this->reloadVotesCount($_SESSION['run_id'], $obj_id, $obj_type, $prefix);
+			// sending back a json file for updating votes
+			$this->view->json = $this->reloadVotesCount($_SESSION['run_id'], $obj_id, $obj_type, $prefix, $hasAnswer);
 			
 		} // end if allow vote	
 
@@ -201,25 +212,107 @@ class VotesController extends Zend_Controller_Action
 
 	} // end checkVoteStatus()
 
+	private function checkVoteStatus1($run_id, $author_id, $obj_id, $obj_type, $vote_value)
+	{
+		$vote_value=0+$vote_value;
+		$minVoteVal = -1;
+		$maxVoteVal = 1;
+		
+		/*
+		echo "<hr>Vote Value: ".$vote_value;
+		echo "<hr>minVoteVal: ".$minVoteVal;
+		echo "<hr>maxVoteVal : ".$maxVoteVal;
+		*/
+		
+		$q = Doctrine_Query::create()
+			->select ("v.*")
+			->from("Vote v")
+			->where('v.run_id = ? AND v.author_id = ? AND v.obj_id = ? AND v.obj_type = ?' , 
+			array($run_id, $author_id, $obj_id, $obj_type))					
+			->orderBy('v.id DESC');
+		$vote = $q->fetchArray();
+		//print_r($vote);
+		
+		$mySum=0;
+				
+		foreach ($vote as $voteRec)
+		{
+			$mySum += $voteRec['vote_value'];
+		}
+		
+		//echo '<hr/>mySum: '.$mySum;
+		
+		/*
+		 * what are you voting approach
+		 */
+		
+		// enable vote if not voted yet or the sum is equal to 0, which means neutral or none
+		if ($mySum==0){
+			return 0;
+
+		//check if voting down
+		} else if ($vote_value==-1) {
+			//echo "<hr>casting -1";
+			// check if allowed to vote DOWN
+			if($mySum>$minVoteVal) 
+			{
+				//echo "<hr>Allowed Vote DOWN";
+				return 0;
+			} else {
+				return -1;
+			}
+		
+		//check if voting up
+		} else if ($vote_value==1) {
+			//echo "<hr>casting +1";
+			// check if allowed to vote UP
+			if($mySum<$maxVoteVal) 
+			{
+				//echo "<hr>Allowed Vote UP";
+				return 0;
+			} else {
+				return 1;
+			}
+		// should never get here;)
+		} else {
+			return -2;
+		}
+
+	} // end checkVoteStatus()
+	
 	/**
 	 * this is a function to be called via ajax
 	 * it returns an array with the new vote counts for a given entity
 	 * (e.g. comment, question_concept, example_concept)
 	 */
-	private function reloadVotesCount($run_id, $obj_id, $obj_type, $prefix)
+	private function reloadVotesCount($run_id, $obj_id, $obj_type, $prefix, $hasAnswer)
 	{
     	
     	if($run_id!="" && $obj_id!="" && $obj_type!="" )
     	{
-    	
-			// get all votes for this post: note that we can use SUM in SQL instead 
-		    $q = Doctrine_Query::create()
-			->select ("v.id, v.vote_value, u.id, u.username")
-			->from("Vote v")
-			->innerJoin("v.User u")
-			->where('v.run_id = ? AND obj_id = ? AND obj_type = ?' , 
-			array($run_id,$obj_id, $obj_type))					
-			->orderBy('v.id DESC');
+			// prevent showing other's votes when question has not been answered
+			if($hasAnswer==0 && $_SESSION['profile']=="STUDENT")
+			{
+    		
+	    		// get all votes for this post: note that we can use SUM in SQL instead 
+			    $q = Doctrine_Query::create()
+				->select ("v.id, v.vote_value, u.id, u.username")
+				->from("Vote v")
+				->innerJoin("v.User u")
+				->where('v.run_id = ? AND obj_id = ? AND obj_type = ? AND author_id = ?' , 
+				array($run_id,$obj_id, $obj_type, $_SESSION['author_id']))
+				->orderBy('v.id DESC');
+			} else {
+	    		// get all votes for this post: note that we can use SUM in SQL instead 
+			    $q = Doctrine_Query::create()
+				->select ("v.id, v.vote_value, u.id, u.username")
+				->from("Vote v")
+				->innerJoin("v.User u")
+				->where('v.run_id = ? AND obj_id = ? AND obj_type = ?' , 
+				array($run_id,$obj_id, $obj_type))					
+				->orderBy('v.id DESC');
+			}
+				
 			$votes = $q->fetchArray();
 			
 			$this->view->votesData=$votes;

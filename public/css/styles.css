@@ -1,3 +1,16 @@
+.date {
+    color: #414B53;
+    float: right;
+    font-size: small;
+}
+
+.msg-reanswer{
+	padding: 0.5em;
+	border: 1px dashed #000000;
+	width: 64%;
+	margin-bottom: 1em;
+}
+
 #fileupload{
 	margin-bottom: 1em;
 }

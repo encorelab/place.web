@@ -209,7 +209,7 @@ if ($editMode)
 				<span class="item-input">
 					<select name="is_published" id="is_published">
 						<option value="1">Yes</option>
-						<option value="0" <?php if($editMode) { echo ' selected="selected"'; } ?>>No</option>
+						<option value="0" selected="selected">No</option>
 					</select>
 				</span>
 			</div>

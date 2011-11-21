@@ -28,7 +28,7 @@ $PLACEWEB_CONFIG['ffmpegPath'] = '/usr/local/bin/ffmpeg';
 //$PLACEWEB_CONFIG['uploadDir'] = "/var/www/place/content/";
 
 // Antonio Config
-//$PLACEWEB_CONFIG['uploadDir'] = "/var/www/mywebapps/PlaceWeb.GitHub/place.web/public/content/";
+//$PLACEWEB_CONFIG['uploadDir'] = "/var/www/mywebapps/PlaceWeb.GitHub/place.web.agamba/public/content/";
 
 // server config
 $PLACEWEB_CONFIG['uploadDir'] = "/var/www/place/public/content/";
@@ -36,6 +36,8 @@ $PLACEWEB_CONFIG['uploadDir'] = "/var/www/place/public/content/";
 $PLACEWEB_CONFIG['uploadWebDir'] = "/content/";
 
 //////////////////////////////////////////////////////////////////
+
+$PLACEWEB_CONFIG['reAnswerPrompt'] = 'The aggregated Tags of the class are now available to you (Shown in the Tag box - your votes are included). You now have the opportunity to re-answer and re-tag the question. If you do please provide an explanation for your changes (Your Answer and Explanation can both be provided below).';
 
 $PLACEWEB_CONFIG['questionChoices'] = array(
 	"1" => "A",
@@ -71,8 +73,9 @@ $PLACEWEB_CONFIG['questionTypes'] = array(
 
 // Node Types
 $PLACEWEB_CONFIG['nodeTypes'] = array(
-	"3" => "Photo", 
-	"4" => "Video", 
-	"5" => "Narrative", 
+	"1" => "Example", 
+	"2" => "Lab Report", 
+	"3" => "Investigation", 
+	"4" => "Challenge Problem"
 );
 ?>

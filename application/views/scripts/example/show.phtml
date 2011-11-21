@@ -92,6 +92,7 @@ if($this->type==0 && !$error)
 		<!-- /tags-container -->
 	</div>
 	
+	
 	<!-- start media container -->
 	<?php
 		// MIKE'S CODE TO MAKE THE UPLOAD VIEW WORK //////////////////////////// 
@@ -196,6 +197,16 @@ echo '
 <!--
 	<div class="clear"></div>
 --> 
+<?php 
+if($_SESSION["profile"]=="TEACHER" && isset($this->assessmentReview))
+{
+?>
+	<div id='assessment-notes-container'>
+		<b>My Notes:</b> <?= $this->assessmentReview ?>
+	</div>
+<?php
+}
+?>
 
 	<!-- assessment comment form -->
 	<form name="assessment-form" method="post" action="/assessment/add?prefix=assessComm_">			
@@ -247,7 +258,9 @@ echo '
 			<input type="hidden" value="<?php echo $this->example[0]['id']; ?>" name="parent_id">
 			<input type="hidden" value="examples" name="parent_type">
 			<input type="hidden" value="<?php echo $notAssessedItems; ?>" name="assesment_list">
-			
+			<br/>
+			<input type='checkbox' value='true' name='markForDiscussion' /> Mark for Discussion
+			<br/>
 			<br/>
 			<input type="submit" value="Confirm">
 			<input type="button" value="Cancel" onclick="marksCancel()">

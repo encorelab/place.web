@@ -803,3 +803,11 @@ div.jp-video-270p {
 	border-bottom: 1px solid lightgrey;
 	padding: 5px;
 }
+
+#assessment-notes-container {
+	width: 60%;
+	border: 1px solid black;
+	background-color: #DD9E37;
+	padding: 10px;
+	margin: 10px 0;
+}

@@ -12,11 +12,13 @@ Doctrine_Manager::getInstance()->bindComponent('AssessmentReviews', 'main');
  * @property integer $author_id
  * @property timestamp $date_modified
  * @property timestamp $date_created
+ * @property integer $assessment_id
  * @property string $log
  * @property integer $i1
  * @property integer $i2
  * @property string $t1
  * @property string $t2
+ * @property integer $mark_for_discussion
  * @property Run $Run
  * @property User $User
  * 
@@ -72,6 +74,15 @@ abstract class BaseAssessmentReviews extends Doctrine_Record
              'notnull' => false,
              'autoincrement' => false,
              ));
+        $this->hasColumn('assessment_id', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => 4,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             ));
         $this->hasColumn('log', 'string', null, array(
              'type' => 'string',
              'fixed' => false,
@@ -113,6 +124,16 @@ abstract class BaseAssessmentReviews extends Doctrine_Record
              'fixed' => false,
              'unsigned' => false,
              'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('mark_for_discussion', 'integer', 1, array(
+             'type' => 'integer',
+             'length' => 1,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'default' => '0',
              'notnull' => false,
              'autoincrement' => false,
              ));

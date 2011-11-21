@@ -45,6 +45,8 @@ class AssessmentController extends Zend_Controller_Action
         	$s3=$params[$prefix.'s3'];
         	$t1=$params[$prefix.'t1'];
         	
+			$markForDiscussion = isset($params['markForDiscussion']) and $params['markForDiscussion'] == 'true';
+
         	// create a new Assessment Review
 	        $aReview = new AssessmentReviews();
 			$aReview->run_id = $_SESSION['run_id'];
@@ -54,8 +56,21 @@ class AssessmentController extends Zend_Controller_Action
 			$aReview->log = $params['review-log'];
 			$aReview->i1= $params['parent_id'];
 			$aReview->t1= $params['parent_type'];
+			$aReview->mark_for_discussion = $markForDiscussion;
 			
 			$aReview->save();
+			
+			if ($markForDiscussion){
+				$activity = new Activity();
+				$activity->run_id = $_SESSION['run_id'];
+				$activity->author_id = $_SESSION['author_id'];
+				$activity->date_created = date('Y-m-d H:i:s');
+				$activity->activity_type_id = ActivityType::$CREATED_JOURNAL_ENTRY;
+				$activity->activity_on_user = $_SESSION['author_id'];
+				$activity->i1 = $aReview->id;
+				$activity->s1 = 'AssessmentReview';
+				$activity->save();
+			}
 		
 		//echo "<hr>Assessment Review Id: ".$aReview->id;
 		

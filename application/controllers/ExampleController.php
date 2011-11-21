@@ -41,6 +41,13 @@ class ExampleController extends Zend_Controller_Action
 				
 				$type=1; // single view
 			}
+			
+			$aReviews = Doctrine::getTable('AssessmentReviews')->findByDql("run_id = ? and author_id = ? and t1 = 'examples' and i1 = ?",
+												array($_SESSION['run_id'], $_SESSION['author_id'], $params['id']));
+			if (count($aReviews) > 0){
+				$aReview = $aReviews[0];
+				$this->view->assessmentReview = $aReview->log;
+			}
     	} else {
     		// select all examples [list]
 			$k = Doctrine_Query::create()

@@ -80,12 +80,8 @@ class QuestionController extends Zend_Controller_Action
     	// pass the config as a view.
     	$this->view->PLACEWEB_CONFIG=$PLACEWEB_CONFIG;
     	
-    	//print_r($_SESSION);
-    	
     	$params = $this->getRequest()->getParams();
-    	
-    	//print_r($params);
-    	
+    	    	
     	// select one question to display
     	if(isset($params['id']) && $params['id']!="")
     	{
@@ -105,8 +101,6 @@ class QuestionController extends Zend_Controller_Action
 				$type=1; // single view
 
 				// get answers data 
-				
-				//if(isset($params['all']) && $params['all']==1 && $_SESSION["profile"]=="TEACHER")
 				if($_SESSION["profile"]=="TEACHER")
 				{
 					$q = Doctrine_Query::create()
@@ -116,19 +110,17 @@ class QuestionController extends Zend_Controller_Action
 					->where('a.run_id = ? AND a.question_id = ?' , 
 					array($_SESSION['run_id'], $question[0]['id']))					
 					->orderBy('a.id DESC');
-					$answer = $q->fetchArray();
 					
-					/*
-					$q = Doctrine_Query::create()
-					->select('e.*')
-					->from('Answer e')
-					->where('e.run_id = ? AND e.question_id = ?' , array($_SESSION['run_id'], $question[0]['id']))
-					->orderBy('e.id DESC');   
 					$answer = $q->fetchArray();
-					*/ 	
+
+					$aReviews = Doctrine::getTable('AssessmentReviews')->findByDql("run_id = ? and author_id = ? and t1 = 'question' and i1 = ?",
+														array($_SESSION['run_id'], $_SESSION['author_id'], $params['id']));
+					if (count($aReviews) > 0){
+						$aReview = $aReviews[0];
+						$this->view->assessmentReview = $aReview->log;
+					}
 					
 				} else if($_SESSION["profile"]=="STUDENT"){
-					
 					$q = Doctrine_Query::create()
 					->select ("a.*, u.*")
 					->from("Answer a")
@@ -136,25 +128,10 @@ class QuestionController extends Zend_Controller_Action
 					->where('a.run_id = ? AND a.question_id = ? AND a.author_id = ?' , 
 					array($_SESSION['run_id'], $question[0]['id'], $_SESSION['author_id']))
 					->orderBy('a.id DESC');
-					$answer = $q->fetchArray();
 					
-
-					/*
-					$q = Doctrine_Query::create()
-					->select('e.*')
-					->from('Answer e')
-
-					->where('e.run_id = ? AND e.question_id = ? AND e.author_id = ?' , array($_SESSION['run_id'], $question[0]['id'], $_SESSION['author_id']))
-					->orderBy('e.id DESC');   
 					$answer = $q->fetchArray();
-					*/ 	
 				}
 
-				/*
-$q = Doctrine_Query::create()
-  ->from('User u')
-  ->innerJoin('u.Groups g WITH g.name != ?', 'Group 2')
-				 */
 				$this->view->answer = $answer;
 			}
 			

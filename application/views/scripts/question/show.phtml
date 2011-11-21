@@ -266,6 +266,17 @@ if($this->type==0 && !$error && $_SESSION['profile']=="TEACHER")
 	}
 	?>
 	
+	<?php 
+	if($_SESSION["profile"]=="TEACHER" && isset($this->assessmentReview))
+	{
+	?>
+		<div id='assessment-notes-container'>
+			<b>My Notes:</b> <?= $this->assessmentReview ?>
+		</div>
+	<?php
+	}
+	?>
+	
 	<!-- answers-container -->
 	<div id="answers-container">
 
@@ -354,8 +365,11 @@ if($notAssessedItems!="")
 			<div class="dashlet-title">Assessment Review</div>
 			<textarea name="review-log" rows="" cols="" name="assessment_review"></textarea>
 			<br/>
-			<input type="submit" value="Confirm">
-			<input type="button" value="Cancel" onclick="marksCancel()">
+			<input type='checkbox' value='true' name='markForDiscussion' /> Mark for Discussion
+			<br/>
+			<br/>
+			<input type="submit" value="Confirm" />
+			<input type="button" value="Cancel" onclick="marksCancel()" />
 		</div>
 <?php 
 	} // end if teacher

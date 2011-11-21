@@ -22,6 +22,7 @@ Doctrine_Manager::getInstance()->bindComponent('Question', 'main');
  * @property integer $status
  * @property integer $is_published
  * @property integer $is_public
+ * @property integer $allow_multipe_answer
  * @property Run $Run
  * @property User $User
  * @property Doctrine_Collection $Answer
@@ -167,6 +168,16 @@ abstract class BaseQuestion extends Doctrine_Record
              'autoincrement' => false,
              ));
         $this->hasColumn('is_public', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => 4,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'default' => '0',
+             'notnull' => true,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('allow_multipe_answer', 'integer', 4, array(
              'type' => 'integer',
              'length' => 4,
              'fixed' => false,

@@ -18,8 +18,9 @@ $( "#error-dialog" ).dialog({
 </script>
 <div id="question-container">
 <?php
-global $notAssessedItems;
+global $notAssessedItems, $notAnswered, $hasAnswer;
 $notAssessedItems="";
+$hasAnswer=0;
 
 ///echo "<hr/>";
 $totAnswers = count($this->answer);
@@ -44,6 +45,18 @@ if($this->type==-2)
 	echo '<p class="error-msg">No questions have been created.</p>';
 } else {
 	$error=false;
+}
+
+
+// check if question has been answered
+if (!$this->answerFirst && $this->type==1)
+{
+	$hasAnswer=0;
+	//echo "<hr>NOT answered yet";
+	$notAnswered="";
+} else if ($this->answerFirst && $this->type==1) {
+	$hasAnswer=1;
+	//echo "<hr>Already answered";
 }
 
 /*
@@ -86,16 +99,38 @@ if($this->type==0 && !$error && $_SESSION['profile']=="TEACHER")
 		<div id="tags-container">
 			<ul class="ul-for-data">
 			<?php
+			
+			// prevent showing tags if question not answered
+			// if ....
 			$Myconcepts=getConcepts($this->question[0]['id']);
 			
 			//print_r($Myconcepts);
 			echo analyzeTags($Myconcepts);
+			
+			// } end if not answered
 
 			?>
 			</ul>
 		</div>
+
+		<?php 
+		if($hasAnswer==0 && $_SESSION['profile']=='STUDENT')
+		{
+		?>
+		<!-- msg-votes-message -->
+		<hr/><div class="dashlet-box-simple">Note: showing only my votes. <br/>To see all the votes you have to answer the question.</div>
+		<?php } // end if ?>
+	
 	</div>
 	<!-- /tags-container -->
+
+	<?php 
+	/*
+	<!-- debug -->
+	<iframe src="" width="700px" height="500px" id="debug-votes-iframe" name="debug-votes-iframe"></iframe>	
+	*/
+	?>
+
 
 	<!-- media container -->
 	<div class="dashlet-box-image">
@@ -212,7 +247,6 @@ if($this->type==0 && !$error && $_SESSION['profile']=="TEACHER")
 				<span class="item-label">Name: </span>
 				<span class="item-input"><input type="text" name="name" value = "<?php echo $this->question[0]['name']?>"/></span> 
 			</div>
-			<br/>
 			<div>
 			<span class="item-label">Published: </span>
 			<span class="item-input">
@@ -222,6 +256,17 @@ if($this->type==0 && !$error && $_SESSION['profile']=="TEACHER")
 				</select>
 			</span>
 			</div>
+
+			<div>
+			<span class="item-label">Allow Multiple Answers: </span>
+			<span class="item-input">
+				<select name="allow_multipe_answer">
+					<option value="1"<?php if($this->question[0]['allow_multipe_answer']==1) { echo "selected"; }?>>Yes</option>
+					<option value="0"<?php if($this->question[0]['allow_multipe_answer']==0) { echo "selected"; }?>>No</option>
+				</select>
+			</span>
+			</div>
+
 			<div>
 			<br/>
 			<textarea cols="25" name="content"><?php echo $this->question[0]['content'];?></textarea>
@@ -277,7 +322,7 @@ if($this->type==0 && !$error && $_SESSION['profile']=="TEACHER")
 	$answersHtml="";
 	foreach ($this->answer as $answer)
 	{
-		// check if this is my answer
+		// check if it is my answer(s)
 		if($_SESSION['author_id']==$answer['author_id'])
 		{
 			$myAnswerCss="my-answer";
@@ -313,7 +358,7 @@ if($this->type==0 && !$error && $_SESSION['profile']=="TEACHER")
 		$answersHtml .='
 		<div class="answer-user_name">
 			<span>Answered by:</span>
-			<a href="#">'.getUserName($answer['author_id']).'</a>
+			<a href="#">'.getUserName($answer['author_id']).'</a>  <div class="date">'.$answer['date_created'].'</div>
 		</div>';
 		
 	// end answer item
@@ -365,14 +410,23 @@ if($notAssessedItems!="")
 </div>
 <!-- /answers-container -->
 	<div id="error-dialog" title="Submission Error">
-                <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-                <span id="error-dialogue-text"></span>
-        </div>
-	
-	
+               <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+               <span id="error-dialogue-text"></span>
+    </div>
+
 	<?php 
-	if($_SESSION["profile"]=="STUDENT" && !isset($this->answer[0]))
+	// need to change this: need to look if question can be resubmitted.
+	// check if question is published as well
+	//if(($_SESSION["profile"]=="STUDENT" && $this->question[0]['allow_multipe_answer']==1) || ($_SESSION["profile"]=="STUDENT" && !isset($this->answer[0])))
+	//if($_SESSION["profile"]=="STUDENT" && !isset($this->answer[0]))
+	if(($_SESSION["profile"]=="STUDENT" && $this->question[0]['allow_multipe_answer']==1) || 
+	($_SESSION["profile"]=="STUDENT" && !isset($this->answer[0])))
 	{
+		// show message for re-answering
+		if ($this->question[0]['allow_multipe_answer']==1 && $hasAnswer)
+		{
+			echo '<div class="msg-reanswer">'.$this->PLACEWEB_CONFIG['reAnswerPrompt'].'</div>';
+		}
 	?>
 	<!-- submit answer form -->
 	<div id="answer-question-container">
@@ -398,7 +452,7 @@ if($notAssessedItems!="")
 			}
 			//*/
 			?>
-		<div  class="dashlet-box html-editor">
+		<div  class="dashlet-box html-editor" style="float:left;">
 			<div class="dashlet-title"><?php echo $answerTitle ?></div>
 	
 
@@ -413,7 +467,7 @@ if($notAssessedItems!="")
 	<?php 	
 	} // end if student
 	?>
-
+	<?php // target="debug-votes-iframe"?>
 	<!--  start add vote on question_concept -->
 	<form id="qe_vote_form" method="post" action="/votes/add?prefix=qe_">
 		<input type="hidden" name="qe_obj_id" id="qe_obj_id" value=""/>
@@ -426,6 +480,8 @@ if($notAssessedItems!="")
 		<input type="hidden" name="qe_s1" id="qe_s1" value="Question"/>
 		<input type="hidden" name="qe_s2" id="qe_s2" value="QuestionConcept"/>
 		<input type="hidden" name="qe_t1" id="qe_t1" value="Voted on QuestionConcept"/>
+		<input type="hidden" name="hasAnswer" id="hasAnswer" value="<?php echo $hasAnswer;?>"/>
+		
 	</form>
 	<!--  end add vote to example_concept -->
 	
@@ -550,16 +606,34 @@ function getConcepts($id)
 
 function countVotes($obj_id, $obj_type)
 {
-	// get all votes for this post: note that we can use SUM in SQL instead
-	// ********************************************************************* 
-    $q = Doctrine_Query::create()
-	//->select ("v.id, v.vote_value, u.id, u.username") // use this if we want to show who and how someone voted
-	->select ("v.id, v.vote_value")
-	->from("Vote v")
-	//->innerJoin("v.User u")
-	->where('v.run_id = ? AND v.obj_id = ? AND v.obj_type = ?' , 
-	array($_SESSION['run_id'],$obj_id, $obj_type)) 				
-	->orderBy('v.id DESC');
+	global $hasAnswer;
+	
+	// prevent showing other's votes when question has not been answered
+	if($hasAnswer==0 && $_SESSION['profile']=="STUDENT")
+	{
+		//echo "<hr>showing only my votes";
+		// get only active users' votes for this post 
+		// ****************************************** 
+	    $q = Doctrine_Query::create()
+		->select ("v.id, v.vote_value")
+		->from("Vote v")
+		->where('v.run_id = ? AND v.obj_id = ? AND v.obj_type = ? AND v.author_id = ?' , 
+		array($_SESSION['run_id'],$obj_id, $obj_type, $_SESSION['author_id'])) 				
+		->orderBy('v.id DESC');
+	} else {
+		//echo "<hr>showing all the votes";
+	
+		// get all votes for this post 
+		// ***************************** 
+	    $q = Doctrine_Query::create()
+		//->select ("v.id, v.vote_value, u.id, u.username") // use this if we want to show who and how someone voted
+		->select ("v.id, v.vote_value")
+		->from("Vote v")
+		//->innerJoin("v.User u")
+		->where('v.run_id = ? AND v.obj_id = ? AND v.obj_type = ?' , 
+		array($_SESSION['run_id'],$obj_id, $obj_type)) 				
+		->orderBy('v.id DESC');
+	}
 	
 	$votes = $q->fetchArray();
 
@@ -590,8 +664,8 @@ function countVotes($obj_id, $obj_type)
 
 function analyzeTags($tags, $prefix="")
 {
-	$prefix = "qe_"; // same for voting on question_concept and example_concept 
-
+	
+	$prefix = "qe_"; // same for voting on question_concept and example_concept
 	//get all Concepts in db for comparison: which ones are not added yet
 	$q = Doctrine_Query::create()
 		->select('e.id,  e.name')
@@ -638,7 +712,7 @@ function analyzeTags($tags, $prefix="")
 		//var_dump($tag);
 		//echo "<br/>".$tag['conceptId'];
 		
-			$votesCount = countVotes($tag['id'],5); // look for votes for obj_type = 5 question_concept
+			$votesCount = countVotes($tag['id'], 5); // look for votes for obj_type = 5 question_concept
 		
 		$tagsHtml .='
 		<li>
@@ -686,6 +760,4 @@ function analyzeTags($tags, $prefix="")
 	return $tagsHtml.$notIncludedConceptsHtml;
 
 } // end fnc
-
-
 ?>

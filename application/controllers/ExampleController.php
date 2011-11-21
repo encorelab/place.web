@@ -137,43 +137,8 @@ class ExampleController extends Zend_Controller_Action
         $comment->parent_id = null;
         $comment->save();
 
-        // associate example with concepts
-        
-	    //get all Concepts in db for comparison: which ones are not added yet
-		$q = Doctrine_Query::create()
-			->select('e.id,  e.name')
-			->from('Concept e')
-			->where('e.run_id = ?', $_SESSION['run_id']);
-		
-		$theConcepts = $q->fetchArray();
-		
-		// inset eacn of the selected concept into example_concept 
-		foreach($theConcepts as $concept)
-		{
-			if(isset($params['concept_id__'.$concept['id']]))
-			{
-				//echo "<hr/>".$cName;
-				$example_concept = new ExampleConcept();
-		        
-				$example_concept->run_id = $_SESSION['run_id'];
-				$example_concept->author_id = $_SESSION['author_id'];
-				//$example_concept->date_modified = date( 'Y-m-d H:i:s');
-				$example_concept->date_created = date( 'Y-m-d H:i:s');
-				$example_concept->example_id= $example->id;
-				$example_concept->concept_id= $concept['id'];
-				$example_concept->save();
-				//echo "<br>Example_concept Id: ".$example_concept->id;
-				
-				// (default behaviour) add a vote +1 for this example_concept (NOT IMPLEMENTED YET)  
-
-				// add activity log for each example_concept 
-				if(isset($example->id) && isset($example_concept->id) && isset($example_concept->id))
-				{
-					// add activity log for each concept
-					$this->addActivity(17, $example->id, $concept['id'], $example_concept->id, "Example", "Concept", "ExampleConcept", "Tagged Example with a Concept", null);
-				} 
-			} // end add example_concept activity log
-		} // end for
+        // associate example with concepts/tags
+    	 $this->addTagsToExample($example->id);
 
 		// redirect to home
 		header('Location: /example/show?id='.$example->id);
@@ -181,6 +146,50 @@ class ExampleController extends Zend_Controller_Action
     } // end fnc
     
     
+    /**
+     * 
+     * Adds a relationship for each selected tag/concept  
+     * @param int $exampleId The id of the entity (e.g. example, question, etc...)
+     */
+    private function addTagsToExample($exampleId)
+    {
+    	$params = $this->getRequest()->getParams();
+    	
+	    //get all Concepts/tags for this run_id
+		$q = Doctrine_Query::create()
+			->select('e.id,  e.name')
+			->from('Concept e')
+			->where('e.run_id = ?', $_SESSION['run_id']);
+		
+		$theConcepts = $q->fetchArray();
+		
+		// loop the tags and add a relationship if the tag was selected   
+		foreach($theConcepts as $concept)
+		{
+			if(isset($params['concept_id__'.$concept['id']]))
+			{
+				//echo "<hr/>".$exampleId."::".$params['concept_id__'.$concept['id']]." ::".$concept['id'];
+				$example_concept = new ExampleConcept();
+		        
+				$example_concept->run_id = $_SESSION['run_id'];
+				$example_concept->author_id = $_SESSION['author_id'];
+				//$example_concept->date_modified = date( 'Y-m-d H:i:s');
+				$example_concept->date_created = date( 'Y-m-d H:i:s');
+				//$example_concept->example_id= $example->id;
+				$example_concept->example_id= $exampleId;
+				$example_concept->concept_id= $concept['id'];
+				$example_concept->save();
+				//echo "<br>Example_concept Id: ".$exampleId;
+
+				// add activity log for each example_concept 
+				if(isset($exampleId) && isset($example_concept->id))
+				{
+					// add activity log for each concept
+					$this->addActivity(17, $exampleId, $concept['id'], $example_concept->id, "Example", "Concept", "ExampleConcept", "Tagged Example with a Concept", null);
+				} 
+			} // end add example_concept activity log
+		} // end for
+    }
     /**
      * 
      * Add an activity log

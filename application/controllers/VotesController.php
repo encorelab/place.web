@@ -99,7 +99,7 @@ class VotesController extends Zend_Controller_Action
 			{
 				$hasAnswer = $params['hasAnswer'];
 			} else {
-				$hasAnswer="";
+				$hasAnswer=1;
 			}
 			
 			

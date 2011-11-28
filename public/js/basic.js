@@ -28,11 +28,35 @@ function showConceptList()
 
 function loadWeb()
 {
+	/*
 	$('#web-container-home').show(700);
 	$("#web-container-mask").removeClass('div-hide');
 	//$("#web-container-mask").html("<img src='/images/loader.gif' alt='Loading Icon' />");
 	$('#webiframe').attr("src","/web");
 	$("#web-container-home").removeClass('div-hide');
+	*/
+	if(popupweb !== undefined && !popupweb.closed)
+	{
+		popupweb.focus();
+	} else {
+		var popupweb = window.open('/web','WebPopUp','width=1100,height=800');
+	}
+	return false;
+}
+
+function webLinkToContent(url) 
+{
+	window.blur();
+	window.opener.focus();
+	window.opener.location.href = url;
+    //window.opener.focus();
+	//window.opener.document.focus() ;
+	//window.opener.focusAndGo(url);
+}
+
+function focusAndGo(url) {
+	   window.focus();
+	   window.location.href=url;
 }
 
 function closeWeb()

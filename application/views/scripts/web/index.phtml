@@ -4,8 +4,6 @@
 <!DOCTYPE html>
 <!--<?php 
 echo $this->doctype() ?>-->
-<!-- To be HTML5 we do this -->
-  <!--<html xmlns="http://www.w3.org/1999/xhtml">-->
 <html>
 <head>
   <!-- To be HTML5 we do this -->
@@ -53,7 +51,6 @@ if($this->vizType==1)
 ?>
 })
 
-
 </script>
 </head>
 <body>
@@ -69,8 +66,19 @@ if($this->vizType==1)
 	<script language="javascript" type="text/javascript" src="/js/viz/jit.js"></script>
 	<script language="javascript" type="text/javascript" src="/js/viz/jit-yc.js"></script>
 
-	<!-- Example File -->
-	<script language="javascript" type="text/javascript" src="/web/getd3json?vizEx=<?php echo $this->vizEx?>&vizQu=<?php echo $this->vizQu?>&vizMy=<?php echo $this->vizMy?>&vizCon=<?php echo $this->vizCon?>&conceptId=<?php echo $this->conceptId?>"></script>
+	<?php 
+	// convert array to ULR encoding
+	//conceptId%5B%5D
+	$conceptIdUrlEncode = "";
+	if(isset($this->conceptId))
+	{
+		foreach ($this->conceptId as $conceptId)
+		{
+			$conceptIdUrlEncode .= "&conceptId%5B%5D=".$conceptId;
+		}
+	}
+	?>
+	<script language="javascript" type="text/javascript" src="/web/getd3json?vizEx=<?php echo $this->vizEx?>&vizQu=<?php echo $this->vizQu?>&vizMy=<?php echo $this->vizMy?>&vizCon=<?php echo $this->vizCon?><?php echo $conceptIdUrlEncode?>"></script>
 	<div id="web-controls">
 		<form action="<?php $_SERVER['PHP_SELF']?>" method="get">
 <!--
@@ -79,23 +87,31 @@ if($this->vizType==1)
 			<option value="2" <?php if($this->vizType==2) {echo ' selected="selected"';} ?>>Viz 2</option>
 		</select>
 -->
-		<input <?php if($this->vizEx==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizEx" value="1"> Show Examples |
-		<input <?php if($this->vizQu==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizQu" value="1"> Show Questions |
-		<input <?php if($this->vizMy==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizMy" value="1"> My Contributions |
+		<div>
+			<input <?php if($this->vizEx==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizEx" value="1"> Show Examples |
+			<input <?php if($this->vizQu==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizQu" value="1"> Show Questions |
+			<input <?php if($this->vizMy==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizMy" value="1"> My Contributions |
+		</div>
+		<div> Filter by Concept </div>
+		<div id="concept-select-link"> <a href="#" onClick="showConceptList()"><img src="/images/icon_list_arrow_rigth.png" alt="Show Concepts"/></a> </div>
+	
+		<div id="concept-select-list" class="div-hide">
 	<?php 
 	//         // get concepts for current run_id
 	        $concepts = Doctrine::getTable("Concept")
 	                 ->findByDql("run_id = ?", $_SESSION['run_id']);
 
 			$conceptsList = '
-			<select name="conceptId">
+			<select name="conceptId[]" size=10 multiple>
 				<option value="0"> - Show All Concepts</option>		
 			';
 
 			foreach ($concepts as $concept)
 	        {
 	        	$selected="";
-	        	if($concept->id==$this->conceptId) {
+	        	//if($concept->id==$this->conceptId) 
+	        	if(in_array($concept->id, $this->conceptId))
+	        	{
 	        		$selected = ' selected="selected"';
 	        	}
 	        	$conceptsList .= '
@@ -107,11 +123,11 @@ if($this->vizType==1)
 	        echo $conceptsList;
 
 	?>
-
+	</div>
 	<!-- 
 		<input <?php if($this->vizCon==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizCon" value="1"> Show only used Concepts|
 	 -->
-		<input type="submit" value="Refresh" />
+		| <input type="submit" value="Refresh" />
 		</form>
 	</div>
 	<div id="web-container">

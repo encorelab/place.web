@@ -31,7 +31,8 @@ function init(){
     var json = <?php echo $this->d3JsonData;?>;
     //end
     var infovis = document.getElementById('infovis');
-    var w = infovis.offsetWidth - 50, h = infovis.offsetHeight - 50;
+    //var w = infovis.offsetWidth - 50, h = infovis.offsetHeight - 50;
+    var w = '30%', h = infovis.offsetHeight - 50;
     
     //init Hypertree
     var ht = new $jit.Hypertree({
@@ -161,10 +162,11 @@ function init1(){
           enable: true,  
           type: 'HTML',  
           offsetX: 10,  
-          offsetY: 10,  
+          offsetY: 10,
+          
           onShow: function(tip, node) {
         	  
-    	  if(node.data.votes=="") {
+        	  if(node.data.votes=="") {
         	  tip.innerHTML = "<strong>" + node.name + "</strong>";
                		if(node.data.author!="") {
       			tip.innerHTML += "<br/>Created by: " + node.data.author;
@@ -182,12 +184,14 @@ function init1(){
             var html = "";
 		if(node.data.elo=="Example")
 		{
-	            html = "[Example]<h4><a href='/example/show?id="+ node.data.ref_id +"' target='_top'>" + node.name + "</a></h4>";
+				url = '"/example/show?id='+ node.data.ref_id +'"';
+	            html = "[Example]<h4><a href='#' onClick='webLinkToContent("+url+")'>" + node.name + "</a></h4>";
+	            html += "<div>"+node.data.media_content+"</div>";
+	            html += "<div>"+node.data.content+"</div>";
 
 		} else if (node.data.elo=="Question") {
-
-	            html = "[Question]<h4><a href='/question/show?id="+ node.data.ref_id +"' target='_top'>" + node.name + "</a></h4>";
-
+				url = '"/question/show?id='+ node.data.ref_id +'"';
+	            html = "[Question]<h4><a href='#' onClick='webLinkToContent("+url+")'>" + node.name + "</a></h4>";
 		} else {
 			html = "<h4>" + node.name + "</h4>";
 		}

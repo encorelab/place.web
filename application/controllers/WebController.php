@@ -19,6 +19,8 @@ class WebController extends Zend_Controller_Action
     	
 		$this->params = $this->getRequest()->getParams();
 		
+		// testing 
+		$this->view->params = $this->params;
 		// set default viz
 		if(!isset($this->params['vizType']))
 		{
@@ -54,24 +56,12 @@ class WebController extends Zend_Controller_Action
 			$this->view->vizCon = 0;
 		}
 		
-	        if(isset($this->params['conceptId']) && $this->params['conceptId']!="")
+	    if(isset($this->params['conceptId']))
 		{
 			$this->view->conceptId = $this->params['conceptId'];
 		} else {
 			$this->view->conceptId = 0;
 		}
-		
-		
-    		//$this->aggregateVizDataAll();
-    	
-		//$this->d3Data = $this->aggregateVizDataAll();
-		//$this->aggregateVizDataAll();
-		
-		//$this->view->d3JsonData = $this->d3Data;
-		
-		//print_r($this->d3Data);
-    	
-
     }
  
     public function getd3jsonAction()
@@ -81,8 +71,7 @@ class WebController extends Zend_Controller_Action
     	$this->params['vizQu']=0;
     	$this->params['vizMy']=0;
     	$this->params['vizCon']=0;
-    	$this->params['conceptId']=0;
-    	
+ 	
     	$this->params = $this->getRequest()->getParams();
     			
 		$this->_helper->layout()->disableLayout();
@@ -91,35 +80,15 @@ class WebController extends Zend_Controller_Action
 		//$this->view->d3JsonData = $this->aggregateConcepts();
 		
 		$this->view->d3JsonData = $this->aggregateVizDataAll();
-		
-		
-		//$this->d3Data = "";
-		
-		//$this->view->d3JsonData = $this->d3Data;
-		
-		//print_r($this->d3Data);
-		
-
-		// add questions
-
-		// add examples
-
-		// add comments to examples [not implemented yet]
-
-		// generate json
-		//echo "<pre>";
-		//print_r($this->conceptIds);
-		//echo "</pre>";
 	}
 	
     /**
-     * 
      * test/get concepts
      */
     private function aggregateConcepts()
     {
         global $PLACEWEB_CONFIG;
-    	
+        
     	$d3Data = new EloD3();
     	$d3Data->name = $PLACEWEB_CONFIG['homeNodeTitle'];
     	$d3Data->id= "home_0001";
@@ -168,30 +137,32 @@ class WebController extends Zend_Controller_Action
     	
     	// create a top viz object
         $d3Data = new EloD3();
-    	$d3Data->name = $PLACEWEB_CONFIG['homeNodeTitle'];
-    	$d3Data->id= "home_0001";
+    	$d3Data->name = $_SESSION['group_name'];
+    	$d3Data->id= $_SESSION['group_name'];
     	$d3Data->type = "home";
 		$d3Data->data=array(
 			'$type' => "star",
 			'$color' => "#475DFF",
 			"elo" => "Home",
-			"relation" => "test-home",
+			"relation" => "",
 			"ref_id" => "",
-			"author" => "Instructor",
+			"author" => "",
 			"votes" => ""
 		);
-    	
-		if($this->params['conceptId']!=0)
-		{
-	        // get selected concept 
-	        $concepts = Doctrine::getTable("Concept")
-	                 ->findByDql("run_id = ? AND id = ?", array($_SESSION['run_id'],$this->params['conceptId']));
-			
+
+		// if "all concepts" is NOT selected
+		if(isset($this->params['conceptId']) && !in_array('0', $this->params['conceptId'])) {
+			$conceptIds = $this->params['conceptId'];
+			$concepts = Doctrine_Query::create()
+                    //->select("*")
+                    ->from("Concept")
+                    ->whereIn("id", $conceptIds)
+                    ->andWhere("run_id = ?", $_SESSION['run_id'])
+                    ->execute();
 		} else {
 	        // get concepts for current run_id
 	        $concepts = Doctrine::getTable("Concept")
 	                 ->findByDql("run_id = ?", $_SESSION['run_id']);
-			
 		}
 
 		// add concepts
@@ -212,7 +183,7 @@ class WebController extends Zend_Controller_Action
 				"relation" => "rel concept",
 				//"ref_id" => $concept->id,
 				"ref_id" => "",
-				"author" => "Instructor",
+				"author" => "",
 				"votes" => ""
 			);
 	
@@ -222,7 +193,7 @@ class WebController extends Zend_Controller_Action
         	if($this->params['vizMy']==1)
 			{
 				$q = Doctrine_Query::create()
-				->select ("ec.id, e.id, e.name, u.display_name")
+				->select ("ec.id, e.id, e.name, e.content, e.media_content, e.media_type, u.display_name")
 				->from("ExampleConcept ec")
 				->innerJoin("ec.Example e")
 				->innerJoin("e.User u")
@@ -231,7 +202,7 @@ class WebController extends Zend_Controller_Action
 				
 			} else {
 				$q = Doctrine_Query::create()
-				->select ("ec.id, e.id, e.name, u.display_name")
+				->select ("ec.id, e.id, e.name, e.content, e.media_content, e.media_type, u.display_name")
 				->from("ExampleConcept ec")
 				->innerJoin("ec.Example e")
 				->innerJoin("e.User u")
@@ -239,13 +210,7 @@ class WebController extends Zend_Controller_Action
 			}
 
 			$examples = $q->fetchArray();
-			///*
-			//echo "ExampleConcept<hr/>";
-			//echo "<pre>"; 
-			//print_r($examples);
-			//echo "</pre>";
-			//*/
-			
+
 			$hasEx = false;
    			// add examples attached to this concept
 			if(isset($examples) && count($examples!=0) && $this->params['vizEx']==1) 
@@ -275,19 +240,37 @@ class WebController extends Zend_Controller_Action
 						"author" => "",
 						"votes" => $ex_con_votes['votesMinus']. ' ['.$ex_con_votes['votesSumm'].'] '.$ex_con_votes['votesPlus']
 					);
-				
+					
+					// check if it is a video: still working on this!!!
+					$isVideo=false;
+					if (preg_match("/video/i", $exConcept['Example']['media_type']))
+					{
+						$isVideo = true;
+					}
+					
 					//echo "<hr>adding example... ".$exConcept['Example']['name'];
 					$myD3ex = new EloD3();
 					$myD3ex->id = "EX_".$exConcept['Example']['id']; // use the id of the example. this will not be unique ;)
 					//$myD3ex->id = "EX_CON_".$exConcept['id']; // this is unique
 					$myD3ex->name = ''.$exConcept['Example']['name'];
 					$myD3ex->type="Example";
+					
+					// media content
+					if($isVideo)
+					{
+						$mediaContent = "Video...";
+					} else {
+						$mediaContent = '<img src="'.$exConcept['Example']['media_content'].'" width="150px">';
+					} 
+					
 					$myD3ex->data=array(
 						'$type' => "triangle",
 						'$color' => "#80B376",
 						"elo" => "Example",
 						"relation" => "",
 						"ref_id" => $exConcept['Example']['id'],
+						"content" => $exConcept['Example']['content'],
+						"media_content" => $mediaContent,
 						"author" => $exConcept['Example']['User']['display_name'],
 						"votes" => ""
 					);
@@ -300,21 +283,16 @@ class WebController extends Zend_Controller_Action
 				
 				} // end loop example_concept
 			} // end if
+
 			///////////////////////////////////
-			
 			// find questions
 			$q1 = Doctrine_Query::create()
-				->select ("qc.id, q.id, q.name")
+				->select ("qc.id, q.id, q.name, u.display_name")
 				->from("QuestionConcept qc")
 				->innerJoin("qc.Question q")
+				->innerJoin("q.User u")
 				->where('qc.run_id = ? AND qc.concept_id = ?', array($_SESSION['run_id'],$concept->id));					
 			$questions = $q1->fetchArray();
-			/*
-			echo "QuestionConcept<hr/>";
-			echo "<pre>"; 
-			print_r($questions);
-			echo "</pre>";
-			*/
 			
 			$hasQu = false;
 			// add questions attached to this concept
@@ -360,7 +338,7 @@ class WebController extends Zend_Controller_Action
 						"elo" => "Question",
 						"relation" => "",
 						"ref_id" => $quConcept['Question']['id'],
-						"author" => "Instructor",
+						"author" => $quConcept['Question']['User']['display_name'],
 						"votes" => ""
 					);
 					
@@ -380,13 +358,8 @@ class WebController extends Zend_Controller_Action
 				
 			
         } // end loop concepts
-        /*
-		echo "<hr/>d3Data";
-		echo "<pre>"; 
-		print_r($d3Data);
-		echo "</pre>";
-		*/
-        if($this->params['conceptId']!=0)
+        
+        if(isset($this->params) && count($this->params['conceptId']) == 1 && $this->params['conceptId'][0]!=0)
         {
         	// return concept as home node
         	return json_encode($myD3);
@@ -394,8 +367,6 @@ class WebController extends Zend_Controller_Action
         	// return home node with concept as children
         	return json_encode($d3Data);
         }
-		
-//		print_r($this->conceptIds);
 		
     } // end fnc
     
@@ -437,4 +408,3 @@ class WebController extends Zend_Controller_Action
 	} // end countVotes()
 
 }
-

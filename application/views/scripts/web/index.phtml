@@ -90,7 +90,10 @@ if($this->vizType==1)
 		<form action="<?php $_SERVER['PHP_SELF']?>" method="get"> 
 		<div> 
 			Graph: <select name="vizType">
-				<option value="2" <?php if($this->vizType==2) {echo ' selected="selected"';} ?>>Hypertree</option>
+			<!-- 
+				<option value="1" <?php if($this->vizType==1) {echo ' selected="selected"';} ?>>ddd</option>
+			-->
+				<option value="2" <?php if($this->vizType==2) {echo ' selected="selected"';} ?>>RGraph</option>
 				<option value="3" <?php if($this->vizType==3) {echo ' selected="selected"';} ?>>Force Directed</option>
 			</select> | 
 		</div>

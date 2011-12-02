@@ -1,4 +1,3 @@
-//alert("<?php echo $this->vizType; ?>");
 var labelType, useGradients, nativeTextSupport, animate;
 
 (function() {
@@ -137,7 +136,7 @@ function init2(){
     var json = <?php echo $this->d3JsonData;?>;
     // set width and height of parent container
     
-    $("#infovis").width($(window).width()-210);
+    $("#infovis").width($(window).width()-230);
     $("#infovis").height($(window).height()-40);
 
     //init RGraph
@@ -203,21 +202,29 @@ function init2(){
 		{
 				url = '"/example/show?id='+ node.data.ref_id +'"';
 	            html = "<div class='viz-title-link'>[Example]<h4><br/><a href='#' onClick='webLinkToContent("+url+")'>" + node.name + "</a></h4></div>";
-	            html += "<div>"+node.data.media_content+"</div>";
+	            if(node.data.is_video=='1')
+	            {
+	            	html += ""+loadVideolayer()+"";
+	            } else {
+	            	html += "<div>"+loadContentImage(node.data.media_content)+"</div>";
+	            }
 	            html += "<div>"+node.data.content+"</div>";
 	            html += "<div>Created by: <b>"+node.data.author+"</b></div>";
 
 		} else if (node.data.elo=="Question") {
 				url = '"/question/show?id='+ node.data.ref_id +'"';
 	            html = "<div class='viz-title-link'>[Question]<br/><h4><a href='#' onClick='webLinkToContent("+url+")'>" + node.name + "</a></h4></div>";
-	            html += "<div>"+node.data.media_content+"</div>";
+	            if(node.data.is_video=='1')
+	            {
+	            	html += ""+loadVideolayer()+"";
+	            } else {
+	            	html += "<div>"+loadContentImage(node.data.media_content)+"</div>";
+	            }
 	            html += "<div>"+node.data.content+"</div>";
 	            html += "<div>Created by: <b>"+node.data.author+"</b></div>";
 		} else {
 			html = "<h4>" + node.name + "</h4>";
 		}
-		
-
             // add data from relation att
             //html += node.data.relation; // still working on this ;)
 
@@ -225,6 +232,9 @@ function init2(){
             //Add the relation list in the right column.
             //This list is taken from the data property of each JSON node.
             $jit.id('inner-details').innerHTML = html;
+            if(node.data.is_video=='1') {
+            	loadVideoFile(node.data.media_content);
+            }
         },
 
         //Add the name of the node in the correponding label
@@ -310,7 +320,7 @@ function init3()
 	  // init data
 	  var json = <?php echo $this->d3JsonData;?>;
 
-	  $("#infovis").width($(window).width()-210);
+	  $("#infovis").width($(window).width()-230);
 	  $("#infovis").height($(window).height()-40);
 
 	  // end
@@ -442,14 +452,24 @@ function init3()
 			{
 					url = '"/example/show?id='+ node.data.ref_id +'"';
 		            html = "<div class='viz-title-link'>[Example]<h4><br/><a href='#' onClick='webLinkToContent("+url+")'>" + node.name + "</a></h4></div>";
-		            html += "<div>"+node.data.media_content+"</div>";
+		            if(node.data.is_video=='1')
+		            {
+		            	html += ""+loadVideolayer()+"";
+		            } else {
+		            	html += "<div>"+loadContentImage(node.data.media_content)+"</div>";
+		            }
 		            html += "<div>"+node.data.content+"</div>";
 		            html += "<div>Created by: <b>"+node.data.author+"</b><br/><br/></div>";
 
 			} else if (node.data.elo=="Question") {
 					url = '"/question/show?id='+ node.data.ref_id +'"';
 		            html = "<div class='viz-title-link'>[Question]<br/><h4><a href='#' onClick='webLinkToContent("+url+")'>" + node.name + "</a></h4></div>";
-		            html += "<div>"+node.data.media_content+"</div>";
+		            if(node.data.is_video=='1')
+		            {
+		            	html += ""+loadVideolayer()+"";
+		            } else {
+		            	html += "<div>"+loadContentImage(node.data.media_content)+"</div>";
+		            }
 		            html += "<div>"+node.data.content+"</div>";
 		            html += "<div>Created by: <b>"+node.data.author+"</b><br/><br/></div>";
 
@@ -464,6 +484,9 @@ function init3()
 	        });
 	        //append connections information
 	        $jit.id('inner-details').innerHTML = html + list.join("</li><li>") + "</li></ul>";
+            if(node.data.is_video=='1') {
+            	loadVideoFile(node.data.media_content);
+            }
 	      };
 	    },
 	    // Change node styles when DOM labels are placed

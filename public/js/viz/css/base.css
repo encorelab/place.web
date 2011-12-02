@@ -51,12 +51,12 @@ a {
 
 #left-container, 
 #right-container {
-    height:600px;
+    height:95%;
     top:0;
 }
 
 #left-container, #right-container {
-    width:200px;
+    width:230px;
     color:#686c70;
     text-align: left;
     overflow: auto;

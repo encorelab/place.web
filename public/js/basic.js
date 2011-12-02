@@ -308,41 +308,9 @@ function loadContentImage(imageUrl)
 }
 
 function loadVideolayer()
-{ 
-
-	var player = (<r><![CDATA[
-	<div id="jp_container_1" class="jp-video jp-video-thumb">
-	<div class="jp-type-single">
-	        <div id="jquery_jplayer_1" class="jp-jplayer"></div>
-	        <div class="jp-gui">
-	                <div class="jp-interface">
-	                        <div class="jp-progress">
-	                                <div class="jp-seek-bar">
-	                                        <div class="jp-play-bar"></div>
-	                                </div>
-	                        </div>
-	                        <div class="jp-current-time"></div>
-	                        <div class="jp-duration"></div>
-	                        <div class="jp-controls-holder jp-controls-holder-thumb">
-	                                <ul class="jp-controls jp-controls-thumb">
-	                                        <li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
-	                                        <li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
-	                                        <li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>
-	                                </ul>
-	                                <ul class="jp-toggles jp-toggles-thumb">
-	                                        <li><a href="javascript:;" class="jp-full-screen" tabindex="1" title="full screen">full screen</a></li>
-	                                        <li><a href="javascript:;" class="jp-restore-screen" tabindex="1" title="restore screen">restore screen</a></li>
-	                                </ul>
-	                        </div>
-	                </div>
-	        </div>
-	</div>
-	</div>
-	           
-     ]]></r>).toString();
-	
-	//var imageThumb = '<img src="'+mediaUrl+'" width="150px">';
-	
+{ 	
+	var player = '	<div id="jp_container_1" class="jp-video jp-video-thumb">	<div class="jp-type-single">	        <div id="jquery_jplayer_1" class="jp-jplayer"></div>	        <div class="jp-gui">	                <div class="jp-interface">	                        <div class="jp-progress">	                                <div class="jp-seek-bar">	                                        <div class="jp-play-bar"></div>	                                </div>	                        </div>	                        <div class="jp-current-time"></div>	                        <div class="jp-duration"></div>	                        <div class="jp-controls-holder jp-controls-holder-thumb">	                                <ul class="jp-controls jp-controls-thumb">	                                        <li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>	                                        <li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>	                                        <li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>	                                </ul>	                                <ul class="jp-toggles jp-toggles-thumb">	                                        <li><a href="javascript:;" class="jp-full-screen" tabindex="1" title="full screen">full screen</a></li>	                                        <li><a href="javascript:;" class="jp-restore-screen" tabindex="1" title="restore screen">restore screen</a></li>	                                </ul>	                        </div>	                </div>	        </div>	</div>	</div>';
+          
 	return player;
 }
 

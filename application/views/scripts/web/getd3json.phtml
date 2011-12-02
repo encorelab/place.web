@@ -1,3 +1,5 @@
+//alert("<?php echo $this->vizType; ?>");
+
 var labelType, useGradients, nativeTextSupport, animate;
 
 (function() {
@@ -19,13 +21,16 @@ var Log = {
   elem: false,
   write: function(text){
     if (!this.elem)
-      this.elem = document.getElementById('log');
+    this.elem = document.getElementById('log');
     this.elem.innerHTML = text;
     this.elem.style.left = (500 - this.elem.offsetWidth / 2) + 'px';
   }
 };
 
-
+<?php
+if($this->vizType==1) 
+{
+?>
 function init(){
     //init data
     var json = <?php echo $this->d3JsonData;?>;
@@ -88,7 +93,7 @@ function init(){
       },
       
       onAfterCompute: function(){
-          Log.write("done");
+          Log.write("");
           
           //Build the right column relations list.
           //This is done by collecting the information (stored in the data property)
@@ -117,9 +122,17 @@ function init(){
     //end
     ht.controller.onAfterCompute();
 }
+<?php
+} // end if 
+?>
+
+<?php
+if($this->vizType==2) 
+{
+?>
 
 //////////////////////////////////////////////////////////
-function init1(){
+function init2(){
     //init data
     var json = <?php echo $this->d3JsonData;?>;
 
@@ -141,7 +154,7 @@ function init1(){
         Navigation: {
           enable: true,
           panning: true,
-          zooming: 15
+          zooming: 150
         },
         //Set Node and Edge styles.
         Node: {
@@ -181,17 +194,21 @@ function init1(){
             Log.write("centering " + node.name + "...");
 
             //Make right column relations list.  
-            var html = "";
+        var html = "";
 		if(node.data.elo=="Example")
 		{
 				url = '"/example/show?id='+ node.data.ref_id +'"';
-	            html = "[Example]<h4><a href='#' onClick='webLinkToContent("+url+")'>" + node.name + "</a></h4>";
+	            html = "<div class='viz-title-link'>[Example]<h4><br/><a href='#' onClick='webLinkToContent("+url+")'>" + node.name + "</a></h4></div>";
 	            html += "<div>"+node.data.media_content+"</div>";
 	            html += "<div>"+node.data.content+"</div>";
+	            html += "<div>Created by: <b>"+node.data.author+"</b></div>";
 
 		} else if (node.data.elo=="Question") {
 				url = '"/question/show?id='+ node.data.ref_id +'"';
-	            html = "[Question]<h4><a href='#' onClick='webLinkToContent("+url+")'>" + node.name + "</a></h4>";
+	            html = "<div class='viz-title-link'>[Question]<br/><h4><a href='#' onClick='webLinkToContent("+url+")'>" + node.name + "</a></h4></div>";
+	            html += "<div>"+node.data.media_content+"</div>";
+	            html += "<div>"+node.data.content+"</div>";
+	            html += "<div>Created by: <b>"+node.data.author+"</b></div>";
 		} else {
 			html = "<h4>" + node.name + "</h4>";
 		}
@@ -214,7 +231,7 @@ function init1(){
             domElement.onclick = function(){
                 rgraph.onClick(node.id, {
                     onComplete: function() {
-                        Log.write("done");
+                        Log.write("");
                     }
                 });
             };
@@ -262,7 +279,7 @@ function init1(){
     rgraph.compute('end');
     rgraph.fx.animate({
       modes:['polar'],
-      duration: 2000
+      duration: 800
     });
     //end
     //append information about the root relations in the right column
@@ -270,5 +287,210 @@ function init1(){
     $jit.id('inner-details').innerHTML = "<h4>" + rgraph.graph.getNode(rgraph.root).name + "</h4>";
 //    $jit.id('inner-details').innerHTML += "<b>Connections:</b>";
 //    $jit.id('inner-details').innerHTML += rgraph.graph.getNode(rgraph.root).data.relation;
-
 }
+
+
+<?php
+} // end if 
+?>
+
+<?php
+if($this->vizType==3) 
+{
+?>
+
+///////////////
+
+function init3()
+{
+	  // init data
+	  var json = <?php echo $this->d3JsonData;?>;
+
+	  // end
+	  // init ForceDirected
+	  var fd = new $jit.ForceDirected({
+	    //id of the visualization container
+	    injectInto: 'infovis',
+	    //Enable zooming and panning
+	    //with scrolling and DnD
+	    Navigation: {
+	      enable: true,
+	      type: 'Native',
+	      //Enable panning events only if we're dragging the empty
+	      //canvas (and not a node).
+	      panning: 'avoid nodes',
+	      zooming: 150 //zoom speed. higher is more sensible
+	    },
+	    // Change node and edge styles such as
+	    // color and width.
+	    // These properties are also set per node
+	    // with dollar prefixed data-properties in the
+	    // JSON structure.
+	    Node: {
+	      overridable: true,
+	      color: '#DD9E37',
+	      dim: 7
+	    },
+	    Edge: {
+	      overridable: true,
+	      color: '#BDBDBD',
+	      lineWidth: 0.4
+	    },
+	    // Add node events
+	    Events: {
+	      enable: true,
+	      type: 'Native',
+	      //Change cursor style when hovering a node
+	      onMouseEnter: function() {
+	        fd.canvas.getElement().style.cursor = 'move';
+	      },
+	      onMouseLeave: function() {
+	        fd.canvas.getElement().style.cursor = '';
+	      },
+	      //Update node positions when dragged
+	      onDragMove: function(node, eventInfo, e) {
+	        var pos = eventInfo.getPos();
+	        node.pos.setc(pos.x, pos.y);
+	        fd.plot();
+	      },
+	      //Implement the same handler for touchscreens
+	      onTouchMove: function(node, eventInfo, e) {
+	        $jit.util.event.stop(e); //stop default touchmove event
+	        this.onDragMove(node, eventInfo, e);
+	      }
+	    },
+	    //Number of iterations for the FD algorithm
+	    iterations: 200,
+	    //Edge length
+	    levelDistance: 100,
+	    // This method is only triggered
+	    // on label creation and only for DOM labels (not native canvas ones).
+	    onCreateLabel: function(domElement, node){
+	      // Create a 'name' and 'close' buttons and add them
+	      // to the main node label
+	      var nameContainer = document.createElement('span'),
+	          closeButton = document.createElement('span'),
+	          style = nameContainer.style;
+	      nameContainer.className = 'name';
+	      nameContainer.innerHTML = node.name;
+	      closeButton.className = 'close';
+	      closeButton.innerHTML = 'x';
+	      domElement.appendChild(nameContainer);
+	      //domElement.appendChild(closeButton);
+	      //style.fontSize = "1em";
+	      //style.color = "#000";
+	      //Fade the node and its connections when
+	      //clicking the close button
+	      closeButton.onclick = function() {
+	        node.setData('alpha', 0, 'end');
+	        node.eachAdjacency(function(adj) {
+	          adj.setData('alpha', 0, 'end');
+	        });
+	        fd.fx.animate({
+	          modes: ['node-property:alpha',
+	                  'edge-property:alpha'],
+	          duration: 500
+	        });
+	      };
+	      //Toggle a node selection when clicking
+	      //its name. This is done by animating some
+	      //node styles like its dimension and the color
+	      //and lineWidth of its adjacencies.
+	      nameContainer.onclick = function() {
+	        //set final styles
+	        fd.graph.eachNode(function(n) {
+	          if(n.id != node.id) delete n.selected;
+	          n.setData('dim', 7, 'end');
+	          n.eachAdjacency(function(adj) {
+	            adj.setDataset('end', {
+	              lineWidth: 0.4,
+	              color: '#ccc'
+	            });
+	          });
+	        });
+	        if(!node.selected) {
+	          node.selected = true;
+	          node.setData('dim', 17, 'end');
+	          node.eachAdjacency(function(adj) {
+	            adj.setDataset('end', {
+	              lineWidth: 2.5,
+	              color: '#36acfb'
+	            });
+	          });
+	        } else {
+	          delete node.selected;
+	        }
+	        //trigger animation to final styles
+	        fd.fx.animate({
+	          modes: ['node-property:dim',
+	                  'edge-property:lineWidth:color'],
+	          duration: 500
+	        });
+	        // Build the right column relations list.
+	        // This is done by traversing the clicked node connections.
+
+            //add link and content of the example   
+	        var html = "";
+			if(node.data.elo=="Example")
+			{
+					url = '"/example/show?id='+ node.data.ref_id +'"';
+		            html = "<div class='viz-title-link'>[Example]<h4><br/><a href='#' onClick='webLinkToContent("+url+")'>" + node.name + "</a></h4></div>";
+		            html += "<div>"+node.data.media_content+"</div>";
+		            html += "<div>"+node.data.content+"</div>";
+		            html += "<div>Created by: <b>"+node.data.author+"</b><br/><br/></div>";
+
+			} else if (node.data.elo=="Question") {
+					url = '"/question/show?id='+ node.data.ref_id +'"';
+		            html = "<div class='viz-title-link'>[Question]<br/><h4><a href='#' onClick='webLinkToContent("+url+")'>" + node.name + "</a></h4></div>";
+		            html += "<div>"+node.data.media_content+"</div>";
+		            html += "<div>"+node.data.content+"</div>";
+		            html += "<div>Created by: <b>"+node.data.author+"</b><br/><br/></div>";
+
+			} else {
+				html = "<h4>" + node.name + "</h4>";
+			}
+
+	        html += "<b> Connections:</b><ul><li>",
+	            list = [];
+	        node.eachAdjacency(function(adj){
+	          if(adj.getData('alpha')) list.push(adj.nodeTo.name);
+	        });
+	        //append connections information
+	        $jit.id('inner-details').innerHTML = html + list.join("</li><li>") + "</li></ul>";
+	      };
+	    },
+	    // Change node styles when DOM labels are placed
+	    // or moved.
+	    onPlaceLabel: function(domElement, node){
+	      var style = domElement.style;
+	      var left = parseInt(style.left);
+	      var top = parseInt(style.top);
+	      var w = domElement.offsetWidth;
+	      style.left = (left - w / 2) + 'px';
+	      style.top = (top + 10) + 'px';
+	      style.display = '';
+	    }
+	  });
+	  // load JSON data.
+	  fd.loadJSON(json);
+	  // compute positions incrementally and animate.
+	  fd.computeIncremental({
+	    iter: 40,
+	    property: 'end',
+	    onStep: function(perc){
+	      Log.write(perc + '% loaded...');
+	    },
+	    onComplete: function(){
+	      Log.write('');
+	      fd.animate({
+	        modes: ['linear'],
+	        transition: $jit.Trans.Elastic.easeOut,
+	        duration: 1000
+	      });
+	    }
+	  });
+	  // end
+}	
+<?php
+} // end if 
+?>

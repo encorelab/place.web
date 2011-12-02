@@ -27,12 +27,6 @@ echo $this->doctype() ?>-->
 
 	<script src="/js/basic.js" type="text/javascript" ></script>
 	<link type="text/css" href="/css/styles.css" rel="stylesheet" />
-<?php 
-	//echo $this->headLink()->appendStylesheet('/css/global.css') 
-?>
-<?php 
-	//require(APPLICATION_PATH.'/layouts/include/'.'tinymce.head.inc.php');
-?>
 
 <script>
 $(document).ready(function () {
@@ -46,21 +40,34 @@ if($this->vizType==1)
 {
 	echo "	init();";	
 } else if($this->vizType==2) {
-	echo "	init1();";	
+	echo "	init2();";	
+} else if($this->vizType==3) {
+	echo "	init3();";	
 }
 ?>
 })
-
 </script>
 </head>
 <body>
 <div id="viz-loader"><img src='/images/loader.gif' alt='Loading Icon' /></div>
 <div id="viz-container" class="div-hide">
-	<!-- CSS Files -->
+	
+	<!-- CSS Files for each viz-->
 	<link type="text/css" href="/js/viz/css/base.css" rel="stylesheet" />
+	<?php 
+	if($this->vizType==2)
+	{
+		echo '
 	<link type="text/css" href="/js/viz/css/Hypertree.css" rel="stylesheet" />
+';
+	} else if ($this->vizType==3){
+		echo '
+	<link type="text/css" href="/js/viz/css/ForceDirected.css" rel="stylesheet" />
+';
+	}
+	?>
 
-	<!--[if IE]><script language="javascript" type="text/javascript" src="../../Extras/excanvas.js"></script><![endif]-->
+	<!--[if IE]><script language="javascript" type="text/javascript" src="/js/viz/Extras/excanvas.js"></script><![endif]-->
 
 	<!-- JIT Library File -->
 	<script language="javascript" type="text/javascript" src="/js/viz/jit.js"></script>
@@ -78,18 +85,20 @@ if($this->vizType==1)
 		}
 	}
 	?>
-	<script language="javascript" type="text/javascript" src="/web/getd3json?vizEx=<?php echo $this->vizEx?>&vizQu=<?php echo $this->vizQu?>&vizMy=<?php echo $this->vizMy?>&vizCon=<?php echo $this->vizCon?><?php echo $conceptIdUrlEncode?>"></script>
+	<script language="javascript" type="text/javascript" src="/web/getd3json?vizVo=<?php echo $this->vizVo?>&vizType=<?php echo $this->vizType?>&vizEx=<?php echo $this->vizEx?>&vizQu=<?php echo $this->vizQu?>&vizMy=<?php echo $this->vizMy?>&vizCon=<?php echo $this->vizCon?><?php echo $conceptIdUrlEncode?>"></script>
 	<div id="web-controls">
-		<form action="<?php $_SERVER['PHP_SELF']?>" method="get">
-<!--
-		<select name="vizType">
-			<option value="1" <?php if($this->vizType==1) {echo ' selected="selected"';} ?>>Viz 1</option>
-			<option value="2" <?php if($this->vizType==2) {echo ' selected="selected"';} ?>>Viz 2</option>
-		</select>
--->
+		<form action="<?php $_SERVER['PHP_SELF']?>" method="get"> 
+		<div> 
+			Graph: <select name="vizType">
+				<option value="2" <?php if($this->vizType==2) {echo ' selected="selected"';} ?>>Hypertree</option>
+				<option value="3" <?php if($this->vizType==3) {echo ' selected="selected"';} ?>>Force Directed</option>
+			</select> | 
+		</div>
+
 		<div>
-			<input <?php if($this->vizEx==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizEx" value="1"> Show Examples |
-			<input <?php if($this->vizQu==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizQu" value="1"> Show Questions |
+			<input <?php if($this->vizEx==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizEx" value="1"> Examples |
+			<input <?php if($this->vizQu==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizQu" value="1"> Questions |
+			<input <?php if($this->vizVo==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizVo" value="1"> Votes |
 			<input <?php if($this->vizMy==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizMy" value="1"> My Contributions |
 		</div>
 		<div> Filter by Concept </div>
@@ -121,25 +130,14 @@ if($this->vizType==1)
 	        </select>';
 
 	        echo $conceptsList;
-
 	?>
-	</div>
-	<!-- 
-		<input <?php if($this->vizCon==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizCon" value="1"> Show only used Concepts|
-	 -->
+		</div>
 		| <input type="submit" value="Refresh" />
 		</form>
 	</div>
+	<div class="clear"></div>
+	<div id="log"></div>
 	<div id="web-container">
-		<!-- 
-		<div id="left-container">
-		        <div class="text">
-		            This visualization shows the relationships between ELOs.<br /><br />
-		            Clicking on a node should move the tree and center that node.<br /><br />
-		            The centered node's children are displayed in a relations list in the right column.
-		        </div>
-		</div>
-		 -->
 		<div id="id-list"></div>
 		<div id="center-container">
 		<div id="infovis"></div>
@@ -149,7 +147,6 @@ if($this->vizType==1)
 		<div id="inner-details"></div>
 		</div>
 	</div>
-	<div id="log"></div>
 </div>
 
 </body>

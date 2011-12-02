@@ -43,6 +43,7 @@ class ExampleController extends Zend_Controller_Action
 				
 				$type=1; // single view
 			}
+    	
     	} else {
     		// select all examples [list]
 			$k = Doctrine_Query::create()

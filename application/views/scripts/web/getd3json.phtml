@@ -1,5 +1,4 @@
 //alert("<?php echo $this->vizType; ?>");
-
 var labelType, useGradients, nativeTextSupport, animate;
 
 (function() {
@@ -37,7 +36,8 @@ function init(){
     //end
     var infovis = document.getElementById('infovis');
     //var w = infovis.offsetWidth - 50, h = infovis.offsetHeight - 50;
-    var w = '30%', h = infovis.offsetHeight - 50;
+
+    var w = $(window).width()-25, h = $(window).height()-40;
     
     //init Hypertree
     var ht = new $jit.Hypertree({
@@ -135,6 +135,10 @@ if($this->vizType==2)
 function init2(){
     //init data
     var json = <?php echo $this->d3JsonData;?>;
+    // set width and height of parent container
+    
+    $("#infovis").width($(window).width()-210);
+    $("#infovis").height($(window).height()-40);
 
     //init RGraph
     var rgraph = new $jit.RGraph({
@@ -305,6 +309,9 @@ function init3()
 {
 	  // init data
 	  var json = <?php echo $this->d3JsonData;?>;
+
+	  $("#infovis").width($(window).width()-210);
+	  $("#infovis").height($(window).height()-40);
 
 	  // end
 	  // init ForceDirected

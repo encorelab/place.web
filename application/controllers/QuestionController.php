@@ -117,7 +117,7 @@ class QuestionController extends Zend_Controller_Action
 					array($_SESSION['run_id'], $question[0]['id']))					
 					->orderBy('a.id DESC');
 					$answer = $q->fetchArray();
-					
+
 				} else if($_SESSION["profile"]=="STUDENT"){
 					
 					$q = Doctrine_Query::create()

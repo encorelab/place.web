@@ -92,7 +92,7 @@ class WebController extends Zend_Controller_Action
 		// add all concepts
 		//$this->view->d3JsonData = $this->aggregateConcepts();
 
-		if($this->params['vizType']==2)
+		if($this->params['vizType']==1 || $this->params['vizType']==2)
 		{
 			// viz 2
 			$this->view->d3JsonData = $this->aggregateVizDataAll();
@@ -262,9 +262,9 @@ class WebController extends Zend_Controller_Action
 					// check if it is a video
 					if (preg_match("/video/i", $exConcept['Example']['media_type']))
 					{
-						$mediaContent = "Video";
+						$isVideo = "1";
 					} else {
-						$mediaContent = '<img src="'.$exConcept['Example']['media_content'].'" width="150px">';
+						$isVideo = "0";
 					}
 					
 					//echo "<hr>adding example... ".$exConcept['Example']['name'];
@@ -281,7 +281,8 @@ class WebController extends Zend_Controller_Action
 						"relation" => "",
 						"ref_id" => $exConcept['Example']['id'],
 						"content" => $exConcept['Example']['content'],
-						"media_content" => $mediaContent,
+						"media_content" => $exConcept['Example']['media_content'],
+						"is_video" => $isVideo,
 						"author" => $exConcept['Example']['User']['display_name'],
 						"votes" => ""
 					);
@@ -343,9 +344,9 @@ class WebController extends Zend_Controller_Action
 					// check if it is a video
 					if (preg_match("/video/i", $quConcept['Question']['media_type']))
 					{
-						$mediaContent = "Video";
+						$isVideo = "1";
 					} else {
-						$mediaContent = '<img src="'.$quConcept['Question']['media_content'].'" width="150px">';
+						$isVideo = "0";
 					}
 					
 					
@@ -363,7 +364,8 @@ class WebController extends Zend_Controller_Action
 						"ref_id" => $quConcept['Question']['id'],
 						"author" => $quConcept['Question']['User']['display_name'],
 						"content" => $quConcept['Question']['content'],
-						"media_content" => $mediaContent,
+						"media_content" => $quConcept['Question']['media_content'],
+						"is_video" => $isVideo,
 						"votes" => ""
 					);
 					if ($this->params['vizVo']==1)
@@ -544,15 +546,16 @@ class WebController extends Zend_Controller_Action
 					$exNode->setDataAttribute('ref_id', $exConcept['Example']['id']);
 					$exNode->setDataAttribute('author', $exConcept['Example']['User']['display_name']);
 					$exNode->setDataAttribute('content', $exConcept['Example']['content']);
+					$exNode->setDataAttribute('media_content', $exConcept['Example']['media_content']);
 
 					// check if it is a video
 					if (preg_match("/video/i", $exConcept['Example']['media_type']))
 					{
-						$mediaContent = "Video";
+						$isVideo="1";
 					} else {
-						$mediaContent = '<img src="'.$exConcept['Example']['media_content'].'" width="150px">';
+						$isVideo="0";
 					}
-					$exNode->setDataAttribute('media_content', $mediaContent); 
+					$exNode->setDataAttribute('is_video', $isVideo); 
 					
 					// create Adjacency Object
 					if ($this->params['vizVo']==1)
@@ -641,15 +644,16 @@ class WebController extends Zend_Controller_Action
 					$quNode->setDataAttribute('ref_id', $quConcept['Question']['id']);
 					$quNode->setDataAttribute('author', $quConcept['Question']['User']['display_name']);
 					$quNode->setDataAttribute('content', $quConcept['Question']['content']);
+					$quNode->setDataAttribute('media_content', $quConcept['Question']['media_content']);
 
 					// check if it is a video
 					if (preg_match("/video/i", $quConcept['Question']['media_type']))
 					{
-						$mediaContent = "Video";
+						$isVideo="1";
 					} else {
-						$mediaContent = '<img src="'.$quConcept['Question']['media_content'].'" width="150px">';
+						$isVideo="0";
 					}
-					$quNode->setDataAttribute('media_content', $mediaContent); 
+					$quNode->setDataAttribute('is_video', $isVideo); 
 					
 					// create Adjacency Object
 					if ($this->params['vizVo']==1)

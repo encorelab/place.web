@@ -300,3 +300,38 @@ function cancelPreferences() {
 function logout() {
 	location="/user/logout";
 }
+
+function loadContentImage(imageUrl)
+{
+	var html = '<img src="'+imageUrl+'" width="200px">';
+	return html;
+}
+
+function loadVideolayer()
+{ 	
+	var player = '	<div id="jp_container_1" class="jp-video jp-video-thumb">	<div class="jp-type-single">	        <div id="jquery_jplayer_1" class="jp-jplayer"></div>	        <div class="jp-gui">	                <div class="jp-interface">	                        <div class="jp-progress">	                                <div class="jp-seek-bar">	                                        <div class="jp-play-bar"></div>	                                </div>	                        </div>	                        <div class="jp-current-time"></div>	                        <div class="jp-duration"></div>	                        <div class="jp-controls-holder jp-controls-holder-thumb">	                                <ul class="jp-controls jp-controls-thumb">	                                        <li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>	                                        <li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>	                                        <li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>	                                </ul>	                                <ul class="jp-toggles jp-toggles-thumb">	                                        <li><a href="javascript:;" class="jp-full-screen" tabindex="1" title="full screen">full screen</a></li>	                                        <li><a href="javascript:;" class="jp-restore-screen" tabindex="1" title="restore screen">restore screen</a></li>	                                </ul>	                        </div>	                </div>	        </div>	</div>	</div>';
+          
+	return player;
+}
+
+function loadVideoFile(mediaUrl)
+{
+	$("#jquery_jplayer_1").jPlayer({
+        ready: function() { // The $.jPlayer.event.ready event
+           $(this).jPlayer("setMedia", { m4v: mediaUrl }); //.jPlayer("play");
+        },
+        ended: function() { // The $.jPlayer.event.ended event
+            //$(this).jPlayer("play"); // Repeat the media
+        },
+        size: {
+                            width: "200px",
+                            height: "150px",
+                            cssClass: "jp-video-thumb"
+                    },
+
+     solution:"html, flash",
+     swfPath: "/jquery/jplayer",
+     supplied: "m4v",
+     errorAlerts: true
+    });
+}

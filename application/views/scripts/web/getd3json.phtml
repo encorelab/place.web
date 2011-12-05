@@ -1,4 +1,13 @@
+var labelLength = 12; 
 var labelType, useGradients, nativeTextSupport, animate;
+
+// common functions
+function truncateName(name)
+{
+	return name.substring(0,labelLength) + " ...";
+	//node.name.trim().substring(0, 20).split(" ").slice(0, -1).join(" ") + "...";
+	
+}
 
 (function() {
   var ua = navigator.userAgent,
@@ -174,7 +183,7 @@ function init2(){
           type: 'line'
         },
 
-	Tips: {  
+        Tips: {  
           enable: true,  
           type: 'HTML',  
           offsetX: 10,  
@@ -241,7 +250,21 @@ function init2(){
         //and a click handler to move the graph.
         //This method is called once, on label creation.
         onCreateLabel: function(domElement, node){
-            domElement.innerHTML = ""+node.name;
+            
+			if(node.data.elo=="Example")
+			{
+				// truncate node name 
+				if(node.name.length>labelLength)
+				{
+					domElement.innerHTML = truncateName(node.name);
+				} else {
+					domElement.innerHTML = node.name;
+				}
+				
+			} else {
+				domElement.innerHTML = ""+node.name;
+			}
+
             domElement.onclick = function(){
                 rgraph.onClick(node.id, {
                     onComplete: function() {
@@ -353,6 +376,26 @@ function init3()
 	      color: '#BDBDBD',
 	      lineWidth: 0.4
 	    },
+        Tips: {  
+            enable: true,  
+            type: 'HTML',  
+            offsetX: 10,  
+            offsetY: 10,
+            
+            onShow: function(tip, node) {
+          	  
+              if(node.data.elo=="Example" || node.data.elo=="Question") {
+          	  tip.innerHTML = "<strong>" + node.name + "</strong>";
+                 		if(node.data.author!="") {
+        			tip.innerHTML += "<br/>Created by: " + node.data.author;
+          		} 
+  	      	  } else if(node.data.elo=="Tag") {
+      			  tip.innerHTML = "Votes: " + node.data.votes;
+        	  } else {
+        		  tip.innerHTML = node.name;
+        	  }
+            }
+        },
 	    // Add node events
 	    Events: {
 	      enable: true,
@@ -386,12 +429,24 @@ function init3()
 	      // Create a 'name' and 'close' buttons and add them
 	      // to the main node label
 	      var nameContainer = document.createElement('span'),
-	          closeButton = document.createElement('span'),
-	          style = nameContainer.style;
+	      closeButton = document.createElement('span'),
+	      style = nameContainer.style;
 	      nameContainer.className = 'name';
-	      nameContainer.innerHTML = node.name;
-	      closeButton.className = 'close';
-	      closeButton.innerHTML = 'x';
+	      
+	      if(node.data.elo=="Example" )
+		  {
+				// truncate node name 
+				if(node.name.length>labelLength)
+				{
+					nameContainer.innerHTML = truncateName(node.name);
+				} else {
+					nameContainer.innerHTML = node.name;
+				}
+		  } else {
+			  nameContainer.innerHTML = ""+node.name;
+		  }
+	      //closeButton.className = 'close';
+	      //closeButton.innerHTML = 'x';
 	      domElement.appendChild(nameContainer);
 	      //domElement.appendChild(closeButton);
 	      //style.fontSize = "1em";
@@ -497,7 +552,7 @@ function init3()
 	      var top = parseInt(style.top);
 	      var w = domElement.offsetWidth;
 	      style.left = (left - w / 2) + 'px';
-	      style.top = (top + 10) + 'px';
+	      style.top = (top + 2) + 'px';
 	      style.display = '';
 	    }
 	  });
@@ -505,7 +560,7 @@ function init3()
 	  fd.loadJSON(json);
 	  // compute positions incrementally and animate.
 	  fd.computeIncremental({
-	    iter: 40,
+	    iter: 5,
 	    property: 'end',
 	    onStep: function(perc){
 	      Log.write(perc + '% loaded...');

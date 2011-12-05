@@ -93,8 +93,12 @@ if($this->type==0 && !$error && $_SESSION['profile']=="TEACHER")
  */
 {
 ?>
+
+	<!-- right-column -->
+	<div id="question-right-column">
+	
 	<!-- start  tags-container -->
-	<div id="elo-tags" class="dashlet-box">
+	<div id="elo-tags1" class="dashlet-box">
 		<div class="dashlet-title">Tags</div>
 		<div id="tags-container">
 			<ul class="ul-for-data">
@@ -120,9 +124,21 @@ if($this->type==0 && !$error && $_SESSION['profile']=="TEACHER")
 		<!-- msg-votes-message -->
 		<hr/><div class="dashlet-box-simple">Note: showing only your votes. <br/>To see all the votes you have to answer the question.</div>
 		<?php } // end if ?>
-	
 	</div>
 	<!-- /tags-container -->
+
+	<?php 
+	if($_SESSION['profile']=="TEACHER" && $this->question[0]['type'] == "MC")
+	{
+		echo '<div id="answers-graph" class="dashlet-box">
+		<div class="dashlet-title">Answers</div>'
+		.Answer::generateAnswersGraph($this->answer).'
+		
+		</div>';	
+	}
+	?>
+	</div>
+	<!-- /right-column -->
 
 	<?php 
 	/*
@@ -130,7 +146,6 @@ if($this->type==0 && !$error && $_SESSION['profile']=="TEACHER")
 	<iframe src="" width="700px" height="500px" id="debug-votes-iframe" name="debug-votes-iframe"></iframe>	
 	*/
 	?>
-
 
 	<!-- media container -->
 	<div class="dashlet-box-image">

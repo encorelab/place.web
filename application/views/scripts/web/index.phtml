@@ -85,7 +85,7 @@ if($this->vizType==1)
 		}
 	}
 	?>
-	<script language="javascript" type="text/javascript" src="/web/getd3json?vizVo=<?php echo $this->vizVo?>&vizType=<?php echo $this->vizType?>&vizEx=<?php echo $this->vizEx?>&vizQu=<?php echo $this->vizQu?>&vizMy=<?php echo $this->vizMy?>&vizCon=<?php echo $this->vizCon?><?php echo $conceptIdUrlEncode?>"></script>
+	<script language="javascript" type="text/javascript" src="/web/getd3json?keyW=<?php echo $this->keyW?>&vizVo=<?php echo $this->vizVo?>&vizType=<?php echo $this->vizType?>&vizEx=<?php echo $this->vizEx?>&vizQu=<?php echo $this->vizQu?>&vizMy=<?php echo $this->vizMy?>&vizCon=<?php echo $this->vizCon?><?php echo $conceptIdUrlEncode?>"></script>
 	<div id="web-controls">
 		<form action="<?php $_SERVER['PHP_SELF']?>" method="get"> 
 		<div> 
@@ -135,7 +135,9 @@ if($this->vizType==1)
 	        echo $conceptsList;
 	?>
 		</div>
-		| <input type="submit" value="Refresh" />
+		| <input type="text" id="keyW" name="keyW" value="<?php echo $this->keyW;?>"/> | 
+		
+		<input type="submit" value="Refresh" />
 		</form>
 	</div>
 	<div class="clear"></div>

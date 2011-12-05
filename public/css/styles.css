@@ -796,6 +796,9 @@ div.jp-video-270p {
     width: 30%;
 }
 
+#elo-tags1{
+}
+
 .comment-score{
 	font-size: 1.3em;
 	padding: 0.4em;
@@ -829,4 +832,28 @@ div.jp-video-270p {
 	color: #414B53;
 	border-bottom: 1px solid lightgrey;
 	padding: 5px;
+}
+
+#answers-graph{
+	float: none;
+	min-height: 100px;
+	padding-bottom: 0.5em;
+	text-align: center;
+}
+
+#answers-graph .graph-bar{
+	background: none repeat scroll 0 0 orange;
+    border: 1px solid #000000;
+    width: 43px;
+}
+
+#answers-graph .graph-item{
+	float: left;
+	margin-left: 0.8em;
+}
+
+#question-right-column{
+    float: right;
+    margin-left: 20px;
+    width: 30%;
 }

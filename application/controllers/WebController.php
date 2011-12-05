@@ -52,7 +52,7 @@ class WebController extends Zend_Controller_Action
 			$this->view->vizMy = $this->params['vizMy'];
 		}
 		
-	        if(isset($this->params['vizCon']) && $this->params['vizCon']==1)
+	    if(isset($this->params['vizCon']) && $this->params['vizCon']==1)
 		{
 			$this->view->vizCon = 1;
 		} else {
@@ -65,12 +65,18 @@ class WebController extends Zend_Controller_Action
 		} else {
 			$this->view->conceptId = array();
 		}
+	    if(isset($this->params['keyW']))
+		{
+			$this->view->keyW = $this->params['keyW'];
+		} else {
+			$this->view->keyW = "";
+		}
     }
  
     public function testdataAction()
     {
     	$this->_helper->layout()->disableLayout();
-     	echo $this->aggregateVizDataNodeLink();
+     	//echo $this->aggregateVizDataNodeLink();
     }
     
     public function getd3jsonAction()
@@ -81,11 +87,13 @@ class WebController extends Zend_Controller_Action
     	$this->params['vizMy']=0;
     	$this->params['vizCon']=0;
     	$this->params['vizVo']=0;
+    	$this->params['keyK']='';
     	$this->params['concepId']=array();
  	
     	$this->params = $this->getRequest()->getParams();
 
     	$this->view->vizType = $this->params['vizType'];
+    	$this->view->keyK = $this->params['keyK'];
     	
 		$this->_helper->layout()->disableLayout();
 		
@@ -155,6 +163,7 @@ class WebController extends Zend_Controller_Action
     {
         global $PLACEWEB_CONFIG;
     	
+        
     	// create a top viz object
         $d3Data = new EloD3();
     	$d3Data->name = $_SESSION['group_name'];
@@ -210,25 +219,18 @@ class WebController extends Zend_Controller_Action
 			///////////////////////////////////
 			// find examples
 			
-        	if($this->params['vizMy']==1)
-			{
-				$q = Doctrine_Query::create()
-				->select ("ec.id, e.id, e.name, e.content, e.media_content, e.media_type, u.display_name")
-				->from("ExampleConcept ec")
-				->innerJoin("ec.Example e")
-				->innerJoin("e.User u")
-				->where('ec.run_id = ? AND ec.concept_id = ? AND e.author_id = ?', 
-				array($_SESSION['run_id'], $concept->id, $_SESSION['author_id']));
-				
-			} else {
-				$q = Doctrine_Query::create()
-				->select ("ec.id, e.id, e.name, e.content, e.media_content, e.media_type, u.display_name")
-				->from("ExampleConcept ec")
-				->innerJoin("ec.Example e")
-				->innerJoin("e.User u")
-				->where('ec.run_id = ? AND ec.concept_id = ?', array($_SESSION['run_id'],$concept->id));
-			}
-
+			$exWhereFields = 'ec.run_id = ? AND ec.concept_id = ?';
+			$exWhereData = array($_SESSION['run_id'], $concept->id);
+			
+			$queryArray = $this->buildExSqlQuery($exWhereFields, $exWhereData);
+			
+			$q = Doctrine_Query::create()
+			->select ("ec.id, e.id, e.name, e.content, e.media_content, e.media_type, u.display_name")
+			->from("ExampleConcept ec")
+			->innerJoin("ec.Example e")
+			->innerJoin("e.User u")
+			->where($queryArray[0], $queryArray[1]);
+			
 			$examples = $q->fetchArray();
 
    			// add examples attached to this concept
@@ -471,24 +473,20 @@ class WebController extends Zend_Controller_Action
 	
 			///////////////////////////////////
 			// find examples
-        	if($this->params['vizMy']==1)
-			{
+			
+			$exWhereFields = 'ec.run_id = ? AND ec.concept_id = ?';
+			$exWhereData = array($_SESSION['run_id'], $concept->id);
+			
+			$queryArray = $this->buildExSqlQuery($exWhereFields, $exWhereData);
+			
+			$this->view->data = $queryArray;
+			
 				$q = Doctrine_Query::create()
 				->select ("ec.id, e.id, e.name, e.content, e.media_content, e.media_type, u.display_name")
 				->from("ExampleConcept ec")
 				->innerJoin("ec.Example e")
 				->innerJoin("e.User u")
-				->where('ec.run_id = ? AND ec.concept_id = ? AND e.author_id = ?', 
-				array($_SESSION['run_id'], $concept->id, $_SESSION['author_id']));
-				
-			} else {
-				$q = Doctrine_Query::create()
-				->select ("ec.id, e.id, e.name, e.content, e.media_content, e.media_type, u.display_name")
-				->from("ExampleConcept ec")
-				->innerJoin("ec.Example e")
-				->innerJoin("e.User u")
-				->where('ec.run_id = ? AND ec.concept_id = ?', array($_SESSION['run_id'],$concept->id));
-			}
+				->where($queryArray[0], $queryArray[1]);
 
 			$examples = $q->fetchArray();
 
@@ -515,7 +513,7 @@ class WebController extends Zend_Controller_Action
 					
 					// custom data attributes
 					$exTagSum->setDataAttribute('$type', 'none');
-					$exTagSum->setDataAttribute("elo", "tag");
+					$exTagSum->setDataAttribute("elo", "Tag");
 					//$exTagSum->setDataAttribute('$color', '#80B376');
 					$exTagSum->setDataAttribute("votes", $ex_con_votes['votesMinus']. ' ['.$ex_con_votes['votesSumm'].'] '.$ex_con_votes['votesPlus']);
 					
@@ -615,7 +613,7 @@ class WebController extends Zend_Controller_Action
 					
 					// custom data attributes
 					$quTagSum->setDataAttribute('$type', 'none');
-					$quTagSum->setDataAttribute("elo", "tag");
+					$quTagSum->setDataAttribute("elo", "Tag");
 					//$quTagSum->setDataAttribute('$color', '#80B376');
 					$quTagSum->setDataAttribute("votes", $qu_con_votes['votesMinus']. ' ['.$qu_con_votes['votesSumm'].'] '.$qu_con_votes['votesPlus']);
 					
@@ -730,5 +728,47 @@ class WebController extends Zend_Controller_Action
 		// end get votes
 		
 	} // end countVotes()
+	
+	private function buildExSqlQuery($fields, $data)
+	{
+		$exWhereFields = $fields;
+		$exWhereData = array();
+		$exWhereData = $data;
+		
+		
+//		$exWhereFields = 'ec.run_id = ? AND ec.concept_id = ?';
+//		$exWhereData = array($_SESSION['run_id'], $conceptId);
+		 
+		if($this->params['vizMy']==1)
+		{
+			$exWhereFields .= ' AND e.author_id = ?';
+			$exWhereData[] = $_SESSION['author_id'];
+		}
+
+		if($this->params['keyW']!="")
+		{
+			$this->params['keyW'] = trim($this->params['keyW']);
+			if(str_word_count($this->params['keyW'])>1)
+			{
+				$kewords = explode(" ", $this->params['keyW']);
+				foreach ($kewords as $k)
+				{
+					$exWhereFields .= ' AND e.content LIKE ?';
+					$exWhereData[] = '%'.$k.'%';
+				}
+				
+			} else {
+					$exWhereFields .= ' AND e.content LIKE ?';
+					$exWhereData[] = '%'.$this->params['keyW'].'%';
+			}
+			
+		}
+		
+		$queryFieldsData[0] = $exWhereFields;
+		$queryFieldsData[1] = $exWhereData;
+		
+		return $queryFieldsData;
+			
+	} // end buildExSqlQuery()
 
 }

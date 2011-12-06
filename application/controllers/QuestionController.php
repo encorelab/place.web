@@ -118,6 +118,14 @@ class QuestionController extends Zend_Controller_Action
 					->orderBy('a.id DESC');
 					$answer = $q->fetchArray();
 
+					$aReviews = Doctrine::getTable('AssessmentReviews')->findByDql("run_id = ? and author_id = ? and t1 = 'question' and i1 = ?",
+					array($_SESSION['run_id'], $_SESSION['author_id'], $params['id']));
+					if (count($aReviews) > 0){
+						$aReview = $aReviews[0];
+						$this->view->assessmentReview = $aReview->log;
+					}
+
+
 				} else if($_SESSION["profile"]=="STUDENT"){
 					
 					$q = Doctrine_Query::create()

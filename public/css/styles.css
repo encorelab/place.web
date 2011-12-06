@@ -22,7 +22,7 @@
     z-index: 90;
 }
 
-#web-controls div{
+#web-controls .control{
 	float:left;
 }
 
@@ -842,7 +842,7 @@ div.jp-video-270p {
 }
 
 #answers-graph .graph-bar{
-	background: none repeat scroll 0 0 orange;
+	background: none repeat scroll 0 0 #DD9E37;
     border: 1px solid #000000;
     width: 43px;
 }
@@ -856,4 +856,48 @@ div.jp-video-270p {
     float: right;
     margin-left: 20px;
     width: 30%;
+}
+
+#time-slider {
+	font-size: 1em; 
+	width: 70%;
+}
+
+#time-slider fieldset { 
+	border:0; 
+	margin: 0em; 
+	height: 90px;
+	padding: 0;
+}	
+#time-slider label {
+	font-weight: normal; 
+	float: left; 
+	margin-right: .5em; 
+}
+
+#time-slider select {
+/*	margin-right: 1em; */
+	float: left;
+}
+
+#time-slider .ui-slider {
+	clear: both; 
+	top: 10px;
+	margin-left:40px;
+}
+
+.ui-slider li span.ui-slider-label-show, .ui-slider dd span.ui-slider-label-show{
+	font-size: 0.7em;
+}
+
+.ui-slider dt{
+	font-size: 0.7em;
+}
+
+#assessment-notes-container {
+    background-color: #DD9E37;
+    border: 1px solid black;
+    margin: 10px 0;
+    padding: 10px;
+    width: 63%;
 }

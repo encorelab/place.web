@@ -325,7 +325,17 @@ if($this->type==0 && !$error && $_SESSION['profile']=="TEACHER")
 		$answerTitle = 'My Answer';
 	}
 	?>
-	
+
+	<?php
+	if($_SESSION["profile"]=="TEACHER" && isset($this->assessmentReview))
+	{
+	?>
+		<div id='assessment-notes-container'>
+		<b>My Notes:</b> <?php echo $this->assessmentReview; ?>
+		</div>
+	<?php
+	}
+	?>
 	<!-- answers-container -->
 	<div id="answers-container">
 
@@ -413,6 +423,9 @@ if($notAssessedItems!="")
 		<div id="assessment-review-container" class="dashlet-box div-hide">
 			<div class="dashlet-title">Assessment Review</div>
 			<textarea name="review-log" rows="" cols="" name="assessment_review"></textarea>
+			<br/>
+			<input type='checkbox' value='true' name='markForDiscussion' /> Mark for Discussion
+			<br/>
 			<br/>
 			<input type="submit" value="Confirm">
 			<input type="button" value="Cancel" onclick="marksCancel()">

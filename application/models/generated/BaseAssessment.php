@@ -19,6 +19,7 @@ Doctrine_Manager::getInstance()->bindComponent('Assessment', 'main');
  * @property Run $Run
  * @property User $User
  * @property Assessable $Assessable
+ * @property Doctrine_Collection $AssessmentReviews
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -123,5 +124,9 @@ abstract class BaseAssessment extends Doctrine_Record
         $this->hasOne('Assessable', array(
              'local' => 'obj_type',
              'foreign' => 'id'));
+
+        $this->hasMany('AssessmentReviews', array(
+             'local' => 'id',
+             'foreign' => 'assessment_id'));
     }
 }

@@ -1,3 +1,6 @@
+.viz-title-link{
+	margin-bottom: 1em;
+}
 #viz-loader{
     margin-left: 50%;
     margin-top: 20%;
@@ -13,7 +16,6 @@
 
 #viz-container{
     background: none repeat scroll 0 0 #FFFFFF;
-    overflow: auto;
     padding: 0 0.5em;
     text-align: left;
 }
@@ -48,14 +50,13 @@ a {
 }
 
 #left-container, 
-#right-container, 
-#center-container {
-    height:600px;
+#right-container {
+    height:95%;
     top:0;
 }
 
 #left-container, #right-container {
-    width:200px;
+    width:230px;
     color:#686c70;
     text-align: left;
     overflow: auto;
@@ -73,11 +74,13 @@ a {
 }
 
 #right-container {
-    right:0;
-    background-image:url('/js/viz/css/col1.png');
-    background-position:center left;
-    border-right:1px solid #ddd;
-    float:right;
+    background-image: url("/js/viz/css/col1.png");
+    background-position: left center;
+    border-right: 1px solid #DDDDDD;
+    float: right;
+    position: absolute;
+    right: 0;
+    top: 25px;
 }
 
 #right-container h4{
@@ -88,7 +91,7 @@ a {
     background-color: #FFFFFF;
     color:#ccc;
     float:left;
-    max-width: 800px;
+    /*max-width: 800px;*/
 }
 
 .text {
@@ -103,18 +106,19 @@ a {
 
 #log {
 /*    position:fixed;*/
-    top:10px;
+    margin-top:20px;
     font-size:1.0em;
     font-weight:bold;
-    color:#DBDBDB;
+    color:#A4A4A4;
     text-align: left;
+    position: absolute;
 }
 
 
 #infovis {
     position:relative;
     width:1000px;
-    height:600px;
+    height:700px;
     margin:auto;
     overflow:hidden;
 }

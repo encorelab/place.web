@@ -16,13 +16,21 @@
 }
 
 #concept-select-list{
-    margin-left: 512px;
+    margin-left: 690px;
     margin-top: 27px;
     position: fixed;
     z-index: 90;
 }
 
+#web-controls {
+    margin-top: 5px;
+}
+
 #web-controls div{
+    float: left;
+}
+
+#web-controls .control{
 	float:left;
 }
 
@@ -106,7 +114,7 @@
 }
 
 #my-recent-activity-feed{
-    max-height: 214px;
+    max-height: 209px;
     overflow: auto;
 }
 
@@ -438,7 +446,7 @@ display:none;
 
 
 #posts-list {
-    max-height: 450px;
+    /*max-height: 450px;*/
     overflow: auto;
     text-align: left;
     margin-bottom: 10px;
@@ -740,7 +748,6 @@ body {
     position: fixed;
     width: 100%;*/
     z-index: 5;
-    text-a
 }
 
 #header div{
@@ -803,6 +810,9 @@ div.jp-video-270p {
     width: 30%;
 }
 
+#elo-tags1{
+}
+
 .comment-score{
 	font-size: 1.3em;
 	padding: 0.4em;
@@ -836,4 +846,74 @@ div.jp-video-270p {
 	color: #414B53;
 	border-bottom: 1px solid lightgrey;
 	padding: 5px;
+}
+
+#answers-graph{
+	float: none;
+	min-height: 100px;
+	padding-bottom: 0.5em;
+	text-align: center;
+}
+
+#answers-graph .graph-bar{
+	background: none repeat scroll 0 0 #DD9E37;
+    border: 1px solid #000000;
+    width: 43px;
+}
+
+#answers-graph .graph-item{
+	float: left;
+	margin-left: 0.8em;
+}
+
+#question-right-column{
+    float: right;
+    margin-left: 20px;
+    width: 30%;
+}
+
+#time-slider {
+	font-size: 1em;
+	margin-top: 6px;
+	width: 70%;
+}
+
+#time-slider fieldset { 
+	border:0; 
+	margin: 0em; 
+	height: 58px;
+	padding: 0;
+}	
+#time-slider label {
+	font-weight: normal; 
+	float: left; 
+	margin-right: .5em; 
+}
+
+#time-slider select {
+/*	margin-right: 1em; */
+	float: left;
+	display:none;
+}
+
+#time-slider .ui-slider {
+	clear: both; 
+	top: 10px;
+	margin-left:40px;
+}
+
+.ui-slider li span.ui-slider-label-show, .ui-slider dd span.ui-slider-label-show{
+	font-size: 0.7em;
+}
+
+.ui-slider dt{
+	font-size: 0.7em;
+}
+
+#assessment-notes-container {
+    background-color: #DD9E37;
+    border: 1px solid black;
+    margin: 10px 0;
+    padding: 10px;
+    width: 63%;
 }

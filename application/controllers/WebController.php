@@ -10,70 +10,75 @@ class WebController extends Zend_Controller_Action
     {
         Placeweb_Authorizer::authorize();
     }
-
+    
     public function indexAction()
     {
 	// set default values for viz
-    	
+   	
     	$this->_helper->layout()->disableLayout();
     	
 		$this->params = $this->getRequest()->getParams();
 		
+		// testing 
+		$this->view->params = $this->params;
 		// set default viz
+		
 		if(!isset($this->params['vizType']))
 		{
 			$this->view->vizType = 2;
 		}
 		
-		if(isset($this->params['vizType']) && $this->params['vizType']==1)
+		if(isset($this->params['vizType']))
 		{
-			$this->view->vizType = 1;
-		} else if(isset($this->params['vizType']) && $this->params['vizType']==2) {
-			$this->view->vizType = 2;
+			$this->view->vizType = $this->params['vizType'];
 		}
 
-    		if(isset($this->params['vizEx']))
+		if(isset($this->params['vizEx']))
 		{
 			$this->view->vizEx = $this->params['vizEx'];
 		}
 
-	        if(isset($this->params['vizQu']))
+	    if(isset($this->params['vizQu']))
 		{
 			$this->view->vizQu = $this->params['vizQu'];
 		}
 		
-	        if(isset($this->params['vizMy']))
+	    if(isset($this->params['vizVo']))
+		{
+			$this->view->vizVo = $this->params['vizVo'];
+		}
+        if(isset($this->params['vizMy']))
 		{
 			$this->view->vizMy = $this->params['vizMy'];
 		}
 		
-	        if(isset($this->params['vizCon']) && $this->params['vizCon']==1)
+	    if(isset($this->params['vizCon']) && $this->params['vizCon']==1)
 		{
 			$this->view->vizCon = 1;
 		} else {
 			$this->view->vizCon = 0;
 		}
 		
-	        if(isset($this->params['conceptId']) && $this->params['conceptId']!="")
+	    if(isset($this->params['conceptId']))
 		{
 			$this->view->conceptId = $this->params['conceptId'];
 		} else {
-			$this->view->conceptId = 0;
+			$this->view->conceptId = array();
 		}
-		
-		
-    		//$this->aggregateVizDataAll();
-    	
-		//$this->d3Data = $this->aggregateVizDataAll();
-		//$this->aggregateVizDataAll();
-		
-		//$this->view->d3JsonData = $this->d3Data;
-		
-		//print_r($this->d3Data);
-    	
-
+	    if(isset($this->params['keyW']))
+		{
+			$this->view->keyW = $this->params['keyW'];
+		} else {
+			$this->view->keyW = "";
+		}
     }
  
+    public function testdataAction()
+    {
+    	$this->_helper->layout()->disableLayout();
+     	//echo $this->aggregateVizDataNodeLink();
+    }
+    
     public function getd3jsonAction()
     {
     	// set default values for params
@@ -81,45 +86,37 @@ class WebController extends Zend_Controller_Action
     	$this->params['vizQu']=0;
     	$this->params['vizMy']=0;
     	$this->params['vizCon']=0;
-    	$this->params['conceptId']=0;
-    	
+    	$this->params['vizVo']=0;
+    	$this->params['keyK']='';
+    	$this->params['concepId']=array();
+ 	
     	$this->params = $this->getRequest()->getParams();
-    			
-		$this->_helper->layout()->disableLayout();
 
+    	$this->view->vizType = $this->params['vizType'];
+    	$this->view->keyK = $this->params['keyK'];
+    	
+		$this->_helper->layout()->disableLayout();
+		
 		// add all concepts
 		//$this->view->d3JsonData = $this->aggregateConcepts();
-		
-		$this->view->d3JsonData = $this->aggregateVizDataAll();
-		
-		
-		//$this->d3Data = "";
-		
-		//$this->view->d3JsonData = $this->d3Data;
-		
-		//print_r($this->d3Data);
-		
 
-		// add questions
-
-		// add examples
-
-		// add comments to examples [not implemented yet]
-
-		// generate json
-		//echo "<pre>";
-		//print_r($this->conceptIds);
-		//echo "</pre>";
+		if($this->params['vizType']==1 || $this->params['vizType']==2)
+		{
+			// viz 2
+			$this->view->d3JsonData = $this->aggregateVizDataAll();
+		} else if($this->params['vizType']==3) {
+			// viz 3
+			$this->view->d3JsonData = $this->aggregateVizDataNodeLink();
+		}
 	}
 	
     /**
-     * 
      * test/get concepts
      */
     private function aggregateConcepts()
     {
         global $PLACEWEB_CONFIG;
-    	
+        
     	$d3Data = new EloD3();
     	$d3Data->name = $PLACEWEB_CONFIG['homeNodeTitle'];
     	$d3Data->id= "home_0001";
@@ -166,32 +163,35 @@ class WebController extends Zend_Controller_Action
     {
         global $PLACEWEB_CONFIG;
     	
+        
     	// create a top viz object
         $d3Data = new EloD3();
-    	$d3Data->name = $PLACEWEB_CONFIG['homeNodeTitle'];
-    	$d3Data->id= "home_0001";
+    	$d3Data->name = $_SESSION['group_name'];
+    	$d3Data->id= $_SESSION['group_name'];
     	$d3Data->type = "home";
 		$d3Data->data=array(
 			'$type' => "star",
 			'$color' => "#475DFF",
 			"elo" => "Home",
-			"relation" => "test-home",
+			"relation" => "",
 			"ref_id" => "",
-			"author" => "Instructor",
+			"author" => "",
 			"votes" => ""
 		);
-    	
-		if($this->params['conceptId']!=0)
-		{
-	        // get selected concept 
-	        $concepts = Doctrine::getTable("Concept")
-	                 ->findByDql("run_id = ? AND id = ?", array($_SESSION['run_id'],$this->params['conceptId']));
-			
+
+		// if "all concepts" is NOT selected
+		if(isset($this->params['conceptId']) && !in_array('0', $this->params['conceptId'])) {
+			$conceptIds = $this->params['conceptId'];
+			$concepts = Doctrine_Query::create()
+                    //->select("*")
+                    ->from("Concept")
+                    ->whereIn("id", $conceptIds)
+                    ->andWhere("run_id = ?", $_SESSION['run_id'])
+                    ->execute();
 		} else {
 	        // get concepts for current run_id
 	        $concepts = Doctrine::getTable("Concept")
 	                 ->findByDql("run_id = ?", $_SESSION['run_id']);
-			
 		}
 
 		// add concepts
@@ -212,45 +212,30 @@ class WebController extends Zend_Controller_Action
 				"relation" => "rel concept",
 				//"ref_id" => $concept->id,
 				"ref_id" => "",
-				"author" => "Instructor",
+				"author" => "",
 				"votes" => ""
 			);
 	
 			///////////////////////////////////
 			// find examples
 			
-        	if($this->params['vizMy']==1)
-			{
-				$q = Doctrine_Query::create()
-				->select ("ec.id, e.id, e.name, u.display_name")
-				->from("ExampleConcept ec")
-				->innerJoin("ec.Example e")
-				->innerJoin("e.User u")
-				->where('ec.run_id = ? AND ec.concept_id = ? AND e.author_id = ?', 
-				array($_SESSION['run_id'], $concept->id, $_SESSION['author_id']));
-				
-			} else {
-				$q = Doctrine_Query::create()
-				->select ("ec.id, e.id, e.name, u.display_name")
-				->from("ExampleConcept ec")
-				->innerJoin("ec.Example e")
-				->innerJoin("e.User u")
-				->where('ec.run_id = ? AND ec.concept_id = ?', array($_SESSION['run_id'],$concept->id));
-			}
-
-			$examples = $q->fetchArray();
-			///*
-			//echo "ExampleConcept<hr/>";
-			//echo "<pre>"; 
-			//print_r($examples);
-			//echo "</pre>";
-			//*/
+			$exWhereFields = 'ec.run_id = ? AND ec.concept_id = ?';
+			$exWhereData = array($_SESSION['run_id'], $concept->id);
 			
-			$hasEx = false;
+			$queryArray = $this->buildExSqlQuery($exWhereFields, $exWhereData);
+			
+			$q = Doctrine_Query::create()
+			->select ("ec.id, e.id, e.name, e.content, e.media_content, e.media_type, u.display_name")
+			->from("ExampleConcept ec")
+			->innerJoin("ec.Example e")
+			->innerJoin("e.User u")
+			->where($queryArray[0], $queryArray[1]);
+			
+			$examples = $q->fetchArray();
+
    			// add examples attached to this concept
 			if(isset($examples) && count($examples!=0) && $this->params['vizEx']==1) 
 			{
-				$hasEx = true;
 
 				foreach($examples as $exConcept)
 				{
@@ -275,53 +260,63 @@ class WebController extends Zend_Controller_Action
 						"author" => "",
 						"votes" => $ex_con_votes['votesMinus']. ' ['.$ex_con_votes['votesSumm'].'] '.$ex_con_votes['votesPlus']
 					);
-				
+					
+					// check if it is a video
+					if (preg_match("/video/i", $exConcept['Example']['media_type']))
+					{
+						$isVideo = "1";
+					} else {
+						$isVideo = "0";
+					}
+					
 					//echo "<hr>adding example... ".$exConcept['Example']['name'];
 					$myD3ex = new EloD3();
 					$myD3ex->id = "EX_".$exConcept['Example']['id']; // use the id of the example. this will not be unique ;)
 					//$myD3ex->id = "EX_CON_".$exConcept['id']; // this is unique
 					$myD3ex->name = ''.$exConcept['Example']['name'];
 					$myD3ex->type="Example";
+					
 					$myD3ex->data=array(
 						'$type' => "triangle",
 						'$color' => "#80B376",
 						"elo" => "Example",
 						"relation" => "",
 						"ref_id" => $exConcept['Example']['id'],
+						"content" => $exConcept['Example']['content'],
+						"media_content" => $exConcept['Example']['media_content'],
+						"is_video" => $isVideo,
 						"author" => $exConcept['Example']['User']['display_name'],
 						"votes" => ""
 					);
 					
-					// add example(s) as children to the current tag node
-					$exTagSum->children[] = $myD3ex;
+					if ($this->params['vizVo']==1)
+					{
+						// add example(s) as children to the current tag node
+						$exTagSum->children[] = $myD3ex;
 					
-					// add Tag-sum node as children to the current concept
-					$myD3->children[] = $exTagSum;
+						// add Tag-sum node as children to the current concept
+						$myD3->children[] = $exTagSum;
+					} else {
+						// add example(s) as children to the current concept 
+						$myD3->children[] = $myD3ex;
+					}
 				
 				} // end loop example_concept
 			} // end if
+
 			///////////////////////////////////
-			
 			// find questions
 			$q1 = Doctrine_Query::create()
-				->select ("qc.id, q.id, q.name")
+				->select ("qc.id, q.id, q.name, q.content, q.media_content, u.display_name")
 				->from("QuestionConcept qc")
 				->innerJoin("qc.Question q")
+				->innerJoin("q.User u")
 				->where('qc.run_id = ? AND qc.concept_id = ?', array($_SESSION['run_id'],$concept->id));					
 			$questions = $q1->fetchArray();
-			/*
-			echo "QuestionConcept<hr/>";
-			echo "<pre>"; 
-			print_r($questions);
-			echo "</pre>";
-			*/
 			
-			$hasQu = false;
 			// add questions attached to this concept
 			if(isset($questions) && count($questions!=0) && $this->params['vizQu']==1)
 			{
-				$hasQu = true;
-
 				foreach($questions as $quConcept)
 				{
 					// get votes for an question_concept
@@ -347,6 +342,15 @@ class WebController extends Zend_Controller_Action
 						"votes" => $qu_con_votes['votesMinus']. ' ['.$qu_con_votes['votesSumm'].'] '.$qu_con_votes['votesPlus']
 
 					);
+
+					// check if it is a video
+					if (preg_match("/video/i", $quConcept['Question']['media_type']))
+					{
+						$isVideo = "1";
+					} else {
+						$isVideo = "0";
+					}
+					
 					
 					//echo "<hr>adding question... ".$quConcept['Question']['name'];
 					$myD3qu = new EloD3();
@@ -360,15 +364,23 @@ class WebController extends Zend_Controller_Action
 						"elo" => "Question",
 						"relation" => "",
 						"ref_id" => $quConcept['Question']['id'],
-						"author" => "Instructor",
+						"author" => $quConcept['Question']['User']['display_name'],
+						"content" => $quConcept['Question']['content'],
+						"media_content" => $quConcept['Question']['media_content'],
+						"is_video" => $isVideo,
 						"votes" => ""
 					);
-					
+					if ($this->params['vizVo']==1)
+					{
 					// add question(s) as children to the current tag node
 					$quTagSum->children[] = $myD3qu;
 					
 					// add Tag-sum node as children to the current concept
 					$myD3->children[] = $quTagSum;
+					} else {
+						// add question(s) as children to the current concept
+						$myD3->children[] = $myD3qu;
+					}
 
 				} // end loop question_concept
 				
@@ -380,13 +392,8 @@ class WebController extends Zend_Controller_Action
 				
 			
         } // end loop concepts
-        /*
-		echo "<hr/>d3Data";
-		echo "<pre>"; 
-		print_r($d3Data);
-		echo "</pre>";
-		*/
-        if($this->params['conceptId']!=0)
+        
+        if(isset($this->params['conceptId']) && count($this->params['conceptId']) == 1 && $this->params['conceptId'][0]!=0)
         {
         	// return concept as home node
         	return json_encode($myD3);
@@ -395,7 +402,293 @@ class WebController extends Zend_Controller_Action
         	return json_encode($d3Data);
         }
 		
-//		print_r($this->conceptIds);
+    } // end fnc
+    
+	/** 
+	 * 
+	 * function to be used in a force directed JIT graph
+	 */
+    private function aggregateVizDataNodeLink()
+    {
+        global $PLACEWEB_CONFIG;
+        
+        $nodeLinkCollection = array();
+        $conceptIdsA = array();
+        $tagIdsA = array();
+        $examplesIdsA = array();
+        $questionsIdsA = array();
+    	
+		// create home node
+		$myHomeNode = new EloNode();
+		
+		// set vals for that node : id and name
+		$myHomeNode->id = $_SESSION['group_name'];
+		$myHomeNode->name = $_SESSION['group_name'];
+		
+		// custom data attributes
+		$myHomeNode->setDataAttribute("elo", "Home");
+		
+		// redefine JIT essential attr
+		$myHomeNode->setDataAttribute('$type', 'star');
+		$myHomeNode->setDataAttribute('$color', '#475DFF');
+		
+		////////////////////////////////////////////////////////
+
+		// if "all concepts" is NOT selected
+		if(isset($this->params['conceptId']) && !in_array('0', $this->params['conceptId'])) {
+			$conceptIds = $this->params['conceptId'];
+			$concepts = Doctrine_Query::create()
+                    //->select("*")
+                    ->from("Concept")
+                    ->whereIn("id", $conceptIds)
+                    ->andWhere("run_id = ?", $_SESSION['run_id'])
+                    ->execute();
+		} else {
+	        // get concepts for current run_id
+	        $concepts = Doctrine::getTable("Concept")
+	                 ->findByDql("run_id = ?", $_SESSION['run_id']);
+		}
+
+		// add concepts
+		foreach ($concepts as $concept)
+        {
+        	$conceptIdsA[] = "CON_".$concept->id;
+
+        	// create concept node
+			$myConNode = new EloNode();
+			
+			// set vals for that node : id and name
+			$myConNode->id = "CON_".$concept->id;
+			$myConNode->name = $concept->name;
+			
+			// custom data attributes
+			$myConNode->setDataAttribute("elo", "Concept");
+        	
+			// create Adjacency Object
+			$conAdjency = new EloNodeAdjacency($myConNode->id, $myHomeNode->id);
+			
+			// add concept as adjacency to home node
+			$myHomeNode->addAdjacency($conAdjency);
+
+	
+			///////////////////////////////////
+			// find examples
+			
+			$exWhereFields = 'ec.run_id = ? AND ec.concept_id = ?';
+			$exWhereData = array($_SESSION['run_id'], $concept->id);
+			
+			$queryArray = $this->buildExSqlQuery($exWhereFields, $exWhereData);
+			
+			$this->view->data = $queryArray;
+			
+				$q = Doctrine_Query::create()
+				->select ("ec.id, e.id, e.name, e.content, e.media_content, e.media_type, u.display_name")
+				->from("ExampleConcept ec")
+				->innerJoin("ec.Example e")
+				->innerJoin("e.User u")
+				->where($queryArray[0], $queryArray[1]);
+
+			$examples = $q->fetchArray();
+
+   			// add examples attached to this concept
+			if(isset($examples) && count($examples!=0) && $this->params['vizEx']==1) 
+			{
+				foreach($examples as $exConcept)
+				{
+					// get votes for an example_concept
+					$ex_con_votes = array();
+					$ex_con_votes = $this->countVotes($exConcept['id'], 4);
+					
+					/*
+					 * Tag Node
+					 */
+					$tagIdsA[] = "EX_CON_TAG_".$exConcept['id'];
+					
+					// create tag node
+					$exTagSum = new EloNode();
+
+					// set vals for that node : id and name
+					$exTagSum->id = "EX_CON_TAG_".$exConcept['id']; // this is unique
+					$exTagSum->name = '['.$ex_con_votes['votesSumm'].']';
+					
+					// custom data attributes
+					$exTagSum->setDataAttribute('$type', 'none');
+					$exTagSum->setDataAttribute("elo", "Tag");
+					//$exTagSum->setDataAttribute('$color', '#80B376');
+					$exTagSum->setDataAttribute("votes", $ex_con_votes['votesMinus']. ' ['.$ex_con_votes['votesSumm'].'] '.$ex_con_votes['votesPlus']);
+					
+										 
+					// create Adjacency Object
+					$exTagSumAdjency = new EloNodeAdjacency($exTagSum->id, $myConNode->id);
+					
+					if ($this->params['vizVo']==1)
+					{
+						// add tag as adjacencies of concept node
+						$myConNode->addAdjacency($exTagSumAdjency); 
+					}
+					
+					/*
+					 * example node
+					 */
+					$examplesIdsA= "EX_".$exConcept['Example']['id'];
+					
+					// create tag node
+					$exNode = new EloNode();
+
+					// set vals for that node : id and name
+					$exNode->id = "EX_".$exConcept['Example']['id'];
+					$exNode->name = $exConcept['Example']['name'];
+					$exNode->setDataAttribute('$type', 'triangle');
+					$exNode->setDataAttribute('$color', '#80B376');
+					$exNode->setDataAttribute('elo', 'Example');
+					$exNode->setDataAttribute('ref_id', $exConcept['Example']['id']);
+					$exNode->setDataAttribute('author', $exConcept['Example']['User']['display_name']);
+					$exNode->setDataAttribute('content', $exConcept['Example']['content']);
+					$exNode->setDataAttribute('media_content', $exConcept['Example']['media_content']);
+
+					// check if it is a video
+					if (preg_match("/video/i", $exConcept['Example']['media_type']))
+					{
+						$isVideo="1";
+					} else {
+						$isVideo="0";
+					}
+					$exNode->setDataAttribute('is_video', $isVideo); 
+					
+					// create Adjacency Object
+					if ($this->params['vizVo']==1)
+					{
+						$exAdjency = new EloNodeAdjacency($exNode->id, $exTagSum->id);
+						
+						// add example as adjacencies of tag node
+						$exTagSum->addAdjacency($exAdjency);
+						
+						// add tag node to collection 
+						$nodeLinkCollection[]=$exTagSum;
+						
+					} else {
+						$exAdjency = new EloNodeAdjacency($exNode->id, $myConNode->id);
+						// add example as adjacencies of concept node
+						$myConNode->addAdjacency($exAdjency);
+						
+					}
+					
+					// add example node to collection
+					$nodeLinkCollection[]=$exNode;
+
+				} // end loop example_concept
+				
+			} // end if examples
+
+
+			///////////////////////////////////
+			// find questions
+			$q1 = Doctrine_Query::create()
+				->select ("qc.id, q.id, q.name, q.content, q.media_content, u.display_name")
+				->from("QuestionConcept qc")
+				->innerJoin("qc.Question q")
+				->innerJoin("q.User u")
+				->where('qc.run_id = ? AND qc.concept_id = ?', array($_SESSION['run_id'],$concept->id));					
+			$questions = $q1->fetchArray();
+			
+			// add questions attached to this concept
+			if(isset($questions) && count($questions!=0) && $this->params['vizQu']==1)
+			{
+				foreach($questions as $quConcept)
+				{
+					// get votes for a question_concept
+					$qu_con_votes = array();
+					
+					$qu_con_votes = $this->countVotes($quConcept['id'], 5);
+					
+					/*
+					 * Tag Node
+					 */
+					// create tag node
+					$quTagSum = new EloNode();
+
+					// set vals for that node : id and name
+					$quTagSum->id = "QU_CON_TAG_".$quConcept['id']; // this is unique
+					$quTagSum->name = '['.$qu_con_votes['votesSumm'].']';
+					
+					// custom data attributes
+					$quTagSum->setDataAttribute('$type', 'none');
+					$quTagSum->setDataAttribute("elo", "Tag");
+					//$quTagSum->setDataAttribute('$color', '#80B376');
+					$quTagSum->setDataAttribute("votes", $qu_con_votes['votesMinus']. ' ['.$qu_con_votes['votesSumm'].'] '.$qu_con_votes['votesPlus']);
+					
+										 
+					// create Adjacency Object
+					$quTagSumAdjency = new EloNodeAdjacency($quTagSum->id, $myConNode->id);
+					
+					if ($this->params['vizVo']==1)
+					{
+						// add tag as adjacencies of concept node
+						$myConNode->addAdjacency($quTagSumAdjency); 
+					}
+					
+					/*
+					 * question node
+					 */
+					// create tag node
+					$quNode = new EloNode();
+
+					// set vals for that node : id and name
+					$quNode->id = "QU_".$quConcept['Question']['id'];
+					$quNode->name = $quConcept['Question']['name'];
+					$quNode->setDataAttribute('$type', 'triangle');
+					$quNode->setDataAttribute('$color', '#D40015');
+					$quNode->setDataAttribute('elo', 'Question');
+					$quNode->setDataAttribute('ref_id', $quConcept['Question']['id']);
+					$quNode->setDataAttribute('author', $quConcept['Question']['User']['display_name']);
+					$quNode->setDataAttribute('content', $quConcept['Question']['content']);
+					$quNode->setDataAttribute('media_content', $quConcept['Question']['media_content']);
+
+					// check if it is a video
+					if (preg_match("/video/i", $quConcept['Question']['media_type']))
+					{
+						$isVideo="1";
+					} else {
+						$isVideo="0";
+					}
+					$quNode->setDataAttribute('is_video', $isVideo); 
+					
+					// create Adjacency Object
+					if ($this->params['vizVo']==1)
+					{
+						$quAdjency = new EloNodeAdjacency($quNode->id, $quTagSum->id);
+						
+						// add question as adjacencies of tag node
+						$quTagSum->addAdjacency($quAdjency);
+						
+						// add tag node to collection 
+						$nodeLinkCollection[]=$quTagSum;
+						
+					} else {
+						$quAdjency = new EloNodeAdjacency($quNode->id, $myConNode->id);
+						// add question as adjacencies of concept node
+						$myConNode->addAdjacency($quAdjency);
+						
+					}
+					
+					// add question node to collection
+					$nodeLinkCollection[]=$quNode;
+
+
+				} // end loop question_concept
+				
+			}
+			///////////////////////////////////
+			
+	        // add concept to collection
+	        $nodeLinkCollection[]=$myConNode;
+	        
+        } // end loop concepts
+
+        // add home node to collection 
+        $nodeLinkCollection[]=$myHomeNode;
+        
+        return json_encode($nodeLinkCollection);
 		
     } // end fnc
     
@@ -435,6 +728,47 @@ class WebController extends Zend_Controller_Action
 		// end get votes
 		
 	} // end countVotes()
+	
+	private function buildExSqlQuery($fields, $data)
+	{
+		$exWhereFields = $fields;
+		$exWhereData = array();
+		$exWhereData = $data;
+		
+		
+//		$exWhereFields = 'ec.run_id = ? AND ec.concept_id = ?';
+//		$exWhereData = array($_SESSION['run_id'], $conceptId);
+		 
+		if($this->params['vizMy']==1)
+		{
+			$exWhereFields .= ' AND e.author_id = ?';
+			$exWhereData[] = $_SESSION['author_id'];
+		}
+
+		if($this->params['keyW']!="")
+		{
+			$this->params['keyW'] = trim($this->params['keyW']);
+			if(str_word_count($this->params['keyW'])>1)
+			{
+				$kewords = explode(" ", $this->params['keyW']);
+				foreach ($kewords as $k)
+				{
+					$exWhereFields .= ' AND e.content LIKE ?';
+					$exWhereData[] = '%'.$k.'%';
+				}
+				
+			} else {
+					$exWhereFields .= ' AND e.content LIKE ?';
+					$exWhereData[] = '%'.$this->params['keyW'].'%';
+			}
+			
+		}
+		
+		$queryFieldsData[0] = $exWhereFields;
+		$queryFieldsData[1] = $exWhereData;
+		
+		return $queryFieldsData;
+			
+	} // end buildExSqlQuery()
 
 }
-

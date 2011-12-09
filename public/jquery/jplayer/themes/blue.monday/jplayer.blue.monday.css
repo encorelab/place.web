@@ -33,6 +33,9 @@ div.jp-video {
 div.jp-audio {
 	width:420px;
 }
+div.jp-video-thumb {
+	width:200px;
+}
 div.jp-video-270p {
 	width:460px;
 }
@@ -99,6 +102,10 @@ div.jp-controls-holder {
 	top:-8px; /* This negative value depends on the size of the text in jp-currentTime and jp-duration */
 }
 
+div.jp-controls-holder-thumb {
+	width:200px;
+}
+
 div.jp-interface ul.jp-controls {
 	list-style-type:none;
 	margin:0;
@@ -131,6 +138,12 @@ div.jp-interface ul.jp-controls a {
 	overflow:hidden;
 	text-indent:-9999px;
 }
+
+div.jp-video div.jp-type-single ul.jp-controls-thumb {
+	width: 78px;
+	margin-left: 10px;
+}
+
 a.jp-play,
 a.jp-pause {
 	width:40px;
@@ -506,6 +519,11 @@ ul.jp-toggles {
 	padding:0;
 	margin:0 auto;
 	overflow:hidden;
+}
+
+ul.jp-toggles-thumb {
+	margin:0;
+
 }
 
 div.jp-audio .jp-type-single ul.jp-toggles {

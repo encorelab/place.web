@@ -71,6 +71,9 @@ class Activity extends BaseActivity
             case ActivityType::$TAGGED_EXAMPLE_WITH_CONCEPT:
                 $str = $this->toStringTaggedExampleWithConcept();
                 break;
+            case ActivityType::$CREATED_JOURNAL_ENTRY:
+				$str = $this->toStringCreatedJournalEntry();
+				break;
 
             default:
                 $str = "Error: unidentified activity type"; 
@@ -80,6 +83,21 @@ class Activity extends BaseActivity
         return $str;
     }
     
+	public function toStringCreatedJournalEntry(){
+		$assReview = Doctrine::getTable('AssessmentReviews')->find($this->i1);
+		$reviewSummary = substr($assReview->log, 0, 100);
+		
+		$link = '';
+		if ($assReview->t1 == 'question'){
+			$question = Doctrine::getTable('Question')->find($assReview->i1);
+			$link = $question->getUrl();
+		}elseif($assReview->t1 == 'examples'){
+			$example = Doctrine::getTable('Example')->find($assReview->i1);
+			$link = $example->getUrl();
+		}
+		
+		return "<div class='alert alert-created-journal-entry'>Remember to discuss: <a href='$link'>link</a> $reviewSummary...</div>";
+	}
 
     public function toStringVotedOnComment() {
         $comment = Doctrine::getTable("Comment")->find($this->i2);

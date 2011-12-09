@@ -99,14 +99,28 @@ class MyhomeController extends Zend_Controller_Action
 		$params = $this->getRequest()->getParams();
 		
 		$comment = $params['comment'];
+		$markForDiscussion = $params['markForDiscussion'] == 'true' ? true: false;
 		
 		if ($comment != ''){
 			$assessmentReview = new AssessmentReviews();
 			$assessmentReview->run_id = $_SESSION['run_id'];
 			$assessmentReview->author_id = $_SESSION['author_id'];			
 			$assessmentReview->log = $comment;
+			$assessmentReview->mark_for_discussion = $markForDiscussion;
 			$assessmentReview->date_created = date('Y-m-d H:i:s');
-			$assessmentReview->save();			
+			$assessmentReview->save();
+			
+			if ($markForDiscussion){
+				$activity = new Activity();
+				$activity->run_id = $_SESSION['run_id'];
+				$activity->author_id = $_SESSION['author_id'];
+				$activity->date_created = date('Y-m-d H:i:s');
+				$activity->activity_type_id = ActivityType::$CREATED_JOURNAL_ENTRY;
+				$activity->activity_on_user = $_SESSION['author_id'];
+				$activity->i1 = $assessmentReview->id;
+				$activity->s1 = 'AssessmentReview';
+				$activity->save();
+			}	
 		}
 				
 		$this->_forward('curriculum-journal');

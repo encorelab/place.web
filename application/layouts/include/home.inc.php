@@ -30,7 +30,7 @@ function refreshClassActivity(link){
 
 function refreshFeed(feedId, feedUrl, link){
 	var from = 0
-	var step = 5
+	var step = 10
 	var feed = $('#'+feedId)
 	
 	if (link != undefined){

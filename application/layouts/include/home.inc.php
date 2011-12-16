@@ -111,7 +111,7 @@ if($_SESSION['profile']=="TEACHER")
 	<div style="width: 100px; float: left; margin-left: 25px"> 
 		<div style="margin-bottom: 10px; color: white"> Questions </div>
 		<a href="/question/addform"> <img title="Add Question" height="40px" src="/images/add_icon.png"/> </a>
-		<a href="/qustion/show"> <img title="List Questions" height="40px" src="/images/list_icon.png"/> </a> 
+		<a href="/question/show"> <img title="List Questions" height="40px" src="/images/list_icon.png"/> </a> 
 	</div>
 	
 	<div style="width: 100px; float: left; margin-left: 25px"> 
@@ -176,7 +176,7 @@ if($_SESSION['profile']=="STUDENT")
 		<a href="/example/show">Examples [List]</a>
 	</div>
 
-</div>  -->
+</div>      -->
 
 	
 	<div id="home-col2" style="float:left;width:<?php echo $col2Width;?>;">

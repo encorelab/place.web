@@ -32,8 +32,49 @@ if(isset($this->example[0]) && $this->example[0]['is_published'] == 0)
 <div id="error-dialog" title="Submission Error">
 	<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
  	<span id="error-dialogue-text"></span>
-</div>
-<div id="home-columns">
+</div>       
+
+
+<form action="<?php echo $modeFormAction; ?>" method="post" id="addExmple" name="addExmple" style="width: 700px"> 
+	<div id="home-col2" style="float:left; margin-bottom: 30px">
+			<div style="width: 220px; float: left">
+				<span class="item-label">Name: </span>
+				<span class="item-input"><input type="text" id="example-name" name="example-name" value="<?php
+if ($editMode)
+{
+	echo $this->example[0]['name'];
+}
+?>"/></span> 
+			</div>
+			<div style="width: 200px; float: left">
+				<span class="item-label">Type: </span>
+				<span class="item-input">
+				 
+<?php
+			if ($editMode)
+			{
+				echo PlaceWebTools::arrayToHtmlSelect($PLACEWEB_CONFIG['nodeTypes'],$this->example[0]['type'], "type");
+			} else {
+				echo PlaceWebTools::arrayToHtmlSelect($PLACEWEB_CONFIG['nodeTypes'],"", "type");
+			}
+?>
+			</span> 
+			</div>
+
+			<div style="width: 200px; float: left">
+				<span class="item-label">Published: </span>
+				<span class="item-input">
+					<select name="is_published" id="is_published">
+						<option value="1">Yes</option>
+						<option value="0" selected="selected">No</option>
+					</select>
+				</span>
+			</div> 
+
+	</div><!-- /home-col2 -->
+
+
+<div id="home-columns" style="width: 500px; float: left">
 	<div id="home-col1" style="float:left;">
 	<?php 
 	// show here current media content if example exists: edit of show view
@@ -177,45 +218,7 @@ if(isset($this->example[0]) && $this->example[0]['is_published'] == 0)
 		
 	</div><!-- /home-col1 -->
 
-<form action="<?php echo $modeFormAction; ?>" method="post" id="addExmple" name="addExmple">
-	<div id="home-col2" style="float:left;">
-		<div class="dashlet-box-simple">
-			<div>
-				<span class="item-label">Name: </span>
-				<span class="item-input"><input type="text" id="example-name" name="example-name" value="<?php
-if ($editMode)
-{
-	echo $this->example[0]['name'];
-}
-?>"/></span> 
-			</div>
-			<div>
-				<span class="item-label">Type: </span>
-				<span class="item-input">
-				 
-<?php
-			if ($editMode)
-			{
-				echo PlaceWebTools::arrayToHtmlSelect($PLACEWEB_CONFIG['nodeTypes'],$this->example[0]['type'], "type");
-			} else {
-				echo PlaceWebTools::arrayToHtmlSelect($PLACEWEB_CONFIG['nodeTypes'],"", "type");
-			}
-?>
-			</span> 
-			</div>
 
-			<div>
-				<span class="item-label">Published: </span>
-				<span class="item-input">
-					<select name="is_published" id="is_published">
-						<option value="1">Yes</option>
-						<option value="0" selected="selected">No</option>
-					</select>
-				</span>
-			</div>
-		</div>
-
-	</div><!-- /home-col2 -->
 <?php
 	if (!$editMode)
 	{

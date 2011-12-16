@@ -18,8 +18,8 @@ $checkJsFunction = "checkExample()";
  	<span id="error-dialogue-text"></span>
 </div>
 
-<form action="/question/add" method="post" id="addQuestion" name="addQuestion" style="width: 1100px">
-		<div id="home-col2" style="float:left; margin-bottom: 30px">            
+<form action="/question/add" method="post" id="addQuestion" name="addQuestion" style="width: 100%">
+		<div id="home-col2" style="float:left; margin-bottom: 30px; width: 75%">            
 				<div style="width: 220px; float: left">
 					<span class="item-label">Name: </span>
 					<span class="item-input"><input type="text" id="question-name" name="name"/></span> 

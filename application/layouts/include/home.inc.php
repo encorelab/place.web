@@ -91,7 +91,89 @@ if($_SESSION['profile']=="STUDENT")
 	</div><!-- /home-col1 -->
 <?php 
 } // end if student
-?>
+?>     
+
+<!-- Rokham's changes-->      
+
+<div id="course-actions">  
+	
+	<!-- If the Teacher logs in the options are more compared to the student --> 
+	<?php 
+	if($_SESSION['profile']=="TEACHER")
+	{
+	?>                  
+	<div style="width: 100px; float: left"> 
+		<div style="margin-bottom: 10px; color: white"> Examples </div>
+		<a href="/example/addform"> <img title="Add Example" height="40px" src="/images/add_icon.png"/> </a>
+		<a href="/example/show"> <img title="List Examples" height="40px" src="/images/list_icon.png"/> </a> 
+	</div> 
+	
+	<div style="width: 100px; float: left; margin-left: 25px"> 
+		<div style="margin-bottom: 10px; color: white"> Questions </div>
+		<a href="/question/addform"> <img title="Add Question" height="40px" src="/images/add_icon.png"/> </a>
+		<a href="/qustion/show"> <img title="List Questions" height="40px" src="/images/list_icon.png"/> </a> 
+	</div>
+	
+	<div style="width: 100px; float: left; margin-left: 25px"> 
+		<div style="margin-bottom: 10px; color: white"> Manage </div>
+		<a href="/myhome/classlist"> <img title="Manage Class" height="40px" src="/images/setting_icon.png"/> </a>
+		<a href="/myhome/curriculum-journal"> <img title="Curriculum Journal" height="40px" src="/images/curriculum_journal2_icon.png"/> </a>
+	</div> 
+	
+	<div style="width: 45px; float: left; margin-left: 25px"> 
+		<div style="margin-bottom: 10px; color: white"> Web </div>    
+		<a href="#" onClick="loadWeb()"><img title="Launch Associative Web" height="40px" src="/images/web_icon.png"/></a>
+	</div>  
+	
+	<?php } // end if teacher?>  
+	
+	<?php    
+	if($_SESSION['profile']=="STUDENT")
+	{
+	?>
+	 <div style="width: 100px; float: left"> 
+		<div style="margin-bottom: 10px; color: white"> Examples </div>
+		<a href="/example/addform"> <img title="Add Example" height="40px" src="/images/add_icon.png"/> </a>
+		<a href="/example/show"> <img title="List Examples" height="40px" src="/images/list_icon.png"/> </a> 
+	</div> 
+    
+	<div style="width: 45px; float: left; margin-left: 25px"> 
+		<div style="margin-bottom: 10px; color: white"> Web </div>    
+		<a href="#" onClick="loadWeb()"><img title="Launch Associative Web" height="40px" src="/images/web_icon.png"/></a>
+	</div>
+	 
+	 <?php } // end if student?> 
+</div>
+
+<!-- <div id="course-actions">
+	<div class="dashlet-box"><a href="/example/addform">Create New Example</a></div>
+	<?php 
+	if($_SESSION['profile']=="TEACHER")
+	{
+	?>
+	<div class="dashlet-box"><a href="/question/addform">Create New Question</a></div>
+	<div class="dashlet-box"><a href="/myhome/classlist">Class Management</a></div>
+	<div class="dashlet-box"><a href="/myhome/curriculum-journal">Curriculum Journal</a></div>
+	<?php } // end if teacher?>
+	
+	<div class="dashlet-box">
+		<a href="#" onClick="loadWeb()">Launch Associative Web</a>
+	</div>
+	<?php 
+	if($_SESSION['profile']=="TEACHER")
+	{
+	?>
+	<div class="dashlet-box">
+		<a href="/question/show">Questions [List]</a>
+	</div>
+	<?php } // end if teacher?>
+
+	<div class="dashlet-box">
+		<a href="/example/show">Examples [List]</a>
+	</div>
+
+</div>  -->
+
 	
 	<div id="home-col2" style="float:left;width:<?php echo $col2Width;?>;">
 <?php 
@@ -139,35 +221,10 @@ if($_SESSION['profile']=="STUDENT")
 				</ul>
 				<a style='padding: 10px 180px;' href='#' onclick='return refreshClassActivity(this);'>more...</a>
 			</div>
-		</div>	
-		<div id="course-actions">
-			<div class="dashlet-box"><a href="/example/addform">Create New Example</a></div>
-			<?php 
-			if($_SESSION['profile']=="TEACHER")
-			{
-			?>
-			<div class="dashlet-box"><a href="/question/addform">Create New Question</a></div>
-			<div class="dashlet-box"><a href="/myhome/classlist">Class Management</a></div>
-			<div class="dashlet-box"><a href="/myhome/curriculum-journal">Curriculum Journal</a></div>
-			<?php } // end if teacher?>
+		</div>	      
+		
+		
 			
-			<div class="dashlet-box">
-				<a href="#" onClick="loadWeb()">Launch Associative Web</a>
-			</div>
-			<?php 
-			if($_SESSION['profile']=="TEACHER")
-			{
-			?>
-			<div class="dashlet-box">
-				<a href="/question/show">Questions [List]</a>
-			</div>
-			<?php } // end if teacher?>
-
-			<div class="dashlet-box">
-				<a href="/example/show">Examples [List]</a>
-			</div>
-
-		</div>	
 	</div><!-- /home-col3 -->
 	
 		

@@ -604,18 +604,28 @@ li.header-li a{
     text-align: left;
 	margin-bottom: 10px;
 }
+    
+div#course-actions {
+	width: 425px;
+	height: 70px;
+	padding: 10px;              
+	margin-left: auto;
+	margin-right: auto;    
+	margin-bottom: 25px;
+	background-color: #306174;
+}
 
 /* overwriting look of some dashlet's that behave like buttons*/
 #course-actions div{
-    color: #FFFFFF;
-    text-align: center;
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    background-color: #dd9e37;
-	width: 200px;
-	margin-left: 60px;
+   /* color: #FFFFFF;
+       text-align: center;
+       padding-left: 40px;
+       padding-right: 40px;
+       padding-top: 10px;
+       padding-bottom: 10px;
+       background-color: #dd9e37;
+   	width: 200px;
+   	margin-left: 60px;    */
 }
 
 #course-actions div a:link, #course-actions div a:visited {
@@ -782,7 +792,7 @@ body {
     margin-left: auto;
     margin-right: auto;
     /*width: 98%;*/
-    padding: 2em;
+    padding: 0 2em 2em 2em;
 /*  padding-bottom: 1.5em;*/
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;

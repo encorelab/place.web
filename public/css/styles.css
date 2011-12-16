@@ -605,8 +605,18 @@ li.header-li a{
 	margin-bottom: 10px;
 }
     
-div#course-actions {
+div#course-actions-teacher {
 	width: 425px;
+	height: 70px;
+	padding: 10px;              
+	margin-left: auto;
+	margin-right: auto;    
+	margin-bottom: 25px;
+	background-color: #306174;
+}  
+
+div#course-actions-student {
+	width: 175px;
 	height: 70px;
 	padding: 10px;              
 	margin-left: auto;

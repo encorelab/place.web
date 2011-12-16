@@ -94,14 +94,14 @@ if($_SESSION['profile']=="STUDENT")
 ?>     
 
 <!-- Rokham's changes-->      
-
-<div id="course-actions">  
+<?php 
+if($_SESSION['profile']=="TEACHER")
+{
+?>
+<div id="course-actions-teacher">  
 	
 	<!-- If the Teacher logs in the options are more compared to the student --> 
-	<?php 
-	if($_SESSION['profile']=="TEACHER")
-	{
-	?>                  
+	                 
 	<div style="width: 100px; float: left"> 
 		<div style="margin-bottom: 10px; color: white"> Examples </div>
 		<a href="/example/addform"> <img title="Add Example" height="40px" src="/images/add_icon.png"/> </a>
@@ -124,13 +124,17 @@ if($_SESSION['profile']=="STUDENT")
 		<div style="margin-bottom: 10px; color: white"> Web </div>    
 		<a href="#" onClick="loadWeb()"><img title="Launch Associative Web" height="40px" src="/images/web_icon.png"/></a>
 	</div>  
+
+</div>	
+<?php } // end if teacher?>  
 	
-	<?php } // end if teacher?>  
 	
-	<?php    
-	if($_SESSION['profile']=="STUDENT")
-	{
-	?>
+<?php 
+if($_SESSION['profile']=="STUDENT")
+{
+?>
+<div id="course-actions-student">	
+   
 	 <div style="width: 100px; float: left"> 
 		<div style="margin-bottom: 10px; color: white"> Examples </div>
 		<a href="/example/addform"> <img title="Add Example" height="40px" src="/images/add_icon.png"/> </a>
@@ -142,8 +146,8 @@ if($_SESSION['profile']=="STUDENT")
 		<a href="#" onClick="loadWeb()"><img title="Launch Associative Web" height="40px" src="/images/web_icon.png"/></a>
 	</div>
 	 
-	 <?php } // end if student?> 
 </div>
+<?php } // end if student?> 
 
 <!-- <div id="course-actions">
 	<div class="dashlet-box"><a href="/example/addform">Create New Example</a></div>

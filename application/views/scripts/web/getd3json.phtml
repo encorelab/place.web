@@ -1,4 +1,6 @@
+// set here the max number of charactors for a label
 var labelLength = 12; 
+
 var labelType, useGradients, nativeTextSupport, animate;
 
 // common functions
@@ -6,7 +8,6 @@ function truncateName(name)
 {
 	return name.substring(0,labelLength) + " ...";
 	//node.name.trim().substring(0, 20).split(" ").slice(0, -1).join(" ") + "...";
-	
 }
 
 (function() {
@@ -143,10 +144,10 @@ if($this->vizType==2)
 function init2(){
     //init data
     var json = <?php echo $this->d3JsonData;?>;
+
     // set width and height of parent container
-    
     $("#infovis").width($(window).width()-230);
-    $("#infovis").height($(window).height()-40);
+    $("#infovis").height($(window).height()-120);
 
     //init RGraph
     var rgraph = new $jit.RGraph({
@@ -344,7 +345,7 @@ function init3()
 	  var json = <?php echo $this->d3JsonData;?>;
 
 	  $("#infovis").width($(window).width()-230);
-	  $("#infovis").height($(window).height()-40);
+	  $("#infovis").height($(window).height()-120);
 
 	  // end
 	  // init ForceDirected

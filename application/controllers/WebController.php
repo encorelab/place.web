@@ -18,10 +18,8 @@ class WebController extends Zend_Controller_Action
     	$this->_helper->layout()->disableLayout();
     	
 		$this->params = $this->getRequest()->getParams();
-		
-		// testing 
+ 
 		$this->view->params = $this->params;
-		// set default viz
 		
 		if(!isset($this->params['vizType']))
 		{
@@ -83,6 +81,14 @@ class WebController extends Zend_Controller_Action
 		} else {
 			$this->view->valueBB = "1325350800";
 		}
+		
+        if(isset($this->params['vizDate']))
+		{
+			$this->view->vizDate = $this->params['vizDate'];
+		} else {
+			$this->view->vizDate = 0;
+		}
+		
     }
  
     public function testdataAction()
@@ -103,6 +109,7 @@ class WebController extends Zend_Controller_Action
     	$this->params['concepId']=array();
     	$this->params['valueAA']="";
     	$this->params['valueBB']="";
+    	$this->params['vizDate']=0;
     	
  	
     	$this->params = $this->getRequest()->getParams();
@@ -112,7 +119,7 @@ class WebController extends Zend_Controller_Action
     	
 		$this->_helper->layout()->disableLayout();
 		
-		// add all concepts
+		// add all concepts [for testing purposes]
 		//$this->view->d3JsonData = $this->aggregateConcepts();
 
 		if($this->params['vizType']==1 || $this->params['vizType']==2)
@@ -327,7 +334,7 @@ class WebController extends Zend_Controller_Action
 			$quWhereFields = 'qc.run_id = ? AND qc.concept_id = ? AND q.is_published = ?';
 			$quWhereData = array($_SESSION['run_id'],$concept->id,1);
 			
-	        if($this->params['valueAA']!="" && $this->params['valueBB']!="")
+	        if($this->params['valueAA']!="" && $this->params['valueBB']!="" && $this->params['vizDate']==1)
 			{
 				$quWhereFields .= ' AND q.date_created BETWEEN ? AND ?';
 				$quWhereData[] = date( 'Y-m-d H:i:s', $this->params['valueAA']);
@@ -614,7 +621,7 @@ class WebController extends Zend_Controller_Action
 			$quWhereFields = 'qc.run_id = ? AND qc.concept_id = ? AND q.is_published = ?';
 			$quWhereData = array($_SESSION['run_id'],$concept->id,1);
 			
-	        if($this->params['valueAA']!="" && $this->params['valueBB']!="")
+	        if($this->params['valueAA']!="" && $this->params['valueBB']!="" && $this->params['vizDate']==1)
 			{
 				$quWhereFields .= ' AND q.date_created BETWEEN ? AND ?';
 				$quWhereData[] = date( 'Y-m-d H:i:s', $this->params['valueAA']);
@@ -791,7 +798,7 @@ class WebController extends Zend_Controller_Action
 			$exWhereData[] = $_SESSION['author_id'];
 		}
 		
-		if($this->params['valueAA']!="" && $this->params['valueBB']!="")
+		if($this->params['valueAA']!="" && $this->params['valueBB']!="" &&  $this->params['vizDate']==1)
 		{
 			$exWhereFields .= ' AND e.date_created BETWEEN ? AND ?';
 			$exWhereData[] = date( 'Y-m-d H:i:s', $this->params['valueAA']);

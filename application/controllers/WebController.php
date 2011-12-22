@@ -71,6 +71,18 @@ class WebController extends Zend_Controller_Action
 		} else {
 			$this->view->keyW = "";
 		}
+    	if(isset($this->params['valueAA']))
+		{
+			$this->view->valueAA = $this->params['valueAA'];
+		} else {
+			$this->view->valueAA = "";
+		}
+    	if(isset($this->params['valueBB']))
+		{
+			$this->view->valueBB = $this->params['valueBB'];
+		} else {
+			$this->view->valueBB = "1325350800";
+		}
     }
  
     public function testdataAction()
@@ -89,6 +101,9 @@ class WebController extends Zend_Controller_Action
     	$this->params['vizVo']=0;
     	$this->params['keyK']='';
     	$this->params['concepId']=array();
+    	$this->params['valueAA']="";
+    	$this->params['valueBB']="";
+    	
  	
     	$this->params = $this->getRequest()->getParams();
 
@@ -225,7 +240,7 @@ class WebController extends Zend_Controller_Action
 			$queryArray = $this->buildExSqlQuery($exWhereFields, $exWhereData);
 			
 			$q = Doctrine_Query::create()
-			->select ("ec.id, e.id, e.name, e.content, e.media_content, e.media_type, u.display_name")
+			->select ("ec.id, e.id, e.name, e.content, e.media_content, e.media_type, e.date_created, u.display_name")
 			->from("ExampleConcept ec")
 			->innerJoin("ec.Example e")
 			->innerJoin("e.User u")
@@ -286,7 +301,9 @@ class WebController extends Zend_Controller_Action
 						"media_content" => $exConcept['Example']['media_content'],
 						"is_video" => $isVideo,
 						"author" => $exConcept['Example']['User']['display_name'],
-						"votes" => ""
+						"votes" => "",
+						"date" => strtotime ($exConcept['Example']['date_created']),
+						"date1" => $exConcept['Example']['date_created']
 					);
 					
 					if ($this->params['vizVo']==1)
@@ -306,12 +323,23 @@ class WebController extends Zend_Controller_Action
 
 			///////////////////////////////////
 			// find questions
+			
+			$quWhereFields = 'qc.run_id = ? AND qc.concept_id = ? AND q.is_published = ?';
+			$quWhereData = array($_SESSION['run_id'],$concept->id,1);
+			
+	        if($this->params['valueAA']!="" && $this->params['valueBB']!="")
+			{
+				$quWhereFields .= ' AND q.date_created BETWEEN ? AND ?';
+				$quWhereData[] = date( 'Y-m-d H:i:s', $this->params['valueAA']);
+				$quWhereData[] = date( 'Y-m-d H:i:s', $this->params['valueBB']);
+			}
+					
 			$q1 = Doctrine_Query::create()
 				->select ("qc.id, q.id, q.name, q.content, q.media_content, u.display_name")
 				->from("QuestionConcept qc")
 				->innerJoin("qc.Question q")
 				->innerJoin("q.User u")
-				->where('qc.run_id = ? AND qc.concept_id = ?', array($_SESSION['run_id'],$concept->id));					
+				->where($quWhereFields, $quWhereData);					
 			$questions = $q1->fetchArray();
 			
 			// add questions attached to this concept
@@ -583,12 +611,22 @@ class WebController extends Zend_Controller_Action
 
 			///////////////////////////////////
 			// find questions
+			$quWhereFields = 'qc.run_id = ? AND qc.concept_id = ? AND q.is_published = ?';
+			$quWhereData = array($_SESSION['run_id'],$concept->id,1);
+			
+	        if($this->params['valueAA']!="" && $this->params['valueBB']!="")
+			{
+				$quWhereFields .= ' AND q.date_created BETWEEN ? AND ?';
+				$quWhereData[] = date( 'Y-m-d H:i:s', $this->params['valueAA']);
+				$quWhereData[] = date( 'Y-m-d H:i:s', $this->params['valueBB']);
+			}
+					
 			$q1 = Doctrine_Query::create()
 				->select ("qc.id, q.id, q.name, q.content, q.media_content, u.display_name")
 				->from("QuestionConcept qc")
 				->innerJoin("qc.Question q")
 				->innerJoin("q.User u")
-				->where('qc.run_id = ? AND qc.concept_id = ?', array($_SESSION['run_id'],$concept->id));					
+				->where($quWhereFields, $quWhereData);					
 			$questions = $q1->fetchArray();
 			
 			// add questions attached to this concept
@@ -692,6 +730,11 @@ class WebController extends Zend_Controller_Action
 		
     } // end fnc
     
+
+    private function getFitstAndLastDate()
+    {
+    
+    }
     
 	private function countVotes($obj_id, $obj_type)
 	{
@@ -735,6 +778,9 @@ class WebController extends Zend_Controller_Action
 		$exWhereData = array();
 		$exWhereData = $data;
 		
+		// show only published examples
+		$exWhereFields .= ' AND e.is_published = ?';
+		$exWhereData[] = 1;
 		
 //		$exWhereFields = 'ec.run_id = ? AND ec.concept_id = ?';
 //		$exWhereData = array($_SESSION['run_id'], $conceptId);
@@ -744,6 +790,14 @@ class WebController extends Zend_Controller_Action
 			$exWhereFields .= ' AND e.author_id = ?';
 			$exWhereData[] = $_SESSION['author_id'];
 		}
+		
+		if($this->params['valueAA']!="" && $this->params['valueBB']!="")
+		{
+			$exWhereFields .= ' AND e.date_created BETWEEN ? AND ?';
+			$exWhereData[] = date( 'Y-m-d H:i:s', $this->params['valueAA']);
+			$exWhereData[] = date( 'Y-m-d H:i:s', $this->params['valueBB']);
+		}
+		
 
 		if($this->params['keyW']!="")
 		{

@@ -249,11 +249,12 @@ if ($editMode)
 		echo $this->example[0]['content'];
 	}
 ?></textarea>
-				<div style="text-align:center; margin-top:25px;">
-					<input type="button" onClick="<?php echo $checkJsFunction;?>" value="<?php echo $actionButtonLabel; ?> Example"> <input type="reset" value="Cancel">
-				</div>   
+				  
 			</div>
 		</div>
+	</div> 
+	<div style="width:100%; float:left;">
+		<input type="button" onClick="<?php echo $checkJsFunction;?>" value="<?php echo $actionButtonLabel; ?> Example"> <input type="reset" value="Cancel">
 	</div>
 	<!-- /second line container -->
 	

@@ -235,13 +235,13 @@ $checkJsFunction = "checkExample()";
 		<div class="dashlet-box" style="float:left;">
 			<div class="dashlet-title">Content</div>
 			<div>
-				<textarea rows="10" cols="10" name="content" id="content"></textarea>
-				<div style="text-align:center; margin-top:25px;">
-					<input type="button" onClick="checkQuestion()" value="Add Question"/>
-					<input type="reset" value="Cancel"/>
-				</div>   
+				<textarea rows="10" cols="10" name="content" id="content"></textarea>   
 			</div>
 		</div>
+	</div>
+	<div style="width: 100%; float:left;">
+		<input type="button" onClick="checkQuestion()" value="Add Question"/>
+		<input type="reset" value="Cancel"/>
 	</div>
 	<!-- /second line container -->
 	

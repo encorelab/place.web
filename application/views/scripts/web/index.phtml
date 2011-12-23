@@ -1,6 +1,3 @@
-<?php
-//print_r($_SESSION);
-?>
 <!DOCTYPE html>
 <!--<?php 
 echo $this->doctype() ?>-->
@@ -30,9 +27,15 @@ echo $this->doctype() ?>-->
 	<script src="/js/basic.js" type="text/javascript" ></script>
 	<link type="text/css" href="/css/styles.css" rel="stylesheet" />
 
-<script>
-$(document).ready(function () {
+<!-- testing slider -->
+	<script type="text/javascript" src="/jquery/selectToUISlider/js/selectToUISlider.jQuery.js"></script>
+	<link rel="stylesheet" href="/jquery/selectToUISlider/css/redmond/jquery-ui-1.7.1.custom.css" type="text/css" />
+	<link rel="Stylesheet" href="/jquery/selectToUISlider/css/ui.slider.extras.css" type="text/css" />
+<!-- /testing slider -->
 
+	<script type="text/javascript">
+		
+$(document).ready(function () {
 	  $("#viz-loader").html("");
 	  $("#viz-loader").addClass('div-hide');
 	  $("#viz-container").removeClass('div-hide');
@@ -47,10 +50,38 @@ if($this->vizType==1)
 	echo "	init3();";	
 }
 ?>
-})
+<?php 
+		if($this->valueAA!="")
+		{
+		?>
+		    $("#valueAA option[value='<?php echo $this->valueAA;?>']").attr('selected', 'selected');
+		<?php
+		}
+		?>
+		<?php 
+		if($this->valueBB!="")
+		{
+		?>
+		    $("#valueBB option[value='<?php echo $this->valueBB;?>']").attr('selected', 'selected');
+		<?php
+		}
+		?>
+		$(function(){
+			$('select#valueAA, select#valueBB').selectToUISlider({
+				labels: 0,
+				labelSrc: "text",
+				tooltip: true,
+				tooltipSrc: "text",
+				
+			});
+		});
+});
 </script>
 </head>
 <body>
+<?php 
+//generateDateList('valueTT');
+?>
 <div id="viz-loader"><img src='/images/loader.gif' alt='Loading Icon' /></div>
 <div id="viz-container" class="div-hide">
 	
@@ -76,8 +107,6 @@ if($this->vizType==1)
 	<script language="javascript" type="text/javascript" src="/js/viz/jit-yc.js"></script>
 
 	<?php 
-	// convert array to ULR encoding
-	//conceptId%5B%5D
 	$conceptIdUrlEncode = "";
 	if(isset($this->conceptId))
 	{
@@ -87,27 +116,27 @@ if($this->vizType==1)
 		}
 	}
 	?>
-	<script language="javascript" type="text/javascript" src="/web/getd3json?keyW=<?php echo $this->keyW?>&vizVo=<?php echo $this->vizVo?>&vizType=<?php echo $this->vizType?>&vizEx=<?php echo $this->vizEx?>&vizQu=<?php echo $this->vizQu?>&vizMy=<?php echo $this->vizMy?>&vizCon=<?php echo $this->vizCon?><?php echo $conceptIdUrlEncode?>"></script>
+	<script language="javascript" type="text/javascript" src="/web/getd3json?vizDate=<?php echo $this->vizDate?>&valueAA=<?php echo $this->valueAA?>&valueBB=<?php echo $this->valueBB?>&keyW=<?php echo $this->keyW?>&vizVo=<?php echo $this->vizVo?>&vizType=<?php echo $this->vizType?>&vizEx=<?php echo $this->vizEx?>&vizQu=<?php echo $this->vizQu?>&vizMy=<?php echo $this->vizMy?>&vizCon=<?php echo $this->vizCon?><?php echo $conceptIdUrlEncode?>"></script>
+<form action="<?php $_SERVER['PHP_SELF']?>" method="get">
 	<div id="web-controls">
-		<form action="<?php $_SERVER['PHP_SELF']?>" method="get"> 
-		<div> 
+		<div class="control"> 
 			Graph: <select name="vizType">
 			<!-- 
-				<option value="1" <?php if($this->vizType==1) {echo ' selected="selected"';} ?>>ddd</option>
+				<option value="1" <?php if($this->vizType==1) {echo ' selected="selected"';} ?>>HyperTree</option>
 			-->
 				<option value="2" <?php if($this->vizType==2) {echo ' selected="selected"';} ?>>RGraph</option>
 				<option value="3" <?php if($this->vizType==3) {echo ' selected="selected"';} ?>>Force Directed</option>
 			</select> | 
 		</div>
 
-		<div>
+		<div class="control">
 			<input <?php if($this->vizEx==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizEx" value="1"> Examples |
 			<input <?php if($this->vizQu==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizQu" value="1"> Questions |
 			<input <?php if($this->vizVo==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizVo" value="1"> Votes |
 			<input <?php if($this->vizMy==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizMy" value="1"> My Contributions |
 		</div>
-		<div> Filter by Concept </div>
-		<div id="concept-select-link"> <a href="#" onClick="showConceptList()"><img src="/images/icon_list_arrow_rigth.png" alt="Show Concepts"/></a> </div>
+		<div style="margin-top: 2px; margin-left: 4px;" class="control"> Filter by Concept </div>
+		<div style="margin-top: 4px; margin-left: 4px;" class="control" id="concept-select-link"> <a href="#" onClick="showConceptList()"><img width="13px" height="13px" src="/images/icon_list_arrow_rigth.png" alt="Show Concepts"/></a> </div>
 	
 		<div id="concept-select-list" class="div-hide">
 	<?php 
@@ -137,12 +166,289 @@ if($this->vizType==1)
 	        echo $conceptsList;
 	?>
 		</div>
-		| <input type="text" id="keyW" name="keyW" value="<?php echo $this->keyW;?>"/> | 
-		
+		| <input <?php if($this->vizDate==1) {echo ' checked="checked"';} ?>type="checkbox" name="vizDate" value="1"> Filter by Dates
+		<br/><br/><input type="text" id="keyW" name="keyW" value="<?php echo $this->keyW;?>" title="Search keyword(s)"/>  
+	
 		<input type="submit" value="Refresh" />
-		</form>
+		<div class="clear"></div>
+		<!-- slider-->
+		<div id="time-slider">
+		<fieldset>
+			<div id="time-controls">
+				<select id="valueAA" name="valueAA">
+					<optgroup label="September">
+						<option value="1314892800">Sep 1</option>
+						<option value="1314979200">Sep 2</option>
+						<option value="1315065600">Sep 3</option>
+						<option value="1315152000">Sep 4</option>
+						<option value="1315238400">Sep 5</option>
+						<option value="1315324800">Sep 6</option>
+						<option value="1315411200">Sep 7</option>
+						<option value="1315497600">Sep 8</option>
+						<option value="1315584000">Sep 9</option>
+						<option value="1315670400">Sep 10</option>
+						<option value="1315756800">Sep 11</option>
+						<option value="1315843200">Sep 12</option>
+						<option value="1315929600">Sep 13</option>
+						<option value="1316016000">Sep 14</option>
+						<option value="1316102400">Sep 15</option>
+						<option value="1316188800">Sep 16</option>
+						<option value="1316275200">Sep 17</option>
+						<option value="1316361600">Sep 18</option>
+						<option value="1316448000">Sep 19</option>
+						<option value="1316534400">Sep 20</option>
+						<option value="1316620800">Sep 21</option>
+						<option value="1316707200">Sep 22</option>
+						<option value="1316793600">Sep 23</option>
+						<option value="1316880000">Sep 24</option>
+						<option value="1316966400">Sep 25</option>
+						<option value="1317052800">Sep 26</option>
+						<option value="1317139200">Sep 27</option>
+						<option value="1317225600">Sep 28</option>
+						<option value="1317312000">Sep 29</option>
+						<option value="1317398400">Sep 30</option>
+					</optgroup>
+					<optgroup label="October">
+						<option value="1317484800">Oct 1</option>
+						<option value="1317571200">Oct 2</option>
+						<option value="1317657600">Oct 3</option>
+						<option value="1317744000">Oct 4</option>
+						<option value="1317830400">Oct 5</option>
+						<option value="1317916800">Oct 6</option>
+						<option value="1318003200">Oct 7</option>
+						<option value="1318089600">Oct 8</option>
+						<option value="1318176000">Oct 9</option>
+						<option value="1318262400">Oct 10</option>
+						<option value="1318348800">Oct 11</option>
+						<option value="1318435200">Oct 12</option>
+						<option value="1318521600">Oct 13</option>
+						<option value="1318608000">Oct 14</option>
+						<option value="1318694400">Oct 15</option>
+						<option value="1318780800">Oct 16</option>
+						<option value="1318867200">Oct 17</option>
+						<option value="1318953600">Oct 18</option>
+						<option value="1319040000">Oct 19</option>
+						<option value="1319126400">Oct 20</option>
+						<option value="1319212800">Oct 21</option>
+						<option value="1319299200">Oct 22</option>
+						<option value="1319385600">Oct 23</option>
+						<option value="1319472000">Oct 24</option>
+						<option value="1319558400">Oct 25</option>
+						<option value="1319644800">Oct 26</option>
+						<option value="1319731200">Oct 27</option>
+						<option value="1319817600">Oct 28</option>
+						<option value="1319904000">Oct 29</option>
+						<option value="1319994000">Oct 30</option>
+						<option value="1320080400">Oct 31</option>
+					</optgroup>
+					<optgroup label="November">
+						<option value="1320166800">Nov 1</option>
+						<option value="1320253200">Nov 2</option>
+						<option value="1320339600">Nov 3</option>
+						<option value="1320426000">Nov 4</option>
+						<option value="1320512400">Nov 5</option>
+						<option value="1320598800">Nov 6</option>
+						<option value="1320685200">Nov 7</option>
+						<option value="1320771600">Nov 8</option>
+						<option value="1320858000">Nov 9</option>
+						<option value="1320944400">Nov 10</option>
+						<option value="1321030800">Nov 11</option>
+						<option value="1321117200">Nov 12</option>
+						<option value="1321203600">Nov 13</option>
+						<option value="1321290000">Nov 14</option>
+						<option value="1321376400">Nov 15</option>
+						<option value="1321462800">Nov 16</option>
+						<option value="1321549200">Nov 17</option>
+						<option value="1321635600">Nov 18</option>
+						<option value="1321722000">Nov 19</option>
+						<option value="1321808400">Nov 20</option>
+						<option value="1321894800">Nov 21</option>
+						<option value="1321981200">Nov 22</option>
+						<option value="1322067600">Nov 23</option>
+						<option value="1322154000">Nov 24</option>
+						<option value="1322240400">Nov 25</option>
+						<option value="1322326800">Nov 26</option>
+						<option value="1322413200">Nov 27</option>
+						<option value="1322499600">Nov 28</option>
+						<option value="1322586000">Nov 29</option>
+						<option value="1322672400">Nov 30</option>
+					</optgroup>
+					<optgroup label="December">
+						<option value="1322758800">Dec 1</option>
+						<option value="1322845200">Dec 2</option>
+						<option value="1322931600">Dec 3</option>
+						<option value="1323018000">Dec 4</option>
+						<option value="1323104400">Dec 5</option>
+						<option value="1323190800">Dec 6</option>
+						<option value="1323277200">Dec 7</option>
+						<option value="1323363600">Dec 8</option>
+						<option value="1323450000">Dec 9</option>
+						<option value="1323536400">Dec 10</option>
+						<option value="1323622800">Dec 11</option>
+						<option value="1323709200">Dec 12</option>
+						<option value="1323795600">Dec 13</option>
+						<option value="1323882000">Dec 14</option>
+						<option value="1323968400">Dec 15</option>
+						<option value="1324054800">Dec 16</option>
+						<option value="1324141200">Dec 17</option>
+						<option value="1324227600">Dec 18</option>
+						<option value="1324314000">Dec 19</option>
+						<option value="1324400400">Dec 20</option>
+						<option value="1324486800">Dec 21</option>
+						<option value="1324573200">Dec 22</option>
+						<option value="1324659600">Dec 23</option>
+						<option value="1324746000">Dec 24</option>
+						<option value="1324832400">Dec 25</option>
+						<option value="1324918800">Dec 26</option>
+						<option value="1325005200">Dec 27</option>
+						<option value="1325091600">Dec 28</option>
+						<option value="1325178000">Dec 29</option>
+						<option value="1325264400">Dec 30</option>
+						<option value="1325350800">Dec 31</option>
+					</optgroup>
+				</select>
+				<select name="valueBB" id="valueBB">
+					<optgroup label="Sep">
+						<option value="1314892800">Sep 1</option>
+						<option value="1314979200">Sep 2</option>
+						<option value="1315065600">Sep 3</option>
+						<option value="1315152000">Sep 4</option>
+						<option value="1315238400">Sep 5</option>
+						<option value="1315324800">Sep 6</option>
+						<option value="1315411200">Sep 7</option>
+						<option value="1315497600">Sep 8</option>
+						<option value="1315584000">Sep 9</option>
+						<option value="1315670400">Sep 10</option>
+						<option value="1315756800">Sep 11</option>
+						<option value="1315843200">Sep 12</option>
+						<option value="1315929600">Sep 13</option>
+						<option value="1316016000">Sep 14</option>
+						<option value="1316102400">Sep 15</option>
+						<option value="1316188800">Sep 16</option>
+						<option value="1316275200">Sep 17</option>
+						<option value="1316361600">Sep 18</option>
+						<option value="1316448000">Sep 19</option>
+						<option value="1316534400">Sep 20</option>
+						<option value="1316620800">Sep 21</option>
+						<option value="1316707200">Sep 22</option>
+						<option value="1316793600">Sep 23</option>
+						<option value="1316880000">Sep 24</option>
+						<option value="1316966400">Sep 25</option>
+						<option value="1317052800">Sep 26</option>
+						<option value="1317139200">Sep 27</option>
+						<option value="1317225600">Sep 28</option>
+						<option value="1317312000">Sep 29</option>
+						<option value="1317398400">Sep 30</option>
+					</optgroup>
+					<optgroup label="Oct">
+						<option value="1317484800">Oct 1</option>
+						<option value="1317571200">Oct 2</option>
+						<option value="1317657600">Oct 3</option>
+						<option value="1317744000">Oct 4</option>
+						<option value="1317830400">Oct 5</option>
+						<option value="1317916800">Oct 6</option>
+						<option value="1318003200">Oct 7</option>
+						<option value="1318089600">Oct 8</option>
+						<option value="1318176000">Oct 9</option>
+						<option value="1318262400">Oct 10</option>
+						<option value="1318348800">Oct 11</option>
+						<option value="1318435200">Oct 12</option>
+						<option value="1318521600">Oct 13</option>
+						<option value="1318608000">Oct 14</option>
+						<option value="1318694400">Oct 15</option>
+						<option value="1318780800">Oct 16</option>
+						<option value="1318867200">Oct 17</option>
+						<option value="1318953600">Oct 18</option>
+						<option value="1319040000">Oct 19</option>
+						<option value="1319126400">Oct 20</option>
+						<option value="1319212800">Oct 21</option>
+						<option value="1319299200">Oct 22</option>
+						<option value="1319385600">Oct 23</option>
+						<option value="1319472000">Oct 24</option>
+						<option value="1319558400">Oct 25</option>
+						<option value="1319644800">Oct 26</option>
+						<option value="1319731200">Oct 27</option>
+						<option value="1319817600">Oct 28</option>
+						<option value="1319904000">Oct 29</option>
+						<option value="1319994000">Oct 30</option>
+						<option value="1320080400">Oct 31</option>
+					</optgroup>
+					<optgroup label="Nov">
+						<option value="1320166800">Nov 1</option>
+						<option value="1320253200">Nov 2</option>
+						<option value="1320339600">Nov 3</option>
+						<option value="1320426000">Nov 4</option>
+						<option value="1320512400">Nov 5</option>
+						<option value="1320598800">Nov 6</option>
+						<option value="1320685200">Nov 7</option>
+						<option value="1320771600">Nov 8</option>
+						<option value="1320858000">Nov 9</option>
+						<option value="1320944400">Nov 10</option>
+						<option value="1321030800">Nov 11</option>
+						<option value="1321117200">Nov 12</option>
+						<option value="1321203600">Nov 13</option>
+						<option value="1321290000">Nov 14</option>
+						<option value="1321376400">Nov 15</option>
+						<option value="1321462800">Nov 16</option>
+						<option value="1321549200">Nov 17</option>
+						<option value="1321635600">Nov 18</option>
+						<option value="1321722000">Nov 19</option>
+						<option value="1321808400">Nov 20</option>
+						<option value="1321894800">Nov 21</option>
+						<option value="1321981200">Nov 22</option>
+						<option value="1322067600">Nov 23</option>
+						<option value="1322154000">Nov 24</option>
+						<option value="1322240400">Nov 25</option>
+						<option value="1322326800">Nov 26</option>
+						<option value="1322413200">Nov 27</option>
+						<option value="1322499600">Nov 28</option>
+						<option value="1322586000">Nov 29</option>
+						<option value="1322672400">Nov 30</option>
+					</optgroup>
+					<optgroup label="Dec">
+						<option value="1322758800">Dec 1</option>
+						<option value="1322845200">Dec 2</option>
+						<option value="1322931600">Dec 3</option>
+						<option value="1323018000">Dec 4</option>
+						<option value="1323104400">Dec 5</option>
+						<option value="1323190800">Dec 6</option>
+						<option value="1323277200">Dec 7</option>
+						<option value="1323363600">Dec 8</option>
+						<option value="1323450000">Dec 9</option>
+						<option value="1323536400">Dec 10</option>
+						<option value="1323622800">Dec 11</option>
+						<option value="1323709200">Dec 12</option>
+						<option value="1323795600">Dec 13</option>
+						<option value="1323882000">Dec 14</option>
+						<option value="1323968400">Dec 15</option>
+						<option value="1324054800">Dec 16</option>
+						<option value="1324141200">Dec 17</option>
+						<option value="1324227600">Dec 18</option>
+						<option value="1324314000">Dec 19</option>
+						<option value="1324400400">Dec 20</option>
+						<option value="1324486800">Dec 21</option>
+						<option value="1324573200">Dec 22</option>
+						<option value="1324659600">Dec 23</option>
+						<option value="1324746000">Dec 24</option>
+						<option value="1324832400">Dec 25</option>
+						<option value="1324918800">Dec 26</option>
+						<option value="1325005200">Dec 27</option>
+						<option value="1325091600">Dec 28</option>
+						<option value="1325178000">Dec 29</option>
+						<option value="1325264400">Dec 30</option>
+						<option value="1325350800">Dec 31</option>
+					</optgroup>
+				</select>
+			</div>
+		</fieldset>
+		</div>
+		<!-- /slider-->
+
+
 	</div>
-	<div class="clear"></div>
+</form>
+
+
 	<div id="log"></div>
 	<div id="web-container">
 		<div id="id-list"></div>

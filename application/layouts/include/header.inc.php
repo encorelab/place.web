@@ -7,7 +7,7 @@ if(isset($_SESSION['access']))
 {
 ?>
 	<div id="header-top">
-		<img src="/images/placeweb.png" alt="Place Web logo" />
+		<a href="/myhome"><img src="/images/placeweb.png" alt="Place Web logo" /></a>
 		<div id="project-name">Physics Learning Across Contexts &amp; Environments</div>
 	</div>
 	<div id="header-bottom">

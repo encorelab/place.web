@@ -79,7 +79,7 @@ class WebController extends Zend_Controller_Action
 		{
 			$this->view->valueBB = $this->params['valueBB'];
 		} else {
-			$this->view->valueBB = "1325350800";
+			$this->view->valueBB = "1335801600";
 		}
 		
         if(isset($this->params['vizDate']))
@@ -245,6 +245,8 @@ class WebController extends Zend_Controller_Action
 			$exWhereData = array($_SESSION['run_id'], $concept->id);
 			
 			$queryArray = $this->buildExSqlQuery($exWhereFields, $exWhereData);
+			
+			$this->view->dates = $queryArray; //print_r($queryArray);
 			
 			$q = Doctrine_Query::create()
 			->select ("ec.id, e.id, e.name, e.content, e.media_content, e.media_type, e.date_created, u.display_name")

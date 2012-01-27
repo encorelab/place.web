@@ -95,7 +95,7 @@ if(isset($this->example[0]) && $this->example[0]['is_published'] == 0)
 		
 			
 		<div class="dashlet-box-image" id="image-preview">
-			<div><img id="eloimg" src="/images/uploader.png" height="240" alt="Drag and Drop a new Media File here..." title="Drag and Drop a new Media File here..."></div>
+			<div><img id="eloimg" src="/images/uploader.png" width="600" alt="Drag and Drop a new Media File here..." title="Drag and Drop a new Media File here..."></div>
 		</div>
 		<form action="/ajax/uploadfile/" method="POST" enctype="multipart/form-data">
 

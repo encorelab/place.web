@@ -315,18 +315,23 @@ class WebController extends Zend_Controller_Action
 						"date1" => $exConcept['Example']['date_created']
 					);
 					
-					if ($this->params['vizVo']==1)
+					// exclude example and example tag sum nodes if votes are equal to 0
+					if ($ex_con_votes['votesSumm']!=0)
 					{
-						// add example(s) as children to the current tag node
-						$exTagSum->children[] = $myD3ex;
-					
-						// add Tag-sum node as children to the current concept
-						$myD3->children[] = $exTagSum;
-					} else {
-						// add example(s) as children to the current concept 
-						$myD3->children[] = $myD3ex;
-					}
-				
+						if ($this->params['vizVo']==1)
+						{
+							// add example(s) as children to the current tag node
+							$exTagSum->children[] = $myD3ex;
+						
+							// add Tag-sum node as children to the current concept
+							$myD3->children[] = $exTagSum;
+	
+						} else {
+							// add example(s) as children to the current concept 
+							$myD3->children[] = $myD3ex;
+						}
+
+					} // end if vote sum !=0
 				} // end loop example_concept
 			} // end if
 
@@ -407,26 +412,30 @@ class WebController extends Zend_Controller_Action
 						"is_video" => $isVideo,
 						"votes" => ""
 					);
-					if ($this->params['vizVo']==1)
-					{
-					// add question(s) as children to the current tag node
-					$quTagSum->children[] = $myD3qu;
 					
-					// add Tag-sum node as children to the current concept
-					$myD3->children[] = $quTagSum;
-					} else {
-						// add question(s) as children to the current concept
-						$myD3->children[] = $myD3qu;
-					}
+					// exclude question and question tag sum nodes if votes are equal to 0
+					if ($qu_con_votes['votesSumm']!=0)
+					{
+						if ($this->params['vizVo']==1)
+						{
+							// add question(s) as children to the current tag node
+							$quTagSum->children[] = $myD3qu;
+							
+							// add Tag-sum node as children to the current concept
+							$myD3->children[] = $quTagSum;
+						} else {
+							// add question(s) as children to the current concept
+							$myD3->children[] = $myD3qu;
+						}
+					} // end if vote sum !=0
 
 				} // end loop question_concept
 				
 			}
 			///////////////////////////////////
-			
+
 			// Add concept as children to home node			
 			$d3Data->children[]=$myD3;
-				
 			
         } // end loop concepts
         
@@ -558,7 +567,7 @@ class WebController extends Zend_Controller_Action
 					// create Adjacency Object
 					$exTagSumAdjency = new EloNodeAdjacency($exTagSum->id, $myConNode->id);
 					
-					if ($this->params['vizVo']==1)
+					if ($this->params['vizVo']==1 && $ex_con_votes['votesSumm']!=0)
 					{
 						// add tag as adjacencies of concept node
 						$myConNode->addAdjacency($exTagSumAdjency); 
@@ -592,23 +601,27 @@ class WebController extends Zend_Controller_Action
 					}
 					$exNode->setDataAttribute('is_video', $isVideo); 
 					
-					// create Adjacency Object
-					if ($this->params['vizVo']==1)
-					{
-						$exAdjency = new EloNodeAdjacency($exNode->id, $exTagSum->id);
-						
-						// add example as adjacencies of tag node
-						$exTagSum->addAdjacency($exAdjency);
-						
-						// add tag node to collection 
-						$nodeLinkCollection[]=$exTagSum;
-						
-					} else {
-						$exAdjency = new EloNodeAdjacency($exNode->id, $myConNode->id);
-						// add example as adjacencies of concept node
-						$myConNode->addAdjacency($exAdjency);
-						
-					}
+					// exclude example and example tag sum nodes if votes are equal to 0
+					if ($ex_con_votes['votesSumm']!=0) {
+					
+						// create Adjacency Object
+						if ($this->params['vizVo']==1)
+						{
+							$exAdjency = new EloNodeAdjacency($exNode->id, $exTagSum->id);
+							
+							// add example as adjacencies of tag node
+							$exTagSum->addAdjacency($exAdjency);
+							
+							// add tag node to collection 
+							$nodeLinkCollection[]=$exTagSum;
+							
+						} else {
+							$exAdjency = new EloNodeAdjacency($exNode->id, $myConNode->id);
+							// add example as adjacencies of concept node
+							$myConNode->addAdjacency($exAdjency);
+							
+						}
+					} // end if vote !=0
 					
 					// add example node to collection
 					$nodeLinkCollection[]=$exNode;
@@ -668,7 +681,7 @@ class WebController extends Zend_Controller_Action
 					// create Adjacency Object
 					$quTagSumAdjency = new EloNodeAdjacency($quTagSum->id, $myConNode->id);
 					
-					if ($this->params['vizVo']==1)
+					if ($this->params['vizVo']==1 && $qu_con_votes['votesSumm']!=0)
 					{
 						// add tag as adjacencies of concept node
 						$myConNode->addAdjacency($quTagSumAdjency); 
@@ -698,25 +711,31 @@ class WebController extends Zend_Controller_Action
 					} else {
 						$isVideo="0";
 					}
-					$quNode->setDataAttribute('is_video', $isVideo); 
 					
-					// create Adjacency Object
-					if ($this->params['vizVo']==1)
-					{
-						$quAdjency = new EloNodeAdjacency($quNode->id, $quTagSum->id);
+					$quNode->setDataAttribute('is_video', $isVideo);
+
+					// exclude question and question tag sum nodes if votes are equal to 0
+					if ($qu_con_votes['votesSumm']!=0) {
+					
+					
+						// create Adjacency Object
+						if ($this->params['vizVo']==1)
+						{
+							$quAdjency = new EloNodeAdjacency($quNode->id, $quTagSum->id);
+							
+							// add question as adjacencies of tag node
+							$quTagSum->addAdjacency($quAdjency);
+							
+							// add tag node to collection 
+							$nodeLinkCollection[]=$quTagSum;
+							
+						} else {
+							$quAdjency = new EloNodeAdjacency($quNode->id, $myConNode->id);
+							// add question as adjacencies of concept node
+							$myConNode->addAdjacency($quAdjency);
+						}
 						
-						// add question as adjacencies of tag node
-						$quTagSum->addAdjacency($quAdjency);
-						
-						// add tag node to collection 
-						$nodeLinkCollection[]=$quTagSum;
-						
-					} else {
-						$quAdjency = new EloNodeAdjacency($quNode->id, $myConNode->id);
-						// add question as adjacencies of concept node
-						$myConNode->addAdjacency($quAdjency);
-						
-					}
+					} // end if vote !=0
 					
 					// add question node to collection
 					$nodeLinkCollection[]=$quNode;

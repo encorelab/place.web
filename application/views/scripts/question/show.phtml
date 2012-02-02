@@ -485,7 +485,7 @@ if($notAssessedItems!="")
 	
 
 			<input type="hidden" id="question_id"  name="question_id" value="<?php echo $this->question[0]['id']?>"/>
-			<textarea name="content"></textarea>
+			<textarea name="content"><?= $this->PLACEWEB_CONFIG['answerTemplate'] ?></textarea>
 			<br/><input type="button" onClick="saveAnswer()" value="Save Answer">
 			</div>
 		</form>

@@ -27,10 +27,6 @@ class SmartroomController extends Zend_Controller_Action
     	$this->view->problems=$problems_array;
     	$this->view->equations=$equations_array;
     	$this->view->assetsURL=$PLACEWEB_CONFIG['assetsURL'];
-	
-    	//print_r($equations_array);
-    	//print_r($problems_array);
-    	
     }
     
     public function savehomework()
@@ -92,6 +88,5 @@ class SmartroomController extends Zend_Controller_Action
 	
     } // end loadcurrenthk()
     
-
 } // end class
 

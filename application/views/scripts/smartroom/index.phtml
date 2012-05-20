@@ -1,0 +1,168 @@
+<?php 
+/*
+ * for debug only 
+ 
+	echo '<hr>activeProblem:'.$this->activeProblem;
+	echo '<hr>hwIsFinished:'.$this->hwIsFinished;
+	echo '<hr>hwIsFinished:'.$this->hwIsFinished;
+
+	echo '<hr>username:'.$_SESSION['username'];
+	echo '<hr>hwgroup:'.$_SESSION['hwgroup'];
+	
+	
+	echo '<hr>';
+
+	
+	// test problems
+	for ($i=0; $i<count($this->problems); $i++)
+	{
+		echo "<br/>".($i+1).". ".$this->problems[$i]['name'];
+	}
+*/
+?>
+
+<?php
+// display list of problems when HW is completed
+if($this->hwIsFinished==1)
+{
+	
+	$hwList="";
+	foreach ($this->homework as $hw)
+	{
+		$hwList.='
+	<div class="problem-item">
+		<h1>'.$hw['problem_name'].'</h1>
+		<b>Principles: </b>'.$hw['principles'].'
+		<br/><b>Equation Ids: </b> '.$hw['equations'].'
+	</div>';
+
+	}
+	
+?>
+	<h2>Thank you for completing this homework</h2>
+	<div id="problems-List">
+	<?php echo $hwList; ?>	
+	
+	</div>
+<?php 	
+} else {
+	//print_r($this->problems);
+	
+	$activeProblemName=$this->problems[$this->activeProblem]['name'];
+	$problem_html = file_get_contents($this->assetsURL.'/assets/problems/'.$activeProblemName.'.html');
+	
+	$problem_html = str_replace('src="/assets', 'src="'.$this->assetsURL.'/assets', $problem_html);
+	
+	$a=array('“',"[", "]", "”");
+	$b=str_replace($a, "", $_SESSION['principles']);
+	$myPrinciples = explode(',', $b);
+	
+	//print_r($myPrinciples);
+	
+	$myPrinciplesHtml="";
+	foreach ($myPrinciples as $p)
+	{
+		$myPrinciplesHtml.='<br/><input name="principles" type="checkbox" value="'.$p.'">'.$p;
+	}
+	
+	$equationsHtml='';
+	foreach ($this->equations as $eq)
+	{
+		$equationsHtml.='
+		<li class="ui-state-default" id="'.$eq['EQ_ID'].'">'.'$$x = {'.$eq['name'].'}$$'.'</li>';
+	}
+	/*
+	 * 
+	 * rendering data
+	 * 
+	 */
+	?>
+	<?php 
+	echo '<div id="hw-counter">'.($this->totProblems+1).' of 15</div>';
+	echo '<h1>'.$activeProblemName.'</h1>';
+	echo '<div id="hwProblem">'.$problem_html.'</div>';
+	echo '<h2 id="principles-msg">Select the Principles that apply to this problem</h2>';
+	echo '<div id="myPrinciples">'.$myPrinciplesHtml.'</div>';
+	?>
+	<br/>
+	<h2 id="equations-msg">Drag to the left column the equations that apply to this problem. </h2>
+	
+	<!-- equations -->
+	<div id="equations-container" class="demo">
+	
+		<ul id="sortable1" class="connectedSortable">
+		<?php echo $equationsHtml;?>
+		</ul>
+		<ul id="sortable2" class="connectedSortable">
+
+		</ul>
+	
+	</div>
+
+	<form name="hw" id="hw" action="/Smartroom/" method="post">
+		<input type="button" value="Save" onClick="checkAndSumbit()"/>
+		<input type="hidden" value="<?php echo $this->activeProblem?>"/>
+		<input type="hidden" name="update" value="1"/>
+		<input type="hidden" name="problem_id" value="<?php echo $this->activeProblem; ?>"/>
+		<input type="hidden" name="problem_name" value="<?php echo $activeProblemName; ?>"/>
+		<input type="hidden" id="equations" name="equations" value=""/>
+		<input type="hidden" id="principles" name="principles" value=""/>
+	</form>
+
+<?php } // end if show problem ?>
+
+
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+    });
+
+</script>
+
+<script type="text/javascript">
+	$(function() {
+		$("#sortable1, #sortable2").sortable({
+			connectWith: '.connectedSortable'
+		}).disableSelection();
+	});
+
+	function checkAndSumbit()
+	{
+		var eq_ids = "";
+		var liIds = $('#sortable2 li').map(function(i,n) {
+		
+		    return $(n).attr('id');
+		}).get().join(',');
+
+		$('#equations').val(liIds);
+
+		if($('#equations').val()=="")
+		{
+			alert("you must select at least 1 equation");
+		} else if($('#principles').val()==""){
+
+			if (confirm("Are you sure that NO principles relate to this problem?")) { 
+				$("#hw").submit();
+			} 
+		} else {
+			$("#hw").submit();
+		}
+		
+	}
+
+	function updateTextArea() {
+        
+        var allVals = [];
+        $('#myPrinciples :checked').each(function() {
+          allVals.push($(this).val());
+        });
+        $('#principles').val(allVals)
+     }
+    $(function() {
+      $('#myPrinciples input').click(updateTextArea);
+      updateTextArea();
+    });
+
+</script>

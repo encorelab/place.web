@@ -81,6 +81,7 @@ class UserController extends Zend_Controller_Action
     	$_SESSION['user_display_name'] = $localUser->display_name;
     	$_SESSION['author_id'] = $localUser->id;
     	$_SESSION['group_name'] = $localUser->group_name;
+    	
 			
         header('Location: /myhome');
     } // end localAuthentication()
@@ -163,8 +164,12 @@ class UserController extends Zend_Controller_Action
             	$_SESSION['user_display_name'] = $auth['user']['display_name'];
             	$_SESSION['author_id'] = $localUser->id;
             	$_SESSION['group_name'] = $localUser->group_name;
-		setcookie("author_id", $localUser->id, 0, '/swampy_browser/');
+				
+            	setcookie("author_id", $localUser->id, 0, '/swampy_browser/');
 
+				$_SESSION['principles'] = $auth['user']['metadata']['principles'];
+				$_SESSION['hwgroup'] = $auth['user']['metadata']['hwgroup'];
+				
                 header('Location: /myhome');
             	
             }else{

@@ -62,7 +62,7 @@ if($this->hwIsFinished==1)
 	$myPrinciplesHtml="";
 	foreach ($myPrinciples as $p)
 	{
-		$myPrinciplesHtml.='<br/><input name="principles" type="checkbox" value="'.$p.'">'.$p;
+		$myPrinciplesHtml.='<br/><input name="principles" type="checkbox" value="'.$p.'"> '.$p;
 	}
 	
 	$equationsHtml='';
@@ -78,14 +78,26 @@ if($this->hwIsFinished==1)
 	 */
 	?>
 	<?php 
-	echo '<div id="hw-counter">'.($this->totProblems+1).' of 15</div>';
-	echo '<h1>'.$activeProblemName.'</h1>';
+	echo '<h1 id="hw-counter">Problem '.($this->totProblems+1).' of 15</h1>';
+//	echo '<h1>'.$activeProblemName.'</h1>';
 	echo '<div id="hwProblem">'.$problem_html.'</div>';
-	echo '<h2 id="principles-msg">Select the Principles that apply to this problem</h2>';
+	echo '<div id="principles-msg">For the principles assigned to you below check any that you think can be applied to solving the problem.</div>';
 	echo '<div id="myPrinciples">'.$myPrinciplesHtml.'</div>';
 	?>
 	<br/>
-	<h2 id="equations-msg">Drag to the left column the equations that apply to this problem. </h2>
+	<div id="equations-msg">Drag any of the equations from the list below that you might use in solving the problem to the column of the right (if you change your mind you can drag the equation back to the left hand column to remove it)</div>
+
+	<div id="hw-form">
+	<form name="hw" id="hw" action="/Smartroom/" method="post">
+		<input class="save-button" type="button" value="Submit Answer" onClick="checkAndSumbit()"/>
+		<input type="hidden" value="<?php echo $this->activeProblem?>"/>
+		<input type="hidden" name="update" value="1"/>
+		<input type="hidden" name="problem_id" value="<?php echo $this->activeProblem; ?>"/>
+		<input type="hidden" name="problem_name" value="<?php echo $activeProblemName; ?>"/>
+		<input type="hidden" id="equations" name="equations" value=""/>
+		<input type="hidden" id="principles" name="principles" value=""/>
+	</form>
+	</div>
 	
 	<!-- equations -->
 	<div id="equations-container" class="demo">
@@ -98,17 +110,6 @@ if($this->hwIsFinished==1)
 		</ul>
 	
 	</div>
-
-	<form name="hw" id="hw" action="/Smartroom/" method="post">
-		<input type="button" value="Save" onClick="checkAndSumbit()"/>
-		<input type="hidden" value="<?php echo $this->activeProblem?>"/>
-		<input type="hidden" name="update" value="1"/>
-		<input type="hidden" name="problem_id" value="<?php echo $this->activeProblem; ?>"/>
-		<input type="hidden" name="problem_name" value="<?php echo $activeProblemName; ?>"/>
-		<input type="hidden" id="equations" name="equations" value=""/>
-		<input type="hidden" id="principles" name="principles" value=""/>
-	</form>
-
 <?php } // end if show problem ?>
 
 

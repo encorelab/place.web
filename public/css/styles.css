@@ -1,3 +1,71 @@
+#hw-form{
+    text-align: center;
+}
+.save-button{
+    font-size: 1.5em;
+    padding: 6px;
+background-color: #BEF781;
+}
+#hw-counter{
+	font-size: 1.4em;
+	text-align: center;
+}
+#hwProblem{
+    font-size: 1.5em; 
+    width: 70%;
+    padding: 50px;
+    margin: 20px auto 50px auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    -moz-box-shadow: 10px 10px 3px #ccc;
+    -webkit-box-shadow: 10px 10px 3px #ccc;
+    box-shadow: 10px 10px 3px #ccc;
+}
+
+#myPrinciples{
+    font-size: 1.5em;
+    margin-bottom: 1em;
+}
+
+#equations-msg{
+    font-size: 1.2em;
+    margin-bottom: 1.5em;
+}
+
+#principles-msg{
+    font-size: 1.2em;
+    margin-bottom: 1.5em
+}
+
+#equations-container {
+    margin: 20px auto 20px auto;
+}
+
+#sortable1, #sortable2 { 
+    height: 500px;
+    list-style-type: none;
+    margin: 0 5px 0 0;
+    overflow: auto;
+    padding: 25px 0 20px 25px;
+    width: 460px;
+}
+
+#sortable1 li, #sortable2 li { 
+	margin: 0 5px 5px 5px; 
+	padding: 5px; font-size: 1.2em; 
+	width: 400px; 
+}
+
+#sortable1{
+	float: left;
+}
+
+#sortable2{
+    border: 3px outset;
+    margin-left: 25px;
+    background-color: #F7F8E0;
+}
+
 .date {
     color: #414B53;
     float: right;

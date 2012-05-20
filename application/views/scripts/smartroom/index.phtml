@@ -1,7 +1,5 @@
 <?php 
 /*
- * for debug only 
- 
 	echo '<hr>activeProblem:'.$this->activeProblem;
 	echo '<hr>hwIsFinished:'.$this->hwIsFinished;
 	echo '<hr>hwIsFinished:'.$this->hwIsFinished;
@@ -53,7 +51,7 @@ if($this->hwIsFinished==1)
 	
 	$problem_html = str_replace('src="/assets', 'src="'.$this->assetsURL.'/assets', $problem_html);
 	
-	$a=array('“',"[", "]", "”");
+	$a=array('"', '“',"[", "]", "”");
 	$b=str_replace($a, "", $_SESSION['principles']);
 	$myPrinciples = explode(',', $b);
 	

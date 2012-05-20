@@ -1,6 +1,8 @@
 <?php
 $PLACEWEB_CONFIG = Array();
 
+$PLACEWEB_CONFIG['assetsURL'] = "http://localhost/mywebapps/PlaceWeb.GitHub/NEOplace";
+
 // home node title
 $PLACEWEB_CONFIG['homeNodeTitle'] = "Physics Learning Across <br/>Contexts and Environments";
 

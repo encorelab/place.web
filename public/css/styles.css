@@ -1,3 +1,56 @@
+#hw-counter{
+	font-size: large;
+	float:right;
+}
+#hwProblem{
+    font-size: small; /* make this bigger it's too hard to see (maybe 1em) */
+    width: 725px;
+    padding: 50px;
+    margin: 20px auto 50px auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    -moz-box-shadow: 10px 10px 3px #ccc;
+    -webkit-box-shadow: 10px 10px 3px #ccc;
+    box-shadow: 10px 10px 3px #ccc;
+}
+
+#myPrinciples{
+    font-size: large; 
+}
+
+#equations-msg{
+    font-size: small; /* make this bigger too... maybe 1.5em(?) */
+}
+
+#principles-msg{
+    font-size: small; /* make this bigger too maybe 1.5em(?) */
+    }
+
+#equations-container {
+
+}
+
+#sortable1, #sortable2 { 
+	list-style-type: none; 
+	margin: 0; padding: 0; 
+	float: left; 
+	margin-right: 5px;
+	height: 500px;
+	width: 400px;
+    overflow: auto;
+}
+
+#sortable1 li, #sortable2 li { 
+	margin: 0 5px 5px 5px; 
+	padding: 5px; font-size: 1.2em; 
+	width: 360px; 
+}
+
+#sortable2{
+	background: #E6E6E6;
+	margin-left: 50px;
+}
+
 .date {
     color: #414B53;
     float: right;

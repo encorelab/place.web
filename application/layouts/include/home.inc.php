@@ -166,6 +166,11 @@ if($_SESSION['profile']=="STUDENT")
 			<div class="dashlet-box">
 				<a href="/example/show">Examples [List]</a>
 			</div>
+			
+			<div class="dashlet-box">
+				<a href="/Smartroom">Smartroom Activity</a>
+			</div>
+			
 
 		</div>	
 	</div><!-- /home-col3 -->

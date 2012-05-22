@@ -2,7 +2,6 @@
 /*
 	echo '<hr>activeProblem:'.$this->activeProblem;
 	echo '<hr>hwIsFinished:'.$this->hwIsFinished;
-	echo '<hr>hwIsFinished:'.$this->hwIsFinished;
 
 	echo '<hr>username:'.$_SESSION['username'];
 	echo '<hr>hwgroup:'.$_SESSION['hwgroup'];
@@ -40,7 +39,7 @@ if($this->hwIsFinished==1)
 	<h2>Great work - you're done the homework activity!</h2>
 	<img src="/images/hw_finished.jpg" width="250px"/>
 	<div id="problems-List">
-	<?php //echo $hwList; ?>	
+	<?php echo $hwList; ?>	
 	
 	</div>
 <?php 	
@@ -68,7 +67,7 @@ if($this->hwIsFinished==1)
 	foreach ($this->equations as $eq)
 	{
 		$equationsHtml.='
-		<li class="ui-state-default" id="'.$eq['EQ_ID'].'">'.'$$x = {'.$eq['name'].'}$$'.'</li>';
+		<li class="ui-state-default" id="'.$eq['EQ_ID'].'">$${'.$eq['name'].'}$$'.'</li>';
 	}
 	/*
 	 * 

@@ -2,7 +2,7 @@
 include('../../application/configs/config.php');
 include('sql_config.php');
 
-$debugON=true;
+$debugON=false;
 
 /*
  * get type  
@@ -171,15 +171,20 @@ if($dataType=="homework_individual")
 			{
 				$problemPrincipleCount=0;
 				
-				// escape ' chr
-				$principle = str_replace("'", "\'", $principle); 
+				// exception for rocords with \' chr in db
+				if (preg_match("/Newton/i", $principle)) {
+				    $p_s = explode("'", $principle);
+				    $principle_search = $p_s[1];
+				} else {
+					$principle_search = $principle;
+				}
 				
 	    		/*
 	    		 * count records: for given principle and problem name
 	    		 */
-	    		$sql_p = "SELECT id FROM smartroom_hw WHERE problem_name='".$problem["name"]."' AND principles LIKE '%".$principle."%'";
+	    		$sql_p = "SELECT id FROM smartroom_hw WHERE problem_name='".$problem["name"]."' AND principles LIKE '%".$principle_search."%'";
 	    		
-	    		$homework_p = mysql_query($sql_p, $db) or die('An error happened on principle: '.$principle);
+	    		$homework_p = mysql_query($sql_p, $db) or die('<hr/>SQL: An error happened on principle: '.$principle);
 				$problemPrincipleCount = mysql_num_rows($homework_p);
 				
 				if($debugON)
@@ -235,6 +240,7 @@ if($dataType=="homework_individual")
 				
 				// create problem equation array
 				$thisEquationsArray= array(
+					"EQ_ID"=>$EQ_ID,
 					"name"=>$eqName,
 					"count"=>$problemEquationCount
 				);
@@ -249,7 +255,7 @@ if($dataType=="homework_individual")
 			
 		// add to $hwAggregatedCollection
 		$hwAggregatedCollection[]=array(
-			"problemName"=>$problemName,
+			"problem_name"=>$problemName,
 			"principles"=>$problemPrinciplesArray,
 			"equations"=>$problemEquationsArray,
 		

@@ -171,13 +171,18 @@ if($dataType=="homework_individual")
 			{
 				$problemPrincipleCount=0;
 				
-				// escape ' chr
-				$principle = str_replace("'", "\'", $principle); 
+				// exception for rocords with \' chr in db
+				if (preg_match("/Newton/i", $principle)) {
+				    $p_s = explode("'", $principle);
+				    $principle_search = $p_s[1];
+				} else {
+					$principle_search = $principle;
+				}
 				
 	    		/*
 	    		 * count records: for given principle and problem name
 	    		 */
-	    		$sql_p = "SELECT id FROM smartroom_hw WHERE problem_name='".$problem["name"]."' AND principles LIKE '%".$principle."%'";
+	    		$sql_p = "SELECT id FROM smartroom_hw WHERE problem_name='".$problem["name"]."' AND principles LIKE '%".$principle_search."%'";
 	    		
 	    		$homework_p = mysql_query($sql_p, $db) or die('<hr/>SQL: An error happened on principle: '.$principle);
 				$problemPrincipleCount = mysql_num_rows($homework_p);

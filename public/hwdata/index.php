@@ -224,11 +224,22 @@ if($dataType=="homework_individual")
 				$EQ_ID = $i+1;
 
 	    		/*
-	    		 * count records: for given equation id and problem name
+	    		 * Fixed count of equations equations
 	    		 */
-	    		$sql_eq = "SELECT id FROM smartroom_hw WHERE problem_name='".$problem["name"]."' AND equations LIKE '%".$EQ_ID."%'";
-				$homework_eq = mysql_query($sql_eq, $db) or die('An error happened on equation ID: '.$EQ_ID);
-				$problemEquationCount = mysql_num_rows($homework_eq);
+	    		$sql_eq = "SELECT id, equations FROM smartroom_hw WHERE problem_name='".$problem["name"]."'";
+				$homework_eq = mysql_query($sql_eq, $db) or die('An error happened on equation');
+				
+				while(($hw=mysql_fetch_assoc($homework_eq)) != null) 
+				{
+					$eqDbArray = explode(',',$hw['equations']);
+
+					if (in_array($EQ_ID, $eqDbArray)) 
+					{
+						$problemEquationCount++;	
+						//echo '<hr> '.$EQ_ID.' in array';
+						//print_r($eqDbArray);
+					}
+				}
 				
 				if($debugON)
 				{
